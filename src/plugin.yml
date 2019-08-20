@@ -1,0 +1,27 @@
+name: Allgemein
+version: 4.0
+author: JJ
+main: essentials.main.Main
+api-version: 1.13
+
+commands:
+     all:
+          description: allgemein
+          permission: all.use
+     trol:
+          description: Trol Plugin
+          permission: trol.all
+     cv:
+          description: ChatVerbesserung
+          permission: ChatV.use
+     oplist:
+          description: ChatVerbesserung
+          permission: ChatV.use
+     cos:
+          description: CommandonBlocks
+     sb:
+          description: Sign Book
+          permission: sb.use
+     post:
+          description: Post/Chest open
+          permission: post.use
