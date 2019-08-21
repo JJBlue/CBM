@@ -50,6 +50,7 @@ public class TradeManager {
 	
 	public synchronized static void request(Player from, Player to) {
 		if(from == null || to == null) return;
+		if(from == to) return;
 		
 		String id = generateID(from, to);
 		

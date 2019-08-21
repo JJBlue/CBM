@@ -13,9 +13,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.UnknownDependencyException;
 
 import components.reflections.SimpleReflection;
 
@@ -33,11 +36,10 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
 		String pluginname = args[1];
 		final Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin(pluginname);
 		
-		System.out.println(args[0].toLowerCase());
-		
 		switch(args[0].toLowerCase()) {
 			case "enable":
 				
+				if(plugin == null) break;
 				Bukkit.getServer().getPluginManager().enablePlugin(plugin);
 				sender.sendMessage("§4[Disable/Enable] §rDas Plugin " + plugin + " wurde aktiviert!");
 				
@@ -45,21 +47,57 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
 				
 			case "disable":
 				
+				if(plugin == null) break;
 				Bukkit.getServer().getPluginManager().disablePlugin(plugin);
 				sender.sendMessage("§4[Disable/Enable] §rDas Plugin " + plugin + " wurde deaktiviert!");
 				
 				break;
 				
-			case "reload":
+			case "load":
+				
+				try {
+					PluginManager manager = Bukkit.getServer().getPluginManager();
+					File file = new File("./plugins" + args[1] + ".jar");
+					if(!file.exists()) break;
+					
+					manager.loadPlugin(file);
+					manager.enablePlugin(Bukkit.getPluginManager().getPlugin(args[1]));
+			    	sender.sendMessage("§4[Disable/Enable] §rDas Plugin " + args[1] + " wurde geladen!");
+				} catch (UnknownDependencyException | InvalidPluginException | InvalidDescriptionException e2) {
+					e2.printStackTrace();
+					sender.sendMessage("§4Hier ist etwas schiefgelaufen. Siehe Console");
+				}
+		    	
+		    	break;
+				
+			case "unload":
+				
+				if(plugin == null) break;
 				
 				try {
 					unloadPlugin(plugin);
+					sender.sendMessage("§4[Disable/Enable] §rDas Plugin " + plugin + " wurde entfernt!");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					sender.sendMessage("§4Hier ist etwas schiefgelaufen. Siehe Console");
+				}
+				break;
+				
+			case "reload":
+				
+				if(plugin == null) break;
+				
+				try {
+					unloadPlugin(plugin);
+					sender.sendMessage("§4[Disable/Enable] §rDas Plugin " + plugin + " wurde entfernt!");
 					
 					PluginManager manager = Bukkit.getServer().getPluginManager();
 					manager.loadPlugin(new File(plugin.getDataFolder() + ".jar"));
 			    	manager.enablePlugin(Bukkit.getPluginManager().getPlugin(plugin.getName()));
+			    	sender.sendMessage("§4[Disable/Enable] §rDas Plugin " + plugin + " wurde geladen!");
 				} catch (Exception e) {
 					e.printStackTrace();
+					sender.sendMessage("§4Hier ist etwas schiefgelaufen. Siehe Console");
 				}
 				
 				break;
@@ -68,9 +106,7 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
 		return true;
 	}
 	
-//	final static long ss = System.currentTimeMillis();
 	private boolean unloadPlugin(Plugin plugin) throws Exception {
-//		Bukkit.broadcastMessage(ss + "");
 		if(plugin == null) return false;
 		
     	PluginManager manager = Bukkit.getServer().getPluginManager();
@@ -145,11 +181,13 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
 			returnArguments.add("enable");
 			returnArguments.add("disable");
 			returnArguments.add("reload");
+			returnArguments.add("load");
+			returnArguments.add("unload");
 			
 		} else {
 			switch (args[0]) {
 				default:
-					for(Plugin plugin: Bukkit.getPluginManager().getPlugins())
+					for(Plugin plugin : Bukkit.getPluginManager().getPlugins())
 						returnArguments.add(plugin.getName());
 					
 					break;
