@@ -1,6 +1,5 @@
 package essentials.trade;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +15,6 @@ public class TradeListener implements Listener {
 	
 	@EventHandler
 	public void interact(PlayerInteractAtEntityEvent event) {
-		Bukkit.broadcastMessage("test");
 		if(!(event.getRightClicked() instanceof Player)) return;
 		
 		Player player = event.getPlayer();

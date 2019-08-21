@@ -18,7 +18,7 @@ public class TradeManager {
 	private TradeManager() {}
 	
 	private static int timeoutPerSecond = 30;
-	private static Map<String, Long> tradesRequests = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String, TradeInformation> tradesRequests = Collections.synchronizedMap(new HashMap<>());
 	
 	static {
 		final List<String> delete = new LinkedList<>();
@@ -26,8 +26,8 @@ public class TradeManager {
 		Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getPlugin(), () -> {
 			long time = System.currentTimeMillis() - timeoutPerSecond * 1000;
 			
-			tradesRequests.forEach((s, l) -> {
-				if(l < time) {
+			tradesRequests.forEach((s, ti) -> {
+				if(ti.getStartRequest() < time) {
 					String[] players = s.split("§");
 					
 					Player player = Bukkit.getPlayer(players[0]);
@@ -54,10 +54,12 @@ public class TradeManager {
 		String id = generateID(from, to);
 		
 		if(tradesRequests.containsKey(id)) {
-			tradesRequests.remove(id);
-			TradeSystem.openTradeInventory(from, to);
+			if(tradesRequests.get(id).getRequestSendFrom() != from) {
+				tradesRequests.remove(id);
+				TradeSystem.openTradeInventory(from, to);
+			}
 		} else {
-			tradesRequests.put(id, System.currentTimeMillis());
+			tradesRequests.put(id, new TradeInformation(System.currentTimeMillis(), from));
 			
 			ChatUtilities.sendChatMessage(to, from.getName() + " sendet eine Trade Anfrage ",
 				ChatUtilities.createExtra(
