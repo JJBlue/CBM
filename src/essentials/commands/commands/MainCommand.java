@@ -26,7 +26,7 @@ import essentials.commands.JoinAdmin.Join;
 import essentials.commands.NameTag.nt;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
-import essentials.commands.trade2.TradeCommands;
+import essentials.commands.trade.TradeCommands;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MapPaint;

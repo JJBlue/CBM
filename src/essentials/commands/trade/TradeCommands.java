@@ -1,4 +1,4 @@
-package essentials.commands.trade2;
+package essentials.commands.trade;
 
 import java.util.LinkedList;
 import java.util.List;
