@@ -1,32 +1,47 @@
 package essentials.inventory;
 
+import java.util.List;
+
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import essentials.inventory.runnables.RunnableInventoryClick;
 import essentials.inventory.runnables.RunnableInventoryDrag;
 import essentials.inventory.runnables.RunnableInventoryMove;
 
-public class InventoryItem {
-	protected ItemStack itemStack;
+public class InventoryItem extends ItemStack {
 	protected RunnableInventoryClick onClick;
 	protected RunnableInventoryDrag onDrag;
 	protected RunnableInventoryMove onMove;
 	
 	public InventoryItem(ItemStack itemStack) {
-		this.itemStack = itemStack;
+		super(itemStack);
 	}
+	
+	public InventoryItem(final Material type) {
+        super(type, 1);
+    }
+	
+    public InventoryItem(final Material type, final int amount) {
+    	super(type, amount);
+    }
 
-	public ItemStack getItemStack() {
-		return itemStack;
-	}
-
-	public void setItemStack(ItemStack itemStack) {
-		this.itemStack = itemStack;
-	}
-
+    public void setDisplayName(String displayName) {
+    	ItemMeta meta = this.getItemMeta();
+    	meta.setDisplayName(displayName);
+    	this.setItemMeta(meta);
+    }
+    
+    public void setLore(List<String> lore) {
+    	ItemMeta meta = this.getItemMeta();
+    	meta.setLore(lore);
+    	this.setItemMeta(meta);
+    }
+    
 	public RunnableInventoryClick getOnClick() {
 		return onClick;
 	}
@@ -67,7 +82,7 @@ public class InventoryItem {
 	}
 	
 	public InventoryItem clone() {
-		InventoryItem item = new InventoryItem(itemStack.clone());
+		InventoryItem item = new InventoryItem(super.clone());
 		item.setOnClick(onClick);
 		item.setOnDrag(onDrag);
 		item.setOnMove(onMove);
@@ -76,17 +91,8 @@ public class InventoryItem {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof InventoryItem) {
-			InventoryItem equalsItem = (InventoryItem) obj;
-			
-			if(super.equals(equalsItem)) return true;
-			return itemStack.equals(equalsItem.getItemStack());
-		}
-		
-		if(obj instanceof ItemStack) {
-			return itemStack.equals(obj);
-		}
-		
+		if(obj instanceof ItemStack)
+			return super.equals(obj);
 		return false;
 	}
 }

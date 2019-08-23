@@ -1,4 +1,4 @@
-package essentials.trade;
+package essentials.commands.trade;
 
 import java.util.Map;
 
@@ -25,6 +25,10 @@ public class TradeSystem {
 	private InventoryItem check1;
 	private InventoryItem check2;
 	
+	private String statusRed = "Click to accept";
+	private String statusWaiting = "Waiting...";
+	private String statusCountdown = "Countdown is running. Please wait";
+	
 	public static void openTradeInventory(final Player p1, final Player p2) {
 		new TradeSystem().openInventory(p1, p2);
 	}
@@ -42,36 +46,43 @@ public class TradeSystem {
 		factory = new InventoryFactory(Bukkit.createInventory(null, 54, title.toString()));
 		InventoryPage page = factory.createFirstPage();
 		
-		check1 = new InventoryItem(new ItemStack(Material.RED_DYE));
-		check2 = new InventoryItem(new ItemStack(Material.RED_DYE));
+		check1 = new InventoryItem(Material.RED_DYE);
+		check1.setDisplayName(statusRed);
+		
 		check1.setOnClick((event, item) -> {
 			if((item == check1 && event.getWhoClicked() == p1) || (item == check2 && event.getWhoClicked() == p2)) {
-				ItemStack is = item.getItemStack();
-				if(is.getType() != Material.YELLOW_DYE) {
-					is.setType(Material.YELLOW_DYE);
-					is.setAmount(5);
+				if(item.getType() != Material.YELLOW_DYE) {
+					item.setType(Material.YELLOW_DYE);
+					item.setAmount(5);
+					item.setDisplayName(statusWaiting);
+					
 					factory.refreshPage();
 					
-					if(check1.getItemStack().getType().equals(Material.YELLOW_DYE) && check2.getItemStack().getType().equals(Material.YELLOW_DYE))
+					if(check1.getType().equals(Material.YELLOW_DYE) && check2.getType().equals(Material.YELLOW_DYE)) {
+						check1.setDisplayName(statusCountdown);
+						check2.setDisplayName(statusCountdown);
+						factory.refreshPage();
 						startTimer();
+					}
 				}
 			}
 			
 			event.setCancelled(true);
 		});
-		check2.setOnClick(check1.getOnClick());
+		check2 = check1.clone();
 		
-		page.addInventoryItem(45, check1);
-		page.addInventoryItem(53, check2);
+		page.addItem(45, check1);
+		page.addItem(53, check2);
 		
-		InventoryItem barrier = new InventoryItem(new ItemStack(Material.RED_STAINED_GLASS_PANE));
+		InventoryItem barrier = new InventoryItem(Material.RED_STAINED_GLASS_PANE);
+		barrier.setDisplayName("§4Barrier");
 		barrier.setOnClick((event, item) -> event.setCancelled(true)); 
-		page.addInventoryItem(4, barrier.clone());
-		page.addInventoryItem(13, barrier.clone());
-		page.addInventoryItem(22, barrier.clone());
-		page.addInventoryItem(31, barrier.clone());
-		page.addInventoryItem(40, barrier.clone());
-		page.addInventoryItem(49, barrier.clone());
+		page.addItem(4, barrier.clone());
+		page.addItem(13, barrier.clone());
+		page.addItem(22, barrier.clone());
+		page.addItem(31, barrier.clone());
+		page.addItem(40, barrier.clone());
+		page.addItem(49, barrier.clone());
 		
 		factory.setOnClick((event, item) -> {
 			if(canceld) {
@@ -79,8 +90,11 @@ public class TradeSystem {
 				return;
 			}
 			
-			if(!event.isCancelled())
+			if(!event.isCancelled()) {
+				check1.setDisplayName(statusRed);
+				check2.setDisplayName(statusRed);
 				stopTimer();
+			}
 			
 			switch(event.getClick()) {
 				case DOUBLE_CLICK:
@@ -126,10 +140,7 @@ public class TradeSystem {
 		if(task != -1) return;
 		
 		task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), () -> {
-			ItemStack is1 = check1.getItemStack();
-			ItemStack is2 = check2.getItemStack();
-			
-			if(is1.getAmount() == 0) {
+			if(check1.getAmount() == 0) {
 				canceld = true;
 				factory.close();
 				
@@ -140,8 +151,8 @@ public class TradeSystem {
 				return;
 			}
 			
-			is1.setAmount(is1.getAmount() - 1);
-			is2.setAmount(is2.getAmount() - 1);
+			check1.setAmount(check1.getAmount() - 1);
+			check2.setAmount(check2.getAmount() - 1);
 			factory.refreshPage();
 		}, 0l, 20l);
 	}
@@ -166,14 +177,11 @@ public class TradeSystem {
 	}
 	
 	private void stopTimer() {
-		ItemStack is1 = check1.getItemStack();
-		ItemStack is2 = check2.getItemStack();
-		
-		if(!is1.getType().equals(Material.RED_DYE) || !is2.getType().equals(Material.RED_DYE)) {
-			is1.setType(Material.RED_DYE);
-			is1.setAmount(1);
-			is2.setType(Material.RED_DYE);
-			is2.setAmount(1);
+		if(!check1.getType().equals(Material.RED_DYE) || !check2.getType().equals(Material.RED_DYE)) {
+			check1.setType(Material.RED_DYE);
+			check1.setAmount(1);
+			check2.setType(Material.RED_DYE);
+			check2.setAmount(1);
 			factory.refreshPage();
 		}
 		

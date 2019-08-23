@@ -1,4 +1,4 @@
-package essentials.trade;
+package essentials.commands.trade;
 
 import org.bukkit.entity.Player;
 

@@ -1,4 +1,4 @@
-package essentials.trade;
+package essentials.commands.trade;
 
 import java.util.Collections;
 import java.util.HashMap;

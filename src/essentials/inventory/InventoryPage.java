@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryPage {
 	
-	Map<Integer, InventoryItem> inv = Collections.synchronizedMap(new HashMap<>());
+	Map<Integer, ItemStack> inv = Collections.synchronizedMap(new HashMap<>());
 	
 	public InventoryPage() {}
 	
@@ -24,11 +24,11 @@ public class InventoryPage {
 		for(int i = 0; i < inventory.getSize(); i++) {
 			ItemStack itemStack = inventory.getItem(i);
 			if(itemStack == null || itemStack.getType().equals(Material.AIR)) continue;
-			addInventoryItem(i, new InventoryItem(itemStack));
+			addItem(i, new InventoryItem(itemStack));
 		}
 	}
 	
-	public void addInventoryItem(InventoryItem item) {
+	public void addItem(ItemStack item) {
 		synchronized (inv) {
 			for(int i = 0; i < Integer.MAX_VALUE; i++) {
 				if(!inv.containsKey(i)) {
@@ -39,19 +39,19 @@ public class InventoryPage {
 		}
 	}
 	
-	public void addInventoryItem(int pos, InventoryItem item) {
+	public void addItem(int pos, ItemStack item) {
 		if(item == null) return;
 		inv.put(pos, item);
 	}
 	
-	public void removeInventoryItem(InventoryItem delete) {
+	public void removeItem(ItemStack delete) {
 		if(delete == null) return;
 		
 		synchronized (inv) {
 			int posDelete = -1;
 			
 			for(Integer pos : inv.keySet()) {
-				InventoryItem item = inv.get(pos);
+				ItemStack item = inv.get(pos);
 				
 				if(item.equals(delete)) {
 					posDelete = pos;
@@ -64,44 +64,42 @@ public class InventoryPage {
 		}
 	}
 	
-	public void removeInventoryItem(int pos) {
+	public void removeItem(int pos) {
 		inv.remove(pos);
 	}
 	
-	public InventoryItem getInventoryItem(int pos) {
+	public ItemStack get(int pos) {
 		return inv.get(pos);
 	}
 	
-	public InventoryItem getInventoryItem(ItemStack cursor) {
-		synchronized (inv) {
-			for(Integer pos : inv.keySet()) {
-				InventoryItem item = inv.get(pos);
-				
-				if(item.equals(cursor))
-					return item;
-			}
-		}
-		
+	public InventoryItem getInventoryItem(int pos) {
+		ItemStack itemStack = inv.get(pos);
+		if(itemStack instanceof InventoryItem)
+			return (InventoryItem) itemStack;
 		return null;
+	}
+	
+	public void clear() {
+		inv.clear();
 	}
 	
 	public List<InventoryItem> getInventoryItemEquals(ItemStack clickedStack) {
 		List<InventoryItem> list = new LinkedList<>();
 		
 		synchronized (inv) {
-			for(InventoryItem item : inv.values()) {
-				if(item.getItemStack().equals(clickedStack))
-					list.add(item);
+			for(ItemStack item : inv.values()) {
+				if(item.equals(clickedStack) && item instanceof InventoryItem)
+					list.add((InventoryItem) item);
 			}
 		}
 		
 		return list;
 	}
 	
-	public InventoryItem getInventoryItemEqualsFirst(ItemStack clickedStack) {
+	public ItemStack getInventoryItemEqualsFirst(ItemStack clickedStack) {
 		synchronized (inv) {
-			for(InventoryItem item : inv.values()) {
-				if(item.getItemStack().equals(clickedStack))
+			for(ItemStack item : inv.values()) {
+				if(item.equals(clickedStack))
 					return item;
 			}
 		}
@@ -111,6 +109,6 @@ public class InventoryPage {
 	
 	public void fill(Inventory inventory) {
 		for(Integer pos : inv.keySet())
-			inventory.setItem(pos, inv.get(pos).getItemStack());
+			inventory.setItem(pos, inv.get(pos));
 	}
 }

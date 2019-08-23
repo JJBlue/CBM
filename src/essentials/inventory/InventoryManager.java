@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class InventoryManager {
 	private InventoryManager() {}
@@ -35,12 +34,6 @@ public class InventoryManager {
 		InventoryPage page = getInventoryPage(inventory);
 		if(page == null) return null;
 		return page.getInventoryItem(pos);
-	}
-	
-	public static InventoryItem getInventoryItem(Inventory inventory, ItemStack cursor) {
-		InventoryPage page = getInventoryPage(inventory);
-		if(page == null) return null;
-		return page.getInventoryItem(cursor);
 	}
 	
 	public static boolean hasInventory(Inventory inventory) {

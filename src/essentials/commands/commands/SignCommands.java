@@ -33,7 +33,6 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 		 * 	/all sign show [<name>] ["<line1>"] ["<line2>"] ["<line3>"] ["<line4>"]
 		 */
 		
-		if(!sender.hasPermission("all.sign")) return true;
 		if(args.length < 1) return true;
 		
 		Player p = null;
@@ -43,6 +42,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 		switch(args[0].toLowerCase()) {
 			case "edit":
 				
+				if(!sender.hasPermission("all.sign.edit")) return true;
 				if(p == null) break;
 				
 				Block block = p.getTargetBlock(null, 50);
@@ -57,6 +57,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 			case "fake":
 				
 				{
+					if(!sender.hasPermission("all.sign.fake")) return true;
 					if(args.length < 3) break;
 					
 					Player showPlayer = Bukkit.getPlayer(args[1]);
@@ -83,6 +84,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 				
 			case "show":
 				
+				if(!sender.hasPermission("all.sign.show")) return true;
 				if(args.length < 3) break;
 				
 				Player showPlayer = Bukkit.getPlayer(args[1]);

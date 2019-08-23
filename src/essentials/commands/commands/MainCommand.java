@@ -26,6 +26,9 @@ import essentials.commands.JoinAdmin.Join;
 import essentials.commands.NameTag.nt;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
+import essentials.commands.trade.TradeCommands;
+import essentials.commands.trade.TradeSystem;
+import essentials.inventory.InventoryItem;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MapPaint;
@@ -36,7 +39,6 @@ import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.SudoPlayer;
 import essentials.pluginmanager.DisableEnable;
-import essentials.trade.TradeCommands;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -58,6 +60,15 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		args[0] = args[0].toLowerCase();
 		
 		switch (args[0]) {
+			case "t":
+				TradeSystem.openTradeInventory(p, p);
+				break;
+			
+			case "t2":
+				
+				p.getInventory().addItem(new InventoryItem(new ItemStack(Material.STONE)));
+				break;
+			
 			case "afk":
 				
 				if(!sender.hasPermission("all.afk")) return true;

@@ -16,6 +16,7 @@ import essentials.commands.post.Post;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.TeleportListener;
 import essentials.commands.timerplus.Timerplus;
+import essentials.commands.trade.TradeListener;
 import essentials.commands.trolling.BlockClick;
 import essentials.commands.trolling.TrolCommands;
 import essentials.inventory.InventoryListener;
@@ -27,7 +28,6 @@ import essentials.listeners.MapPaint.PlayerMapListener;
 import essentials.listeners.chair.chair;
 import essentials.operator.DeopBan;
 import essentials.player.PlayerListener;
-import essentials.trade.TradeListener;
 
 public class Main extends JavaPlugin implements Listener{
 
