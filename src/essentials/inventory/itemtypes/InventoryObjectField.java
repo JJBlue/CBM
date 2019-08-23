@@ -13,14 +13,17 @@ public abstract class InventoryObjectField<T> extends InventoryItem {
 
 	public InventoryObjectField(ItemStack itemStack) {
 		super(itemStack);
+		setOnClick((event, item) -> event.setCancelled(true));
 	}
 
 	public InventoryObjectField(Material type, int amount) {
 		super(type, amount);
+		setOnClick((event, item) -> event.setCancelled(true));
 	}
 
 	public InventoryObjectField(Material type) {
 		super(type);
+		setOnClick((event, item) -> event.setCancelled(true));
 	}
 	
 	protected abstract void change(T oldValue, T newValue);

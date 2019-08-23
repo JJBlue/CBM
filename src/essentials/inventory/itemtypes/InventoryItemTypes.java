@@ -5,7 +5,7 @@ import org.bukkit.Material;
 public class InventoryItemTypes {
 	private InventoryItemTypes() {}
 	
-	public static InventoryObjectField<Boolean> createCheckField(boolean value) {
+	public static InventoryObjectField<Boolean> createCheckField(String displayName, boolean value) {
 		InventoryObjectField<Boolean> item = new InventoryObjectField<Boolean>(Material.BLACK_WOOL) {
 			@Override
 			protected void change(Boolean oldValue, Boolean value) {
@@ -16,6 +16,7 @@ public class InventoryItemTypes {
 			}
 		};
 		
+		item.setDisplayName(displayName);
 		item.setValue(value);
 		return item;
 	}
