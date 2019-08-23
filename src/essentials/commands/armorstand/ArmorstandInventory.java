@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.util.EulerAngle;
 
 import essentials.inventory.InventoryFactory;
@@ -15,7 +16,7 @@ import essentials.inventory.itemtypes.InventoryObjectField;
 public class ArmorstandInventory {
 	private final ArmorStand armorstand;
 	
-	public ArmorstandInventory(ArmorStand armorstand) {
+	public ArmorstandInventory(final ArmorStand armorstand) {
 		this.armorstand = armorstand;
 	}
 	
@@ -89,7 +90,8 @@ public class ArmorstandInventory {
 		nothing.setOnClick((event, item) -> event.setCancelled(true));
 		
 		// 0 1 2 | 3 | 4 5 6 7 8
-		page.addItem(1, nothing);
+		page.addItem(0, nothing);
+		page.addItem(1, armorstand.getHelmet());
 		page.addItem(2, nothing);
 		page.addItem(3, nothing);
 		page.addItem(4, basePlateField);
@@ -99,6 +101,9 @@ public class ArmorstandInventory {
 		page.addItem(8, armsField);
 		
 		// 9 10 11 | 12 | 13 14 15 16 17
+		page.addItem(9, armorstand.getEquipment().getItemInMainHand());
+		page.addItem(10, armorstand.getChestplate());
+		page.addItem(11, armorstand.getEquipment().getItemInMainHand());
 		page.addItem(12, nothing);
 		page.addItem(13, customNameVisible);
 		page.addItem(14, glowingField);
@@ -108,6 +113,7 @@ public class ArmorstandInventory {
 		
 		// 18 19 20 | 21 | 22 23 24 25 26
 		page.addItem(18, nothing);
+		page.addItem(19, armorstand.getLeggings());
 		page.addItem(20, nothing);
 		page.addItem(21, nothing);
 		page.addItem(22, nothing);
@@ -118,6 +124,7 @@ public class ArmorstandInventory {
 		
 		// 27 28 29 | 30 | 31 32 33 34 35
 		page.addItem(27, nothing);
+		page.addItem(28, armorstand.getBoots());
 		page.addItem(29, nothing);
 		page.addItem(30, nothing);
 		page.addItem(31, nothing);
@@ -127,7 +134,28 @@ public class ArmorstandInventory {
 		page.addItem(35, nothing);
 		
 		factory.setOnClick((event, item) -> {
-			//Set Armro
+			Inventory inv = factory.getInventory();
+			
+			switch(event.getSlot()) {
+				case 1:
+					armorstand.setHelmet(inv.getItem(event.getSlot()));
+					break;
+				case 9:
+					armorstand.getEquipment().setItemInMainHand(inv.getItem(event.getSlot()));
+					break;
+				case 10:
+					armorstand.setChestplate(inv.getItem(event.getSlot()));
+					break;
+				case 11:
+					armorstand.getEquipment().setItemInOffHand(inv.getItem(event.getSlot()));
+					break;
+				case 19:
+					armorstand.setLeggings(inv.getItem(event.getSlot()));
+					break;
+				case 28:
+					armorstand.setBoots(inv.getItem(event.getSlot()));
+					break;
+			}
 		});
 		
 		factory.refreshPage();
