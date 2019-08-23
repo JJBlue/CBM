@@ -83,6 +83,19 @@ public class InventoryPage {
 		inv.clear();
 	}
 	
+	public InventoryItem getInventoryItem(ItemStack cursor) {
+		synchronized (inv) {
+			for(Integer pos : inv.keySet()) {
+				ItemStack item = inv.get(pos);
+
+ 				if(item.equals(cursor) && item instanceof InventoryItem)	
+					return (InventoryItem) item;
+			}
+		}
+
+ 		return null;
+	}
+	
 	public List<InventoryItem> getInventoryItemEquals(ItemStack clickedStack) {
 		List<InventoryItem> list = new LinkedList<>();
 		

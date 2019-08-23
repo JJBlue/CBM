@@ -16,7 +16,7 @@ import essentials.commands.post.Post;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.TeleportListener;
 import essentials.commands.timerplus.Timerplus;
-import essentials.commands.trade.TradeListener;
+import essentials.commands.trade2.TradeListener;
 import essentials.commands.trolling.BlockClick;
 import essentials.commands.trolling.TrolCommands;
 import essentials.inventory.InventoryListener;

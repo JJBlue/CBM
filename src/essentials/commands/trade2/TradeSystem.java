@@ -1,4 +1,4 @@
-package essentials.commands.trade;
+package essentials.commands.trade2;
 
 import java.util.Map;
 

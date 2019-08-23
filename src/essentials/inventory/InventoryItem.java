@@ -13,7 +13,8 @@ import essentials.inventory.runnables.RunnableInventoryClick;
 import essentials.inventory.runnables.RunnableInventoryDrag;
 import essentials.inventory.runnables.RunnableInventoryMove;
 /**
- * 	InventoryItem is not saved from Bukkit it will be converted by an restart to a normal ItemStack
+ * 	Adding a InventoryItem to a normal Inventory, it will be converted from Bukkit to a normal ItemStack.
+ * 	Will you add this to a normal Inventory. You must create at first a InventoryFactory with the normal Inventory
  */
 public class InventoryItem extends ItemStack {
 	protected RunnableInventoryClick onClick;

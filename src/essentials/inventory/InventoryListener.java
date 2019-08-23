@@ -131,13 +131,26 @@ public class InventoryListener implements Listener {
 	
 	@EventHandler
 	public void drag(InventoryDragEvent event) {
-		if(!(event.getCursor() instanceof InventoryItem)) return;
-		((InventoryItem) event.getCursor()).callOnDrag(event);
+		Inventory inventory = event.getInventory();
+		if(inventory == null) return;
+		if(!InventoryManager.hasInventory(inventory)) return;
+
+ 		InventoryItem item = InventoryManager.getInventoryItem(inventory, event.getCursor());
+		if(item == null) return;
+
+ 		item.callOnDrag(event);
 	}
 	
 	@EventHandler
 	public void move(InventoryMoveItemEvent event) {
-		if(!(event.getItem() instanceof InventoryItem)) return;
-		((InventoryItem) event.getItem()).callOnMove(event);
+		Inventory source = event.getSource();
+		Inventory destination = event.getDestination();
+		if(source == null || destination == null) return;
+		if(!InventoryManager.hasInventory(source) && !InventoryManager.hasInventory(destination)) return;
+
+ 		InventoryItem item = InventoryManager.getInventoryItem(source, event.getItem());
+		if(item == null) return;
+
+ 		item.callOnMove(event);
 	}
 }
