@@ -28,9 +28,9 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		/*
-		 * 	/all sign edit [~ ~ ~] [<line1>] [<line2>] [<line3>] [<line4>]
-		 * 	/all sign fake [~ ~ ~ | <name> ] [<Material>] [<line1>] [<line2>] [<line3>] [<line4>]
-		 * 	/all sign show [<name>] [<Material>] [<line1>] [<line2>] [<line3>] [<line4>]
+		 * 	/all sign edit
+		 * 	/all sign fake [~ ~ ~ | <name> ] [<Material>] ["<line1>"] ["<line2>"] ["<line3>"] ["<line4>"]
+		 * 	/all sign show [<name>] ["<line1>"] ["<line2>"] ["<line3>"] ["<line4>"]
 		 */
 		
 		if(!sender.hasPermission("all.sign")) return true;
