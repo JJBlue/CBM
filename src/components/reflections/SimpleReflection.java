@@ -20,6 +20,21 @@ public class SimpleReflection {
     	throw new NoSuchFieldException();
 	}
 	
+	public static Field getField(String attribute, Object obj) throws SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
+		Class<?> classy = obj.getClass();
+		
+		do {
+			try {
+				Field field = classy.getDeclaredField(attribute);
+				if(field == null) continue;
+				field.trySetAccessible();
+				return field;
+			} catch (NoSuchFieldException e) {}
+		} while ((classy = classy.getSuperclass()) != null);
+		
+    	throw new NoSuchFieldException();
+	}
+	
 	public static List<String> listAttributes(Object obj) {
 		List<String> list = new LinkedList<>();
 		

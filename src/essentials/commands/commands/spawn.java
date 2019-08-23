@@ -3,6 +3,7 @@ package essentials.commands.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+//TODO old
 public class spawn {
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if(args.length < 1) return false;

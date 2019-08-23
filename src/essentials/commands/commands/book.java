@@ -17,7 +17,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-public class SignBook implements Listener{
+//TODO old
+public class book implements Listener{
 	public static File SB = new File("plugins/Allgemein/book", "books.yml");
 	public static FileConfiguration SBConf = YamlConfiguration.loadConfiguration(SB);
 	

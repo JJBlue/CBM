@@ -40,6 +40,7 @@ import essentials.trade.TradeCommands;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
+import essentials.utilities.SignUtilities;
 import essentials.utilities.StringUtilities;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
@@ -123,6 +124,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
+			case "fs":
+				
+				SignUtilities.openFakeSign(p, Material.OAK_SIGN, p.getLocation(), new String[] {"§khi", "§4Buh", "--", "??"});
+				
+				break;
+				
 			case "feed":
 				
 				if(!sender.hasPermission("all.feed")) return true;
@@ -193,6 +200,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				p.teleport(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ(), p.getLocation().getYaw(), p.getLocation().getPitch()));
 				
 				break;
+				
+			case "join":
+				
+				return Join.onCommand(sender, cmd, cmdLabel, args);
 				
 			case "chestplate":
 				
@@ -320,6 +331,84 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
 				
+				case "more":
+					
+					if(p == null || !sender.hasPermission("all.more")) return true;
+					
+					is = p.getInventory().getItemInMainHand();
+					if(is == null || is.getType().equals(Material.AIR)) return true;
+					
+					if(args.length == 1)
+						is.setAmount(64);
+					else if(args.length == 2)
+						try{
+							is.setAmount(Integer.parseInt(args[0]));
+						}catch(NumberFormatException nfe){
+							sender.sendMessage("§4" + args[0] + " ist keine Zahl");
+						}
+					
+					break;
+					
+				case "mute":
+					
+					if(!sender.hasPermission("all.mute")) return true;
+					
+					if(args.length >= 2){
+						p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
+						if(p1 == null) return true;
+						
+						PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
+						
+						if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
+							playerConfig.set(PlayerConfigKey.tMute, true);
+							sender.sendMessage(p1.getName() + " wurde gemutet");
+							p1.sendMessage("Du wurdest gemutet");
+						} else {
+							playerConfig.set(PlayerConfigKey.tMute, false);
+							sender.sendMessage(p1.getName() + " wurde entmutet");
+							p1.sendMessage("Du wurdest entmutet");
+						}
+					} else {
+						sender.sendMessage("Es sind folgende Spieler gemutet:");
+						
+						//TODO
+					}
+					
+					break;
+					
+				case "nametag":
+					
+					if(args.length < 2 || !sender.hasPermission("all.nametag")) break;
+					
+					if(args[1].equalsIgnoreCase("true"))
+						nt.setNameTag(true);
+					else if(args[1].equalsIgnoreCase("false"))
+						nt.setNameTag(false);
+					
+					break;
+					
+				case "near":
+					
+					if(p == null || !sender.hasPermission("all.near")) return true;
+					
+					for(Entity e : p.getNearbyEntities(500, 500, 500)){
+						if(e instanceof Player)
+							sender.sendMessage(e.getName() + ": " + e.getLocation().distance(p.getLocation()));
+					}
+					
+					break;
+					
+				case "paint":
+					
+					if(args.length < 2 || !sender.hasPermission("all.paint")) break;
+					MapPaint.addPainting(p, args[1]);
+					
+					break;
+					
+				case "pluginmanager":
+					
+					return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				
 			case "reload":
 				
 				if(!sender.hasPermission("all.reload")) return true;
@@ -346,6 +435,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					sender.sendMessage("Chair: OFF");
 				
 				break;
+				
+			case "sign":
+				
+				return SignCommands.signCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "speed":
 				
@@ -403,6 +496,19 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
+			case "trade":
+				
+				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				
+			case "uuid":
+				if(args.length < 2 || !sender.hasPermission("all.uuid")) break;
+				
+				OfflinePlayer player = PlayerUtilities.getOfflinePlayer(args[1]);
+				UUID uuid = player.getUniqueId();
+				sender.sendMessage(uuid.toString());
+				
+				break;
+				
 			case "wallghost":
 				
 				if(!sender.hasPermission("all.wallghost")) return true;
@@ -420,93 +526,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 						sender.sendMessage("WallGhost: Player <" + args[1] + "> hinzugefuegt");
 					else
 						sender.sendMessage("WallGhost: Player <" + args[1] + "> entfernt");
-				}
-				
-				break;
-				
-			case "uuid":
-				if(args.length < 2 || !sender.hasPermission("all.uuid")) break;
-				
-				OfflinePlayer player = PlayerUtilities.getOfflinePlayer(args[1]);
-				UUID uuid = player.getUniqueId();
-				sender.sendMessage(uuid.toString());
-				
-				break;
-				
-			case "paint":
-				
-				if(args.length < 2 || !sender.hasPermission("all.paint")) break;
-				MapPaint.addPainting(p, args[1]);
-				
-				break;
-				
-			case "pluginmanager":
-				
-				return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-			
-			case "more":
-				
-				if(p == null || !sender.hasPermission("all.more")) return true;
-				
-				is = p.getInventory().getItemInMainHand();
-				if(is == null || is.getType().equals(Material.AIR)) return true;
-				
-				if(args.length == 1)
-					is.setAmount(64);
-				else if(args.length == 2)
-					try{
-						is.setAmount(Integer.parseInt(args[0]));
-					}catch(NumberFormatException nfe){
-						sender.sendMessage("§4" + args[0] + " ist keine Zahl");
-					}
-				
-				break;
-				
-			case "mute":
-				
-				if(!sender.hasPermission("all.mute")) return true;
-				
-				if(args.length >= 2){
-					p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
-					if(p1 == null) return true;
-					
-					PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
-					
-					if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
-						playerConfig.set(PlayerConfigKey.tMute, true);
-						sender.sendMessage(p1.getName() + " wurde gemutet");
-						p1.sendMessage("Du wurdest gemutet");
-					} else {
-						playerConfig.set(PlayerConfigKey.tMute, false);
-						sender.sendMessage(p1.getName() + " wurde entmutet");
-						p1.sendMessage("Du wurdest entmutet");
-					}
-				} else {
-					sender.sendMessage("Es sind folgende Spieler gemutet:");
-					
-					//TODO
-				}
-				
-				break;
-				
-			case "nametag":
-				
-				if(args.length < 2 || !sender.hasPermission("all.nametag")) break;
-				
-				if(args[1].equalsIgnoreCase("true"))
-					nt.setNameTag(true);
-				else if(args[1].equalsIgnoreCase("false"))
-					nt.setNameTag(false);
-				
-				break;
-				
-			case "near":
-				
-				if(p == null || !sender.hasPermission("all.near")) return true;
-				
-				for(Entity e : p.getNearbyEntities(500, 500, 500)){
-					if(e instanceof Player)
-						sender.sendMessage(e.getName() + ": " + e.getLocation().distance(p.getLocation()));
 				}
 				
 				break;
@@ -566,14 +585,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
-			case "join":
-				
-				return Join.onCommand(sender, cmd, cmdLabel, args);
-				
-			case "trade":
-				
-				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				
 			default:
 				break;
 		}
@@ -617,6 +628,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("reload");
 			returnArguments.add("silent");
 			returnArguments.add("sit");
+			returnArguments.add("sign");
 			returnArguments.add("skull");
 			returnArguments.add("sudo");
 			returnArguments.add("speed");
@@ -642,6 +654,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					
 					returnArguments = BukkitUtilities.getAvailableCommands(sender);
 					break;
+					
+				case "sign":
+					
+					return SignCommands.signCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "speed":
 					

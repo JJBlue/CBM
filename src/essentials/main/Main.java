@@ -11,7 +11,7 @@ import essentials.commands.JoinAdmin.Join;
 import essentials.commands.commandonobject.CommandDruckplatten;
 import essentials.commands.commandonobject.CommandListener;
 import essentials.commands.commands.MainCommand;
-import essentials.commands.commands.SignBook;
+import essentials.commands.commands.book;
 import essentials.commands.post.Post;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.TeleportListener;
@@ -90,7 +90,7 @@ public class Main extends JavaPlugin implements Listener{
 			else if(cmd.getName().equalsIgnoreCase("oplist"))
 				DeopBan.onOpList(sender, cmd, cmdLabel, args);
 	    	else if(cmd.getName().equalsIgnoreCase("sb"))
-				SignBook.onSignBook(sender, cmd, cmdLabel, args);
+				book.onSignBook(sender, cmd, cmdLabel, args);
 		}
 		
 		return false;
@@ -100,7 +100,7 @@ public class Main extends JavaPlugin implements Listener{
 		CommandDruckplatten.load();
 		ChatVerbesserung.Load();
 		DeopBan.opCon();
-		SignBook.Load();
+		book.Load();
 //		MoveEvents.Load();
 		Post.Load();
 //		Navigator.onLoad();
