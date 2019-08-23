@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import essentials.commands.JoinAdmin.Join;
 import essentials.commands.NameTag.nt;
+import essentials.commands.armorstand.ArmorstandCommands;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
 import essentials.commands.trade.TradeCommands;
@@ -78,6 +79,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				}
 				
 				break;
+				
+			case "armorstand":
+				
+				return ArmorstandCommands.armorstandCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 		
 			case "blockname":
 				if(!sender.hasPermission("all.blockname")) return true;
@@ -649,6 +654,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					} else if(args.length == 3) returnArguments.add("[<amount>]");
 					
 					break;
+					
+				case "armorstand":
+					
+					return ArmorstandCommands.armorstandCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "silent":
 					

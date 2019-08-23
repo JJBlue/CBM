@@ -33,6 +33,16 @@ public class PlayerConfig {
 			playerConfigValue.set(value);
 	}
 	
+	public Object get(String key) {
+		PlayerConfigValue value = buffer.get(key);
+		if(value != null)
+			return value.getObject();
+		
+		//load ?
+		
+		return null;
+	}
+	
 	public boolean getBoolean(PlayerConfigKey key) {
 		return getBoolean(key.toString());
 	}

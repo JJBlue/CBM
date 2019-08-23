@@ -28,6 +28,7 @@ import essentials.listeners.MapPaint.PlayerMapListener;
 import essentials.listeners.chair.chair;
 import essentials.operator.DeopBan;
 import essentials.player.PlayerListener;
+import essentials.pluginmanager.DisableEnable;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -74,6 +75,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
+		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		Timerplus.TimerSekunden();
 		Loading();
 	}
@@ -101,9 +103,7 @@ public class Main extends JavaPlugin implements Listener{
 		ChatVerbesserung.Load();
 		DeopBan.opCon();
 		book.Load();
-//		MoveEvents.Load();
 		Post.Load();
-//		Navigator.onLoad();
 		noHunger.onLoad();
 		Join.load();
 	}
