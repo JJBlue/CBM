@@ -56,12 +56,9 @@ public class TradeSystem {
 					item.setAmount(5);
 					item.setDisplayName(statusWaiting);
 					
-					factory.refreshPage();
-					
 					if(check1.getType().equals(Material.YELLOW_DYE) && check2.getType().equals(Material.YELLOW_DYE)) {
 						check1.setDisplayName(statusCountdown);
 						check2.setDisplayName(statusCountdown);
-						factory.refreshPage();
 						startTimer();
 					}
 				}

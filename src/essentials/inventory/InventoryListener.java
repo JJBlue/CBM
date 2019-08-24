@@ -127,6 +127,9 @@ public class InventoryListener implements Listener {
 		
 		item.callOnClick(event);
 		factory.callOnClick(event, item);
+		
+		if(!item.equals(event.getCurrentItem()))
+			event.setCurrentItem(item);
 	}
 	
 	@EventHandler

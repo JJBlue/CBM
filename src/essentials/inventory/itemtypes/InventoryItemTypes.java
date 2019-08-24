@@ -16,6 +16,11 @@ public class InventoryItemTypes {
 			}
 		};
 		
+		item.setOnClick((event, i) -> {
+			item.setValue(!item.getValue());
+			event.setCancelled(true);
+		});
+		
 		item.setDisplayName(displayName);
 		item.setValue(value);
 		return item;

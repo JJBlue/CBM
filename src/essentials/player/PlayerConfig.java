@@ -33,6 +33,10 @@ public class PlayerConfig {
 			playerConfigValue.set(value);
 	}
 	
+	public synchronized void removeBuffer(String key) {
+		buffer.remove(key);
+	}
+	
 	public Object get(String key) {
 		PlayerConfigValue value = buffer.get(key);
 		if(value != null)

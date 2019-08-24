@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.util.EulerAngle;
 
 import essentials.inventory.InventoryFactory;
@@ -82,11 +81,16 @@ public class ArmorstandInventory {
 		InventoryItem reset = new InventoryItem(Material.GRAY_WOOL);
 		reset.setDisplayName("Reset Gesture");
 		reset.setOnClick((event, item) -> {
-			armorstand.setBodyPose(EulerAngle.ZERO);
+			armorstand.setHeadPose(new EulerAngle(0.05494790421765526, 0.11621542312304131, 0));
+			armorstand.setBodyPose(new EulerAngle(0, 0.05842652523351677, 0));
+			armorstand.setLeftArmPose(new EulerAngle(-0.17453292519943295, 0, -0.17453292519943295));
+			armorstand.setRightArmPose(new EulerAngle(-0.2617993877991494, 0, 0.17453292519943295));
+			armorstand.setLeftLegPose(new EulerAngle(-0.017453292519943295, 0, -0.017453292519943295));
+			armorstand.setRightLegPose(new EulerAngle(0.017453292519943295, 0, 0.017453292519943295));
 			event.setCancelled(true);
 		});
 		
-		InventoryItem nothing = new InventoryItem(Material.GRAY_STAINED_GLASS);
+		InventoryItem nothing = new InventoryItem(Material.GRAY_STAINED_GLASS_PANE);
 		nothing.setOnClick((event, item) -> event.setCancelled(true));
 		
 		// 0 1 2 | 3 | 4 5 6 7 8
@@ -103,7 +107,7 @@ public class ArmorstandInventory {
 		// 9 10 11 | 12 | 13 14 15 16 17
 		page.addItem(9, armorstand.getEquipment().getItemInMainHand());
 		page.addItem(10, armorstand.getChestplate());
-		page.addItem(11, armorstand.getEquipment().getItemInMainHand());
+		page.addItem(11, armorstand.getEquipment().getItemInOffHand());
 		page.addItem(12, nothing);
 		page.addItem(13, customNameVisible);
 		page.addItem(14, glowingField);
@@ -133,32 +137,49 @@ public class ArmorstandInventory {
 		page.addItem(34, nothing);
 		page.addItem(35, nothing);
 		
+		// 36 37 38 | 
+		page.addItem(36, nothing);
+		page.addItem(37, nothing);
+		page.addItem(38, nothing);
+		
 		factory.setOnClick((event, item) -> {
-			Inventory inv = factory.getInventory();
+			int slot = event.getSlot();
 			
-			switch(event.getSlot()) {
+			switch(slot) {
 				case 1:
-					armorstand.setHelmet(inv.getItem(event.getSlot()));
+					armorstand.setHelmet(event.getCursor());
 					break;
 				case 9:
-					armorstand.getEquipment().setItemInMainHand(inv.getItem(event.getSlot()));
+					armorstand.getEquipment().setItemInMainHand(event.getCursor());
 					break;
 				case 10:
-					armorstand.setChestplate(inv.getItem(event.getSlot()));
+					armorstand.setChestplate(event.getCursor());
 					break;
 				case 11:
-					armorstand.getEquipment().setItemInOffHand(inv.getItem(event.getSlot()));
+					armorstand.getEquipment().setItemInOffHand(event.getCursor());
 					break;
 				case 19:
-					armorstand.setLeggings(inv.getItem(event.getSlot()));
+					armorstand.setLeggings(event.getCursor());
 					break;
 				case 28:
-					armorstand.setBoots(inv.getItem(event.getSlot()));
+					armorstand.setBoots(event.getCursor());
 					break;
 			}
 		});
 		
+//		armorstand.setLeftArmPose(new EulerAngle(x, y, z));
+//		armorstand.setLeftLegPose(arg0);
+//		armorstand.setHeadPose(arg0);
+//		armorstand.setBodyPose(arg0);
+//		armorstand.setRightArmPose(arg0);
+//		armorstand.setRightLegPose(arg0);
+//		Position
+		
 		factory.refreshPage();
 		factory.openInventory(player);
+	}
+	
+	private String shsaaa(EulerAngle angle) {
+		return angle.getX() + " " + angle.getY() + " " + angle.getZ();
 	}
 }

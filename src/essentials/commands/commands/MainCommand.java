@@ -605,6 +605,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		
 		if(args.length == 1) {
 			returnArguments.add("afk");
+			returnArguments.add("armorstand");
 			returnArguments.add("blockname");
 			returnArguments.add("boot");
 			returnArguments.add("book");
