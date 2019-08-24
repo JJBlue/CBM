@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import components.json.JSONArray;
 import components.json.JSONObject;
+import net.minecraft.server.v1_14_R1.ChatMessageType;
 import net.minecraft.server.v1_14_R1.IChatBaseComponent;
 import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
@@ -53,5 +54,11 @@ public class ChatUtilities {
 			list.add(object);
 		
 		return new JSONArray(list);
+	}
+	
+	public static void sendHotbarMessage(Player player, String message) {
+		IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a((String)("{\"text\": \"" + message + "\"}"));
+        PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, ChatMessageType.GAME_INFO);
+        ((CraftPlayer)player).getHandle().playerConnection.sendPacket(ppoc);
 	}
 }

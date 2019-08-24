@@ -1,5 +1,6 @@
 package essentials.commands.armorstand;
 
+import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,7 @@ import org.bukkit.util.EulerAngle;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.MathUtilities;
+import essentials.utilities.chat.ChatUtilities;
 
 public class ArmorstandListener implements Listener {
 	@EventHandler
@@ -46,25 +48,33 @@ public class ArmorstandListener implements Listener {
 				armorStand.setLeftLegPose(getNewAngle(armorStand.getLeftLegPose(), player, false));
 				break;
 			case POSITION:
+				Location location = armorStand.getLocation();
+				
 				switch(player.getInventory().getHeldItemSlot()) {
 					case 1:
-						armorStand.getLocation().add(0.1, 0, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (0.1));
+						armorStand.teleport(location.add(0.1, 0, 0));
 						break;
 					case 2:
-						armorStand.getLocation().add(0, 0.1, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (0.1));
+						armorStand.teleport(location.add(0, 0.1, 0));
 						break;
 					case 3:
-						armorStand.getLocation().add(0, 0, 0.1);
+						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (0.1));
+						armorStand.teleport(location.add(0, 0, 0.1));
 						break;
 						
 					case 5:
-						armorStand.getLocation().add(1, 0, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (1));
+						armorStand.teleport(location.add(1, 0, 0));
 						break;
 					case 6:
-						armorStand.getLocation().add(0, 1, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (1));
+						armorStand.teleport(location.add(0, 1, 0));
 						break;
 					case 7:
-						armorStand.getLocation().add(0, 0, 1);
+						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (1));
+						armorStand.teleport(location.add(0, 0, 1));
 						break;
 				}
 				break;
@@ -105,25 +115,33 @@ public class ArmorstandListener implements Listener {
 				armorStand.setLeftLegPose(getNewAngle(armorStand.getLeftLegPose(), player, true));
 				break;
 			case POSITION:
+				Location location = armorStand.getLocation();
+				
 				switch(player.getInventory().getHeldItemSlot()) {
 					case 1:
-						armorStand.getLocation().add(0.1, 0, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (-0.1));
+						armorStand.teleport(location.add(-0.1, 0, 0));
 						break;
 					case 2:
-						armorStand.getLocation().add(0, 0.1, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (-0.1));
+						armorStand.teleport(location.add(0, -0.1, 0));
 						break;
 					case 3:
-						armorStand.getLocation().add(0, 0, 0.1);
+						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (-0.1));
+						armorStand.teleport(location.add(0, 0, -0.1));
 						break;
 						
 					case 5:
-						armorStand.getLocation().add(1, 0, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (-1));
+						armorStand.teleport(location.add(-1, 0, 0));
 						break;
 					case 6:
-						armorStand.getLocation().add(0, 1, 0);
+						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (-1));
+						armorStand.teleport(location.add(0, -1, 0));
 						break;
 					case 7:
-						armorStand.getLocation().add(0, 0, 1);
+						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (-1));
+						armorStand.teleport(location.add(0, 0, -1));
 						break;
 				}
 				break;
@@ -137,17 +155,29 @@ public class ArmorstandListener implements Listener {
 	private EulerAngle getNewAngle(EulerAngle angle, Player player, boolean sub) {
 		switch(player.getInventory().getHeldItemSlot()) {
 			case 0:
-				return angle.add(MathUtilities.degreeToEuler((sub ? -1 : 1) * 1), 0, 0);
+				int degrees = (sub ? -1 : 1) * 1;
+				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees);
+				return angle.add(MathUtilities.degreeToEuler(degrees), 0, 0);
 			case 1:
-				return angle.add(0, MathUtilities.degreeToEuler((sub ? -1 : 1) * 1), 0);
+				degrees = (sub ? -1 : 1) * 1;
+				ChatUtilities.sendHotbarMessage(player, "§3Move y " + degrees);
+				return angle.add(0, MathUtilities.degreeToEuler(degrees), 0);
 			case 2:
-				return angle.add(0, 0, MathUtilities.degreeToEuler((sub ? -1 : 1) * 1));
+				degrees = (sub ? -1 : 1) * 1;
+				ChatUtilities.sendHotbarMessage(player, "§3Move z " + degrees);
+				return angle.add(0, 0, MathUtilities.degreeToEuler(degrees));
 			case 4:
-				return angle.add(MathUtilities.degreeToEuler((sub ? -1 : 1) * 10), 0, 0);
+				degrees = (sub ? -1 : 1) * 10;
+				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees);
+				return angle.add(MathUtilities.degreeToEuler(degrees), 0, 0);
 			case 5:
-				return angle.add(0, MathUtilities.degreeToEuler((sub ? -1 : 1) * 10), 0);
+				degrees = (sub ? -1 : 1) * 10;
+				ChatUtilities.sendHotbarMessage(player, "§3Move y " + degrees);
+				return angle.add(0, MathUtilities.degreeToEuler(degrees), 0);
 			case 6:
-				return angle.add(0, 0, MathUtilities.degreeToEuler((sub ? -1 : 1) * 10));
+				degrees = (sub ? -1 : 1) * 10;
+				ChatUtilities.sendHotbarMessage(player, "§3Move z " + degrees);
+				return angle.add(0, 0, MathUtilities.degreeToEuler(degrees));
 		}
 		return angle;
 	}
@@ -160,6 +190,7 @@ public class ArmorstandListener implements Listener {
 		
 		config.removeBuffer("armorstandEditorListener");
 		config.removeBuffer("armorstandEditorEnum");
+		ChatUtilities.sendHotbarMessage(player, "§4Exit");
 		event.setCancelled(true);
 	}
 }

@@ -104,6 +104,7 @@ public class ArmorstandInventory {
 		usage.add("Hit 5: y + 10");
 		usage.add("Hit 6: z + 10");
 		usage.add("Drop: Exit");
+		usage.add("§4Warning this deaktivate Marker");
 		
 		InventoryItem head = new InventoryItem(Material.PLAYER_HEAD);
 		head.setDisplayName("Move Head");
@@ -112,6 +113,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.HEAD);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -123,6 +125,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.BODY);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -134,6 +137,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_ARM);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -145,6 +149,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_ARM);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -156,6 +161,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_LEG);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -167,6 +173,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_LEG);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -178,6 +185,7 @@ public class ArmorstandInventory {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.set("armorstandEditorListener", true, false, true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.POSITION);
+			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
 		});
@@ -238,7 +246,7 @@ public class ArmorstandInventory {
 		page.addItem(41, body);
 		page.addItem(42, leftArm);
 		page.addItem(43, rightArm);
-		page.addItem(34, nothing);
+		page.addItem(44, nothing);
 		
 		// 45 46 47 48 49 50 51 52 53
 		page.addItem(45, nothing);
@@ -247,7 +255,7 @@ public class ArmorstandInventory {
 		page.addItem(48, nothing);
 		page.addItem(49, leftLeg);
 		page.addItem(50, rightLeg);
-		page.addItem(51, nothing);
+		page.addItem(51, position);
 		page.addItem(52, nothing);
 		page.addItem(53, nothing);
 		
