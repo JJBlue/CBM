@@ -78,6 +78,16 @@ public class ArmorstandListener implements Listener {
 						break;
 				}
 				break;
+			case ROTATION:
+				location = armorStand.getLocation();
+				switch(player.getInventory().getHeldItemSlot()) {
+					case 1:
+						location.setYaw(location.getYaw() + 1);
+					case 2:
+						location.setYaw(location.getYaw() + 10);
+				}
+				armorStand.teleport(location);
+				break;
 			default:
 				break;
 		}
@@ -144,6 +154,16 @@ public class ArmorstandListener implements Listener {
 						armorStand.teleport(location.add(0, 0, -1));
 						break;
 				}
+				break;
+			case ROTATION:
+				location = armorStand.getLocation();
+				switch(player.getInventory().getHeldItemSlot()) {
+					case 1:
+						location.setYaw(location.getYaw() - 1);
+					case 2:
+						location.setYaw(location.getYaw() - 10);
+				}
+				armorStand.teleport(location);
 				break;
 			default:
 				break;

@@ -13,6 +13,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 
@@ -26,7 +27,7 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(!sender.hasPermission("all.armorstand")) return true;
+		if(!PermissionHelper.hasPermission(sender, "armorstand")) return true;
 		if(!(sender instanceof Player)) return true;
 		
 		Player p = (Player) sender;

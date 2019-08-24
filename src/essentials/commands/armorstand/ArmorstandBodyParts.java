@@ -7,5 +7,6 @@ public enum ArmorstandBodyParts {
 	RIGHT_ARM,
 	LEFT_LEG,
 	RIGHT_LEG,
-	POSITION
+	POSITION,
+	ROTATION,
 }

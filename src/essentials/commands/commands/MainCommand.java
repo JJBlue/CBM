@@ -1,6 +1,7 @@
 package essentials.commands.commands;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +34,7 @@ import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MapPaint;
 import essentials.listeners.chair.chair;
 import essentials.main.Main;
+import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
@@ -41,7 +43,6 @@ import essentials.pluginmanager.DisableEnable;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
-import essentials.utilities.SignUtilities;
 import essentials.utilities.StringUtilities;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
@@ -57,11 +58,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			return false;
 		
 		args[0] = args[0].toLowerCase();
+		if(!PermissionHelper.hasPermission(sender, args[0])) return true;
 		
 		switch (args[0]) {
 			case "afk":
-				
-				if(!sender.hasPermission("all.afk")) return true;
 				
 				Player p1 = null;
 				
@@ -85,7 +85,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				return ArmorstandCommands.armorstandCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 		
 			case "blockname":
-				if(!sender.hasPermission("all.blockname")) return true;
 				
 				if(sender instanceof Player)
 					p.sendMessage(p.getLocation().getBlock().getType() + "");
@@ -93,8 +92,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "book":
-				
-				if(p == null || !sender.hasPermission("all.block")) return true;
 				
 				ItemStack is = p.getInventory().getItemInMainHand();
 				if(is == null || is.getType().equals(Material.AIR) || !is.getType().equals(Material.WRITTEN_BOOK)) return true;
@@ -105,7 +102,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "burn":
 				
-				if(args.length < 2 || !sender.hasPermission("all.burn")) return true;
+				if(args.length < 2) return true;
 				p1 = (Player) Bukkit.getPlayer(args[1]);
 				if(p1 == null) return true;
 				p1.setFireTicks(Integer.parseInt(args[2]));
@@ -113,8 +110,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "broadcast":
-				
-				if(!sender.hasPermission("all.broadcast")) return true;
 				
 				String msg = null;
 				for(int i = 1; i < args.length; i++){
@@ -129,15 +124,8 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
-			case "fs":
-				
-				SignUtilities.openFakeSign(p, Material.OAK_SIGN, p.getLocation(), new String[] {"§khi", "§4Buh", "--", "??"});
-				
-				break;
-				
 			case "feed":
 				
-				if(!sender.hasPermission("all.feed")) return true;
 				p1 = null;
 					
 				if(args.length >= 2) {
@@ -163,7 +151,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "fly":
 				
-				if(!sender.hasPermission("all.fly")) return true;
 				p1 = null;
 				
 				if(args.length >= 1) p1 = Bukkit.getPlayer(args[1]);
@@ -175,7 +162,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "head":
-				if(p == null || !sender.hasPermission("all.armor.head")) return true;
+				if(p == null) return true;
 				
 				is = p.getInventory().getItemInMainHand();
 				if(is == null || is.getType().equals(Material.AIR)) return true;
@@ -188,7 +175,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "jump":
 				
-				if(p == null || !sender.hasPermission("all.jump")) return true;
+				if(p == null) return true;
 				
 				Block b = p.getTargetBlock(null, Integer.MAX_VALUE);
 				if(b == null) return true;
@@ -212,7 +199,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "chestplate":
 				
-				if(p == null || !sender.hasPermission("all.armor.chestplate")) return true;
+				if(p == null) return true;
 				
 				is = p.getInventory().getItemInMainHand();
 				if(is == null || is.getType().equals(Material.AIR)) return true;
@@ -225,7 +212,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "legging":
 				
-				if(p == null || !sender.hasPermission("all.armor.legging")) return true;
+				if(p == null) return true;
 				
 				is = p.getInventory().getItemInMainHand();
 				if(is == null || is.getType().equals(Material.AIR)) return true;
@@ -237,8 +224,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "lightning":
-				
-				if(!sender.hasPermission("all.lightning")) return true;
 				
 				if(args.length == 1) {
 					if(p == null) return true;
@@ -258,7 +243,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "boot":
 				
-				if(!sender.hasPermission("all.boot")) return true;
 				if(p == null) return true;
 				
 				is = p.getInventory().getItemInMainHand();
@@ -271,8 +255,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "heal":
-				
-				if(!sender.hasPermission("all.heal")) return true;
 				
 				if(args.length >= 2) {
 					p1 = Bukkit.getPlayer(args[1]);
@@ -296,8 +278,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "hide":
-				
-				if(!sender.hasPermission("all.hide")) return true;
 				
 				p1 = null;
 				if(args.length <= 1) p1 = p;
@@ -324,7 +304,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "itemdb":
 				
-				if(p == null || !sender.hasPermission("all.itemdb")) return true;
+				if(p == null) return true;
 				
 				is = p.getInventory().getItemInMainHand();
 				p.sendMessage("Item: §4" + is.getType());
@@ -336,87 +316,84 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
 				
-				case "more":
+			case "more":
+				
+				if(p == null) return true;
+				
+				is = p.getInventory().getItemInMainHand();
+				if(is == null || is.getType().equals(Material.AIR)) return true;
+				
+				if(args.length == 1)
+					is.setAmount(64);
+				else if(args.length == 2)
+					try{
+						is.setAmount(Integer.parseInt(args[0]));
+					}catch(NumberFormatException nfe){
+						sender.sendMessage("§4" + args[0] + " ist keine Zahl");
+					}
+				
+				break;
+				
+			case "mute":
+				
+				if(args.length >= 2){
+					p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
+					if(p1 == null) return true;
 					
-					if(p == null || !sender.hasPermission("all.more")) return true;
+					PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
 					
-					is = p.getInventory().getItemInMainHand();
-					if(is == null || is.getType().equals(Material.AIR)) return true;
-					
-					if(args.length == 1)
-						is.setAmount(64);
-					else if(args.length == 2)
-						try{
-							is.setAmount(Integer.parseInt(args[0]));
-						}catch(NumberFormatException nfe){
-							sender.sendMessage("§4" + args[0] + " ist keine Zahl");
-						}
-					
-					break;
-					
-				case "mute":
-					
-					if(!sender.hasPermission("all.mute")) return true;
-					
-					if(args.length >= 2){
-						p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
-						if(p1 == null) return true;
-						
-						PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
-						
-						if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
-							playerConfig.set(PlayerConfigKey.tMute, true);
-							sender.sendMessage(p1.getName() + " wurde gemutet");
-							p1.sendMessage("Du wurdest gemutet");
-						} else {
-							playerConfig.set(PlayerConfigKey.tMute, false);
-							sender.sendMessage(p1.getName() + " wurde entmutet");
-							p1.sendMessage("Du wurdest entmutet");
-						}
+					if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
+						playerConfig.set(PlayerConfigKey.tMute, true);
+						sender.sendMessage(p1.getName() + " wurde gemutet");
+						p1.sendMessage("Du wurdest gemutet");
 					} else {
-						sender.sendMessage("Es sind folgende Spieler gemutet:");
-						
-						//TODO
+						playerConfig.set(PlayerConfigKey.tMute, false);
+						sender.sendMessage(p1.getName() + " wurde entmutet");
+						p1.sendMessage("Du wurdest entmutet");
 					}
+				} else {
+					sender.sendMessage("Es sind folgende Spieler gemutet:");
 					
-					break;
-					
-				case "nametag":
-					
-					if(args.length < 2 || !sender.hasPermission("all.nametag")) break;
-					
-					if(args[1].equalsIgnoreCase("true"))
-						nt.setNameTag(true);
-					else if(args[1].equalsIgnoreCase("false"))
-						nt.setNameTag(false);
-					
-					break;
-					
-				case "near":
-					
-					if(p == null || !sender.hasPermission("all.near")) return true;
-					
-					for(Entity e : p.getNearbyEntities(500, 500, 500)){
-						if(e instanceof Player)
-							sender.sendMessage(e.getName() + ": " + e.getLocation().distance(p.getLocation()));
-					}
-					
-					break;
-					
-				case "paint":
-					
-					if(args.length < 2 || !sender.hasPermission("all.paint")) break;
-					MapPaint.addPainting(p, args[1]);
-					
-					break;
-					
-				case "pluginmanager":
-					
-					return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					//TODO
+				}
+				
+				break;
+				
+			case "nametag":
+				
+				if(args.length < 2) break;
+				
+				if(args[1].equalsIgnoreCase("true"))
+					nt.setNameTag(true);
+				else if(args[1].equalsIgnoreCase("false"))
+					nt.setNameTag(false);
+				
+				break;
+				
+			case "near":
+				
+				if(p == null) return true;
+				
+				for(Entity e : p.getNearbyEntities(500, 500, 500)){
+					if(e instanceof Player)
+						sender.sendMessage(e.getName() + ": " + e.getLocation().distance(p.getLocation()));
+				}
+				
+				break;
+				
+			case "paint":
+				
+				if(args.length < 2) break;
+				MapPaint.addPainting(p, args[1]);
+				
+				break;
+				
+			case "pluginmanager":
+				
+				return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "reload":
 				
-				if(!sender.hasPermission("all.reload")) return true;
 				Main.Loading();
 				sender.sendMessage("§aReload complete!");
 				
@@ -424,14 +401,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "silent":
 				
-				if(!sender.hasPermission("all.silent")) return true;
 				Bukkit.dispatchCommand(new SudoPlayer(sender).setSilentOutputMessage(true), StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
 				
 				break;
 				
 			case "sit":
 				
-				if(!sender.hasPermission("all.sit")) return true;
 				if(p == null) return false;
 				
 				if(chair.toggle(p))
@@ -446,8 +421,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				return SignCommands.signCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "speed":
-				
-				if(!sender.hasPermission("all.speed")) return true;
 				
 				if(args.length == 2) {
 					if(p == null) return true;
@@ -479,8 +452,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "sudo":
 				
-				if(!sender.hasPermission("all.sudo")) return true;
-				
 				if(args[1].equalsIgnoreCase("§4Server")) {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
 				} else {
@@ -506,7 +477,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "uuid":
-				if(args.length < 2 || !sender.hasPermission("all.uuid")) break;
+				if(args.length < 2) break;
 				
 				OfflinePlayer player = PlayerUtilities.getOfflinePlayer(args[1]);
 				UUID uuid = player.getUniqueId();
@@ -515,8 +486,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "wallghost":
-				
-				if(!sender.hasPermission("all.wallghost")) return true;
 				
 				if(args.length <= 1) {
 					if(FTB.toogle(p))
@@ -536,7 +505,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "random":
-				if(args.length < 3 || !sender.hasPermission("all.random")) break;
+				if(args.length < 3) break;
 				
 				int amount = Integer.parseInt(args[1]);
 				LinkedList<Integer> pl = new LinkedList<>();
@@ -575,8 +544,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "repair":
 				
-				if(!sender.hasPermission("all.repair")) return true;
-				
 				if(args.length <= 1) {
 					if(p == null) return true;
 					is = p.getInventory().getItemInMainHand();
@@ -599,7 +566,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1 || !sender.hasPermission("all.all")) return null;
+		if(args.length < 1) return null;
 		
 		List<String> returnArguments = new LinkedList<>();
 		
@@ -643,7 +610,13 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("uuid");
 			returnArguments.add("wallGhost");
 			
-		} else {
+			Iterator<String> it = returnArguments.iterator();
+			while(it.hasNext()) {
+				if(!PermissionHelper.hasPermission(sender, it.next()))
+					it.remove();
+			}
+			
+		} else { // I know that I tested here the permission never -> But then he know the first arguement, I think he knows the rest...
 			switch (args[0]) {
 				case "burn":
 				case "more":

@@ -7,7 +7,6 @@ api-version: 1.13
 commands:
      all:
           description: allgemein
-          permission: all.use
      trol:
           description: Trol Plugin
           permission: trol.all

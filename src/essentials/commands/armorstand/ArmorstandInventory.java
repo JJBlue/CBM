@@ -97,12 +97,13 @@ public class ArmorstandInventory {
 		
 		List<String> usage = new LinkedList<>();
 		usage.add("<Cause> <Selected Slot>: <Result>");
-		usage.add("Hit 0: x + 1");
-		usage.add("Hit 1: y + 1");
-		usage.add("Hit 2: z + 1");
-		usage.add("Hit 4: x + 10");
-		usage.add("Hit 5: y + 10");
-		usage.add("Hit 6: z + 10");
+		usage.add("Hit 0: x - 1");
+		usage.add("Hit 1: y - 1");
+		usage.add("Hit 2: z - 1");
+		usage.add("Hit 4: x - 10");
+		usage.add("Hit 5: y - 10");
+		usage.add("Hit 6: z - 10");
+		usage.add("Place <Slot>: [x,y,z] + <see above>");
 		usage.add("Drop: Exit");
 		usage.add("§4Warning this deaktivate Marker");
 		
@@ -190,6 +191,25 @@ public class ArmorstandInventory {
 			event.setCancelled(true);
 		});
 		
+		InventoryItem rotation = new InventoryItem(Material.ARROW);
+		rotation.setDisplayName("Rotation");
+		usage.clear();
+		usage.add("Hit 1: rotation - 1");
+		usage.add("Place 1: rotation + 1");
+		usage.add("Hit 2: rotation - 10");
+		usage.add("Place 2: rotation + 10");
+		usage.add("Drop: Exit");
+		usage.add("§4Warning this deaktivate Marker");
+		rotation.setLore(usage);
+		rotation.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.ROTATION);
+			armorstand.setMarker(false);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
 		InventoryItem nothing = new InventoryItem(Material.GRAY_STAINED_GLASS_PANE);
 		nothing.setOnClick((event, item) -> event.setCancelled(true));
 		
@@ -256,7 +276,7 @@ public class ArmorstandInventory {
 		page.addItem(49, leftLeg);
 		page.addItem(50, rightLeg);
 		page.addItem(51, position);
-		page.addItem(52, nothing);
+		page.addItem(52, rotation);
 		page.addItem(53, nothing);
 		
 		factory.setOnClick((event, item) -> {
