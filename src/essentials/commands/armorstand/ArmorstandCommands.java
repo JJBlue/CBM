@@ -1,7 +1,10 @@
 package essentials.commands.armorstand;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,6 +52,21 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 				
 				break;
 				
+			case "use":
+
+				if(args.length < 2) break;
+				
+				Entity entity = Bukkit.getEntity(UUID.fromString(args[1]));
+				if(!(entity instanceof ArmorStand)) break;
+				armorStand = (ArmorStand) entity;
+				
+				new ArmorstandInventory(armorStand).openInventory(p);
+				
+				config = PlayerManager.getPlayerConfig(p);
+				config.set("armorstandEditor", armorStand, false, true);
+				
+				break;
+				
 			case "last":
 				
 				config = PlayerManager.getPlayerConfig(p);
@@ -59,7 +77,6 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 				break;
 				
 			case "lookAt":
-				
 				break;
 		}
 		
@@ -68,10 +85,35 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		List<String> returnArguments = new LinkedList<>();
 		
+		if(args.length == 1) {
+			returnArguments.add("near");
+			returnArguments.add("last");
+			returnArguments.add("use");
+			
+		} else {
+			switch (args[0].toLowerCase()) {
+				case "use":
+					if(!(sender instanceof Player)) break;
+					
+					for(Entity entity : ((Player) sender).getNearbyEntities(20, 20, 20)) {
+						if(entity instanceof ArmorStand)
+							returnArguments.add(entity.getUniqueId().toString());
+					}
+				
+				default:
+					break;
+			}
+		}
 		
+		returnArguments.removeIf(s -> !s.startsWith(args[args.length - 1]));
 		
-		return null;
+		returnArguments.sort((s1, s2) -> {
+			return s1.compareTo(s2);
+		});
+		
+		return returnArguments;
 	}
 
 }
