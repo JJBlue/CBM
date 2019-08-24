@@ -628,6 +628,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					
 					return ArmorstandCommands.armorstandCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
+				case "book":
+					
+					return bookCommand.bookcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
 				case "silent":
 					
 					returnArguments = BukkitUtilities.getAvailableCommands(sender);
