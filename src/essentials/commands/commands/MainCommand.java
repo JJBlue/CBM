@@ -28,6 +28,7 @@ import essentials.commands.armorstand.ArmorstandCommands;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
 import essentials.commands.trade.TradeCommands;
+import essentials.config.MainConfig;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MapPaint;
@@ -389,6 +390,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "reload":
 				
+				MainConfig.reload();
 				Main.Loading();
 				sender.sendMessage("§aReload complete!");
 				

@@ -21,7 +21,6 @@ public class MainConfig {
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		configuration.options().copyDefaults(true);
 		
-		System.out.println(Main.getPlugin().getDataFolder().getAbsolutePath());
 		configuration.addDefault(MainConfigEnum.DataFolder.value, ".\\plugins\\" + Main.getPlugin().getName() + "\\");
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
 		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll");
