@@ -12,6 +12,7 @@ import essentials.commands.commandonobject.CommandDruckplatten;
 import essentials.commands.commandonobject.CommandListener;
 import essentials.commands.commands.MainCommand;
 import essentials.commands.commands.bookCommand;
+import essentials.commands.commandspy.CommandSpyListener;
 import essentials.commands.post.Post;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.TeleportListener;
@@ -41,7 +42,7 @@ public class Main extends JavaPlugin implements Listener{
 		MainConfig.reload();
 		
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
-		Bukkit.getPluginManager().registerEvents(new DeopBan(), this);
+		Bukkit.getPluginManager().registerEvents(new Deop(), this);
 		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CommandsEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerMapListener(), this);
@@ -59,6 +60,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TradeListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ArmorstandListener(), this);
+		Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
 		
 		{
 			MainCommand mainCommand = new MainCommand();
@@ -93,7 +95,7 @@ public class Main extends JavaPlugin implements Listener{
 			else if(cmd.getName().equalsIgnoreCase("cv"))
 				ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
 			else if(cmd.getName().equalsIgnoreCase("oplist"))
-				DeopBan.onOpList(sender, cmd, cmdLabel, args);
+				Deop.onOpList(sender, cmd, cmdLabel, args);
 		}
 		
 		return false;

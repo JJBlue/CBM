@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import essentials.config.MainConfig;
 import essentials.utilities.PlayerUtilities;
 
-public class DeopBan implements Listener{
+public class Deop implements Listener{
     @EventHandler
     public void command(PlayerCommandPreprocessEvent e) {
     	Player player = e.getPlayer();

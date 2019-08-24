@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 import essentials.commands.NameTag.nt;
 import essentials.commands.armorstand.ArmorstandCommands;
+import essentials.commands.commandspy.CommandSpy;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
 import essentials.commands.trade.TradeCommands;
@@ -119,6 +120,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					Bukkit.broadcastMessage(msg);
 				
 				break;
+				
+			case "commandspy":
+				
+				return CommandSpy.commandSpy.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "feed":
 				
@@ -575,6 +580,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("book");
 			returnArguments.add("burn");
 			returnArguments.add("broadcast");
+			returnArguments.add("commandspy");
 			returnArguments.add("chestplate");
 			returnArguments.add("fly");
 			returnArguments.add("feed");
@@ -633,6 +639,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				case "book":
 					
 					return bookCommand.bookcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "commandspy":
+					
+					return CommandSpy.commandSpy.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "silent":
 					
