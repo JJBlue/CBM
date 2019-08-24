@@ -1,9 +1,7 @@
 package essentials.main;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import essentials.config.MainConfig;
+import essentials.utilities.PlayerUtilities;
 
 public class DeopBan implements Listener{
     @EventHandler
@@ -29,12 +28,15 @@ public class DeopBan implements Listener{
     	List<String> list = MainConfig.getOperators();
     	StringBuilder builder = new StringBuilder();
     	builder.append("###### Operators ######\n");
+    	boolean start = true;
     	
     	for(String uuid : list) {
-    		if(builder.length() != 0)
+    		if(!start)
     			builder.append(", ");
+    		else
+    			start = false;
     		
-    		OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
+    		OfflinePlayer player = PlayerUtilities.getOfflinePlayerFromUUID(uuid);
     		if(player != null)
     			builder.append(player.getName());
     		else

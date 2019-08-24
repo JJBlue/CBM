@@ -1,5 +1,7 @@
 package essentials.utilities;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -9,21 +11,13 @@ public class PlayerUtilities {
 		return Bukkit.getOfflinePlayer(name);
 	}
 	
-//	public static void sendChatMessage(Player p, String Text, HoverEvent.Action hoverAction, String HoverText, ClickEvent.Action action, String Command) {
-//		TextComponent message = new TextComponent(Text);
-//
-//		if (Command != null)
-//			message.setClickEvent(new ClickEvent(action, Command));
-//		if (HoverText != null)
-//			message.setHoverEvent(new HoverEvent(hoverAction, new ComponentBuilder(HoverText).create()));
-//		
-//		p.spigot().sendMessage(message);
-//	}
-	
-//	public static void createClickHoverMessage(Player player, String message, String hoverbalmessage, String hover, String command) {
-//		Bukkit.broadcastMessage("{\"text\":\"" + message + "\",\"extra\":[{\"text\":\"" + hoverbalmessage + "\",\"hoverEvent\":{\"action\":\"show_text\", \"value\":\"" + hover + "\"},\"clickEvent\":{\"action\":\"run_command\":\"value\":\"/" + command + "\"}}]}");
-//		IChatBaseComponent chat = ChatSerializer.a("{\"text\":\"" + message + "\",\"extra\":[{\"text\":\"" + hoverbalmessage + "\",\"hoverEvent\":{\"action\":\"show_text\", \"value\":\"" + hover + "\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/" + command + "\"}}]}");
-//		PacketPlayOutChat packet = new PacketPlayOutChat(chat);
-//		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-//	}
+	public static OfflinePlayer getOfflinePlayerFromUUID(String uuidString) {
+		UUID uuid = null;
+		try {
+			uuid = UUID.fromString(uuidString);
+		} catch (IllegalArgumentException e) {}
+		
+		if(uuid == null) return null;
+		return Bukkit.getOfflinePlayer(uuid);
+	}
 }

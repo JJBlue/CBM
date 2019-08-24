@@ -2,7 +2,6 @@ package essentials.main;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -15,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import essentials.config.MainConfig;
+import essentials.utilities.PlayerUtilities;
 
 public class Join implements Listener{
 	private static ArrayList<String> tempPlayer = new ArrayList<String>();
@@ -75,27 +75,29 @@ public class Join implements Listener{
 				
 				if(!list.isEmpty()){
 					StringBuilder builder = new StringBuilder();
+					boolean start = true;
 					
 					for(String uuid : list) {
-						if(builder.length() != 0)
-							builder.append(", " + uuid);
+						if(!start)
+			    			builder.append(", ");
+			    		else
+			    			start = false;
 						
-						OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
+						OfflinePlayer player = PlayerUtilities.getOfflinePlayerFromUUID(uuid);
 						if(player != null)
-							builder.append(uuid);
+							builder.append(player.getName());
 						else
 							builder.append("§4" + uuid);
 					}
 					
 					sender.sendMessage(builder.toString());
-				}else{
+				}else
 					sender.sendMessage("§4Liste ist leer");
-				}
+				
 			}else if(args[1].equalsIgnoreCase("clear")){
 				if(!tempPlayer.isEmpty()){
-					for(String s : tempPlayer){
+					for(String s : tempPlayer)
 						tempPlayer.remove(s);
-					}
 					
 					sender.sendMessage("Alle tempPlayers wurden gel$scht!");
 				}

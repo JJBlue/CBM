@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,14 +25,13 @@ import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 
 public class CommandDruckplatten implements CommandExecutor, TabCompleter {
-	public final static List<Material> Materials;
 	public final static CommandDruckplatten commandDruckplatten;
 	
 	static {
-		Materials = new LinkedList<Material>();
 		commandDruckplatten = new CommandDruckplatten();
 	}
 	
+	//TODO -> worlds.database
 	public static File CDfile(String world) {
 		return new File("plugins/Allgemein/Commandsblock", world + ".yml");
 	}
@@ -47,20 +45,6 @@ public class CommandDruckplatten implements CommandExecutor, TabCompleter {
 		try {
 			fileConf.save(CDfile(world));
 		} catch (IOException e) {}
-	}
-	
-	public static void load() {
-		Materials.clear();
-		
-		Materials.add(Material.ACACIA_PRESSURE_PLATE);
-		Materials.add(Material.BIRCH_PRESSURE_PLATE);
-		Materials.add(Material.DARK_OAK_PRESSURE_PLATE);
-		Materials.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
-		Materials.add(Material.JUNGLE_PRESSURE_PLATE);
-		Materials.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
-		Materials.add(Material.OAK_PRESSURE_PLATE);
-		Materials.add(Material.SPRUCE_PRESSURE_PLATE);
-		Materials.add(Material.STONE_PRESSURE_PLATE);
 	}
 	
 	//MoveEvent Listener ist im MoveEvents

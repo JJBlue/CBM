@@ -100,11 +100,9 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	public static void Loading() {
-		CommandDruckplatten.load();
 		ChatVerbesserung.Load();
 		bookCommand.saveDefaultBook();
 		Post.Load();
-		noHunger.onLoad();
 	}
 
 	public static JavaPlugin getPlugin() {
