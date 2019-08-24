@@ -36,7 +36,7 @@ public class SignUtilities {
 	
 	public static void openSign(Player player, Location location) {
 		if(!location.getBlock().getType().name().toLowerCase().contains("sign")) return; //Ansonsten stuerzt Minecraft beim Spieler ab
-		openSign(player, location);
+		openSignWithoutCheck(player, location);
 	}
 	
 	public static void openSignWithoutCheck(Player player, Location location) {
@@ -46,14 +46,6 @@ public class SignUtilities {
 	
 	public static void openFakeSign(Player player, Material material, Location location, String[] lines) {
 		if(!material.name().toLowerCase().contains("sign")) return;
-	    
-//	    NBTTagCompound signNbt = new NBTTagCompound();
-//	    signNbt.setString("Text1", "{\"text\":\"" + line1 + "\"}");
-//	    signNbt.setString("Text2", "{\"text\":\"" + line2 + "\"}");
-//	    signNbt.setString("Text3", "{\"text\":\"" + line3 + "\"}");
-//	    signNbt.setString("Text4", "{\"text\":\"" + line4 + "\"}");
-//	    PacketPlayOutTileEntityData data = new PacketPlayOutTileEntityData(pos, 9, signNbt);
-//	    ((CraftPlayer) player).getHandle().playerConnection.sendPacket(data);
 	    
 	    player.sendBlockChange(location, material.createBlockData());
 	    player.sendSignChange(location, lines);
