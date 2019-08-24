@@ -12,7 +12,7 @@ import essentials.commands.armorstand.ArmorstandListener;
 import essentials.commands.commandonobject.CommandDruckplatten;
 import essentials.commands.commandonobject.CommandListener;
 import essentials.commands.commands.MainCommand;
-import essentials.commands.commands.book;
+import essentials.commands.commands.bookCommand;
 import essentials.commands.post.Post;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.TeleportListener;
@@ -93,8 +93,6 @@ public class Main extends JavaPlugin implements Listener{
 				ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
 			else if(cmd.getName().equalsIgnoreCase("oplist"))
 				DeopBan.onOpList(sender, cmd, cmdLabel, args);
-	    	else if(cmd.getName().equalsIgnoreCase("sb"))
-				book.onSignBook(sender, cmd, cmdLabel, args);
 		}
 		
 		return false;
@@ -104,7 +102,7 @@ public class Main extends JavaPlugin implements Listener{
 		CommandDruckplatten.load();
 		ChatVerbesserung.Load();
 		DeopBan.opCon();
-		book.Load();
+		bookCommand.saveDefaultBook();
 		Post.Load();
 		noHunger.onLoad();
 		Join.load();

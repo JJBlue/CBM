@@ -93,12 +93,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "book":
 				
-				ItemStack is = p.getInventory().getItemInMainHand();
-				if(is == null || is.getType().equals(Material.AIR) || !is.getType().equals(Material.WRITTEN_BOOK)) return true;
-				
-				is.setType(Material.WRITABLE_BOOK);
-				
-				break;
+				return bookCommand.bookcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "burn":
 				
@@ -164,7 +159,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			case "head":
 				if(p == null) return true;
 				
-				is = p.getInventory().getItemInMainHand();
+				ItemStack is = p.getInventory().getItemInMainHand();
 				if(is == null || is.getType().equals(Material.AIR)) return true;
 				
 				ItemStack tmp = p.getInventory().getHelmet();

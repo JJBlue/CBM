@@ -18,9 +18,6 @@ commands:
           permission: ChatV.use
      cos:
           description: CommandonBlocks
-     sb:
-          description: Sign Book
-          permission: sb.use
      post:
           description: Post/Chest open
           permission: post.use

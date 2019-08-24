@@ -20,7 +20,7 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(!(sender instanceof Player) || !sender.hasPermission("all.inventory.*")) return true;
+		if(!(sender instanceof Player)) return true;
 		if(args.length < 1) return true;
 		
 		Player p = (Player) sender;
