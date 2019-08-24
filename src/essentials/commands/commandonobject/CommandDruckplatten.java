@@ -18,7 +18,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import essentials.commands.CommandAusfuehren;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
@@ -285,22 +284,8 @@ public class CommandDruckplatten implements CommandExecutor, TabCompleter {
 		
 		if(fileConf.getList(s) != null){
 			l = (ArrayList<String>) fileConf.getList(s);
-			for(String s2 : l){
-				String s3 = s2;
-				s3 = s3.replaceAll("@p", p.getName());
-				s3 = s3.replaceAll("@w", p.getWorld().getName());
-				
-				if(s3.contains("@a")) {
-					String oldstring = s3;
-				
-					for(Player players : Bukkit.getOnlinePlayers()){
-						s3 = oldstring;
-						String s4 = s3.replace("@a", players.getName());
-						CommandAusfuehren.commandstart(s4, p);
-					}
-				} else
-					CommandAusfuehren.commandstart(s3, p);
-			}
+			for(String s2 : l)
+				CommandAusfuehren.Command(p, s2);
 		}
 	}
 }
