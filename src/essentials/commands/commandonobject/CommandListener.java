@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import essentials.main.CommandAusfuehren;
+import essentials.commands.CommandAusfuehren;
 
 public class CommandListener implements Listener{
 	

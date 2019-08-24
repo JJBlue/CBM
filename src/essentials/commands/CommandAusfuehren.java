@@ -1,4 +1,4 @@
-package essentials.main;
+package essentials.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

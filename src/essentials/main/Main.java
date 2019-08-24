@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import essentials.ChatVerbesserung.ChatVerbesserung;
-import essentials.commands.JoinAdmin.Join;
 import essentials.commands.armorstand.ArmorstandListener;
 import essentials.commands.commandonobject.CommandDruckplatten;
 import essentials.commands.commandonobject.CommandListener;
@@ -20,6 +19,7 @@ import essentials.commands.timerplus.Timerplus;
 import essentials.commands.trade.TradeListener;
 import essentials.commands.trolling.BlockClick;
 import essentials.commands.trolling.TrolCommands;
+import essentials.config.MainConfig;
 import essentials.inventory.InventoryListener;
 import essentials.listeners.ColorListener;
 import essentials.listeners.CommandsEvents;
@@ -27,7 +27,6 @@ import essentials.listeners.noHunger;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.PlayerMapListener;
 import essentials.listeners.chair.chair;
-import essentials.operator.DeopBan;
 import essentials.player.PlayerListener;
 import essentials.pluginmanager.DisableEnable;
 
@@ -38,6 +37,8 @@ public class Main extends JavaPlugin implements Listener{
 	public void onEnable() {
 		plugin = this;
 		System.out.println("[All] wurde gestartet");
+		
+		MainConfig.reload();
 		
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
 		Bukkit.getPluginManager().registerEvents(new DeopBan(), this);
@@ -101,11 +102,9 @@ public class Main extends JavaPlugin implements Listener{
 	public static void Loading() {
 		CommandDruckplatten.load();
 		ChatVerbesserung.Load();
-		DeopBan.opCon();
 		bookCommand.saveDefaultBook();
 		Post.Load();
 		noHunger.onLoad();
-		Join.load();
 	}
 
 	public static JavaPlugin getPlugin() {

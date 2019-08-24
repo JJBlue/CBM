@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import essentials.config.MainConfig;
+
 public class bookCommand implements CommandExecutor, TabCompleter {
 	public final static bookCommand bookcommand;
 	
@@ -23,7 +25,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 		bookcommand = new bookCommand();
 	}
 	
-	private final static String filePath = "./plugins/Allgemein/books/";
+	private final static String filePath = MainConfig.getDataFolder() + "books/";
 	
 	//TODO commans in book
 	

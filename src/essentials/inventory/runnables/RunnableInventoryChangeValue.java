@@ -1,7 +1,5 @@
 package essentials.inventory.runnables;
 
-import org.bukkit.event.inventory.InventoryEvent;
-
 import essentials.inventory.itemtypes.InventoryObjectField;
 
 public interface RunnableInventoryChangeValue<T> {

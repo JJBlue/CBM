@@ -23,7 +23,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.commands.JoinAdmin.Join;
 import essentials.commands.NameTag.nt;
 import essentials.commands.armorstand.ArmorstandCommands;
 import essentials.commands.skull.Skullitem;
@@ -33,6 +32,7 @@ import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MapPaint;
 import essentials.listeners.chair.chair;
+import essentials.main.Join;
 import essentials.main.Main;
 import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
