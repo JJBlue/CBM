@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import essentials.ChatVerbesserung.ChatVerbesserung;
 import essentials.commands.JoinAdmin.Join;
+import essentials.commands.armorstand.ArmorstandListener;
 import essentials.commands.commandonobject.CommandDruckplatten;
 import essentials.commands.commandonobject.CommandListener;
 import essentials.commands.commands.MainCommand;
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TradeListener(), this);
+		Bukkit.getPluginManager().registerEvents(new ArmorstandListener(), this);
 		
 		{
 			MainCommand mainCommand = new MainCommand();

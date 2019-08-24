@@ -1,5 +1,8 @@
 package essentials.commands.armorstand;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -11,6 +14,8 @@ import essentials.inventory.InventoryItem;
 import essentials.inventory.InventoryPage;
 import essentials.inventory.itemtypes.InventoryItemTypes;
 import essentials.inventory.itemtypes.InventoryObjectField;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
 
 public class ArmorstandInventory {
 	private final ArmorStand armorstand;
@@ -90,6 +95,93 @@ public class ArmorstandInventory {
 			event.setCancelled(true);
 		});
 		
+		List<String> usage = new LinkedList<>();
+		usage.add("<Cause> <Selected Slot>: <Result>");
+		usage.add("Hit 0: x + 1");
+		usage.add("Hit 1: y + 1");
+		usage.add("Hit 2: z + 1");
+		usage.add("Hit 4: x + 10");
+		usage.add("Hit 5: y + 10");
+		usage.add("Hit 6: z + 10");
+		usage.add("Drop: Exit");
+		
+		InventoryItem head = new InventoryItem(Material.PLAYER_HEAD);
+		head.setDisplayName("Move Head");
+		head.setLore(usage);
+		head.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.HEAD);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
+		InventoryItem body = new InventoryItem(Material.CHAINMAIL_CHESTPLATE);
+		body.setDisplayName("Move Body");
+		body.setLore(usage);
+		body.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.BODY);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
+		InventoryItem leftArm = new InventoryItem(Material.STICK);
+		leftArm.setDisplayName("Move Left Arm");
+		leftArm.setLore(usage);
+		leftArm.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_ARM);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
+		InventoryItem rightArm = new InventoryItem(Material.STICK);
+		rightArm.setDisplayName("Move Right Arm");
+		rightArm.setLore(usage);
+		rightArm.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_ARM);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
+		InventoryItem leftLeg = new InventoryItem(Material.DIAMOND_BOOTS);
+		leftLeg.setDisplayName("Move Left Leg");
+		leftLeg.setLore(usage);
+		leftLeg.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_LEG);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
+		InventoryItem rightLeg = new InventoryItem(Material.DIAMOND_BOOTS);
+		rightLeg.setDisplayName("Move Right Leg");
+		rightLeg.setLore(usage);
+		rightLeg.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_LEG);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
+		InventoryItem position = new InventoryItem(Material.ARMOR_STAND);
+		position.setDisplayName("Move Position");
+		position.setLore(usage);
+		position.setOnClick((event, item) -> {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorEnum", ArmorstandBodyParts.POSITION);
+			player.closeInventory();
+			event.setCancelled(true);
+		});
+		
 		InventoryItem nothing = new InventoryItem(Material.GRAY_STAINED_GLASS_PANE);
 		nothing.setOnClick((event, item) -> event.setCancelled(true));
 		
@@ -137,10 +229,27 @@ public class ArmorstandInventory {
 		page.addItem(34, nothing);
 		page.addItem(35, nothing);
 		
-		// 36 37 38 | 
+		// 36 37 38 | 39 40 41 42 43 44
 		page.addItem(36, nothing);
 		page.addItem(37, nothing);
 		page.addItem(38, nothing);
+		page.addItem(39, nothing);
+		page.addItem(40, head);
+		page.addItem(41, body);
+		page.addItem(42, leftArm);
+		page.addItem(43, rightArm);
+		page.addItem(34, nothing);
+		
+		// 45 46 47 48 49 50 51 52 53
+		page.addItem(45, nothing);
+		page.addItem(46, nothing);
+		page.addItem(47, nothing);
+		page.addItem(48, nothing);
+		page.addItem(49, leftLeg);
+		page.addItem(50, rightLeg);
+		page.addItem(51, nothing);
+		page.addItem(52, nothing);
+		page.addItem(53, nothing);
 		
 		factory.setOnClick((event, item) -> {
 			int slot = event.getSlot();
@@ -167,19 +276,7 @@ public class ArmorstandInventory {
 			}
 		});
 		
-//		armorstand.setLeftArmPose(new EulerAngle(x, y, z));
-//		armorstand.setLeftLegPose(arg0);
-//		armorstand.setHeadPose(arg0);
-//		armorstand.setBodyPose(arg0);
-//		armorstand.setRightArmPose(arg0);
-//		armorstand.setRightLegPose(arg0);
-//		Position
-		
 		factory.refreshPage();
 		factory.openInventory(player);
-	}
-	
-	private String shsaaa(EulerAngle angle) {
-		return angle.getX() + " " + angle.getY() + " " + angle.getZ();
 	}
 }
