@@ -23,12 +23,15 @@ public class SignUtilities {
 	}
 	
 	public static void openFakeSign(Player player, Material material, Location location, String[] lines) {
+		setFakeSign(player, material, location, lines);
+	    openSignWithoutCheck(player, location);
+	}
+	
+	public static void setFakeSign(Player player, Material material, Location location, String[] lines) {
 		if(!material.name().toLowerCase().contains("sign")) return;
 	    
 	    player.sendBlockChange(location, material.createBlockData());
 	    player.sendSignChange(location, lines);
-
-	    openSignWithoutCheck(player, location);
 	}
 	
 	public static void openSign(Player player) {

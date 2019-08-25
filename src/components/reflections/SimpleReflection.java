@@ -67,13 +67,13 @@ public class SimpleReflection {
 		for(int i = 0; i < objects.length; i++)
 			classes[i] = objects[i].getClass();
 		
-		for(Constructor<?> c : classy.getConstructors()) {
+		for(Constructor<?> c : constructors) {
 			boolean shouldContinue = false;
 			Parameter[] paramters = c.getParameters();
 			int best = 0;
 			
 			for(int i = 0; i < paramters.length; i++) {
-				Class<?> myClass = classes[i];
+				Class<?> myClass = getDataTypesSuperclass(classes[i]);
 				Class<?> paramClass = paramters[i].getType();
 				
 				if(!paramClass.isAssignableFrom(myClass)) {
@@ -144,7 +144,7 @@ public class SimpleReflection {
 			int best = 0;
 			
 			for(int i = 0; i < paramters.length; i++) {
-				Class<?> myClass = classes[i];
+				Class<?> myClass = getDataTypesSuperclass(classes[i]);
 				Class<?> paramClass = paramters[i].getType();
 				
 				if(!paramClass.isAssignableFrom(myClass)) {
@@ -172,6 +172,26 @@ public class SimpleReflection {
 		if(isStatic)
 			return bestFound.invoke(classy, objects);
 		return bestFound.invoke(obj, objects);
+	}
+	
+	public static Class<?> getDataTypesSuperclass(Class<?> myClass){
+		if(myClass == Integer.class)
+			return int.class;
+		else if(myClass == Byte.class)
+			return byte.class;
+		else if(myClass == Short.class)
+			return short.class;
+		else if(myClass == Long.class)
+			return long.class;
+		else if(myClass == Double.class)
+			return double.class;
+		else if(myClass == Float.class)
+			return float.class;
+		else if(myClass == Boolean.class)
+			return boolean.class;
+		else if(myClass == Character.class)
+			return char.class;
+		return myClass;
 	}
 	
 	public static List<String> listAttributes(Object obj) {

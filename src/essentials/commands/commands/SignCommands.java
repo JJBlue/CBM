@@ -77,7 +77,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 					}
 					
 					String[] lines = parser(text.toString());
-					SignUtilities.openFakeSign(showPlayer, material, showPlayer.getLocation(), lines);
+					SignUtilities.setFakeSign(showPlayer, material, showPlayer.getLocation(), lines);
 				}
 				
 				break;
