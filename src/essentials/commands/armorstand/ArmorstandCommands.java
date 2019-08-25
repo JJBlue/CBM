@@ -27,7 +27,7 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(!PermissionHelper.hasPermission(sender, "armorstand")) return true;
+		if(args.length < 1 || !PermissionHelper.hasPermission(sender, "armorstand")) return true;
 		if(!(sender instanceof Player)) return true;
 		
 		Player p = (Player) sender;
@@ -36,11 +36,15 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 			case "near":
 				
 				ArmorStand armorStand = null;
+				double distance = -1;
 				
 				for(Entity entity : p.getNearbyEntities(20, 20, 20)) {
 					if(entity instanceof ArmorStand){
-						armorStand = (ArmorStand) entity;
-						break;
+						double dis = entity.getLocation().distance(p.getLocation());
+						if(dis < distance || distance < 0) {
+							distance = dis;
+							armorStand = (ArmorStand) entity;
+						}
 					}
 				}
 				
