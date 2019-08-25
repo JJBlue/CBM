@@ -8,10 +8,22 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import components.datenbank.Datenbank;
+import components.datenbank.Datenbanken;
+import essentials.config.MainConfig;
+
 public class PlayerManager {
 	private PlayerManager() {}
 	
-	static Map<UUID, PlayerConfig> players = Collections.synchronizedMap(new HashMap<>());
+	static Datenbank database;
+	static Map<UUID, PlayerConfig> players;
+	
+	static {
+		players = Collections.synchronizedMap(new HashMap<>());
+		
+		database = new Datenbank(null, null, MainConfig.getDataFolder() + "/players.db");
+		database.connect(Datenbanken.SQLLite);
+	}
 	
 	public static PlayerConfig getPlayerConfig(Player player) {
 		return getPlayerConfig(player.getUniqueId());
