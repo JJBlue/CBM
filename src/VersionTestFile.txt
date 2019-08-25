@@ -2,9 +2,6 @@ Classes Only for 1.14:
 
 	SudoPlayer:
 		commands: sudo, silent
-		
-	SignUtilities: //TODO moving
-		commands: sign
 
 Classes used Reflections:
 	# Must be checked each minecraft version
