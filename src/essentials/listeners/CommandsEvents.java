@@ -1,7 +1,5 @@
 package essentials.listeners;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
@@ -58,20 +55,8 @@ public class CommandsEvents implements Listener{
 	}
 	
 	@EventHandler
-	private void Quit(PlayerQuitEvent e){
-		Player p = e.getPlayer();
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.d)d HH:mm:ss");
-		playerConfig.set(PlayerConfigKey.logoutTime, df.format(new Date()));
-	}
-	
-	@EventHandler
 	private void login(PlayerJoinEvent e){
 		Player p = e.getPlayer();
-		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-		playerConfig.set(PlayerConfigKey.loginTime, df.format(new Date()));
 		
 //		if(fileConf.getBoolean("jail")) {
 //			//to jail TODO

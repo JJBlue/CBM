@@ -112,7 +112,7 @@ public class ArmorstandInventory {
 		head.setLore(usage);
 		head.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.HEAD);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -124,7 +124,7 @@ public class ArmorstandInventory {
 		body.setLore(usage);
 		body.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.BODY);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -136,7 +136,7 @@ public class ArmorstandInventory {
 		leftArm.setLore(usage);
 		leftArm.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_ARM);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -148,7 +148,7 @@ public class ArmorstandInventory {
 		rightArm.setLore(usage);
 		rightArm.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_ARM);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -160,7 +160,7 @@ public class ArmorstandInventory {
 		leftLeg.setLore(usage);
 		leftLeg.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_LEG);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -172,7 +172,7 @@ public class ArmorstandInventory {
 		rightLeg.setLore(usage);
 		rightLeg.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_LEG);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -184,7 +184,7 @@ public class ArmorstandInventory {
 		position.setLore(usage);
 		position.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.setTmp("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.POSITION);
 			armorstand.setMarker(false);
 			player.closeInventory();
@@ -203,7 +203,7 @@ public class ArmorstandInventory {
 		rotation.setLore(usage);
 		rotation.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true, false, true);
+			config.set("armorstandEditorListener", true);
 			config.set("armorstandEditorEnum", ArmorstandBodyParts.ROTATION);
 			armorstand.setMarker(false);
 			player.closeInventory();

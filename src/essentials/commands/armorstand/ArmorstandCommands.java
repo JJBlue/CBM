@@ -49,7 +49,7 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 				new ArmorstandInventory(armorStand).openInventory(p);
 				
 				PlayerConfig config = PlayerManager.getPlayerConfig(p);
-				config.set("armorstandEditor", armorStand, false, true);
+				config.setTmp("armorstandEditor", armorStand);
 				
 				break;
 				
@@ -64,7 +64,7 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 				new ArmorstandInventory(armorStand).openInventory(p);
 				
 				config = PlayerManager.getPlayerConfig(p);
-				config.set("armorstandEditor", armorStand, false, true);
+				config.setTmp("armorstandEditor", armorStand);
 				
 				break;
 				
