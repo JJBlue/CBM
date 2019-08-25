@@ -7,5 +7,5 @@ Classes Only for 1.14:
 		commands: sign
 
 Classes used Reflections:
-
-	ChatUtilitiesReflections
+	# Must be checked each minecraft version
+	# siehe package "utilitiesvr" (Utilities Versions and Reflections)

@@ -47,9 +47,9 @@ import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.chat.ChatUtilities;
-import essentials.utilities.chat.ChatUtilitiesReflections;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
+import essentials.utilitiesvr.chat.ChatUtilitiesReflections;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
