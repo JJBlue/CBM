@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import components.json.JSONArray;
 import components.json.JSONObject;
 import components.reflections.SimpleReflection;
-import essentials.utilities.ReflectionsUtilities;
+import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 
 public class ChatUtilitiesReflections {
@@ -25,11 +25,9 @@ public class ChatUtilitiesReflections {
 		mainJson.add("text", message);
 		mainJson.add("extra", array);
 		
-		ClassLoader classLoader = ChatUtilitiesReflections.class.getClassLoader();
-		
 		try {
 			Object chat = getIChatBaseComponent(mainJson.toJSONString());
-			Object packetPlayOutChat = SimpleReflection.createObject(classLoader.loadClass("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".PacketPlayOutChat"), chat);
+			Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), chat);
 			PlayerUtilitiesReflections.sendPacket(player, packetPlayOutChat);
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException | NoSuchFieldException e) {
 			e.printStackTrace();
@@ -40,8 +38,8 @@ public class ChatUtilitiesReflections {
 	public static void sendHotbarMessage(Player player, String message) {
         try {
         	Object IChatBaseComponent = getIChatBaseComponent("{\"text\": \"" + message + "\"}");
-        	Enum ChatMessageType = SimpleReflection.getEnum((Class<Enum>) Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".ChatMessageType"), "GAME_INFO");
-        	Object packetPlayOutChat = SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".PacketPlayOutChat"), IChatBaseComponent, ChatMessageType);
+        	Enum ChatMessageType = SimpleReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "GAME_INFO");
+        	Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), IChatBaseComponent, ChatMessageType);
         	
 			PlayerUtilitiesReflections.sendPacket(player, packetPlayOutChat);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException | ClassNotFoundException | InstantiationException e) {
@@ -50,7 +48,7 @@ public class ChatUtilitiesReflections {
 	}
 	
 	private static Object getIChatBaseComponent(String text) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Class<?> IChatBaseComponent = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".IChatBaseComponent$ChatSerializer", false, ChatUtilitiesReflections.class.getClassLoader());
+		Class<?> IChatBaseComponent = ReflectionsUtilities.getMCClass("IChatBaseComponent$ChatSerializer");
 		return SimpleReflection.callStaticMethod(IChatBaseComponent, "a", text);
 	}
 }

@@ -9,9 +9,8 @@ import org.bukkit.entity.Player;
 
 import components.reflections.SimpleReflection;
 import essentials.utilities.SignUtilities;
+import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
-import net.minecraft.server.v1_14_R1.BlockPosition;
-import net.minecraft.server.v1_14_R1.PacketPlayOutOpenSignEditor;
 
 public class SignUtilitiesReflections {
 	public static void editSign(Player player, Sign sign) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
@@ -35,19 +34,20 @@ public class SignUtilitiesReflections {
 	}
 	
 	public static void openSignWithoutCheck(Player player, Location location) {
-		PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ())); //TODO
 		try {
-			PlayerUtilitiesReflections.sendPacket(player, packet);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
+			Object BlockPosition = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("BlockPosition"), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+			Object PacketPlayOutOpenSignEditor = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutOpenSignEditor"), BlockPosition);
+			PlayerUtilitiesReflections.sendPacket(player, PacketPlayOutOpenSignEditor);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException | InstantiationException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static void openSign(Player player) {
-		PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor(); //TODO
 		try {
-			PlayerUtilitiesReflections.sendPacket(player, packet);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
+			Object PacketPlayOutOpenSignEditor = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutOpenSignEditor"));
+			PlayerUtilitiesReflections.sendPacket(player, PacketPlayOutOpenSignEditor);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException | InstantiationException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
