@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import components.json.JSONArray;
@@ -26,7 +27,7 @@ public class ChatUtilitiesReflections {
 		mainJson.add("text", message);
 		mainJson.add("extra", array);
 		
-		long a = System.currentTimeMillis();
+		long a = System.nanoTime();
 		
 		ClassLoader classLoader = ChatUtilitiesReflections.class.getClassLoader();
 		
@@ -38,7 +39,7 @@ public class ChatUtilitiesReflections {
 			e.printStackTrace();
 		}
 		
-		player.sendMessage((System.currentTimeMillis() - a) +"");
+		player.sendMessage((System.nanoTime() - a) +"");
 	}
 	
 	public static JSONObject createClickHoverMessage(String hoverbalmessage, HoverAction hoverAction, String hovertext, ClickAction clickAction, String command) {
@@ -92,7 +93,9 @@ public class ChatUtilitiesReflections {
 	}
 	
 	private static void sendPacket(Player player, Object obj) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
-		Object playerConnection = SimpleReflection.getObject("playerConnection", SimpleReflection.callMethod(player, "getHandle"));
+		Object handle = SimpleReflection.callMethod(player, "getHandle");
+		Bukkit.broadcastMessage(handle + "");
+		Object playerConnection = SimpleReflection.getObject("playerConnection", handle);
 		SimpleReflection.callMethod(playerConnection, "sendPacket", obj);
 	}
 }

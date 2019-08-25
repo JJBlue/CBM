@@ -98,8 +98,8 @@ public class SimpleReflection {
 			if(!m.getName().equals(name)) continue;
 			if(m.getParameterCount() != objects.length) continue;
 			if(isStatic != Modifier.isStatic(m.getModifiers())) continue;
-			if(objects.length == 0) break;
 			methods.add(m);
+			if(objects.length == 0) break;
 		}
 		
 		if(methods.isEmpty())
