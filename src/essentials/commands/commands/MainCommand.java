@@ -46,6 +46,10 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
+import essentials.utilities.chat.ChatUtilities;
+import essentials.utilities.chat.ChatUtilitiesReflections;
+import essentials.utilities.chat.ClickAction;
+import essentials.utilities.chat.HoverAction;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
@@ -63,6 +67,15 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		if(!PermissionHelper.hasPermission(sender, args[0])) return true;
 		
 		switch (args[0]) {
+			case "test":
+				
+				ChatUtilitiesReflections.sendChatMessage(p, "hello ",
+					ChatUtilities.createExtra(
+						ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/cos remove hello")
+					)
+				);
+				break;
+			
 			case "afk":
 				
 				Player p1 = null;
