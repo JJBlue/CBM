@@ -45,27 +45,11 @@ public class SimpleReflection {
 	}
 	
 	public static Object createObject(Class<?> classy, Object... objects) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Class<?>[] classes = new Class<?>[objects.length];
-		
-		for(int i = 0; i < objects.length; i++)
-			classes[i] = objects[i].getClass();
-		
 		List<Constructor<?>> constructors = new LinkedList<>();
 		for(Constructor<?> c : classy.getConstructors()) {
 			if(c.getParameterCount() != objects.length) continue;
-			
-			boolean shouldContinue = false;
-			Parameter[] paramters = c.getParameters();
-			
-			for(int i = 0; i < paramters.length; i++) {
-				if(!paramters[i].getType().isAssignableFrom(objects[i].getClass())) {
-					shouldContinue = true;
-					break;
-				}
-			}
-			
-			if(shouldContinue) continue;
 			constructors.add(c);
+			if(objects.length == 0) break;
 		}
 		
 		if(constructors.isEmpty())
@@ -74,12 +58,47 @@ public class SimpleReflection {
 			Constructor<?> constructor = constructors.get(0);
 			constructor.trySetAccessible();
 			return constructor.newInstance(objects);
-		} else {
-			System.out.println("Sorry not implemented yet. Found " + constructors.size() + " for class " + classy); //TODO
 		}
 		
-		return null;
+		Constructor<?> bestFound = null;
+		int lastBestValue = 0;
 		
+		Class<?>[] classes = new Class<?>[objects.length];
+		for(int i = 0; i < objects.length; i++)
+			classes[i] = objects[i].getClass();
+		
+		for(Constructor<?> c : classy.getConstructors()) {
+			boolean shouldContinue = false;
+			Parameter[] paramters = c.getParameters();
+			int best = 0;
+			
+			for(int i = 0; i < paramters.length; i++) {
+				Class<?> myClass = classes[i];
+				Class<?> paramClass = paramters[i].getType();
+				
+				if(!paramClass.isAssignableFrom(myClass)) {
+					shouldContinue = true;
+					break;
+				}
+				
+				while(paramClass != myClass) {
+					myClass = myClass.getSuperclass();
+					best++;
+				}
+			}
+			
+			if(shouldContinue) continue;
+			if(best < lastBestValue || bestFound == null) {
+				lastBestValue = best;
+				bestFound = c;
+			}
+			if(best == 0) break;
+		}
+		
+		if(bestFound == null) return null;
+		
+		bestFound.trySetAccessible();
+		return bestFound.newInstance(objects);
 	}
 	
 	public static Object callStaticMethod(Class<?> classy, String name, Object... objects) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
