@@ -39,19 +39,19 @@ public class TeleportListener implements Listener {
 		
 		if(p1 != null && p1 != executer) {
 			PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
-			if(playerConfig.getBoolean(PlayerConfigKey.tTeleport))
+			if(playerConfig.getBoolean(PlayerConfigKey.tTeleport)) {
 				event.setCancelled(true);
-			
-			executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
+				executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
+			}
 		} else {
 			Player p2 = Bukkit.getPlayer(args[2]);
 			if(p2 == null) return;
 			
 			PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p2);
-			if(playerConfig.getBoolean(PlayerConfigKey.tTeleport))
+			if(playerConfig.getBoolean(PlayerConfigKey.tTeleport)) {
 				event.setCancelled(true);
-			
-			executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
+				executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
+			}
 		}
 	}
 }
