@@ -71,14 +71,19 @@ public class Main extends JavaPlugin implements Listener{
 			this.getCommand("all").setTabCompleter(mainCommand);
 		}
 		
-		{
+		{ //TODO move under all command
 			this.getCommand("cos").setExecutor(CommandDruckplatten.commandDruckplatten);
 			this.getCommand("cos").setTabCompleter(CommandDruckplatten.commandDruckplatten);
 		}
 		
-		{
+		{ //TODO move under all command
 			this.getCommand("post").setExecutor(Post.post);
 			this.getCommand("post").setTabCompleter(Post.post);
+		}
+		
+		{ //TODO move under all command
+			this.getCommand("trol").setExecutor(TrolCommands.commands);
+			this.getCommand("trol").setTabCompleter(TrolCommands.commands);
 		}
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
@@ -99,9 +104,7 @@ public class Main extends JavaPlugin implements Listener{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if(sender.hasPermission("all.all")) {
-			if (cmd.getName().equalsIgnoreCase("trol"))
-				essentials.commands.trolling.TrolCommands.commands.onCommand(sender, cmd, cmdLabel, args);
-			else if (cmd.getName().equalsIgnoreCase("timer"))
+			if (cmd.getName().equalsIgnoreCase("timer"))
 				Timerplus.onTimerCommand(sender, cmd, cmdLabel, args);
 			else if(cmd.getName().equalsIgnoreCase("cv"))
 				ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
