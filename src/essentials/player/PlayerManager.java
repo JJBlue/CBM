@@ -14,29 +14,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import components.datenbank.Datenbank;
-import components.datenbank.Datenbanken;
-import components.sql.SQLParser;
-import essentials.config.MainConfig;
+import essentials.database.Databases;
 
 public class PlayerManager {
 	private PlayerManager() {}
 	
-	protected static Datenbank database;
-	protected static Map<UUID, PlayerConfig> players;
-	
-	public synchronized static void load() {
-		players = Collections.synchronizedMap(new HashMap<>());
-		
-		database = new Datenbank(null, null, MainConfig.getDataFolder() + "players.db");
-		database.connect(Datenbanken.SQLLite);
-		
-		for(String s : SQLParser.getResources("sql/create.sql", PlayerManager.class))
-			database.execute(s);
-	}
+	protected static Map<UUID, PlayerConfig> players = Collections.synchronizedMap(new HashMap<>());
 	
 	public synchronized static void unload() {
 		unloadAll();
-		database.close();
 	}
 	
 	public static PlayerConfig getPlayerConfig(Player player) {
@@ -49,6 +35,7 @@ public class PlayerManager {
 		if(playerConfig != null)
 			return playerConfig;
 		
+		Datenbank database = Databases.getPlayerDatabase();
 		database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
 		
 		Player player = Bukkit.getPlayer(uuid);
@@ -79,6 +66,7 @@ public class PlayerManager {
 	static List<String> getColoumns() {
 		List<String> coloumns = new LinkedList<>();
 		
+		Datenbank database = Databases.getPlayerDatabase();
 		ResultSet resultSet = database.getResult("SELECT * FROM players LIMIT 1");
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
@@ -91,9 +79,5 @@ public class PlayerManager {
 			e.printStackTrace();
 		}
 		return coloumns;
-	}
-	
-	public static Datenbank getDatabase() {
-		return database;
 	}
 }

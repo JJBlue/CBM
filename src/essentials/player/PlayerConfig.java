@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import components.datenbank.DatabaseSyntax;
+import essentials.database.Databases;
 
 public class PlayerConfig {
 	
@@ -197,7 +198,7 @@ public class PlayerConfig {
 	}
 	
 	private ResultSet getPlayerInformation(String key) {
-		PreparedStatement statement = PlayerManager.database.prepareStatement(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
+		PreparedStatement statement = Databases.getPlayerDatabase().prepareStatement(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
 		
 		try {
 			statement.setString(1, uuid.toString());
@@ -217,7 +218,7 @@ public class PlayerConfig {
 					if(value.isSaved() || value.isTmp()) continue;
 					
 					if(!coloumns.contains(key)) {
-						PreparedStatement statement = PlayerManager.database.prepareStatement("ALTER TABLE players ADD COLUMN " + key + " " + PlayerSQLHelper.getSQLDataType(value.getObject()));
+						PreparedStatement statement = Databases.getPlayerDatabase().prepareStatement("ALTER TABLE players ADD COLUMN " + key + " " + PlayerSQLHelper.getSQLDataType(value.getObject()));
 						coloumns.add(key);
 						
 						try {
@@ -244,7 +245,7 @@ public class PlayerConfig {
 				builder.append('\n');
 				builder.append(DatabaseSyntax.where("uuid"));
 				
-				preparedStatement = PlayerManager.database.prepareStatement(builder.toString());
+				preparedStatement = Databases.getPlayerDatabase().prepareStatement(builder.toString());
 			}
 			
 			try {

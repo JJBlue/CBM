@@ -21,6 +21,7 @@ import essentials.commands.trade.TradeListener;
 import essentials.commands.trolling.BlockClick;
 import essentials.commands.trolling.TrolCommands;
 import essentials.config.MainConfig;
+import essentials.database.Databases;
 import essentials.inventory.InventoryListener;
 import essentials.listeners.ColorListener;
 import essentials.listeners.CommandsEvents;
@@ -41,7 +42,7 @@ public class Main extends JavaPlugin implements Listener{
 		System.out.println("[All] wurde gestartet");
 		
 		MainConfig.reload();
-		PlayerManager.load();
+		Databases.load();
 		
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
 		Bukkit.getPluginManager().registerEvents(new Deop(), this);
@@ -90,6 +91,7 @@ public class Main extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable() {
 		PlayerManager.unload();
+		Databases.unload();
 		
 		super.onDisable();
 	}
