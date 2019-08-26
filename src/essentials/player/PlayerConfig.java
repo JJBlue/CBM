@@ -200,7 +200,7 @@ public class PlayerConfig {
 		PreparedStatement statement = null;
 		try {
 			statement = Databases.getPlayerDatabase().prepareStatementWE(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
-		} catch (SQLException e1) {}
+		} catch (SQLException e1) {} //No Such Coloum Exception
 		if(statement == null) return null;
 		
 		try {
