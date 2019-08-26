@@ -1,4 +1,4 @@
-package essentials.player;
+package essentials.friends;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
