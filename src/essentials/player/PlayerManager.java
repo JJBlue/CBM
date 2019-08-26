@@ -27,7 +27,7 @@ public class PlayerManager {
 	public synchronized static void load() {
 		players = Collections.synchronizedMap(new HashMap<>());
 		
-		database = new Datenbank(null, null, MainConfig.getDataFolder() + "/players.db");
+		database = new Datenbank(null, null, MainConfig.getDataFolder() + "players.db");
 		database.connect(Datenbanken.SQLLite);
 		
 		for(String s : SQLParser.getResources("sql/create.sql", PlayerManager.class))
@@ -49,13 +49,7 @@ public class PlayerManager {
 		if(playerConfig != null)
 			return playerConfig;
 		
-		String name = null;
-		{
-			Player player = Bukkit.getPlayer(uuid);
-			if(player != null) name = player.getName();
-		}
-		
-		database.execute("REPLACE INTO players (uuid, name) VALUES ('" + uuid.toString() + "','" + name + "')");
+		database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
 		
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null && player.isOnline())

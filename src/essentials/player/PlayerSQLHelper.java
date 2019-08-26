@@ -92,7 +92,7 @@ public class PlayerSQLHelper {
 	
 	public static String getSQLDataType(Object obj) {
 		if(obj instanceof Boolean)
-			return "BOOL";
+			return "BOOLEAN";
 		else if(obj instanceof Byte)
 			return "TINYINT";
 		else if(obj instanceof Character)

@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 
 import components.datenbank.DatabaseSyntax;
-import components.sql.SQLParser;
 
 public class PlayerConfig {
 	
@@ -21,6 +22,9 @@ public class PlayerConfig {
 	
 	public PlayerConfig(UUID uuid) {
 		this.uuid = uuid;
+		
+		OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+		if(player != null) set("name", player.getName());
 	}
 	
 	public void set(PlayerConfigKey key, Object value) {
@@ -78,6 +82,7 @@ public class PlayerConfig {
 		
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
+			
 			if(resultSet != null && resultSet.next())
 				return resultSet.getBoolean(key);
 		} catch (SQLException e) {}
@@ -192,11 +197,10 @@ public class PlayerConfig {
 	}
 	
 	private ResultSet getPlayerInformation(String key) {
-		PreparedStatement statement = PlayerManager.database.prepareStatement(SQLParser.getResource("sql/getPlayerInformation.sql", PlayerConfig.class));
+		PreparedStatement statement = PlayerManager.database.prepareStatement(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
 		
 		try {
-			statement.setString(1, key);
-			statement.setString(2, uuid.toString());
+			statement.setString(1, uuid.toString());
 			return statement.executeQuery();
 		} catch (SQLException e) {}
 		return null;

@@ -68,6 +68,12 @@ public class DatabaseSyntax {
 		return builder.toString();
 	}
 	
+	public static String selectFrom(String select, String from) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT " + select + " FROM " + from);
+		return builder.toString();
+	}
+	
 	public static String selectFromWhere(String select, String from, String... where) {
 		StringBuilder builder = new StringBuilder();
 		
