@@ -49,7 +49,13 @@ public class PlayerManager {
 		if(playerConfig != null)
 			return playerConfig;
 		
-		database.execute("INSERT INTO players (uuid) VALUES ('" + uuid.toString() + "')"); //TODO
+		String name = null;
+		{
+			Player player = Bukkit.getPlayer(uuid);
+			if(player != null) name = player.getName();
+		}
+		
+		database.execute("REPLACE INTO players (uuid, name) VALUES ('" + uuid.toString() + "','" + name + "')");
 		
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null && player.isOnline())

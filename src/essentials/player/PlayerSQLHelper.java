@@ -122,7 +122,7 @@ public class PlayerSQLHelper {
 			} else
 				length = Math.max(obj.toString().length(), 100);
 			
-			return "VARCHAR(" + length + ")";
+			return "VARCHAR(" + length + ")";  // TODO VARCHAR(size) -> TEXT
 		}
 	}
 }
