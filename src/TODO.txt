@@ -1,0 +1,3 @@
+Futures:
+
+	- Make a plugin silent for BroadcastMassages

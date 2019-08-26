@@ -95,10 +95,20 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public void onDisable() {
-		PlayerManager.unload();
-		Databases.unload();
+		unloadHelper(() -> { PlayerManager.unload(); });
+		unloadHelper(() -> { Databases.unload(); });
 		
 		super.onDisable();
+	}
+	
+	private void unloadHelper(Runnable runnable) {
+		try {
+			runnable.run();
+		} catch (NoClassDefFoundError e) {
+			System.out.println(Main.getPlugin().getName() + ": NoClassDefFoundError by unloading (did you overwrite .jar file)?");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

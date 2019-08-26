@@ -232,6 +232,10 @@ public class Datenbank {
 		return null;
 	}
 	
+	public PreparedStatement prepareStatementWE(String sqlExecute) throws SQLException {
+		return con.prepareStatement(sqlExecute);
+	}
+	
 	public boolean isClosed() {
 		try {
 			if(con == null || con.isClosed())return true; //st == null || st.isClosed()
@@ -256,7 +260,9 @@ public class Datenbank {
 		
 		try {
 			con.close();
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		con = null;
 	}

@@ -63,6 +63,21 @@ public class PlayerManager {
 		players.clear();
 	}
 	
+	static boolean hasColoumn(String coloum, ResultSet resultSet) {
+		try {
+			ResultSetMetaData metaData = resultSet.getMetaData();
+			int coloumnCount = metaData.getColumnCount();
+			
+			for(int i = 1; i <= coloumnCount; i++) {
+				if(metaData.getColumnName(i).equalsIgnoreCase(coloum))
+					return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	static List<String> getColoumns() {
 		List<String> coloumns = new LinkedList<>();
 		

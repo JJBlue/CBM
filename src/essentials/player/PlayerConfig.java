@@ -124,7 +124,6 @@ public class PlayerConfig {
 			return 0;
 		}
 		
-		
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
 			if(resultSet != null && resultSet.next())
@@ -198,12 +197,20 @@ public class PlayerConfig {
 	}
 	
 	private ResultSet getPlayerInformation(String key) {
-		PreparedStatement statement = Databases.getPlayerDatabase().prepareStatement(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
+		PreparedStatement statement = null;
+		try {
+			statement = Databases.getPlayerDatabase().prepareStatementWE(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
+		} catch (SQLException e1) {}
+		if(statement == null) return null;
 		
 		try {
 			statement.setString(1, uuid.toString());
-			return statement.executeQuery();
-		} catch (SQLException e) {}
+			ResultSet resultSet = statement.executeQuery();
+			if(PlayerManager.hasColoumn(key, resultSet))
+				return resultSet;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

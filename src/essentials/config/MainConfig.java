@@ -21,7 +21,7 @@ public class MainConfig {
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		configuration.options().copyDefaults(true);
 		
-		configuration.addDefault(MainConfigEnum.DataFolder.value, ".\\plugins\\" + Main.getPlugin().getName() + "\\");
+		configuration.addDefault(MainConfigEnum.DataFolder.value, "./plugins/" + Main.getPlugin().getName() + "/");
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
 		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll");
 		
@@ -41,7 +41,7 @@ public class MainConfig {
 	public static String getDataFolder() {
 		String folder = configuration.getString(MainConfigEnum.DataFolder.value);
 		if(!folder.endsWith("\\") && !folder.endsWith("/"))
-			return folder + "\\";
+			return folder + "/";
 		return folder;
 	}
 	
