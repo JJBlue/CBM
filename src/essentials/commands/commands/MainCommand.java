@@ -1,5 +1,6 @@
 package essentials.commands.commands;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -51,6 +52,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		if(args.length < 1) return true;
 		Player p = null;
 		
 		if(sender instanceof Player)
@@ -587,7 +589,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("head");
 			returnArguments.add("heal");
 			returnArguments.add("hide");
-			returnArguments.add("help");
 			returnArguments.add("itemdb");
 			returnArguments.add("inventory");
 			returnArguments.add("legging");
@@ -716,7 +717,15 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					break;
 					
 				case "paint":
-					if(args.length == 2) returnArguments.add("<Name_eingeben>");
+					if(args.length == 2) {
+						File dir = new File(MainConfig.getDataFolder() + "picture");
+						
+						for(File file : dir.listFiles()) {
+							if(file.isDirectory()) continue;
+							
+							returnArguments.add(file.getName());
+						}
+					}
 					else if(args.length == 3) returnArguments.add("<X>");
 					else if(args.length == 4) returnArguments.add("<Y>");
 					

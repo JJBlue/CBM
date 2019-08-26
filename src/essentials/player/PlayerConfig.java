@@ -3,9 +3,6 @@ package essentials.player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -83,9 +80,7 @@ public class PlayerConfig {
 			ResultSet resultSet = getPlayerInformation(key);
 			if(resultSet != null && resultSet.next())
 				return resultSet.getBoolean(key);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 		
 		return false;
 	}
@@ -106,9 +101,7 @@ public class PlayerConfig {
 			ResultSet resultSet = getPlayerInformation(key);
 			if(resultSet != null && resultSet.next())
 				return resultSet.getDouble(key);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 		
 		return 0;
 	}
@@ -130,9 +123,7 @@ public class PlayerConfig {
 			ResultSet resultSet = getPlayerInformation(key);
 			if(resultSet != null && resultSet.next())
 				return resultSet.getInt(key);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 		
 		return 0;
 	}
@@ -153,9 +144,7 @@ public class PlayerConfig {
 			ResultSet resultSet = getPlayerInformation(key);
 			if(resultSet != null && resultSet.next())
 				return resultSet.getLong(key);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 		
 		return 0;
 	}
@@ -176,9 +165,7 @@ public class PlayerConfig {
 			ResultSet resultSet = getPlayerInformation(key);
 			if(resultSet != null && resultSet.next())
 				return resultSet.getString(key);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 		
 		return null;
 	}
@@ -195,7 +182,11 @@ public class PlayerConfig {
 			return null;
 		}
 		
-		//TODO load
+		try {
+			ResultSet resultSet = getPlayerInformation(key);
+			if(resultSet != null && resultSet.next())
+				return PlayerSQLHelper.StringToLocation(resultSet.getString(key));
+		} catch (SQLException e) {}
 		
 		return null;
 	}
@@ -214,8 +205,25 @@ public class PlayerConfig {
 	private static boolean automaticExtension = true;
 	public void save() {
 		synchronized (buffer) {
-			List<String> coloumns = null;
-			if(automaticExtension) coloumns = PlayerManager.getColoumns();
+			List<String> coloumns = PlayerManager.getColoumns();
+			
+			if(automaticExtension) {
+				for(String key : buffer.keySet()) {
+					PlayerConfigValue value = buffer.get(key);
+					if(value.isSaved() || value.isTmp()) continue;
+					
+					if(!coloumns.contains(key)) {
+						PreparedStatement statement = PlayerManager.database.prepareStatement("ALTER TABLE players ADD COLUMN " + key + " " + PlayerSQLHelper.getSQLDataType(value.getObject()));
+						coloumns.add(key);
+						
+						try {
+							statement.execute();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
 			
 			PreparedStatement preparedStatement;
 			{
@@ -240,19 +248,10 @@ public class PlayerConfig {
 				
 				for(String key : buffer.keySet()) {
 					PlayerConfigValue value = buffer.get(key);
-					if(value.isSaved() || value.isTmp()) continue;
-					
-					if(automaticExtension && !coloumns.contains(key)) {
-						PreparedStatement statement = PlayerManager.database.prepareStatement("ALTER TABLE players ADD COLUMN " + key + " " + getSQLDataType(key));
-						try {
-							statement.execute();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					}
+					if(value.isSaved() || value.isTmp() || !coloumns.contains(key)) continue;
 					
 					try {
-						set(preparedStatement, index++, value.getObject());
+						PlayerSQLHelper.set(preparedStatement, index++, value.getObject());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -266,65 +265,6 @@ public class PlayerConfig {
 			}
 			
 			buffer.clear();
-		}
-	}
-	
-	private static void set(PreparedStatement preparedStatement, int index, Object obj) throws SQLException {
-		if(obj instanceof Boolean)
-			preparedStatement.setBoolean(index, (Boolean) obj);
-		else if(obj instanceof Byte)
-			preparedStatement.setByte(index, (Byte) obj);
-		else if(obj instanceof Integer)
-			preparedStatement.setInt(index, (Integer) obj);
-		else if(obj instanceof Long)
-			preparedStatement.setLong(index, (Long) obj);
-		else if(obj instanceof Float)
-			preparedStatement.setFloat(index, (Float) obj);
-		else if(obj instanceof Double)
-			preparedStatement.setDouble(index, (Double) obj);
-		else if(obj instanceof LocalDate)
-			preparedStatement.setDate(index, java.sql.Date.valueOf((LocalDate) obj));
-		else if(obj instanceof java.sql.Date)
-			preparedStatement.setDate(index, (java.sql.Date) obj);
-		else if(obj instanceof LocalTime)
-			preparedStatement.setTime(index, java.sql.Time.valueOf((LocalTime) obj));
-		else if(obj instanceof java.sql.Time)
-			preparedStatement.setTime(index, (java.sql.Time) obj);
-		else if(obj instanceof LocalDateTime)
-			preparedStatement.setTimestamp(index, java.sql.Timestamp.valueOf((LocalDateTime) obj));
-		else if(obj instanceof java.sql.Timestamp)
-			preparedStatement.setTimestamp(index, (java.sql.Timestamp) obj);
-		else
-			preparedStatement.setString(index, obj.toString());
-	}
-	
-	private static String getSQLDataType(Object obj) {
-		if(obj instanceof Boolean)
-			return "BOOL";
-		else if(obj instanceof Byte)
-			return "TINYINT";
-		else if(obj instanceof Character)
-			return "CHAR";
-		else if(obj instanceof Short)
-			return "SMALLINT";
-		else if(obj instanceof Integer)
-			return "INT";
-		else if(obj instanceof Long)
-			return "BIGINT";
-		else if(obj instanceof Float)
-			return "FLOAT";
-		else if(obj instanceof Double)
-			return "DOUBLE";
-		else if(obj instanceof LocalDate || obj instanceof java.sql.Date)
-			return "DATE";
-		else if(obj instanceof LocalTime || obj instanceof java.sql.Time)
-			return "TIME";
-		else if(obj instanceof LocalDateTime || obj instanceof java.sql.Timestamp)
-			return "TIMESTAMP";
-		else {
-			String s = (String) obj;
-			int length = Math.max(s.length(), 100);
-			return "VARCHAR(" + length + ")";
 		}
 	}
 }

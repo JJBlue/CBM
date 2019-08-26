@@ -21,7 +21,7 @@ public class CommandSpyListener implements Listener {
 			int commandSpyValue = config.getInt("commandSpy");
 			
 			if(config.getBoolean("commandSpyOperator") || (commandSpyValue != -1 && !PermissionHelper.hasPermission(player, "commandspy." + commandSpyValue))) //TODO commandSpyValue value = 2 but permission has 9?
-				onlinePlayer.sendMessage("§o[" + event.getPlayer() + "]: " + event.getMessage());
+				onlinePlayer.sendMessage("§6§o[[CommandSpy] " + event.getPlayer().getName() + "]: " + event.getMessage());
 		}
 	}
 }

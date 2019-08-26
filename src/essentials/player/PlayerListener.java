@@ -1,7 +1,6 @@
 package essentials.player;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +15,7 @@ public class PlayerListener implements Listener {
 		Player p = e.getPlayer();
 		
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-		playerConfig.set(PlayerConfigKey.loginTime, df.format(new Date()));
+		playerConfig.set(PlayerConfigKey.loginTime, LocalDateTime.now());
 	}
 	
 	@EventHandler
@@ -25,8 +23,7 @@ public class PlayerListener implements Listener {
 		Player player = event.getPlayer();
 		
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
-		SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.d)d HH:mm:ss");
-		playerConfig.set(PlayerConfigKey.logoutTime, df.format(new Date()));
+		playerConfig.set(PlayerConfigKey.logoutTime, LocalDateTime.now());
 		
 		PlayerManager.unload(event.getPlayer().getUniqueId());
 	}

@@ -24,7 +24,7 @@ public class PlayerManager {
 	protected static Datenbank database;
 	protected static Map<UUID, PlayerConfig> players;
 	
-	static {
+	public synchronized static void load() {
 		players = Collections.synchronizedMap(new HashMap<>());
 		
 		database = new Datenbank(null, null, MainConfig.getDataFolder() + "/players.db");
@@ -32,6 +32,11 @@ public class PlayerManager {
 		
 		for(String s : SQLParser.getResources("sql/create.sql", PlayerManager.class))
 			database.execute(s);
+	}
+	
+	public synchronized static void unload() {
+		unloadAll();
+		database.close();
 	}
 	
 	public static PlayerConfig getPlayerConfig(Player player) {
@@ -44,7 +49,7 @@ public class PlayerManager {
 		if(playerConfig != null)
 			return playerConfig;
 		
-		database.execute("INSERT INTO players (uuid) VALUES (" + uuid.toString() + ")");
+		database.execute("INSERT INTO players (uuid) VALUES ('" + uuid.toString() + "')"); //TODO
 		
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null && player.isOnline())
@@ -62,6 +67,13 @@ public class PlayerManager {
 	synchronized static void unload(UUID uuid) {
 		PlayerConfig playerConfig = players.remove(uuid);
 		playerConfig.save();
+	}
+	
+	public synchronized static void unloadAll() {
+		for(PlayerConfig pcv : players.values())
+			pcv.save();
+		
+		players.clear();
 	}
 	
 	static List<String> getColoumns() {

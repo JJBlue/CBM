@@ -47,8 +47,8 @@ public class CommandSpy implements CommandExecutor, TabCompleter {
 	
 			case "operator":
 				
-				boolean value = !config.getBoolean("commandSpy");
-				config.set("commandSpy", value);
+				boolean value = !config.getBoolean("commandSpyOperator");
+				config.set("commandSpyOperator", value);
 				sender.sendMessage("§eCommand spy toggled to §6" + value);
 				
 				break;

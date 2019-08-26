@@ -29,6 +29,7 @@ import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.PlayerMapListener;
 import essentials.listeners.chair.chair;
 import essentials.player.PlayerListener;
+import essentials.player.PlayerManager;
 import essentials.pluginmanager.DisableEnable;
 
 public class Main extends JavaPlugin implements Listener{
@@ -40,6 +41,7 @@ public class Main extends JavaPlugin implements Listener{
 		System.out.println("[All] wurde gestartet");
 		
 		MainConfig.reload();
+		PlayerManager.load();
 		
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
 		Bukkit.getPluginManager().registerEvents(new Deop(), this);
@@ -83,6 +85,13 @@ public class Main extends JavaPlugin implements Listener{
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		Timerplus.TimerSekunden();
 		Loading();
+	}
+	
+	@Override
+	public void onDisable() {
+		PlayerManager.unload();
+		
+		super.onDisable();
 	}
 	
 	@Override
