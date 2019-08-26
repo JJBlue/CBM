@@ -35,6 +35,7 @@ import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MapPaint;
 import essentials.listeners.chair.chair;
+import essentials.main.Deop;
 import essentials.main.Join;
 import essentials.main.Main;
 import essentials.permissions.PermissionHelper;
@@ -381,6 +382,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					if(e instanceof Player)
 						sender.sendMessage(e.getName() + ": " + e.getLocation().distance(p.getLocation()));
 				}
+				
+				break;
+				
+			case "op":
+				
+				Deop.deopCommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 				break;
 				

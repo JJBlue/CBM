@@ -103,8 +103,6 @@ public class Main extends JavaPlugin implements Listener{
 				Timerplus.onTimerCommand(sender, cmd, cmdLabel, args);
 			else if(cmd.getName().equalsIgnoreCase("cv"))
 				ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
-			else if(cmd.getName().equalsIgnoreCase("oplist"))
-				Deop.onOpList(sender, cmd, cmdLabel, args);
 		}
 		
 		return false;

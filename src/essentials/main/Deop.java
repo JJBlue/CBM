@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import essentials.config.MainConfig;
 import essentials.utilities.PlayerUtilities;
 
-public class Deop implements Listener{
+public class Deop implements Listener, CommandExecutor {
     @EventHandler
     public void command(PlayerCommandPreprocessEvent e) {
     	Player player = e.getPlayer();
@@ -22,7 +23,14 @@ public class Deop implements Listener{
     		player.setOp(false);
     }
     
-    public static boolean onOpList(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+    public final static Deop deopCommand;
+    
+    static {
+    	deopCommand = new Deop();
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
     	if(!cmd.getName().equalsIgnoreCase("oplist")) return false;
     	
     	List<String> list = MainConfig.getOperators();

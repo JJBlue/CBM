@@ -13,9 +13,6 @@ commands:
      cv:
           description: ChatVerbesserung
           permission: ChatV.use
-     oplist:
-          description: ChatVerbesserung
-          permission: ChatV.use
      cos:
           description: CommandonBlocks
      post:
