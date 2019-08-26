@@ -8,7 +8,8 @@ import javax.imageio.ImageIO;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -22,6 +23,8 @@ import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
+import essentials.config.MainConfig;
+
 public class PlayerMapListener implements Listener{
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -30,11 +33,8 @@ public class PlayerMapListener implements Listener{
 		
 		if(!MapPaint.containsPlayer(p) || !p.hasPermission("map.image")) return;
 		
-		p.sendMessage("Try painting");
-		e.getClickedBlock().setType(Material.AIR);
-		
 		String filename = MapPaint.getStringFromPlayer(p);
-		File foto = new File("plugins/Allgemein/picture", filename);
+		File foto = new File(MainConfig.getDataFolder() + "picture", filename);
 		MapPaint.removePainting(p);
 
 		Image image = null;
@@ -42,9 +42,8 @@ public class PlayerMapListener implements Listener{
 			image = ImageIO.read(foto);
 		} catch(Exception e2) {
 			p.sendMessage("§4Bild konnte nicht geladen werden. Hier ihre Error Messages");
+			return;
 		}
-		
-		if(image == null) return;
 		
 		int height = image.getHeight(null);
 		int width = image.getWidth(null);
@@ -52,53 +51,92 @@ public class PlayerMapListener implements Listener{
 		int ps = (int) Math.ceil(((double) height) / ((double) 128));
 		int pw = (int) Math.ceil(((double) width) / ((double) 128));
 		
-		int sx = e.getClickedBlock().getLocation().getBlockX();
-		int sy = e.getClickedBlock().getLocation().getBlockY();
-		int sz = e.getClickedBlock().getLocation().getBlockZ();
+		Location cbl = e.getClickedBlock().getLocation();
+		World world = cbl.getWorld();
+		int sx = cbl.getBlockX();
+		int sy = cbl.getBlockY();
+		int sz = cbl.getBlockZ();
+		
+		switch(e.getBlockFace()) {
+			case NORTH:
+				sz--;
+				break;
+			case SOUTH:
+				sz++;
+				break;
+			case EAST:
+				sx++;
+				break;
+			case WEST:
+				sx--;
+				break;
+			case UP:
+				sy++;
+				break;
+			case DOWN:
+				sy--;
+				break;
+			default:
+				break;
+		}
 		
 		for(int i = 0; i < ps; i++){						
 			for(int y = 0; y < pw; y++){
-				int newX;
-				int newY = sy - i;
-				int newZ;
+				int newX = sx;
+				int newY = sy;
+				int newZ = sz;
 				
-				if(e.getBlockFace() == BlockFace.NORTH){
-					newX = sx - y;
-					newZ = sz;
-				}else if(e.getBlockFace() == BlockFace.EAST){
-					newZ = sz - y;
-					newX = sx;
-				}else if(e.getBlockFace() == BlockFace.SOUTH){
-					newX = sx + y;
-					newZ = sz;
-				}else if(e.getBlockFace() == BlockFace.WEST){
-					newZ = sz + y;
-					newX = sx;
-				} else
-					break;
+				switch(e.getBlockFace()) {
+					case NORTH:
+						newX -= y;
+						newY -= i;
+						break;
+					case EAST:
+						newZ -= y;
+						newY -= i;
+						break;
+					case SOUTH:
+						newX += y;
+						newY -= i;
+						break;
+					case WEST:
+						newZ += y;
+						newY -= i;
+						break;
+					case UP:
+						newX += y;
+						newZ += i;
+						break;
+					case DOWN:
+						newX += y;
+						newZ -= i;
+						break;
+					default:
+						break;
+				}
 				
-				Location l = new Location(e.getClickedBlock().getWorld(), newX, newY, newZ);
+				Location l = new Location(world, newX, newY, newZ);
+				if(!couldSpawnItemFrame(l)) continue;
+				
 				ItemFrame iFrame = null;
 				try {
-					iFrame = (ItemFrame) l.getWorld().spawnEntity(l, EntityType.ITEM_FRAME);
-				}catch(Exception yy){}
+					iFrame = (ItemFrame) world.spawnEntity(l, EntityType.ITEM_FRAME);
+				} catch(Exception ex) { //Exception Hanging ItemFrame in Air
+					return; // or continue;
+				}
 				
-				if(iFrame == null) return;
-				
-				int maybeID = LoadMapPaint.get("plugins/Allgemein/picture", filename, 128*y, 128*i);
+				int maybeID = LoadMapPaint.get(MainConfig.getDataFolder() + "picture", filename, 128*y, 128*i);
 				ItemStack is = null;
 				
 				MapView mapView;
 				
 				if(maybeID > 0) {
 					mapView = Bukkit.getMap(maybeID);
-//					p.sendMessage("Found Image with ID: " + maybeID);
 					setRenderer(mapView);
 				} else {
 					mapView = Bukkit.createMap(l.getWorld());
 					
-//					p.sendMessage("Bild mit ID: " + mapView.getId() + " wurde erstellt");
-					LoadMapPaint.setMapPaint(mapView.getId(), "plugins/Allgemein/picture", filename, -128*y, -128*i);
+					LoadMapPaint.setMapPaint(mapView.getId(), MainConfig.getDataFolder() + "picture", filename, -128*y, -128*i);
 					setRenderer(mapView);
 				}
 				
@@ -113,6 +151,39 @@ public class PlayerMapListener implements Listener{
 		}
 		
 		p.sendMessage("§6Map Fertig geladen!");
+	}
+	
+	public boolean couldSpawnItemFrame(Location location) {
+		if(!couldSpawnInIt(location)) {
+			Bukkit.broadcastMessage("SDS");
+			return false;
+		}
+		
+		Location l2 = location.clone();
+		
+		if(l2.add(0, 1, 0).getBlock().getType().isSolid()) return true;
+		Bukkit.broadcastMessage(l2.getBlock().getType().isSolid() + " " + l2.getBlock().getType().name());
+		Bukkit.broadcastMessage("");
+		l2.add(0, -1, 0);
+		if(l2.add(0, -1, 0).getBlock().getType().isSolid()) return true;
+		l2.add(0, 1, 0);
+		if(location.add(1, 0, 0).getBlock().getType().isSolid()) return true;
+		l2.add(-1, 0, 0);
+		if(location.add(-1, 0, 0).getBlock().getType().isSolid()) return true;
+		l2.add(1, 0, 0);
+		if(location.add(0, 0, 1).getBlock().getType().isSolid()) return true;
+		l2.add(0, 0, -1);
+		if(location.add(0, 0, -1).getBlock().getType().isSolid()) return true;
+		return false;
+	}
+	
+	public boolean couldSpawnInIt(Location location) {
+		Block block = location.getBlock();
+		if(block.isLiquid()) return true;
+		
+		Material material = block.getType();
+		if(material.name().toLowerCase().contains("air")) return true;
+		return false;
 	}
 	
 	@EventHandler

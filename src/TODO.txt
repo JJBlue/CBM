@@ -1,3 +1,4 @@
 Futures:
 
 	- Make a plugin silent for BroadcastMassages
+	- survival debug stick
