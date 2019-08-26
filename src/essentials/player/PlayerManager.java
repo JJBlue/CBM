@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import components.datenbank.Datenbank;
 import components.datenbank.Datenbanken;
 import components.sql.SQLParser;
-import essentials.Image.staticImage;
 import essentials.config.MainConfig;
 
 public class PlayerManager {
