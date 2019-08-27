@@ -1,7 +1,6 @@
 package essentials.listeners.debugstick.blocks;
 
 import org.bukkit.Axis;
-import org.bukkit.Bukkit;
 import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -104,12 +103,8 @@ public class DebugStickNextBlockStates {
 	/*
 	 * 	TODO better:
 	 * 
-	 * 	NoteBlock note.
-	 * 	Banner Rotation -> Bug Fix?
-	 * 	glocke Directional -> Bug Fix?
-	 * 	ShulkerBox Directional -> Bug Fix?
-	 * 
-	 * 	=> IllegalStateException || IllegalArgumentException
+	 * 	NoteBlock note
+	 * 	ofen Directional Up down missing
 	 * 
 	 */
 	
@@ -155,7 +150,7 @@ public class DebugStickNextBlockStates {
 				Directional directional = (Directional) blockData;
 				
 				int count = 0;
-				BlockFace[] blockFaces = BlockFace.values();
+				BlockFace[] blockFaces = getBlockFaces();
 				for(BlockFace face : blockFaces) {
 					if(face.equals(directional.getFacing()))
 						break;
@@ -167,6 +162,7 @@ public class DebugStickNextBlockStates {
 					count = nextInt(count, blockFaces.length - 1, next);
 					try {
 						directional.setFacing(blockFaces[count]);
+						break;
 					} catch (IllegalArgumentException | IllegalStateException e) {}
 				} while(start != count);
 				
@@ -189,28 +185,28 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof MultipleFacing)) break;
 				MultipleFacing multipleFacing = (MultipleFacing) blockData;
 				
-				multipleFacing.setFace(BlockFace.EAST, multipleFacing.hasFace(BlockFace.EAST));
+				multipleFacing.setFace(BlockFace.EAST, !multipleFacing.hasFace(BlockFace.EAST));
 				
 				break;
 			case MULTIPLEFACING_NORTH:
 				if(!(blockData instanceof MultipleFacing)) break;
 				multipleFacing = (MultipleFacing) blockData;
 				
-				multipleFacing.setFace(BlockFace.NORTH, multipleFacing.hasFace(BlockFace.NORTH));
+				multipleFacing.setFace(BlockFace.NORTH, !multipleFacing.hasFace(BlockFace.NORTH));
 				
 				break;
 			case MULTIPLEFACING_SOUTH:
 				if(!(blockData instanceof MultipleFacing)) break;
 				multipleFacing = (MultipleFacing) blockData;
 				
-				multipleFacing.setFace(BlockFace.SOUTH, multipleFacing.hasFace(BlockFace.SOUTH));
+				multipleFacing.setFace(BlockFace.SOUTH, !multipleFacing.hasFace(BlockFace.SOUTH));
 				
 				break;
 			case MULTIPLEFACING_WEST:
 				if(!(blockData instanceof MultipleFacing)) break;
 				multipleFacing = (MultipleFacing) blockData;
 				
-				multipleFacing.setFace(BlockFace.WEST, multipleFacing.hasFace(BlockFace.WEST));
+				multipleFacing.setFace(BlockFace.WEST, !multipleFacing.hasFace(BlockFace.WEST));
 				
 				break;
 			case OPEN:
@@ -287,10 +283,8 @@ public class DebugStickNextBlockStates {
 				Rotatable rotatable = (Rotatable) blockData;
 				
 				count = 0;
-				blockFaces = BlockFace.values();
+				blockFaces = getBlockFaces();
 				for(BlockFace face : blockFaces) {
-					Bukkit.broadcastMessage(face.name() + " " + rotatable.getRotation().name());
-					
 					if(face.equals(rotatable.getRotation()))
 						break;
 					count++;
@@ -301,6 +295,7 @@ public class DebugStickNextBlockStates {
 					count = nextInt(count, blockFaces.length - 1, next);
 					try {
 						rotatable.setRotation(blockFaces[count]);
+						break;
 					} catch (IllegalArgumentException | IllegalStateException e) {}
 				} while(start != count);
 				
@@ -743,6 +738,41 @@ public class DebugStickNextBlockStates {
 				
 				break;
 		}
+	}
+	
+	private static BlockFace[] getBlockFaces() {
+		BlockFace[] blockFaces = new BlockFace[BlockFace.values().length];
+		
+		int index = 0;
+		blockFaces[index++] = BlockFace.NORTH;
+		
+		blockFaces[index++] = BlockFace.NORTH_NORTH_EAST;
+		blockFaces[index++] = BlockFace.NORTH_EAST;
+		blockFaces[index++] = BlockFace.EAST_NORTH_EAST;
+		
+		blockFaces[index++] = BlockFace.EAST;
+		
+		blockFaces[index++] = BlockFace.EAST_SOUTH_EAST;
+		blockFaces[index++] = BlockFace.SOUTH_EAST;
+		blockFaces[index++] = BlockFace.SOUTH_SOUTH_EAST;
+		
+		blockFaces[index++] = BlockFace.SOUTH;
+		
+		blockFaces[index++] = BlockFace.SOUTH_SOUTH_WEST;
+		blockFaces[index++] = BlockFace.SOUTH_WEST;
+		blockFaces[index++] = BlockFace.WEST_SOUTH_WEST;
+		
+		blockFaces[index++] = BlockFace.WEST;
+		
+		blockFaces[index++] = BlockFace.WEST_NORTH_WEST;
+		blockFaces[index++] = BlockFace.NORTH_WEST;
+		blockFaces[index++] = BlockFace.NORTH_NORTH_WEST;
+		
+		blockFaces[index++] = BlockFace.UP;
+		blockFaces[index++] = BlockFace.DOWN;
+		blockFaces[index++] = BlockFace.SELF;
+		
+		return blockFaces;
 	}
 
 	private static int nextInt(int mom, int max, boolean next) {
