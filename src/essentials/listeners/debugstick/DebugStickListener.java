@@ -89,6 +89,9 @@ public class DebugStickListener implements Listener {
 		
 		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
 		if(debugStickBlockChanges == null) return;
+		if(System.currentTimeMillis() - (long) config.getLong("DebugStickEntityChangesTimeout") < 500) return;
+		
+		config.setTmp("DebugStickEntityChangesTimeout", System.currentTimeMillis());
 		
 		DebugStickEntities.setNextEntityState(entity, debugStickBlockChanges, !player.isSneaking());
 		ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges));

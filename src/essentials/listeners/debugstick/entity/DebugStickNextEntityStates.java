@@ -11,6 +11,9 @@ import org.bukkit.entity.Sittable;
 import org.bukkit.entity.Tameable;
 
 public class DebugStickNextEntityStates {
+	/*
+	 * Age Zombie etc not working
+	 */
 	@SuppressWarnings("deprecation")
 	public static void setNext(Entity entity, DebugStickEntityChanges type, boolean next) { //or bevore		
 		if(entity instanceof Player) {
@@ -28,34 +31,30 @@ public class DebugStickNextEntityStates {
 			}
 		}
 		
-		if(entity instanceof Entity) {
-			Entity livingEntity = (Entity) entity;
-			
-			switch(type) {
-				case CUSTOM_NAME_VISIBLE:
-					livingEntity.setCustomNameVisible(!livingEntity.isCustomNameVisible());
-					break;
-				case FIRE_TRICKS:
-					livingEntity.setFireTicks(nextInt(livingEntity.getFireTicks(), livingEntity.getMaxFireTicks(), next));
-					break;
-				case GLOWING:
-					livingEntity.setGlowing(!livingEntity.isGlowing());
-					break;
-				case GRAVITY:
-					livingEntity.setGravity(!livingEntity.hasGravity());
-					break;
-				case INVULNERABLE:
-					livingEntity.setInvulnerable(!livingEntity.isInvulnerable());
-					break;
-				case PERSISTENT:
-					livingEntity.setPersistent(!livingEntity.isPersistent());
-					break;
-				case SILENT:
-					livingEntity.setSilent(!livingEntity.isSilent());
-					break;
-				default:
-					break;
-			}
+		switch(type) {
+			case CUSTOM_NAME_VISIBLE:
+				entity.setCustomNameVisible(!entity.isCustomNameVisible());
+				break;
+			case FIRE_TRICKS:
+				entity.setFireTicks(nextInt(entity.getFireTicks(), entity.getMaxFireTicks(), next));
+				break;
+			case GLOWING:
+				entity.setGlowing(!entity.isGlowing());
+				break;
+			case GRAVITY:
+				entity.setGravity(!entity.hasGravity());
+				break;
+			case INVULNERABLE:
+				entity.setInvulnerable(!entity.isInvulnerable());
+				break;
+			case PERSISTENT:
+				entity.setPersistent(!entity.isPersistent());
+				break;
+			case SILENT:
+				entity.setSilent(!entity.isSilent());
+				break;
+			default:
+				break;
 		}
 		
 		if(entity instanceof LivingEntity) {
