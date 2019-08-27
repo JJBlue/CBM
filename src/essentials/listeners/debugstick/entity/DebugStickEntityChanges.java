@@ -27,5 +27,9 @@ public enum DebugStickEntityChanges {
 	TAMED,
 	
 	//Sittable
-	SITTABLE
+	SITTABLE,
+	
+	//PLAYER
+	FLY_SPEED,
+	WALK_SPEED
 }

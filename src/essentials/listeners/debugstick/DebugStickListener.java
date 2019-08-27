@@ -10,11 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import essentials.listeners.debugstick.blocks.DebugStickBlockChanges;
 import essentials.listeners.debugstick.blocks.DebugStickBlocks;
+import essentials.listeners.debugstick.entity.DebugStickEntities;
+import essentials.listeners.debugstick.entity.DebugStickEntityChanges;
 import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
@@ -72,7 +75,7 @@ public class DebugStickListener implements Listener {
 		}
 	}
 	
-//	@EventHandler (priority = EventPriority.HIGHEST)
+	@EventHandler (priority = EventPriority.HIGHEST)
 	public void interactEntity(PlayerInteractAtEntityEvent event) {
 		Player player = event.getPlayer();
 		
@@ -82,7 +85,45 @@ public class DebugStickListener implements Listener {
 		event.setCancelled(true);
 		
 		Entity entity = event.getRightClicked();
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
 		
-		//TODO
+		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);
+		if(list.isEmpty()) return;
+		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
+		
+		if(debugStickBlockChanges == null)
+			debugStickBlockChanges = list.get(0);
+		else {
+			int i = list.indexOf(debugStickBlockChanges);
+			
+			if(i < 0 || i == list.size() - 1)
+				debugStickBlockChanges = list.get(0);
+			else
+				debugStickBlockChanges = list.get(++i);
+		}
+		
+		config.setTmp("DebugStickEntityChangesCurrent", debugStickBlockChanges);
+		ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
+	}
+	
+	@EventHandler (priority = EventPriority.HIGHEST)
+	public void damage(EntityDamageByEntityEvent event) {
+		if(!(event.getDamager() instanceof Player)) return;
+		
+		Player player = (Player) event.getDamager();
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		
+		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
+		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
+		
+		event.setCancelled(true);
+		
+		Entity entity = event.getEntity();
+		
+		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
+		if(debugStickBlockChanges == null) return;
+		
+		DebugStickEntities.setNextEntityState(entity, debugStickBlockChanges, !player.isSneaking());
+		ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges));
 	}
 }

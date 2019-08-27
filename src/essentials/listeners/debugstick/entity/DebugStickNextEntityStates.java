@@ -6,42 +6,28 @@ import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Sittable;
 import org.bukkit.entity.Tameable;
 
 public class DebugStickNextEntityStates {
-	public void Blocks() {
-		Attributable attributable;
-		Attribute attribute = Attribute.GENERIC_ARMOR;
-		switch (attribute) {
-			case GENERIC_ARMOR:
-				break;
-			case GENERIC_ARMOR_TOUGHNESS:
-				break;
-			case GENERIC_ATTACK_DAMAGE:
-				break;
-			case GENERIC_ATTACK_SPEED:
-				break;
-			case GENERIC_FLYING_SPEED:
-				break;
-			case GENERIC_FOLLOW_RANGE:
-				break;
-			case GENERIC_KNOCKBACK_RESISTANCE:
-				break;
-			case GENERIC_LUCK:
-				break;
-			case GENERIC_MOVEMENT_SPEED:
-				break;
-			case HORSE_JUMP_STRENGTH:
-				break;
-			case ZOMBIE_SPAWN_REINFORCEMENTS:
-				break;
-		}
-	}
-	
-	
 	@SuppressWarnings("deprecation")
-	public static void setNext(Entity entity, DebugStickEntityChanges type, boolean next) { //or bevore
+	public static void setNext(Entity entity, DebugStickEntityChanges type, boolean next) { //or bevore		
+		if(entity instanceof Player) {
+			Player player = (Player) entity;
+			
+			switch (type) {
+				case FLY_SPEED:
+					player.setFlySpeed((float) nextDouble(player.getFlySpeed(), 10, next));
+					break;
+				case WALK_SPEED:
+					player.setWalkSpeed((float) nextDouble(player.getWalkSpeed(), 10, next));
+					break;
+				default:
+					break;
+			}
+		}
+		
 		if(entity instanceof Entity) {
 			Entity livingEntity = (Entity) entity;
 			
