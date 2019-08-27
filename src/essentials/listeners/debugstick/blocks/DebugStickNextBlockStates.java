@@ -363,74 +363,36 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Switch)) break;
 				Switch switch1 = (Switch) blockData;
 				
-				count = 0;
-				Switch.Face[] switches = Switch.Face.values();
-				for(Switch.Face enumValue : switches) {
-					if(enumValue.equals(switch1.getFace()))
-						break;
-					count++;
-				}
-				
-				switch1.setFace(switches[nextInt(count, switches.length - 1, next)]);
+				switch1.setFace(nextPosition(switch1.getFace(), next, Switch.Face.values()));
 				
 				break;
 			case FACE_NORTH:
 				if(!(blockData instanceof RedstoneWire)) break;
 				RedstoneWire redstoneWire = (RedstoneWire) blockData;
 				
-				count = 0;
-				RedstoneWire.Connection[] connections = RedstoneWire.Connection.values();
-				for(RedstoneWire.Connection enumValue : connections) {
-					if(enumValue.equals(redstoneWire.getFace(BlockFace.NORTH)))
-						break;
-					count++;
-				}
-				
-				redstoneWire.setFace(BlockFace.NORTH, connections[nextInt(count, connections.length - 1, next)]);
+				redstoneWire.setFace(BlockFace.NORTH, nextPosition(redstoneWire.getFace(BlockFace.NORTH), next, RedstoneWire.Connection.values()));
 				
 				break;
 			case FACE_EAST:
 				if(!(blockData instanceof RedstoneWire)) break;
 				redstoneWire = (RedstoneWire) blockData;
 				
-				count = 0;
-				connections = RedstoneWire.Connection.values();
-				for(RedstoneWire.Connection enumValue : connections) {
-					if(enumValue.equals(redstoneWire.getFace(BlockFace.EAST)))
-						break;
-					count++;
-				}
-				
-				redstoneWire.setFace(BlockFace.EAST, connections[nextInt(count, connections.length - 1, next)]);
+				redstoneWire.setFace(BlockFace.EAST, nextPosition(redstoneWire.getFace(BlockFace.EAST), next, RedstoneWire.Connection.values()));
 				
 				break;
 			case FACE_SOUTH:
 				if(!(blockData instanceof RedstoneWire)) break;
 				redstoneWire = (RedstoneWire) blockData;
+
+				redstoneWire.setFace(BlockFace.SOUTH, nextPosition(redstoneWire.getFace(BlockFace.SOUTH), next, RedstoneWire.Connection.values()));
 				
-				count = 0;
-				connections = RedstoneWire.Connection.values();
-				for(RedstoneWire.Connection enumValue : connections) {
-					if(enumValue.equals(redstoneWire.getFace(BlockFace.SOUTH)))
-						break;
-					count++;
-				}
-				
-				redstoneWire.setFace(BlockFace.SOUTH, connections[nextInt(count, connections.length - 1, next)]);
 				break;
 			case FACE_WEST:
 				if(!(blockData instanceof RedstoneWire)) break;
 				redstoneWire = (RedstoneWire) blockData;
 				
-				count = 0;
-				connections = RedstoneWire.Connection.values();
-				for(RedstoneWire.Connection enumValue : connections) {
-					if(enumValue.equals(redstoneWire.getFace(BlockFace.WEST)))
-						break;
-					count++;
-				}
+				redstoneWire.setFace(BlockFace.WEST, nextPosition(redstoneWire.getFace(BlockFace.WEST), next, RedstoneWire.Connection.values()));
 				
-				redstoneWire.setFace(BlockFace.WEST, connections[nextInt(count, connections.length - 1, next)]);
 				break;
 			case HANGING:
 				if(!(blockData instanceof Lantern)) break;
@@ -450,30 +412,15 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Door)) break;
 				Door door = (Door) blockData;
 				
-				count = 0;
-				Door.Hinge[] hinge = Door.Hinge.values();
-				for(Door.Hinge enumValue : hinge) {
-					if(enumValue.equals(door.getHinge()))
-						break;
-					count++;
-				}
-				
-				door.setHinge(hinge[nextInt(count, hinge.length - 1, next)]);
+				door.setHinge(nextPosition(door.getHinge(), next, Door.Hinge.values()));
 				
 				break;
 			case INSTRUMENT:
 				if(!(blockData instanceof NoteBlock)) break;
 				NoteBlock noteblock = (NoteBlock) blockData;
 				
-				count = 0;
-				Instrument[] instruments = Instrument.values();
-				for(Instrument enumValue : instruments) {
-					if(enumValue.equals(noteblock.getInstrument()))
-						break;
-					count++;
-				}
+				noteblock.setInstrument(nextPosition(noteblock.getInstrument(), next, Instrument.values()));
 				
-				noteblock.setInstrument(instruments[nextInt(count, instruments.length - 1, next)]);
 				break;
 			case INVERTED:
 				if(!(blockData instanceof DaylightDetector)) break;
@@ -500,15 +447,7 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Bamboo)) break;
 				Bamboo bamboo = (Bamboo) blockData;
 				
-				count = 0;
-				Bamboo.Leaves[] bamboo_leaves = Bamboo.Leaves.values();
-				for(Bamboo.Leaves enumValue : bamboo_leaves) {
-					if(enumValue.equals(bamboo.getLeaves()))
-						break;
-					count++;
-				}
-				
-				bamboo.setLeaves(bamboo_leaves[nextInt(count, bamboo_leaves.length - 1, next)]);
+				bamboo.setLeaves(nextPosition(bamboo.getLeaves(), next, Bamboo.Leaves.values()));
 				
 				break;
 			case LOCKED:
@@ -521,28 +460,10 @@ public class DebugStickNextBlockStates {
 			case MODE:
 				if(blockData instanceof Comparator) {
 					Comparator comparator = (Comparator) blockData;
-					
-					count = 0;
-					Comparator.Mode[] comparator_mode = Comparator.Mode.values();
-					for(Comparator.Mode enumValue : comparator_mode) {
-						if(enumValue.equals(comparator.getMode()))
-							break;
-						count++;
-					}
-					
-					comparator.setMode(comparator_mode[nextInt(count, comparator_mode.length - 1, next)]);
+					comparator.setMode(nextPosition(comparator.getMode(), next, Comparator.Mode.values()));
 				} else if(blockData instanceof StructureBlock) {
 					StructureBlock structureBlock = (StructureBlock) blockData;
-					
-					count = 0;
-					StructureBlock.Mode[] structureblocks_mode = StructureBlock.Mode.values();
-					for(StructureBlock.Mode enumValue : structureblocks_mode) {
-						if(enumValue.equals(structureBlock.getMode()))
-							break;
-						count++;
-					}
-					
-					structureBlock.setMode(structureblocks_mode[nextInt(count, structureblocks_mode.length - 1, next)]);
+					structureBlock.setMode(nextPosition(structureBlock.getMode(), next, StructureBlock.Mode.values()));
 				}
 				
 				break;
@@ -557,15 +478,7 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Bed)) break;
 				Bed bed = (Bed) blockData;
 				
-				count = 0;
-				Bed.Part[] bed_parts = Bed.Part.values();
-				for(Bed.Part enumValue : bed_parts) {
-					if(enumValue.equals(bed.getPart()))
-						break;
-					count++;
-				}
-				
-				bed.setPart(bed_parts[nextInt(count, bed_parts.length - 1, next)]);
+				bed.setPart(nextPosition(bed.getPart(), next, Bed.Part.values()));
 				
 				break;				
 			case PERSISTENT:
@@ -585,16 +498,8 @@ public class DebugStickNextBlockStates {
 			case SHAPE:
 				if(!(blockData instanceof Stairs)) break;
 				Stairs stairs = (Stairs) blockData;
-				
-				count = 0;
-				Stairs.Shape[] stairs_shape = Stairs.Shape.values();
-				for(Stairs.Shape enumValue : stairs_shape) {
-					if(enumValue.equals(stairs.getShape()))
-						break;
-					count++;
-				}
-				
-				stairs.setShape(stairs_shape[nextInt(count, stairs_shape.length - 1, next)]);
+
+				stairs.setShape(nextPosition(stairs.getShape(), next, Stairs.Shape.values()));
 				
 				break;
 			case SHORT:
@@ -628,40 +533,13 @@ public class DebugStickNextBlockStates {
 			case TYPE:
 				if(blockData instanceof TechnicalPiston) {
 					TechnicalPiston technicalPiston = (TechnicalPiston) blockData;
-					
-					count = 0;
-					TechnicalPiston.Type[] technicalpiston_type = TechnicalPiston.Type.values();
-					for(TechnicalPiston.Type enumValue : technicalpiston_type) {
-						if(enumValue.equals(technicalPiston.getType()))
-							break;
-						count++;
-					}
-					
-					technicalPiston.setType(technicalpiston_type[nextInt(count, technicalpiston_type.length - 1, next)]);
+					technicalPiston.setType(nextPosition(technicalPiston.getType(), next, TechnicalPiston.Type.values())); //TODO
 				} else if(blockData instanceof Chest) {
 					Chest chest = (Chest) blockData;
-					
-					count = 0;
-					Chest.Type[] chest_type = Chest.Type.values();
-					for(Chest.Type enumValue : chest_type) {
-						if(enumValue.equals(chest.getType()))
-							break;
-						count++;
-					}
-					
-					chest.setType(chest_type[nextInt(count, chest_type.length - 1, next)]);
+					chest.setType(nextPosition(chest.getType(), next, Chest.Type.values()));
 				} else if(blockData instanceof Slab) {
 					Slab slab = (Slab) blockData;
-					
-					count = 0;
-					Slab.Type[] slab_type = Slab.Type.values();
-					for(Slab.Type enumValue : slab_type) {
-						if(enumValue.equals(slab.getType()))
-							break;
-						count++;
-					}
-					
-					slab.setType(slab_type[nextInt(count, slab_type.length - 1, next)]);
+					slab.setType(nextPosition(slab.getType(), next, Slab.Type.values()));
 				}
 				
 				break;

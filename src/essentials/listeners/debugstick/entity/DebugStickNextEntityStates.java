@@ -1,5 +1,6 @@
 package essentials.listeners.debugstick.entity;
 
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
@@ -577,18 +578,18 @@ public class DebugStickNextEntityStates {
 			case YIELD:
 				break;
 		}
-		
-		Cat.Type a = nextPosition(Cat.Type.ALL_BLACK, Cat.Type.values());
 	}
 	
-	private static <T extends Enum<T>> T nextPosition(T currentEnum, T... enums){
+	@SafeVarargs
+	private static <T extends Enum<T>> T nextPosition(T currentEnum, boolean next, T... enums) {
 		int count = 0;
 		for(T enumValue : enums) {
+			Bukkit.broadcastMessage(enumValue + " " + currentEnum + " " + enumValue.equals(currentEnum));
 			if(enumValue.equals(currentEnum))
 				break;
 			count++;
 		}
-		return enums[count];
+		return enums[nextInt(count, enums.length - 1, next)];
 	}
 
 	private static double nextDouble(double mom, double max, boolean next) {
