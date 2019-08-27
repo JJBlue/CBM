@@ -36,7 +36,6 @@ public class DebugStickListEntityStates {
 			list.add(DebugStickEntityChanges.COLLIDABLE);
 			list.add(DebugStickEntityChanges.GLIDING);
 			list.add(DebugStickEntityChanges.REMAINING_AIR);
-			list.add(DebugStickEntityChanges.REMAINING_AIR);
 			list.add(DebugStickEntityChanges.REMOVE_WHEN_FAR_AWAY);
 			list.add(DebugStickEntityChanges.SWIMMING);
 		}

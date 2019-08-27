@@ -87,6 +87,27 @@ public class DebugStickListener implements Listener {
 		Entity entity = event.getRightClicked();
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
 		
+		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
+		if(debugStickBlockChanges == null) return;
+		
+		DebugStickEntities.setNextEntityState(entity, debugStickBlockChanges, !player.isSneaking());
+		ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges));
+	}
+	
+	@EventHandler (priority = EventPriority.HIGHEST)
+	public void damage(EntityDamageByEntityEvent event) {
+		if(!(event.getDamager() instanceof Player)) return;
+		
+		Player player = (Player) event.getDamager();
+		
+		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
+		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
+		
+		event.setCancelled(true);
+		
+		Entity entity = event.getEntity();
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		
 		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);
 		if(list.isEmpty()) return;
 		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
@@ -104,26 +125,5 @@ public class DebugStickListener implements Listener {
 		
 		config.setTmp("DebugStickEntityChangesCurrent", debugStickBlockChanges);
 		ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
-	}
-	
-	@EventHandler (priority = EventPriority.HIGHEST)
-	public void damage(EntityDamageByEntityEvent event) {
-		if(!(event.getDamager() instanceof Player)) return;
-		
-		Player player = (Player) event.getDamager();
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		
-		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
-		
-		event.setCancelled(true);
-		
-		Entity entity = event.getEntity();
-		
-		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
-		if(debugStickBlockChanges == null) return;
-		
-		DebugStickEntities.setNextEntityState(entity, debugStickBlockChanges, !player.isSneaking());
-		ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges));
 	}
 }
