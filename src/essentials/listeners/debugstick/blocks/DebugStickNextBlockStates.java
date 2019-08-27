@@ -105,9 +105,9 @@ public class DebugStickNextBlockStates {
 	 * 	TODO better:
 	 * 
 	 * 	NoteBlock note.
-	 * 	Banner Rotation
-	 * 	glocke Directional
-	 * 	ShulkerBox Directional
+	 * 	Banner Rotation -> Bug Fix?
+	 * 	glocke Directional -> Bug Fix?
+	 * 	ShulkerBox Directional -> Bug Fix?
 	 * 
 	 * 	=> IllegalStateException || IllegalArgumentException
 	 * 
@@ -162,7 +162,13 @@ public class DebugStickNextBlockStates {
 					count++;
 				}
 				
-				directional.setFacing(blockFaces[nextInt(count, blockFaces.length - 1, next)]);
+				int start = count;
+				do {
+					count = nextInt(count, blockFaces.length - 1, next);
+					try {
+						directional.setFacing(blockFaces[count]);
+					} catch (IllegalArgumentException | IllegalStateException e) {}
+				} while(start != count);
 				
 				break;
 			case LEVELLED:
@@ -290,9 +296,14 @@ public class DebugStickNextBlockStates {
 					count++;
 				}
 				
-				Bukkit.broadcastMessage(count + " " + blockFaces.length + " " + nextInt(count, blockFaces.length - 1, next));
-				rotatable.setRotation(blockFaces[nextInt(count, blockFaces.length - 1, next)]);
-
+				start = count;
+				do {
+					count = nextInt(count, blockFaces.length - 1, next);
+					try {
+						rotatable.setRotation(blockFaces[count]);
+					} catch (IllegalArgumentException | IllegalStateException e) {}
+				} while(start != count);
+				
 				break;
 			case SNOW:
 				if(!(blockData instanceof Snowable)) break;
