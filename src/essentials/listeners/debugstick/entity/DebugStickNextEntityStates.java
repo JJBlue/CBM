@@ -3,6 +3,7 @@ package essentials.listeners.debugstick.entity;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.data.type.Snow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Bat;
@@ -51,6 +52,12 @@ import org.bukkit.entity.Spellcaster;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.TropicalFish;
+import org.bukkit.entity.Vex;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.WitherSkull;
+import org.bukkit.entity.Wolf;
+import org.bukkit.entity.Zombie;
+import org.bukkit.entity.ZombieVillager;
 
 public class DebugStickNextEntityStates {
 	/*
@@ -203,7 +210,32 @@ public class DebugStickNextEntityStates {
 		tropicalFish.setBodyColor(arg0);
 		tropicalFish.setPattern(arg0);
 		
+		Vex vex;
+		vex.setCharging(arg0);
 		
+		Villager villager;
+		villager.setProfession(arg0);
+		villager.setVillagerType(arg0);
+		villager.setVillagerLevel(arg0);
+		villager.setVillagerExperience(arg0);
+		villager.wakeup();
+		
+		WitherSkull witherSkull;
+		witherSkull.setCharged(arg0);
+		
+		Wolf wolf;
+		wolf.setAngry(arg0);
+		wolf.setCollarColor(arg0);
+		
+		Zombie zombie;
+		zombie.setBaby(arg0);
+		zombie.setConversionTime(arg0);
+		
+		AbstractArrow abstractArrow;
+		abstractArrow.setDamage(arg0);
+		abstractArrow.setPierceLevel(arg0);
+		abstractArrow.setCritical(arg0);
+		abstractArrow.setPickupStatus(arg0);
 	}
 	
 	@SuppressWarnings("deprecation")
