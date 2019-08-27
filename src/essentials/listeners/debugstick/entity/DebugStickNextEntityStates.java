@@ -163,20 +163,11 @@ public class DebugStickNextEntityStates {
 		Rabbit rabbit;
 		rabbit.setRabbitType(arg0);
 		
-		Raider raider;
-		raider.setPatrolLeader(arg0);
-		
-		Sheep sheep;
-		sheep.setSheared(arg0);
-		
 		Skeleton skeleton;
 		skeleton.setSkeletonType(arg0);
 		
 		Slime slime;
 		slime.setSize(arg0);
-		
-		Snowman snowman;
-		snowman.setDerp(arg0);
 		
 		SpectralArrow spectralArrow;
 		spectralArrow.setGlowingTicks(arg0);
@@ -192,18 +183,12 @@ public class DebugStickNextEntityStates {
 		tropicalFish.setBodyColor(arg0);
 		tropicalFish.setPattern(arg0);
 		
-		Vex vex;
-		vex.setCharging(arg0);
-		
 		Villager villager;
 		villager.setProfession(arg0);
 		villager.setVillagerType(arg0);
 		villager.setVillagerLevel(arg0);
 		villager.setVillagerExperience(arg0);
 		villager.wakeup();
-		
-		WitherSkull witherSkull;
-		witherSkull.setCharged(arg0);
 		
 		Wolf wolf;
 		wolf.setAngry(arg0);
@@ -395,8 +380,18 @@ public class DebugStickNextEntityStates {
 			case CHANGE_AGE:
 				break;
 			case CHARGED:
+				if(!(entity instanceof WitherSkull)) break;
+				WitherSkull witherSkull = (WitherSkull) entity;
+				
+				witherSkull.setCharged(!witherSkull.isCharged());
+				
 				break;
 			case CHARGING:
+				if(!(entity instanceof Vex)) break;
+				Vex vex = (Vex) entity;
+				
+				vex.setCharging(!vex.isCharging());
+				
 				break;
 			case COLLAR_COLOR:
 				break;
@@ -415,6 +410,11 @@ public class DebugStickNextEntityStates {
 			case DAMAGE:
 				break;
 			case DERP:
+				if(!(entity instanceof Snowman)) break;
+				Snowman snowman = (Snowman) entity;
+				
+				snowman.setDerp(!snowman.isDerp());
+				
 				break;
 			case DESPAWN_TIMER:
 				break;
@@ -467,6 +467,11 @@ public class DebugStickNextEntityStates {
 			case OCCUPIED_DECELERATION:
 				break;
 			case PATROL_LEADER:
+				if(!(entity instanceof Raider)) break;
+				Raider raider = (Raider) entity;
+				
+				raider.setPatrolLeader(!raider.isPatrolLeader());
+				
 				break;
 			case PATTERN:
 				break;
@@ -507,6 +512,11 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case SHEARED:
+				if(!(entity instanceof Sheep)) break;
+				Sheep sheep = (Sheep) entity;
+				
+				sheep.setSheared(!sheep.isSheared());
+				
 				break;
 			case SHOT_AT_ANGLE:
 				if(!(entity instanceof Firework)) break;
