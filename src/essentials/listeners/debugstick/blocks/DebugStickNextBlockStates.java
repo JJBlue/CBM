@@ -100,9 +100,6 @@ public class DebugStickNextBlockStates {
 	 */
 	
 	public void Blocks() {
-		Bed bed;
-		bed.setPart(arg0);
-		
 		Bell bell;
 		bell.setAttachment(arg0);
 		
@@ -475,7 +472,20 @@ public class DebugStickNextBlockStates {
 			case NOTE:
 				break;
 			case PART:
-				break;
+				if(!(blockData instanceof Bed)) break;
+				Bed bed = (Bed) blockData;
+				
+				count = 0;
+				Bed.Part[] bed_parts = Bed.Part.values();
+				for(Bed.Part enumValue : bed_parts) {
+					if(enumValue.equals(bed.getPart()))
+						break;
+					count++;
+				}
+				
+				bed.setPart(bed_parts[nextInt(count, bed_parts.length - 1, next)]);
+				
+				break;				
 			case PERSISTENT:
 				if(!(blockData instanceof Leaves)) break;
 				Leaves leaves = (Leaves) blockData;
