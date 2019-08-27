@@ -23,8 +23,7 @@ import essentials.utilities.chat.ChatUtilities;
 public class DebugStickListener implements Listener {
 	
 	/*
-	 * TODO:
-	 * PlayerInteractEvent send sometimes doppel -> Redstonewire etc...
+	 * PlayerInteractEvent send sometimes doppel, because Object is clickable -> Redstonewire etc...
 	 */
 	@EventHandler (priority = EventPriority.HIGHEST)
 	public void interact(PlayerInteractEvent event) {
