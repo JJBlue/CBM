@@ -80,7 +80,7 @@ public class DebugStickNextBlockStates {
 	 * 	Hopper
 	 * 	Lantern
 	 * 	Leaves
-	 * 	NoteBlock
+	 * 	NoteBlock -> Note to complicated (Future: Editor)
 	 * 	Piston
 	 * 
 	 * 	PistonHead
@@ -105,22 +105,12 @@ public class DebugStickNextBlockStates {
 		BrewingStand brewingStand;
 		brewingStand.setBottle(arg0, arg1);
 		
-		Door door;
-		door.setHinge(arg0);
-		
-		NoteBlock noteBlock;
-		noteBlock.setInstrument(arg0);
-		noteBlock.setNote(arg0);
-		
 		RedstoneWire redstoneWire;
 		redstoneWire.setFace(arg0, arg1);
 		
 		Repeater repeater; //TODO EASY
 		repeater.setDelay(arg0);
 		repeater.setLocked(arg0);
-		
-		Switch switch2;
-		switch2.setFace(arg0);
 	}
 	
 	public static void setNext(BlockData blockData, DebugStickBlockChanges type, boolean next) { //or bevore
@@ -397,6 +387,19 @@ public class DebugStickNextBlockStates {
 				piston.setExtended(!piston.isExtended());
 				break;
 			case FACE:
+				if(!(blockData instanceof Switch)) break;
+				Switch switch1 = (Switch) blockData;
+				
+				count = 0;
+				Switch.Face[] switches = Switch.Face.values();
+				for(Switch.Face enumValue : switches) {
+					if(enumValue.equals(switch1.getFace()))
+						break;
+					count++;
+				}
+				
+				switch1.setFace(switches[nextInt(count, switches.length - 1, next)]);
+				
 				break;
 			case HANGING:
 				if(!(blockData instanceof Lantern)) break;
@@ -413,6 +416,19 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case HINGE:
+				if(!(blockData instanceof Door)) break;
+				Door door = (Door) blockData;
+				
+				count = 0;
+				Door.Hinge[] hinge = Door.Hinge.values();
+				for(Door.Hinge enumValue : hinge) {
+					if(enumValue.equals(door.getHinge()))
+						break;
+					count++;
+				}
+				
+				door.setHinge(hinge[nextInt(count, hinge.length - 1, next)]);
+				
 				break;
 			case INSTRUMENT:
 				if(!(blockData instanceof NoteBlock)) break;

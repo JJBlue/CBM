@@ -167,7 +167,6 @@ public class DebugStickListBlockStates {
 		}
 		if(blockData instanceof NoteBlock) {
 			list.add(DebugStickBlockChanges.INSTRUMENT);
-			list.add(DebugStickBlockChanges.NOTE);
 		}
 		if(blockData instanceof Piston)
 			list.add(DebugStickBlockChanges.EXTENDED);
