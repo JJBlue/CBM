@@ -134,31 +134,34 @@ public class DebugStickListBlockStates {
 		
 		//TODO
 		//##############################################################################################
-		if(blockData instanceof Bamboo);
+		if(blockData instanceof Bamboo);//TODO
 		if(blockData instanceof Bed)
 			list.add(DebugStickBlockChanges.PART);
 		if(blockData instanceof Bell)
 			list.add(DebugStickBlockChanges.ATTACHMENT);
-		if(blockData instanceof BrewingStand)
-			list.add(DebugStickBlockChanges.BOTTLE);
-		if(blockData instanceof BubbleColumn);
-		if(blockData instanceof Cake);
-		if(blockData instanceof Campfire);
+		if(blockData instanceof BrewingStand) {
+			list.add(DebugStickBlockChanges.BOTTLE_0);
+			list.add(DebugStickBlockChanges.BOTTLE_1);
+			list.add(DebugStickBlockChanges.BOTTLE_2);
+		}
+		if(blockData instanceof BubbleColumn);//TODO
+		if(blockData instanceof Cake);//TODO
+		if(blockData instanceof Campfire);//TODO
 		if(blockData instanceof Chest)
 			list.add(DebugStickBlockChanges.TYPE);
-		if(blockData instanceof CommandBlock);
+		if(blockData instanceof CommandBlock); //TODO
 		if(blockData instanceof Comparator)
 			list.add(DebugStickBlockChanges.MODE);
 		
-		if(blockData instanceof DaylightDetector);
+		if(blockData instanceof DaylightDetector); //TODO
 		if(blockData instanceof Dispenser)
 			list.add(DebugStickBlockChanges.TRIGGERED);
 		if(blockData instanceof Door)
 			list.add(DebugStickBlockChanges.HINGE);
 		if(blockData instanceof Farmland)
 			list.add(DebugStickBlockChanges.MOISTURE);
-		if(blockData instanceof Gate);
-		if(blockData instanceof Hopper);
+		if(blockData instanceof Gate); //TODO
+		if(blockData instanceof Hopper); //TODO
 		if(blockData instanceof Lantern)
 			list.add(DebugStickBlockChanges.HANGING);
 		if(blockData instanceof Leaves) {
@@ -173,7 +176,12 @@ public class DebugStickListBlockStates {
 		
 		if(blockData instanceof PistonHead)
 			list.add(DebugStickBlockChanges.SHORT);
-		if(blockData instanceof RedstoneWire);
+		if(blockData instanceof RedstoneWire) {
+			list.add(DebugStickBlockChanges.FACE_NORTH);
+			list.add(DebugStickBlockChanges.FACE_EAST);
+			list.add(DebugStickBlockChanges.FACE_SOUTH);
+			list.add(DebugStickBlockChanges.FACE_WEST);
+		}
 		if(blockData instanceof Repeater) {
 			list.add(DebugStickBlockChanges.DELAY);
 			list.add(DebugStickBlockChanges.LOCKED);

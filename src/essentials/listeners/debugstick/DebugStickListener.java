@@ -16,6 +16,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import essentials.listeners.debugstick.blocks.DebugStickBlockChanges;
 import essentials.listeners.debugstick.blocks.DebugStickBlocks;
 import essentials.permissions.PermissionHelper;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+import essentials.utilities.chat.ChatUtilities;
 
 public class DebugStickListener implements Listener {
 	
@@ -30,15 +33,38 @@ public class DebugStickListener implements Listener {
 		event.setCancelled(true);
 		
 		Block block = event.getClickedBlock();
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
 		
-		List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
-		
-		for(DebugStickBlockChanges s : list)
-			player.sendMessage(s.name());
-		player.sendMessage("");
-		
-		if(!list.isEmpty())
-			DebugStickBlocks.setNextBlockState(block, list.get(0), true);
+		switch (event.getAction()) {
+			case LEFT_CLICK_BLOCK:
+				List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
+				DebugStickBlockChanges debugStickBlockChanges = (DebugStickBlockChanges) config.get("DebugStickBlockChangesCurrent");
+				
+				if(debugStickBlockChanges == null)
+					debugStickBlockChanges = list.get(0);
+				else {
+					int i = list.indexOf(debugStickBlockChanges);
+					if(i == list.size() - 1)
+						debugStickBlockChanges = list.get(0);
+					else
+						debugStickBlockChanges = list.get(i++);
+				}
+				
+				config.setTmp("DebugStickBlockChangesCurrent", debugStickBlockChanges);
+				ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
+				
+				break;
+			case RIGHT_CLICK_BLOCK:
+				debugStickBlockChanges = (DebugStickBlockChanges) config.get("DebugStickBlockChangesCurrent");
+				if(debugStickBlockChanges == null) break;
+				
+				DebugStickBlocks.setNextBlockState(block, debugStickBlockChanges, !player.isSneaking());
+				ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickBlocks.getBlockDataValue(block, debugStickBlockChanges));
+				
+				break;
+			default:
+				break;
+		}
 	}
 	
 	@EventHandler (priority = EventPriority.HIGHEST)

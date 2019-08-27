@@ -2,7 +2,6 @@ package essentials.listeners.debugstick.blocks;
 
 import org.bukkit.Axis;
 import org.bukkit.Instrument;
-import org.bukkit.Note;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.AnaloguePowerable;
@@ -100,18 +99,6 @@ public class DebugStickNextBlockStates {
 	 * 	Tripwire
 	 * 	TurtleEgg
 	 */
-	
-	public void Blocks() {
-		BrewingStand brewingStand;
-		brewingStand.setBottle(arg0, arg1);
-		
-		RedstoneWire redstoneWire;
-		redstoneWire.setFace(arg0, arg1);
-		
-		Repeater repeater; //TODO EASY
-		repeater.setDelay(arg0);
-		repeater.setLocked(arg0);
-	}
 	
 	public static void setNext(BlockData blockData, DebugStickBlockChanges type, boolean next) { //or bevore
 		switch (type) {
@@ -329,7 +316,26 @@ public class DebugStickNextBlockStates {
 				cake.setBites(nextInt(cake.getBites(), cake.getMaximumBites(), next));
 				
 				break;
-			case BOTTLE:
+			case BOTTLE_0:
+				if(!(blockData instanceof BrewingStand)) break;
+				BrewingStand brewingStand = (BrewingStand) blockData;
+				
+				brewingStand.setBottle(0, !brewingStand.hasBottle(0));
+				
+				break;
+			case BOTTLE_1:
+				if(!(blockData instanceof BrewingStand)) break;
+				brewingStand = (BrewingStand) blockData;
+				
+				brewingStand.setBottle(1, !brewingStand.hasBottle(1));
+				
+				break;
+			case BOTTLE_2:
+				if(!(blockData instanceof BrewingStand)) break;
+				brewingStand = (BrewingStand) blockData;
+				
+				brewingStand.setBottle(2, !brewingStand.hasBottle(2));
+				
 				break;
 			case BOTTOM:
 				if(!(blockData instanceof Scaffolding)) break;
@@ -346,6 +352,11 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case DELAY:
+				if(!(blockData instanceof Repeater)) break;
+				Repeater repeater = (Repeater) blockData;
+				
+				repeater.setDelay(nextInt(repeater.getDelay(), repeater.getMinimumDelay(), repeater.getMaximumDelay(), next));
+				
 				break;
 			case DISARMED:
 				if(!(blockData instanceof Tripwire)) break;
@@ -372,6 +383,11 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case EGGS:
+				if(!(blockData instanceof TurtleEgg)) break;
+				TurtleEgg turtleEgg = (TurtleEgg) blockData;
+
+				turtleEgg.setEggs(nextInt(turtleEgg.getEggs(), turtleEgg.getMinimumEggs(), turtleEgg.getMaximumEggs(), next));
+				
 				break;
 			case ENABLED:
 				if(!(blockData instanceof Hopper)) break;
@@ -401,6 +417,64 @@ public class DebugStickNextBlockStates {
 				switch1.setFace(switches[nextInt(count, switches.length - 1, next)]);
 				
 				break;
+			case FACE_NORTH:
+				if(!(blockData instanceof RedstoneWire)) break;
+				RedstoneWire redstoneWire = (RedstoneWire) blockData;
+				
+				count = 0;
+				RedstoneWire.Connection[] connections = RedstoneWire.Connection.values();
+				for(RedstoneWire.Connection enumValue : connections) {
+					if(enumValue.equals(redstoneWire.getFace(BlockFace.NORTH)))
+						break;
+					count++;
+				}
+				
+				redstoneWire.setFace(BlockFace.NORTH, connections[nextInt(count, connections.length - 1, next)]);
+				
+				break;
+			case FACE_EAST:
+				if(!(blockData instanceof RedstoneWire)) break;
+				redstoneWire = (RedstoneWire) blockData;
+				
+				count = 0;
+				connections = RedstoneWire.Connection.values();
+				for(RedstoneWire.Connection enumValue : connections) {
+					if(enumValue.equals(redstoneWire.getFace(BlockFace.EAST)))
+						break;
+					count++;
+				}
+				
+				redstoneWire.setFace(BlockFace.EAST, connections[nextInt(count, connections.length - 1, next)]);
+				
+				break;
+			case FACE_SOUTH:
+				if(!(blockData instanceof RedstoneWire)) break;
+				redstoneWire = (RedstoneWire) blockData;
+				
+				count = 0;
+				connections = RedstoneWire.Connection.values();
+				for(RedstoneWire.Connection enumValue : connections) {
+					if(enumValue.equals(redstoneWire.getFace(BlockFace.SOUTH)))
+						break;
+					count++;
+				}
+				
+				redstoneWire.setFace(BlockFace.SOUTH, connections[nextInt(count, connections.length - 1, next)]);
+				break;
+			case FACE_WEST:
+				if(!(blockData instanceof RedstoneWire)) break;
+				redstoneWire = (RedstoneWire) blockData;
+				
+				count = 0;
+				connections = RedstoneWire.Connection.values();
+				for(RedstoneWire.Connection enumValue : connections) {
+					if(enumValue.equals(redstoneWire.getFace(BlockFace.WEST)))
+						break;
+					count++;
+				}
+				
+				redstoneWire.setFace(BlockFace.WEST, connections[nextInt(count, connections.length - 1, next)]);
+				break;
 			case HANGING:
 				if(!(blockData instanceof Lantern)) break;
 				Lantern lantern = (Lantern) blockData;
@@ -410,9 +484,9 @@ public class DebugStickNextBlockStates {
 				break;
 			case HATCH:
 				if(!(blockData instanceof TurtleEgg)) break;
-				TurtleEgg turtleEgg = (TurtleEgg) blockData;
+				turtleEgg = (TurtleEgg) blockData;
 				
-				turtleEgg.setHatch(nextInt(turtleEgg.getEggs(), turtleEgg.getMinimumEggs(), turtleEgg.getMaximumEggs(), next));
+				turtleEgg.setHatch(nextInt(turtleEgg.getHatch(), turtleEgg.getMaximumHatch(), next));
 				
 				break;
 			case HINGE:
@@ -481,6 +555,11 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case LOCKED:
+				if(!(blockData instanceof Repeater)) break;
+				repeater = (Repeater) blockData;
+				
+				repeater.setLocked(!repeater.isLocked());
+				
 				break;
 			case MODE:
 				if(blockData instanceof Comparator) {
