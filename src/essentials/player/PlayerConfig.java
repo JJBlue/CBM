@@ -244,8 +244,11 @@ public class PlayerConfig {
 				
 				String[] conditions = new String[buffer.keySet().size()];
 				int count = 0;
-				for(String key : buffer.keySet())
+				for(String key : buffer.keySet()) {
+					PlayerConfigValue value = buffer.get(key);
+					if(value.isSaved() || value.isTmp() || (coloumns != null && !coloumns.contains(key))) continue;
 					conditions[count++] = key;
+				}
 				
 				builder.append('\n');
 				builder.append(DatabaseSyntax.setKeywordWithCondition("SET", conditions));
@@ -260,7 +263,7 @@ public class PlayerConfig {
 				
 				for(String key : buffer.keySet()) {
 					PlayerConfigValue value = buffer.get(key);
-					if(value.isSaved() || value.isTmp() || !coloumns.contains(key)) continue;
+					if(value.isSaved() || value.isTmp() || (coloumns != null && !coloumns.contains(key))) continue;
 					
 					try {
 						PlayerSQLHelper.set(preparedStatement, index++, value.getObject());

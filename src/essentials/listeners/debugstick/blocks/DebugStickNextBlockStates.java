@@ -109,6 +109,8 @@ public class DebugStickNextBlockStates {
 	 * 	glocke Directional
 	 * 	ShulkerBox Directional
 	 * 
+	 * 	=> IllegalStateException || IllegalArgumentException
+	 * 
 	 */
 	
 	public static void setNext(BlockData blockData, DebugStickBlockChanges type, boolean next) { //or bevore
