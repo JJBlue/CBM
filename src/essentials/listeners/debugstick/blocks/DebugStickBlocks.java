@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Player;
 
 public class DebugStickBlocks {
 	public static void setNextBlockState(Block block, DebugStickBlockChanges debugStickBlockChanges, boolean next /* or bevor*/) {
@@ -22,5 +23,17 @@ public class DebugStickBlocks {
 	
 	public static List<DebugStickBlockChanges> getPossibleBlockStateChanges(BlockData blockData){
 		return DebugStickListBlockStates.getBlockStates(blockData);
+	}
+	
+	public static Object getBlockDataValue(Block block, DebugStickBlockChanges debugStickBlockChanges) {
+		return DebugStickBlockGetValue.getBlockStateValue(block.getBlockData(), debugStickBlockChanges);
+	}
+	
+	public static Object getBlockDataValue(BlockData blockData, DebugStickBlockChanges debugStickBlockChanges) {
+		return DebugStickBlockGetValue.getBlockStateValue(blockData, debugStickBlockChanges);
+	}
+	
+	public static void openBlockStateEditor(Player player, Block block) {
+		DebugStickBlockInventory.openInventory(player, block);
 	}
 }
