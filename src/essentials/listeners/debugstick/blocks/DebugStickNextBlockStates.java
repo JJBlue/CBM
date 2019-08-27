@@ -122,12 +122,6 @@ public class DebugStickNextBlockStates {
 		noteBlock.setInstrument(arg0);
 		noteBlock.setNote(arg0);
 		
-		Piston piston; //TODO EASY
-		piston.setExtended(arg0);
-		
-		PistonHead pistonHead; //TODO EASY
-		pistonHead.setShort(arg0);
-		
 		RedstoneWire redstoneWire;
 		redstoneWire.setFace(arg0, arg1);
 		
@@ -137,13 +131,10 @@ public class DebugStickNextBlockStates {
 		
 		Sapling sapling;
 		sapling.setStage(arg0);
-		
+
 		Scaffolding scaffolding; //TODO EASY
 		scaffolding.setBottom(arg0);
 		scaffolding.setDistance(arg0);
-		
-		SeaPickle seaPickle; //TODO EASY
-		seaPickle.setPickles(arg0);
 		
 		Slab slab;
 		slab.setType(arg0);
@@ -389,6 +380,15 @@ public class DebugStickNextBlockStates {
 					Leaves leaves = (Leaves) blockData;
 					leaves.setDistance(nextInt(leaves.getDistance(), 10, next));
 				}
+				else if(blockData instanceof  Scaffolding){
+					Scaffolding scaffolding = (Scaffolding) blockData;
+					scaffolding.setDistance(nextInt(scaffolding.getDistance(), scaffolding.getMaximumDistance(), next));
+				}
+
+
+				Scaffolding scaffolding; //TODO EASY
+				scaffolding.setBottom(arg0);
+				scaffolding.setDistance(arg0);
 				
 				break;
 			case DRAG:
@@ -408,6 +408,10 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case EXTENDED:
+				if(!(blockData instanceof Piston)) break;
+				Piston piston = (Piston) blockData;
+
+				piston.setExtended(!piston.isExtended());
 				break;
 			case FACE:
 				break;
@@ -488,10 +492,20 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case PICKLES:
+				if(!(blockData instanceof SeaPickle)) break;
+				SeaPickle seaPickle = (SeaPickle) blockData;
+
+				seaPickle.setPickles(nextInt(seaPickle.getPickles(), seaPickle.getMinimumPickles(), seaPickle.getMaximumPickles(), next));
+
 				break;
 			case SHAPE:
 				break;
 			case SHORT:
+				if(!(blockData instanceof PistonHead)) break;
+				PistonHead pistonHead = (PistonHead) blockData;
+
+				pistonHead.setShort(!pistonHead.isShort());
+
 				break;
 			case SIGNAL_FIRE:
 				if(!(blockData instanceof Campfire)) break;
