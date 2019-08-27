@@ -60,7 +60,9 @@ public class PlayerSQLHelper {
 	}
 	
 	public static void set(PreparedStatement preparedStatement, int index, Object obj) throws SQLException {
-		if(obj instanceof Boolean)
+		if(obj == null)
+			preparedStatement.setString(index, null);
+		else if(obj instanceof Boolean)
 			preparedStatement.setBoolean(index, (Boolean) obj);
 		else if(obj instanceof Byte)
 			preparedStatement.setByte(index, (Byte) obj);
@@ -116,7 +118,9 @@ public class PlayerSQLHelper {
 		else {
 			int length = 0;
 			
-			if(obj instanceof String) {
+			if(obj == null)
+				length = 100;
+			else if(obj instanceof String) {
 				String s = (String) obj;
 				length = Math.max(s.length(), 100);
 			} else
