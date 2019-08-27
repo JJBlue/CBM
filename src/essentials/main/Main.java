@@ -29,6 +29,7 @@ import essentials.listeners.noHunger;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.PlayerMapListener;
 import essentials.listeners.chair.chair;
+import essentials.listeners.debugstick.DebugStickListener;
 import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.pluginmanager.DisableEnable;
@@ -64,6 +65,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new TradeListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ArmorstandListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
+		Bukkit.getPluginManager().registerEvents(new DebugStickListener(), this);
 		
 		{
 			MainCommand mainCommand = new MainCommand();
