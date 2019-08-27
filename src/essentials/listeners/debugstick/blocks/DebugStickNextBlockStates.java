@@ -100,14 +100,8 @@ public class DebugStickNextBlockStates {
 	 */
 	
 	public void Blocks() {
-		Bell bell;
-		bell.setAttachment(arg0);
-		
 		BrewingStand brewingStand;
 		brewingStand.setBottle(arg0, arg1);
-		
-		Chest chest;
-		chest.setType(arg0);
 		
 		Comparator comparator;
 		comparator.setMode(arg0);
@@ -128,9 +122,6 @@ public class DebugStickNextBlockStates {
 		
 		Sapling sapling;
 		sapling.setStage(arg0);
-		
-		Slab slab;
-		slab.setType(arg0);
 		
 		Stairs stairs;
 		stairs.setShape(arg0);
@@ -337,6 +328,19 @@ public class DebugStickNextBlockStates {
 			//##############################################################################################
 				
 			case ATTACHMENT:
+				if(!(blockData instanceof Bell)) break;
+				Bell bell = (Bell) blockData;
+				
+				count = 0;
+				Bell.Attachment[] bell_attachments = Bell.Attachment.values();
+				for(Bell.Attachment enumValue : bell_attachments) {
+					if(enumValue.equals(bell.getAttachment()))
+						break;
+					count++;
+				}
+				
+				bell.setAttachment(bell_attachments[nextInt(count, bell_attachments.length - 1, next)]);
+				
 				break;
 			case BITES:
 				if(!(blockData instanceof Cake)) break;
@@ -538,6 +542,30 @@ public class DebugStickNextBlockStates {
 					}
 					
 					technicalPiston.setType(technicalpiston_type[nextInt(count, technicalpiston_type.length - 1, next)]);
+				} else if(blockData instanceof Chest) {
+					Chest chest = (Chest) blockData;
+					
+					count = 0;
+					Chest.Type[] chest_type = Chest.Type.values();
+					for(Chest.Type enumValue : chest_type) {
+						if(enumValue.equals(chest.getType()))
+							break;
+						count++;
+					}
+					
+					chest.setType(chest_type[nextInt(count, chest_type.length - 1, next)]);
+				} else if(blockData instanceof Slab) {
+					Slab slab = (Slab) blockData;
+					
+					count = 0;
+					Slab.Type[] slab_type = Slab.Type.values();
+					for(Slab.Type enumValue : slab_type) {
+						if(enumValue.equals(slab.getType()))
+							break;
+						count++;
+					}
+					
+					slab.setType(slab_type[nextInt(count, slab_type.length - 1, next)]);
 				}
 				
 				break;
