@@ -1,6 +1,8 @@
 package essentials.listeners.debugstick.blocks;
 
 import org.bukkit.Axis;
+import org.bukkit.Instrument;
+import org.bukkit.Note;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.AnaloguePowerable;
@@ -103,9 +105,6 @@ public class DebugStickNextBlockStates {
 		BrewingStand brewingStand;
 		brewingStand.setBottle(arg0, arg1);
 		
-		Comparator comparator;
-		comparator.setMode(arg0);
-		
 		Door door;
 		door.setHinge(arg0);
 		
@@ -119,15 +118,6 @@ public class DebugStickNextBlockStates {
 		Repeater repeater; //TODO EASY
 		repeater.setDelay(arg0);
 		repeater.setLocked(arg0);
-		
-		Sapling sapling;
-		sapling.setStage(arg0);
-		
-		Stairs stairs;
-		stairs.setShape(arg0);
-		
-		StructureBlock structureBlock;
-		structureBlock.setMode(arg0);
 		
 		Switch switch2;
 		switch2.setFace(arg0);
@@ -425,6 +415,18 @@ public class DebugStickNextBlockStates {
 			case HINGE:
 				break;
 			case INSTRUMENT:
+				if(!(blockData instanceof NoteBlock)) break;
+				NoteBlock noteblock = (NoteBlock) blockData;
+				
+				count = 0;
+				Instrument[] instruments = Instrument.values();
+				for(Instrument enumValue : instruments) {
+					if(enumValue.equals(noteblock.getInstrument()))
+						break;
+					count++;
+				}
+				
+				noteblock.setInstrument(instruments[nextInt(count, instruments.length - 1, next)]);
 				break;
 			case INVERTED:
 				if(!(blockData instanceof DaylightDetector)) break;
@@ -465,6 +467,32 @@ public class DebugStickNextBlockStates {
 			case LOCKED:
 				break;
 			case MODE:
+				if(blockData instanceof Comparator) {
+					Comparator comparator = (Comparator) blockData;
+					
+					count = 0;
+					Comparator.Mode[] comparator_mode = Comparator.Mode.values();
+					for(Comparator.Mode enumValue : comparator_mode) {
+						if(enumValue.equals(comparator.getMode()))
+							break;
+						count++;
+					}
+					
+					comparator.setMode(comparator_mode[nextInt(count, comparator_mode.length - 1, next)]);
+				} else if(blockData instanceof StructureBlock) {
+					StructureBlock structureBlock = (StructureBlock) blockData;
+					
+					count = 0;
+					StructureBlock.Mode[] structureblocks_mode = StructureBlock.Mode.values();
+					for(StructureBlock.Mode enumValue : structureblocks_mode) {
+						if(enumValue.equals(structureBlock.getMode()))
+							break;
+						count++;
+					}
+					
+					structureBlock.setMode(structureblocks_mode[nextInt(count, structureblocks_mode.length - 1, next)]);
+				}
+				
 				break;
 			case MOISTURE:
 				if(!(blockData instanceof Farmland)) break;
@@ -472,8 +500,6 @@ public class DebugStickNextBlockStates {
 				
 				farmland.setMoisture(nextInt(farmland.getMoisture(), farmland.getMaximumMoisture(), next));
 				
-				break;
-			case NOTE:
 				break;
 			case PART:
 				if(!(blockData instanceof Bed)) break;
@@ -505,6 +531,19 @@ public class DebugStickNextBlockStates {
 
 				break;
 			case SHAPE:
+				if(!(blockData instanceof Stairs)) break;
+				Stairs stairs = (Stairs) blockData;
+				
+				count = 0;
+				Stairs.Shape[] stairs_shape = Stairs.Shape.values();
+				for(Stairs.Shape enumValue : stairs_shape) {
+					if(enumValue.equals(stairs.getShape()))
+						break;
+					count++;
+				}
+				
+				stairs.setShape(stairs_shape[nextInt(count, stairs_shape.length - 1, next)]);
+				
 				break;
 			case SHORT:
 				if(!(blockData instanceof PistonHead)) break;
@@ -521,6 +560,11 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case STAGE:
+				if(!(blockData instanceof Sapling)) break;
+				Sapling sapling = (Sapling) blockData;
+				
+				sapling.setStage(nextInt(sapling.getStage(), sapling.getMaximumStage(), next));
+				
 				break;
 			case TRIGGERED:
 				if(!(blockData instanceof Dispenser)) break;

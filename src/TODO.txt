@@ -13,6 +13,7 @@ Futures:
 	- kids
 	- mail
 	- sleeping time -> Speed Time faster when more sleep
+	- Noteblock Editor
 	
 	Commands:
 	- set air

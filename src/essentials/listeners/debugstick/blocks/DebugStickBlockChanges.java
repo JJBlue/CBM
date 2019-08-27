@@ -46,7 +46,6 @@ public enum DebugStickBlockChanges {
 	LOCKED,
 	MODE,
 	MOISTURE,
-	NOTE,
 	PART,
 	PERSISTENT,
 	PICKLES,
