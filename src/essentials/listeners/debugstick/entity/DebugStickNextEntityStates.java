@@ -2,18 +2,210 @@ package essentials.listeners.debugstick.entity;
 
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.data.type.Snow;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Bat;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Cat;
+import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Damageable;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.EnderSignal;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.FishHook;
+import org.bukkit.entity.Fox;
+import org.bukkit.entity.Guardian;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Husk;
+import org.bukkit.entity.IronGolem;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Llama;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.MushroomCow;
+import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Painting;
+import org.bukkit.entity.Panda;
+import org.bukkit.entity.Parrot;
+import org.bukkit.entity.Phantom;
+import org.bukkit.entity.Pig;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.PufferFish;
+import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Raider;
+import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Sittable;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Slime;
+import org.bukkit.entity.Snowman;
+import org.bukkit.entity.SpectralArrow;
+import org.bukkit.entity.Spellcaster;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.Tameable;
+import org.bukkit.entity.TropicalFish;
 
 public class DebugStickNextEntityStates {
 	/*
 	 * Age Zombie etc not working
 	 */
+	public void Blocks() {
+		AbstractHorse abstractHorse;
+		abstractHorse.setVariant(arg0);
+		abstractHorse.setDomestication(arg0);
+		abstractHorse.setJumpStrength(arg0);
+		
+		Bat bat;
+		bat.setAwake(arg0);
+		
+		Boat boat;
+		boat.setWoodType(arg0);
+		boat.setMaxSpeed(arg0);
+		boat.setOccupiedDeceleration(arg0);
+		boat.setWorkOnLand(arg0);
+		
+		Cat cat;
+		cat.setCatType(arg0);
+		cat.setCollarColor(arg0);
+		
+		ChestedHorse chestedHorse;
+		chestedHorse.setCarryingChest(arg0);
+		
+		Creeper creeper;
+		creeper.setPowered(arg0);
+		creeper.setExplosionRadius(arg0);
+		creeper.setMaxFuseTicks(arg0);
+		
+		EnderCrystal enderCrystal;
+		enderCrystal.setShowingBottom(arg0);
+		
+		EnderSignal enderSignal;
+		enderSignal.setDropItem(arg0);
+		enderSignal.setDespawnTimer(arg0);
+		
+		ExperienceOrb experienceOrb;
+		experienceOrb.setExperience(arg0);
+		
+		Explosive explosive;
+		explosive.setYield(arg0);
+		explosive.setIsIncendiary(arg0);
+		
+		FallingBlock fallingBlock;
+		fallingBlock.setDropItem(arg0);
+		fallingBlock.setHurtEntities(arg0);
+		
+		Firework firework;
+		firework.setShotAtAngle(arg0);
+		
+		FishHook fishHook;
+		fishHook.setBiteChance(arg0);
+		
+		Fox fox;
+		fox.setFoxType(arg0);
+		fox.setCrouching(arg0);
+		fox.setSleeping(arg0);
+		
+		Guardian guardian;
+		guardian.setElder(arg0);
+		
+		Horse horse;
+		horse.setColor(arg0);
+		horse.setStyle(arg0);
+		
+		Husk husk;
+		husk.setConversionTime(arg0);
+		
+		IronGolem ironGolem;
+		ironGolem.setPlayerCreated(arg0);
+		
+		Item item;
+		item.setPickupDelay(arg0);
+		
+		Llama llama;
+		llama.setColor(arg0);
+		llama.setStrength(arg0);
+		
+		Minecart minecart;
+		minecart.setDamage(arg0);
+		minecart.setMaxSpeed(arg0);
+		minecart.setSlowWhenEmpty(arg0);
+		minecart.setDisplayBlockOffset(arg0);
+		
+		MushroomCow mushroomCow;
+		mushroomCow.setVariant(arg0);
+		
+		Ocelot ocelot;
+		ocelot.setCatType(arg0);
+		
+		Painting painting;
+		painting.setArt(arg0);
+		
+		Panda panda;
+		panda.setMainGene(arg0);
+		panda.setHiddenGene(arg0);
+		
+		Parrot parrot;
+		parrot.setVariant(arg0);
+		
+		Phantom phantom;
+		phantom.setSize(arg0);
+		
+		Pig pig;
+		pig.setSaddle(arg0);
+		
+		PigZombie pigZombie;
+		pigZombie.setAnger(arg0);
+		pigZombie.setAngry(arg0);
+		pigZombie.setConversionTime(arg0);
+		
+		Projectile projectile;
+		projectile.setBounce(arg0);
+		
+		PufferFish pufferFish;
+		pufferFish.setPuffState(arg0);
+		
+		Rabbit rabbit;
+		rabbit.setRabbitType(arg0);
+		
+		Raider raider;
+		raider.setPatrolLeader(arg0);
+		
+		Sheep sheep;
+		sheep.setSheared(arg0);
+		
+		Skeleton skeleton;
+		skeleton.setSkeletonType(arg0);
+		
+		Slime slime;
+		slime.setSize(arg0);
+		
+		Snowman snowman;
+		snowman.setDerp(arg0);
+		
+		SpectralArrow spectralArrow;
+		spectralArrow.setGlowingTicks(arg0);
+		
+		Spellcaster spellcaster;
+		spellcaster.setSpell(arg0);
+		
+		TNTPrimed tntPrimed;
+		tntPrimed.setFuseTicks(arg0);
+		
+		TropicalFish tropicalFish;
+		tropicalFish.setPatternColor(arg0);
+		tropicalFish.setBodyColor(arg0);
+		tropicalFish.setPattern(arg0);
+		
+		
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static void setNext(Entity entity, DebugStickEntityChanges type, boolean next) { //or bevore		
 		if(entity instanceof Player) {
