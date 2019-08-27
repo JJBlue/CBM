@@ -22,6 +22,10 @@ import essentials.utilities.chat.ChatUtilities;
 
 public class DebugStickListener implements Listener {
 	
+	/*
+	 * TODO:
+	 * PlayerInteractEvent send sometimes doppel -> Redstonewire etc...
+	 */
 	@EventHandler (priority = EventPriority.HIGHEST)
 	public void interact(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -38,16 +42,18 @@ public class DebugStickListener implements Listener {
 		switch (event.getAction()) {
 			case LEFT_CLICK_BLOCK:
 				List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
+				if(list.isEmpty()) break;
 				DebugStickBlockChanges debugStickBlockChanges = (DebugStickBlockChanges) config.get("DebugStickBlockChangesCurrent");
 				
 				if(debugStickBlockChanges == null)
 					debugStickBlockChanges = list.get(0);
 				else {
 					int i = list.indexOf(debugStickBlockChanges);
-					if(i == list.size() - 1)
+					
+					if(i < 0 || i == list.size() - 1)
 						debugStickBlockChanges = list.get(0);
 					else
-						debugStickBlockChanges = list.get(i++);
+						debugStickBlockChanges = list.get(++i);
 				}
 				
 				config.setTmp("DebugStickBlockChangesCurrent", debugStickBlockChanges);

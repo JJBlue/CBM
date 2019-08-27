@@ -188,9 +188,10 @@ public class DebugStickListBlockStates {
 		}
 		if(blockData instanceof Sapling)
 			list.add(DebugStickBlockChanges.STAGE);
-		if(blockData instanceof Scaffolding)
+		if(blockData instanceof Scaffolding) {
 			list.add(DebugStickBlockChanges.BOTTOM);
 			list.add(DebugStickBlockChanges.DISTANCE);
+		}
 		if(blockData instanceof SeaPickle)
 			list.add(DebugStickBlockChanges.PICKLES);
 		if(blockData instanceof Slab)
@@ -210,9 +211,10 @@ public class DebugStickListBlockStates {
 			list.add(DebugStickBlockChanges.UNSTABLE);
 		if(blockData instanceof Tripwire)
 			list.add(DebugStickBlockChanges.DISARMED);
-		if(blockData instanceof TurtleEgg)
+		if(blockData instanceof TurtleEgg) {
 			list.add(DebugStickBlockChanges.EGGS);
 			list.add(DebugStickBlockChanges.HATCH);
+		}
 		
 		return list;
 	}

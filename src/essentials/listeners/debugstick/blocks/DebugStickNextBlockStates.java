@@ -1,6 +1,7 @@
 package essentials.listeners.debugstick.blocks;
 
 import org.bukkit.Axis;
+import org.bukkit.Bukkit;
 import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -79,7 +80,7 @@ public class DebugStickNextBlockStates {
 	 * 	Hopper
 	 * 	Lantern
 	 * 	Leaves
-	 * 	NoteBlock -> Note to complicated (Future: Editor)
+	 * 	NoteBlock -> (Future: Editor)
 	 * 	Piston
 	 * 
 	 * 	PistonHead
@@ -98,6 +99,16 @@ public class DebugStickNextBlockStates {
 	 * 	TNT
 	 * 	Tripwire
 	 * 	TurtleEgg
+	 */
+	
+	/*
+	 * 	TODO better:
+	 * 
+	 * 	NoteBlock note.
+	 * 	Banner Rotation
+	 * 	glocke Directional
+	 * 	ShulkerBox Directional
+	 * 
 	 */
 	
 	public static void setNext(BlockData blockData, DebugStickBlockChanges type, boolean next) { //or bevore
@@ -270,11 +281,14 @@ public class DebugStickNextBlockStates {
 				count = 0;
 				blockFaces = BlockFace.values();
 				for(BlockFace face : blockFaces) {
+					Bukkit.broadcastMessage(face.name() + " " + rotatable.getRotation().name());
+					
 					if(face.equals(rotatable.getRotation()))
 						break;
 					count++;
 				}
 				
+				Bukkit.broadcastMessage(count + " " + blockFaces.length + " " + nextInt(count, blockFaces.length - 1, next));
 				rotatable.setRotation(blockFaces[nextInt(count, blockFaces.length - 1, next)]);
 
 				break;
@@ -727,12 +741,12 @@ public class DebugStickNextBlockStates {
 			if(mom == max)
 				return min;
 			else
-				return mom++;
+				return ++mom;
 		} else {
 			if(mom == min)
 				return max;
 			else
-				return mom--;
+				return --mom;
 		}
 	}
 }
