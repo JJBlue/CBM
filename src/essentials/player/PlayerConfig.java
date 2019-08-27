@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -237,26 +238,34 @@ public class PlayerConfig {
 				}
 			}
 			
-			PreparedStatement preparedStatement;
+			PreparedStatement preparedStatement = null;
 			{
 				StringBuilder builder = new StringBuilder();
 				builder.append("UPDATE players");
 				
-				String[] conditions = new String[buffer.keySet().size()];
-				int count = 0;
+				List<String> conditions = new LinkedList<>();
+				
 				for(String key : buffer.keySet()) {
 					if(key == null) continue;
 					PlayerConfigValue value = buffer.get(key);
 					if(value == null || value.isSaved() || value.isTmp() || (coloumns != null && !coloumns.contains(key))) continue;
-					conditions[count++] = key;
+					conditions.add(key);
 				}
 				
 				builder.append('\n');
-				builder.append(DatabaseSyntax.setKeywordWithCondition("SET", conditions));
+				String[] array = new String[conditions.size()];
+				conditions.toArray(array);
+				builder.append(DatabaseSyntax.setKeywordWithCondition("SET", array));
 				builder.append('\n');
 				builder.append(DatabaseSyntax.where("uuid"));
 				
-				preparedStatement = Databases.getPlayerDatabase().prepareStatement(builder.toString());
+				try {
+					preparedStatement = Databases.getPlayerDatabase().prepareStatementWE(builder.toString());
+					if(preparedStatement == null) return;
+				} catch (SQLException e) {
+					System.out.println(builder.toString());
+					e.printStackTrace();
+				}
 			}
 			
 			try {
