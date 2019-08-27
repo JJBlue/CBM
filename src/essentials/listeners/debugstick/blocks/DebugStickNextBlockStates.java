@@ -2,6 +2,7 @@ package essentials.listeners.debugstick.blocks;
 
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -262,15 +263,7 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Bell)) break;
 				Bell bell = (Bell) blockData;
 				
-				count = 0;
-				Bell.Attachment[] bell_attachments = Bell.Attachment.values();
-				for(Bell.Attachment enumValue : bell_attachments) {
-					if(enumValue.equals(bell.getAttachment()))
-						break;
-					count++;
-				}
-				
-				bell.setAttachment(bell_attachments[nextInt(count, bell_attachments.length - 1, next)]);
+				bell.setAttachment(nextPosition(bell.getAttachment(), next, Bell.Attachment.values()));
 				
 				break;
 			case BITES:
@@ -715,6 +708,18 @@ public class DebugStickNextBlockStates {
 		blockFaces[index++] = BlockFace.SELF;
 		
 		return blockFaces;
+	}
+	
+	@SafeVarargs
+	private static <T extends Enum<T>> T nextPosition(T currentEnum, boolean next, T... enums) {
+		int count = 0;
+		for(T enumValue : enums) {
+			Bukkit.broadcastMessage(enumValue + " " + currentEnum + " " + enumValue.equals(currentEnum));
+			if(enumValue.equals(currentEnum))
+				break;
+			count++;
+		}
+		return enums[nextInt(count, enums.length - 1, next)];
 	}
 	
 	private static <T> T nextSet(T current, Set<T> sets) {

@@ -2,6 +2,8 @@ package essentials.listeners.debugstick.entity;
 
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.RedstoneWire;
 import org.bukkit.block.data.type.Snow;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.AbstractHorse;
@@ -58,6 +60,8 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.entity.ZombieVillager;
+
+import essentials.Image.staticImage;
 
 public class DebugStickNextEntityStates {
 	/*
@@ -573,6 +577,18 @@ public class DebugStickNextEntityStates {
 			case YIELD:
 				break;
 		}
+		
+		Cat.Type a = nextPosition(Cat.Type.ALL_BLACK, Cat.Type.values());
+	}
+	
+	private static <T extends Enum<T>> T nextPosition(T currentEnum, T... enums){
+		int count = 0;
+		for(T enumValue : enums) {
+			if(enumValue.equals(currentEnum))
+				break;
+			count++;
+		}
+		return enums[count];
 	}
 
 	private static double nextDouble(double mom, double max, boolean next) {
