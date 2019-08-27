@@ -2,3 +2,40 @@ Futures:
 
 	- Make a plugin silent for BroadcastMassages
 	- survival debug stick
+	- set Loot to an entity
+	- bossbar
+	- timers
+	- customrecipes
+	- disableenchantments
+	- holograms
+	- homes
+	- import from other databases
+	- kids
+	- mail
+	- sleeping time -> Speed Time faster when more sleep
+	
+	Commands:
+	- set air
+	- alert player
+	- alias commands
+	- attachcommand to items (NBT ?)
+	- money
+	- ban
+	- jail
+	- get NBT
+	- spawners
+	- clearchat
+	- playtime
+	- world player time | weather
+	- warps
+	- fly
+	- better speed command -> fly, walk, swim
+	- giveall
+	- glow player color
+	- god
+	- clear ground
+	- kick
+	- scan for items in containers
+	- shakeitoff -> remove all entities riding on you
+	- skin
+	- nickname
