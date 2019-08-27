@@ -69,9 +69,6 @@ public class DebugStickNextEntityStates {
 		abstractHorse.setDomestication(arg0);
 		abstractHorse.setJumpStrength(arg0);
 		
-		Bat bat;
-		bat.setAwake(arg0);
-		
 		Boat boat;
 		boat.setWoodType(arg0);
 		boat.setMaxSpeed(arg0);
@@ -90,9 +87,6 @@ public class DebugStickNextEntityStates {
 		creeper.setExplosionRadius(arg0);
 		creeper.setMaxFuseTicks(arg0);
 		
-		EnderCrystal enderCrystal;
-		enderCrystal.setShowingBottom(arg0);
-		
 		EnderSignal enderSignal;
 		enderSignal.setDropItem(arg0);
 		enderSignal.setDespawnTimer(arg0);
@@ -107,9 +101,6 @@ public class DebugStickNextEntityStates {
 		FallingBlock fallingBlock;
 		fallingBlock.setDropItem(arg0);
 		fallingBlock.setHurtEntities(arg0);
-		
-		Firework firework;
-		firework.setShotAtAngle(arg0);
 		
 		FishHook fishHook;
 		fishHook.setBiteChance(arg0);
@@ -128,9 +119,6 @@ public class DebugStickNextEntityStates {
 		
 		Husk husk;
 		husk.setConversionTime(arg0);
-		
-		IronGolem ironGolem;
-		ironGolem.setPlayerCreated(arg0);
 		
 		Item item;
 		item.setPickupDelay(arg0);
@@ -164,16 +152,10 @@ public class DebugStickNextEntityStates {
 		Phantom phantom;
 		phantom.setSize(arg0);
 		
-		Pig pig;
-		pig.setSaddle(arg0);
-		
 		PigZombie pigZombie;
 		pigZombie.setAnger(arg0);
 		pigZombie.setAngry(arg0);
 		pigZombie.setConversionTime(arg0);
-		
-		Projectile projectile;
-		projectile.setBounce(arg0);
 		
 		PufferFish pufferFish;
 		pufferFish.setPuffState(arg0);
@@ -369,6 +351,217 @@ public class DebugStickNextEntityStates {
 				default:
 					break;
 			}
+		}
+		
+		switch (type) {
+			case AGE_LOCK:
+				break;
+			case AI:
+				break;
+			case ANGER:
+				break;
+			case ANGRY:
+				break;
+			case ART:
+				break;
+			case AWAKE:
+				if(!(entity instanceof Bat)) break;
+				Bat bat = (Bat) entity;
+				
+				bat.setAwake(!bat.isAwake());
+				
+				break;
+			case BABY:
+				break;
+			case BITE_CHANCE:
+				break;
+			case BODY_COLOR:
+				break;
+			case BOUNCE:
+				if(!(entity instanceof Projectile)) break;
+				Projectile projectile = (Projectile) entity;
+				
+				projectile.setBounce(!projectile.doesBounce());
+				
+				break;
+			case BREED:
+				break;
+			case CAN_PICKUP_ITEMS:
+				break;
+			case CARRYING_CHEST:
+				break;
+			case CAT_TYPE:
+				break;
+			case CHANGE_AGE:
+				break;
+			case CHARGED:
+				break;
+			case CHARGING:
+				break;
+			case COLLAR_COLOR:
+				break;
+			case COLLIDABLE:
+				break;
+			case COLOR:
+				break;
+			case CONVERSION_TIME:
+				break;
+			case CRITICAL:
+				break;
+			case CROUCHING:
+				break;
+			case CUSTOM_NAME_VISIBLE:
+				break;
+			case DAMAGE:
+				break;
+			case DERP:
+				break;
+			case DESPAWN_TIMER:
+				break;
+			case DISPLAY_BLOCK_OFFSET:
+				break;
+			case DOMESTICATION:
+				break;
+			case DROP_ITEM:
+				break;
+			case ELDER:
+				break;
+			case EXPERIENCE:
+				break;
+			case EXPLOSION_RADIUS:
+				break;
+			case FIRE_TRICKS:
+				break;
+			case FLY_SPEED:
+				break;
+			case FOX_TYPE:
+				break;
+			case FUSE_TICKS:
+				break;
+			case GLIDING:
+				break;
+			case GLOWING:
+				break;
+			case GLOWING_TICKS:
+				break;
+			case GRAVITY:
+				break;
+			case HEALTH:
+				break;
+			case HIDDEN_GENE:
+				break;
+			case HURT_ENTITIES:
+				break;
+			case INVULNERABLE:
+				break;
+			case IS_INCENDIARY:
+				break;
+			case JUMP_STRENGTH:
+				break;
+			case MAIN_GENE:
+				break;
+			case MAXSPEED:
+				break;
+			case MAX_FUSE_TICKS:
+				break;
+			case OCCUPIED_DECELERATION:
+				break;
+			case PATROL_LEADER:
+				break;
+			case PATTERN:
+				break;
+			case PATTERN_COLOR:
+				break;
+			case PERSISTENT:
+				break;
+			case PICKUP_DELAY:
+				break;
+			case PICKUP_STATUS:
+				break;
+			case PIERCE_LEVEL:
+				break;
+			case PLAYER_CREATED:
+				if(!(entity instanceof IronGolem)) break;
+				IronGolem ironGolem = (IronGolem) entity;
+				
+				ironGolem.setPlayerCreated(!ironGolem.isPlayerCreated());
+				
+				break;
+			case POWERED:
+				break;
+			case PROFESSION:
+				break;
+			case PUFF_STATE:
+				break;
+			case RABBIT_TYPE:
+				break;
+			case REMAINING_AIR:
+				break;
+			case REMOVE_WHEN_FAR_AWAY:
+				break;
+			case SADDLE:
+				if(!(entity instanceof Pig)) break;
+				Pig pig = (Pig) entity;
+				
+				pig.setSaddle(!pig.hasSaddle());
+				
+				break;
+			case SHEARED:
+				break;
+			case SHOT_AT_ANGLE:
+				if(!(entity instanceof Firework)) break;
+				Firework firework = (Firework) entity;
+				
+				firework.setShotAtAngle(!firework.isShotAtAngle());
+				
+				break;
+			case SHOWING_BOTTOM:
+				if(!(entity instanceof EnderCrystal)) break;
+				EnderCrystal enderCrystal = (EnderCrystal) entity;
+				
+				enderCrystal.setShowingBottom(!enderCrystal.isShowingBottom());
+				
+				break;
+			case SILENT:
+				break;
+			case SITTABLE:
+				break;
+			case SIZE:
+				break;
+			case SKELETON_TYPE:
+				break;
+			case SLEEPING:
+				break;
+			case SLOW_WHEN_EMPTY:
+				break;
+			case SPELL:
+				break;
+			case STRENGTH:
+				break;
+			case STYLE:
+				break;
+			case SWIMMING:
+				break;
+			case TAMED:
+				break;
+			case VARIANT:
+				break;
+			case VILLAGER_EXPERIENCE:
+				break;
+			case VILLAGER_LEVEL:
+				break;
+			case VILLAGER_TYPE:
+				break;
+			case WAKEUP:
+				break;
+			case WALK_SPEED:
+				break;
+			case WOOD_TYPE:
+				break;
+			case WORK_ON_LAND:
+				break;
+			case YIELD:
+				break;
 		}
 	}
 
