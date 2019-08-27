@@ -73,7 +73,7 @@ public class DebugStickListener implements Listener {
 		}
 	}
 	
-	@EventHandler (priority = EventPriority.HIGHEST)
+//	@EventHandler (priority = EventPriority.HIGHEST)
 	public void interactEntity(PlayerInteractAtEntityEvent event) {
 		Player player = event.getPlayer();
 		

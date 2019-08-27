@@ -2,6 +2,7 @@ package essentials.listeners.debugstick.blocks;
 
 import java.util.Set;
 
+import org.bukkit.Axis;
 import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -18,6 +19,7 @@ import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.block.data.Rail;
+import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.Snowable;
 import org.bukkit.block.data.Waterlogged;
@@ -57,7 +59,9 @@ import org.bukkit.block.data.type.TechnicalPiston;
 import org.bukkit.block.data.type.Tripwire;
 import org.bukkit.block.data.type.TurtleEgg;
 
-public class DebugStickNextBlockStates {
+import net.minecraft.server.v1_14_R1.EntityFox.f;
+
+public class DebugStickNextBlockStatesOLD {
 	/*	Extra BlockData set able Methods:
 	 * 
 	 * 	Bamboo
@@ -147,7 +151,23 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Directional)) break;
 				Directional directional = (Directional) blockData;
 				
-				directional.setFacing(nextSet(directional.getFacing(), directional.getFaces()));
+				
+				int count = 0;
+				BlockFace[] blockFaces = directional.getFaces();//TODO getBlockFaces();
+				for(BlockFace face : blockFaces) {
+					if(face.equals(directional.getFacing()))
+						break;
+					count++;
+				}
+				
+				int start = count;
+				do {
+					count = nextInt(count, blockFaces.length - 1, next);
+					try {
+						directional.setFacing(blockFaces[count]);
+						break;
+					} catch (IllegalArgumentException | IllegalStateException e) {}
+				} while(start != count);
 				
 				break;
 			case LEVELLED:
@@ -203,7 +223,17 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Orientable)) break;
 				Orientable orientable = (Orientable) blockData;
 				
-				orientable.setAxis(nextSet(orientable.getAxis(), orientable.getAxes()));
+				switch (orientable.getAxis()) {
+					case X:
+						orientable.setAxis(Axis.Y);
+						break;
+					case Y:
+						orientable.setAxis(Axis.Z);
+						break;
+					case Z:
+						orientable.setAxis(Axis.X);
+						break;
+				}
 				
 				break;
 			case POWER:
@@ -217,22 +247,53 @@ public class DebugStickNextBlockStates {
 				if(!(blockData instanceof Rail)) break;
 				Rail rail = (Rail) blockData;
 				
-				rail.setShape(nextSet(rail.getShape(), rail.getShapes()));
+				switch (rail.getShape()) {
+					case ASCENDING_EAST:
+						rail.setShape(Shape.ASCENDING_NORTH);
+						break;
+					case ASCENDING_NORTH:
+						rail.setShape(Shape.ASCENDING_SOUTH);
+						break;
+					case ASCENDING_SOUTH:
+						rail.setShape(Shape.ASCENDING_WEST);
+						break;
+					case ASCENDING_WEST:
+						rail.setShape(Shape.EAST_WEST);
+						break;
+					case EAST_WEST:
+						rail.setShape(Shape.NORTH_EAST);
+						break;
+					case NORTH_EAST:
+						rail.setShape(Shape.NORTH_SOUTH);
+						break;
+					case NORTH_SOUTH:
+						rail.setShape(Shape.NORTH_WEST);
+						break;
+					case NORTH_WEST:
+						rail.setShape(Shape.SOUTH_EAST);
+						break;
+					case SOUTH_EAST:
+						rail.setShape(Shape.SOUTH_WEST);
+						break;
+					case SOUTH_WEST:
+						rail.setShape(Shape.ASCENDING_EAST);
+						break;
+				}
 				
 				break;
 			case ROTATE:
 				if(!(blockData instanceof Rotatable)) break;
 				Rotatable rotatable = (Rotatable) blockData;
 				
-				int count = 0;
-				BlockFace[] blockFaces = getBlockFaces();
+				count = 0;
+				blockFaces = getBlockFaces();
 				for(BlockFace face : blockFaces) {
 					if(face.equals(rotatable.getRotation()))
 						break;
 					count++;
 				}
 				
-				int start = count;
+				start = count;
 				do {
 					count = nextInt(count, blockFaces.length - 1, next);
 					try {
