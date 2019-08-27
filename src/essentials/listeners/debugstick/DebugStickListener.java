@@ -5,10 +5,12 @@ import java.util.List;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import essentials.listeners.debugstick.blocks.DebugStickBlockChanges;
@@ -25,6 +27,8 @@ public class DebugStickListener implements Listener {
 		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
 		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
 		
+		event.setCancelled(true);
+		
 		Block block = event.getClickedBlock();
 		
 		List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
@@ -35,5 +39,19 @@ public class DebugStickListener implements Listener {
 		
 		if(!list.isEmpty())
 			DebugStickBlocks.setNextBlockState(block, list.get(0), true);
+	}
+	
+	@EventHandler (priority = EventPriority.HIGHEST)
+	public void interactEntity(PlayerInteractAtEntityEvent event) {
+		Player player = event.getPlayer();
+		
+		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
+		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
+		
+		event.setCancelled(true);
+		
+		Entity entity = event.getRightClicked();
+		
+		//TODO
 	}
 }

@@ -1,19 +1,29 @@
 package essentials.listeners.debugstick.entity;
 
-import org.bukkit.attribute.Attributable;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Sittable;
-import org.bukkit.entity.Tameable;
+import java.util.List;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+
+import com.sun.tools.doclint.Entity;
+
+import essentials.listeners.debugstick.blocks.DebugStickBlockChanges;
 
 public class DebugStickEntities {
-	public void idea() {
-		Attributable attributable;
-		LivingEntity livingEntity;
-		Damageable damageable;
-		Ageable ageable;
-		Tameable tameable;
-		Sittable sittable;	
+	//TODO
+	public static void setNextEntityState(Entity entity, DebugStickBlockChanges debugStickBlockChanges, boolean next /* or bevor*/) {
+		
+	}
+	
+	public static List<DebugStickEntityChanges> getPossibleBlockStateChanges(Block block){
+		return null;
+	}
+	
+	public static Object getEntityStateValue(Entity entity, DebugStickEntityChanges debugStickEntityChanges) {
+		return null;
+	}
+	
+	public static void openBlockStateEditor(Player player, Block block) {
+		
 	}
 }

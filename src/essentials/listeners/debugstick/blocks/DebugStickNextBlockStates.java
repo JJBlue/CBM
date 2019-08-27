@@ -131,10 +131,6 @@ public class DebugStickNextBlockStates {
 		
 		Sapling sapling;
 		sapling.setStage(arg0);
-
-		Scaffolding scaffolding; //TODO EASY
-		scaffolding.setBottom(arg0);
-		scaffolding.setDistance(arg0);
 		
 		Slab slab;
 		slab.setType(arg0);
@@ -147,9 +143,6 @@ public class DebugStickNextBlockStates {
 		
 		Switch switch2;
 		switch2.setFace(arg0);
-		
-		TechnicalPiston technicalPiston;
-		technicalPiston.setType(arg0);
 	}
 	
 	public static void setNext(BlockData blockData, DebugStickBlockChanges type, boolean next) { //or bevore
@@ -358,6 +351,11 @@ public class DebugStickNextBlockStates {
 			case BOTTLE:
 				break;
 			case BOTTOM:
+				if(!(blockData instanceof Scaffolding)) break;
+				Scaffolding scaffolding = (Scaffolding) blockData;
+				
+				scaffolding.setBottom(!scaffolding.isBottom());
+				
 				break;
 			case CONDITIONAL:
 				if(!(blockData instanceof CommandBlock)) break;
@@ -379,16 +377,10 @@ public class DebugStickNextBlockStates {
 				if(blockData instanceof Leaves) {
 					Leaves leaves = (Leaves) blockData;
 					leaves.setDistance(nextInt(leaves.getDistance(), 10, next));
-				}
-				else if(blockData instanceof  Scaffolding){
-					Scaffolding scaffolding = (Scaffolding) blockData;
+				} else if(blockData instanceof  Scaffolding){
+					scaffolding = (Scaffolding) blockData;
 					scaffolding.setDistance(nextInt(scaffolding.getDistance(), scaffolding.getMaximumDistance(), next));
 				}
-
-
-				Scaffolding scaffolding; //TODO EASY
-				scaffolding.setBottom(arg0);
-				scaffolding.setDistance(arg0);
 				
 				break;
 			case DRAG:
@@ -524,6 +516,20 @@ public class DebugStickNextBlockStates {
 				
 				break;
 			case TYPE:
+				if(blockData instanceof TechnicalPiston) {
+					TechnicalPiston technicalPiston = (TechnicalPiston) blockData;
+					
+					count = 0;
+					TechnicalPiston.Type[] technicalpiston_type = TechnicalPiston.Type.values();
+					for(TechnicalPiston.Type enumValue : technicalpiston_type) {
+						if(enumValue.equals(technicalPiston.getType()))
+							break;
+						count++;
+					}
+					
+					technicalPiston.setType(technicalpiston_type[nextInt(count, technicalpiston_type.length - 1, next)]);
+				}
+				
 				break;
 			case UNSTABLE:
 				if(!(blockData instanceof TNT)) break;
