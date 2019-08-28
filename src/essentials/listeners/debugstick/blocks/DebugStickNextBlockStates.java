@@ -2,7 +2,6 @@ package essentials.listeners.debugstick.blocks;
 
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -592,7 +591,6 @@ public class DebugStickNextBlockStates {
 	private static <T extends Enum<T>> T nextPosition(T currentEnum, boolean next, T... enums) {
 		int count = 0;
 		for(T enumValue : enums) {
-			Bukkit.broadcastMessage(enumValue + " " + currentEnum + " " + enumValue.equals(currentEnum));
 			if(enumValue.equals(currentEnum))
 				break;
 			count++;

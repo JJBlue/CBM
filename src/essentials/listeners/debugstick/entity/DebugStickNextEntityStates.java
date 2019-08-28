@@ -1,7 +1,6 @@
 package essentials.listeners.debugstick.entity;
 
 import org.bukkit.Art;
-import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.TreeSpecies;
 import org.bukkit.attribute.Attributable;
@@ -626,7 +625,6 @@ public class DebugStickNextEntityStates {
 	private static <T extends Enum<T>> T nextPosition(T currentEnum, boolean next, T... enums) {
 		int count = 0;
 		for(T enumValue : enums) {
-			Bukkit.broadcastMessage(enumValue + " " + currentEnum + " " + enumValue.equals(currentEnum));
 			if(enumValue.equals(currentEnum))
 				break;
 			count++;

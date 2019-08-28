@@ -132,9 +132,9 @@ public class DebugStickListBlockStates {
 		if(blockData instanceof Waterlogged)
 			list.add(DebugStickBlockChanges.WATERLOGGED);
 		
-		//TODO
 		//##############################################################################################
-		if(blockData instanceof Bamboo);//TODO
+		if(blockData instanceof Bamboo)
+			list.add(DebugStickBlockChanges.LEAVES);
 		if(blockData instanceof Bed)
 			list.add(DebugStickBlockChanges.PART);
 		if(blockData instanceof Bell)
@@ -144,24 +144,31 @@ public class DebugStickListBlockStates {
 			list.add(DebugStickBlockChanges.BOTTLE_1);
 			list.add(DebugStickBlockChanges.BOTTLE_2);
 		}
-		if(blockData instanceof BubbleColumn);//TODO
-		if(blockData instanceof Cake);//TODO
-		if(blockData instanceof Campfire);//TODO
+		if(blockData instanceof BubbleColumn)
+			list.add(DebugStickBlockChanges.DRAG);
+		if(blockData instanceof Cake)
+			list.add(DebugStickBlockChanges.BITES);
+		if(blockData instanceof Campfire)
+			list.add(DebugStickBlockChanges.SIGNAL_FIRE);
 		if(blockData instanceof Chest)
 			list.add(DebugStickBlockChanges.TYPE);
-		if(blockData instanceof CommandBlock); //TODO
+		if(blockData instanceof CommandBlock)
+			list.add(DebugStickBlockChanges.CONDITIONAL);
 		if(blockData instanceof Comparator)
 			list.add(DebugStickBlockChanges.MODE);
 		
-		if(blockData instanceof DaylightDetector); //TODO
+		if(blockData instanceof DaylightDetector)
+			list.add(DebugStickBlockChanges.INVERTED);
 		if(blockData instanceof Dispenser)
 			list.add(DebugStickBlockChanges.TRIGGERED);
 		if(blockData instanceof Door)
 			list.add(DebugStickBlockChanges.HINGE);
 		if(blockData instanceof Farmland)
 			list.add(DebugStickBlockChanges.MOISTURE);
-		if(blockData instanceof Gate); //TODO
-		if(blockData instanceof Hopper); //TODO
+		if(blockData instanceof Gate)
+			list.add(DebugStickBlockChanges.IN_WALL);
+		if(blockData instanceof Hopper)
+			list.add(DebugStickBlockChanges.ENABLED);
 		if(blockData instanceof Lantern)
 			list.add(DebugStickBlockChanges.HANGING);
 		if(blockData instanceof Leaves) {
