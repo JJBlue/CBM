@@ -42,7 +42,8 @@ import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
-import essentials.player.SudoPlayer;
+import essentials.player.sudoplayer.SudoPlayerInterface;
+import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
@@ -412,7 +413,9 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "silent":
 				
-				Bukkit.dispatchCommand(new SudoPlayer(sender).setSilentOutputMessage(true), StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
+				CommandSender commandSender = SudoPlayerManager.getSudoPlayer(sender);
+				((SudoPlayerInterface) commandSender).setSilentOutputMessage(true);
+				Bukkit.dispatchCommand(commandSender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
 				
 				break;
 				
@@ -472,7 +475,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					if(args.length < 3) return true;
 					PluginCommand command = Bukkit.getServer().getPluginCommand(args[2]);
 					if(command != null)
-						command.execute(new SudoPlayer(sender, sudoPlayer), args[2], Arrays.copyOfRange(args, 3, args.length));
+						command.execute(SudoPlayerManager.getSudoPlayer(sender, sudoPlayer), args[2], Arrays.copyOfRange(args, 3, args.length));
 				}
 				
 				break;

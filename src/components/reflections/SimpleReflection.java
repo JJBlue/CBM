@@ -174,6 +174,56 @@ public class SimpleReflection {
 		return bestFound.invoke(obj, objects);
 	}
 	
+	public static Method getMethod(Class<?> classy, boolean isStatic, String name, Class<?>... classParameters) {
+		List<Method> methods = new LinkedList<>();
+		for(Method m : classy.getMethods()) {
+			if(!m.getName().equals(name)) continue;
+			if(m.getParameterCount() != classParameters.length) continue;
+			if(isStatic != Modifier.isStatic(m.getModifiers())) continue;
+			methods.add(m);
+			if(classParameters.length == 0) break;
+		}
+		
+		if(methods.isEmpty())
+			return null;
+		else if(methods.size() == 1)
+			return methods.get(0);
+		
+		Method bestFound = null;
+		int lastBestValue = 0;
+		
+		for(Method m : methods) {
+			boolean shouldContinue = false;
+			Parameter[] paramters = m.getParameters();
+			int best = 0;
+			
+			for(int i = 0; i < paramters.length; i++) {
+				Class<?> myClass = getDataTypesSuperclass(classParameters[i]);
+				Class<?> paramClass = paramters[i].getType();
+				
+				if(!paramClass.isAssignableFrom(myClass)) {
+					shouldContinue = true;
+					break;
+				}
+				
+				while(paramClass != myClass) {
+					myClass = myClass.getSuperclass();
+					best++;
+				}
+			}
+			
+			if(shouldContinue) continue;
+			if(best < lastBestValue || bestFound == null) {
+				lastBestValue = best;
+				bestFound = m;
+			}
+			if(best == 0) break;
+		}
+		
+		if(bestFound == null) return null;
+		return bestFound;
+	}
+	
 	public static Class<?> getDataTypesSuperclass(Class<?> myClass){
 		if(myClass == Integer.class)
 			return int.class;
@@ -192,6 +242,34 @@ public class SimpleReflection {
 		else if(myClass == Character.class)
 			return char.class;
 		return myClass;
+	}
+	
+	public static Class<?>[] getInterfacesArray(Class<?> classy){
+		List<Class<?>> list = getInterfaces(classy);
+		Class<?>[] array = new Class<?>[list.size()];
+		return list.toArray(array);
+	}
+	
+	public static List<Class<?>> getInterfaces(Class<?> classy){
+		if(classy == null) return null;
+		
+		List<Class<?>> list = new LinkedList<>();
+		
+		while(classy != Object.class && classy != null) {
+			for(Class<?> classe : classy.getInterfaces()) {
+				if(!list.contains(classe))
+					list.add(classe);
+				
+				for(Class<?> classe2 : getInterfaces(classe)) {
+					if(!list.contains(classe2))
+						list.add(classe2);
+				}
+			}
+			
+			classy = classy.getSuperclass();
+		}
+		
+		return list;
 	}
 	
 	public static List<String> listAttributes(Object obj) {

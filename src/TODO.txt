@@ -1,7 +1,6 @@
 Futures:
 
 	- Make a plugin silent for BroadcastMassages
-	- survival debug stick
 	- set Loot to an entity
 	- bossbar
 	- timers
