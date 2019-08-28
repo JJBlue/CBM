@@ -85,6 +85,12 @@ public class DebugStickListener implements Listener {
 		event.setCancelled(true);
 		
 		Entity entity = event.getRightClicked();
+		if(player.isSneaking() && entity.isInvulnerable()) {
+			entity.setInvulnerable(false);
+			ChatUtilities.sendHotbarMessage(player, "Invulnerable is toggled off");
+			return;
+		}
+		
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
 		
 		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
@@ -109,6 +115,12 @@ public class DebugStickListener implements Listener {
 		event.setCancelled(true);
 		
 		Entity entity = event.getEntity();
+		
+		if(player.isSneaking()) {
+			DebugStickEntities.openEntityStateEditor(player, entity);
+			return;
+		}
+		
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
 		
 		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);

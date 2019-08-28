@@ -53,7 +53,7 @@ import org.bukkit.entity.Zombie;
 
 public class DebugStickEntityGetValue {
 	@SuppressWarnings("deprecation")
-	public static Object getBlockStateValue(Entity entity, DebugStickEntityChanges type) {
+	public static Object getEntityStateValue(Entity entity, DebugStickEntityChanges type) {
 		if(entity instanceof Player) {
 			Player player = (Player) entity;
 			
@@ -241,12 +241,15 @@ public class DebugStickEntityGetValue {
 			case CONVERSION_TIME:
 				if(entity instanceof Husk) {
 					Husk husk = (Husk) entity;
+					if(!husk.isConverting()) return -1;
 					return husk.getConversionTime();
 				} else if(entity instanceof PigZombie) {
 					pigZombie = (PigZombie) entity;
+					if(!pigZombie.isConverting()) return -1;
 					return pigZombie.getConversionTime();
 				} else if(entity instanceof Zombie) {
 					zombie = (Zombie) entity;
+					if(!zombie.isConverting()) return -1;
 					return zombie.getConversionTime();
 				}
 				
@@ -526,7 +529,7 @@ public class DebugStickEntityGetValue {
 				
 			default:
 				break;
-	}
+		}
 		
 		return null;
 	}

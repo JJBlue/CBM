@@ -57,6 +57,10 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 
 public class DebugStickNextEntityStates {
+	/*
+	 * Level & Experience Villager -> Not updating his trade
+	 */
+	
 	@SuppressWarnings("deprecation")
 	public static void setNext(Entity entity, DebugStickEntityChanges type, boolean next) { //or bevore		
 		if(entity instanceof Player) {
@@ -79,7 +83,7 @@ public class DebugStickNextEntityStates {
 				entity.setCustomNameVisible(!entity.isCustomNameVisible());
 				break;
 			case FIRE_TRICKS:
-				entity.setFireTicks(nextInt(entity.getFireTicks(), entity.getMaxFireTicks(), next));
+				entity.setFireTicks(nextInt(entity.getFireTicks(), -1, entity.getMaxFireTicks(), next));
 				break;
 			case GLOWING:
 				entity.setGlowing(!entity.isGlowing());
@@ -283,12 +287,15 @@ public class DebugStickNextEntityStates {
 			case CONVERSION_TIME:
 				if(entity instanceof Husk) {
 					Husk husk = (Husk) entity;
+					if(!husk.isConverting()) break;
 					husk.setConversionTime(nextInt(husk.getConversionTime(), 64, next));
 				} else if(entity instanceof PigZombie) {
 					pigZombie = (PigZombie) entity;
+					if(!pigZombie.isConverting()) break;
 					pigZombie.setConversionTime(nextInt(pigZombie.getConversionTime(), 64, next));
 				} else if(entity instanceof Zombie) {
 					zombie = (Zombie) entity;
+					if(!zombie.isConverting()) break;
 					zombie.setConversionTime(nextInt(zombie.getConversionTime(), 64, next));
 				}
 				
@@ -596,13 +603,13 @@ public class DebugStickNextEntityStates {
 			case VILLAGER_EXPERIENCE:
 				if(!(entity instanceof Villager)) break;
 				villager = (Villager) entity;
-				villager.setVillagerExperience(nextInt(villager.getVillagerExperience(), 64, next));
+				villager.setVillagerExperience(nextInt(villager.getVillagerExperience(), 200, next));
 				
 				break;
 			case VILLAGER_LEVEL:
 				if(!(entity instanceof Villager)) break;
 				villager = (Villager) entity;
-				villager.setVillagerLevel(nextInt(villager.getVillagerLevel(), 64, next));
+				villager.setVillagerLevel(nextInt(villager.getVillagerLevel(), 1, 5, next));
 				
 				break;
 			case WORK_ON_LAND:
@@ -659,12 +666,12 @@ public class DebugStickNextEntityStates {
 			if(mom == max)
 				return min;
 			else
-				return mom++;
+				return ++mom;
 		} else {
 			if(mom == min)
 				return max;
 			else
-				return mom--;
+				return --mom;
 		}
 	}
 }

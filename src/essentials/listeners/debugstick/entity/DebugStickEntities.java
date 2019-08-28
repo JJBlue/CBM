@@ -15,7 +15,7 @@ public class DebugStickEntities {
 	}
 	
 	public static Object getEntityStateValue(Entity entity, DebugStickEntityChanges type) {
-		return DebugStickEntityGetValue.getBlockStateValue(entity, type);
+		return DebugStickEntityGetValue.getEntityStateValue(entity, type);
 	}
 	
 	public static void openEntityStateEditor(Player player, Entity entity) {
