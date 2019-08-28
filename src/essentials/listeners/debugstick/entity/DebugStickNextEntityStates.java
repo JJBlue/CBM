@@ -8,6 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Ageable;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Cat;
@@ -187,7 +188,18 @@ public class DebugStickNextEntityStates {
 			
 			switch (type) {
 				case SITTABLE:
-					sittable.setSitting(!sittable.isSitting());
+					if(entity instanceof Tameable) {
+						Tameable tameable = (Tameable) entity;
+						
+						boolean tamed = tameable.isTamed();
+						AnimalTamer animalTamer = tameable.getOwner();
+						tameable.setTamed(false);
+						sittable.setSitting(!sittable.isSitting());
+						tameable.setTamed(tamed);
+						tameable.setOwner(animalTamer);
+						
+					} else
+						sittable.setSitting(!sittable.isSitting());
 					break;
 				default:
 					break;
