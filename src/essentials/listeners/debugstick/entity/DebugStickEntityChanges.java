@@ -38,8 +38,6 @@ public enum DebugStickEntityChanges {
 	ANGRY,
 	ART,
 	AWAKE,
-	BABY,
-	BITE_CHANCE,
 	BODY_COLOR,
 	BOUNCE,
 	CARRYING_CHEST,
@@ -57,7 +55,6 @@ public enum DebugStickEntityChanges {
 	DISPLAY_BLOCK_OFFSET,
 	DOMESTICATION,
 	DROP_ITEM,
-	ELDER,
 	EXPERIENCE,
 	EXPLOSION_RADIUS,
 	FUSE_TICKS,
@@ -93,7 +90,6 @@ public enum DebugStickEntityChanges {
 	VARIANT,
 	VILLAGER_EXPERIENCE,
 	VILLAGER_LEVEL,
-	WAKEUP,
 	WORK_ON_LAND,
 	YIELD
 }

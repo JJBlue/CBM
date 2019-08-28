@@ -1,5 +1,6 @@
 package essentials.listeners.debugstick.entity;
 
+import org.bukkit.Art;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.TreeSpecies;
@@ -21,9 +22,7 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Explosive;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Firework;
-import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Fox;
-import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Husk;
 import org.bukkit.entity.IronGolem;
@@ -45,7 +44,6 @@ import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Raider;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Sittable;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Snowman;
 import org.bukkit.entity.SpectralArrow;
@@ -60,57 +58,6 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 
 public class DebugStickNextEntityStates {
-	/*
-	 * Age Zombie etc not working
-	 */
-	public void Blocks() {
-		AbstractHorse abstractHorse;
-		abstractHorse.setVariant(arg0);
-		abstractHorse.setDomestication(arg0);
-		abstractHorse.setJumpStrength(arg0);
-		
-		Boat boat;
-		boat.setMaxSpeed(arg0);
-		boat.setOccupiedDeceleration(arg0);
-		boat.setWorkOnLand(arg0);
-		
-		EnderSignal enderSignal;
-		enderSignal.setDropItem(arg0);
-		enderSignal.setDespawnTimer(arg0);
-		
-		Explosive explosive;
-		explosive.setYield(arg0);
-		explosive.setIsIncendiary(arg0);
-		
-		FallingBlock fallingBlock;
-		fallingBlock.setDropItem(arg0);
-		fallingBlock.setHurtEntities(arg0);
-		
-		FishHook fishHook;
-		fishHook.setBiteChance(arg0);
-
-		Guardian guardian;
-		guardian.setElder(arg0);
-		
-		Minecart minecart;
-		minecart.setDamage(arg0);
-		minecart.setMaxSpeed(arg0);
-		minecart.setSlowWhenEmpty(arg0);
-		minecart.setDisplayBlockOffset(arg0);
-		
-		Painting painting;
-		painting.setArt(arg0);
-		
-		Skeleton skeleton;
-		skeleton.setSkeletonType(arg0);
-		
-		AbstractArrow abstractArrow;
-		abstractArrow.setDamage(arg0);
-		abstractArrow.setPierceLevel(arg0);
-		abstractArrow.setCritical(arg0);
-		abstractArrow.setPickupStatus(arg0);
-	}
-	
 	@SuppressWarnings("deprecation")
 	public static void setNext(Entity entity, DebugStickEntityChanges type, boolean next) { //or bevore		
 		if(entity instanceof Player) {
@@ -245,10 +192,6 @@ public class DebugStickNextEntityStates {
 		}
 		
 		switch (type) {
-			case AGE_LOCK:
-				break;
-			case AI:
-				break;
 			case ANGER:
 				if(!(entity instanceof PigZombie)) break;
 				PigZombie pigZombie = (PigZombie) entity;
@@ -266,6 +209,10 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case ART:
+				if(!(entity instanceof Painting)) break;
+				Painting painting = (Painting) entity;
+				painting.setArt(nextPosition(painting.getArt(), next, Art.values()));
+				
 				break;
 			case AWAKE:
 				if(!(entity instanceof Bat)) break;
@@ -273,10 +220,6 @@ public class DebugStickNextEntityStates {
 				
 				bat.setAwake(!bat.isAwake());
 				
-				break;
-			case BABY:
-				break;
-			case BITE_CHANCE:
 				break;
 			case BODY_COLOR:
 				if(!(entity instanceof TropicalFish)) break;
@@ -290,10 +233,6 @@ public class DebugStickNextEntityStates {
 				
 				projectile.setBounce(!projectile.doesBounce());
 				
-				break;
-			case BREED:
-				break;
-			case CAN_PICKUP_ITEMS:
 				break;
 			case CARRYING_CHEST:
 				if(!(entity instanceof ChestedHorse)) break;
@@ -331,8 +270,6 @@ public class DebugStickNextEntityStates {
 				}
 				
 				break;
-			case COLLIDABLE:
-				break;
 			case COLOR:
 				if(entity instanceof Horse) {
 					Horse horse = (Horse) entity;
@@ -357,6 +294,10 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case CRITICAL:
+				if(!(entity instanceof AbstractArrow)) break;
+				AbstractArrow abstractArrow = (AbstractArrow) entity;
+				abstractArrow.setCritical(!abstractArrow.isCritical());
+				
 				break;
 			case CROUCHING:
 				if(!(entity instanceof Fox)) break;
@@ -364,9 +305,16 @@ public class DebugStickNextEntityStates {
 				fox.setCrouching(!fox.isCrouching());
 				
 				break;
-			case CUSTOM_NAME_VISIBLE:
-				break;
 			case DAMAGE:
+				if(entity instanceof AbstractArrow) {
+					abstractArrow = (AbstractArrow) entity;
+					abstractArrow.setDamage(nextDouble(abstractArrow.getDamage(), 64, next));
+				} else if(entity instanceof Minecart) {
+					Minecart minecart = (Minecart) entity;
+					minecart.setDamage(nextDouble(minecart.getDamage(), 64, next));
+				}
+				
+				
 				break;
 			case DERP:
 				if(!(entity instanceof Snowman)) break;
@@ -376,14 +324,32 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case DESPAWN_TIMER:
+				if(!(entity instanceof EnderSignal)) break;
+				EnderSignal enderSignal = (EnderSignal) entity;
+				enderSignal.setDespawnTimer(nextInt(enderSignal.getDespawnTimer(), 200, next));
+				
 				break;
 			case DISPLAY_BLOCK_OFFSET:
+				if(!(entity instanceof Minecart)) break;
+				Minecart minecart = (Minecart) entity;
+				minecart.setDisplayBlockOffset(nextInt(minecart.getDisplayBlockOffset(), 64, next));
+				
 				break;
 			case DOMESTICATION:
+				if(!(entity instanceof AbstractHorse)) break;
+				AbstractHorse abstractHorse = (AbstractHorse) entity;
+				abstractHorse.setDomestication(nextInt(abstractHorse.getDomestication(), 64, next));
+				
 				break;
 			case DROP_ITEM:
-				break;
-			case ELDER:
+				if(entity instanceof EnderSignal) {
+					enderSignal = (EnderSignal) entity;
+					enderSignal.setDropItem(!enderSignal.getDropItem());
+				} else if(entity instanceof FallingBlock) {
+					FallingBlock fallingBlock = (FallingBlock) entity;
+					fallingBlock.setDropItem(!fallingBlock.getDropItem());
+				}
+				
 				break;
 			case EXPERIENCE:
 				if(!(entity instanceof ExperienceOrb)) break;
@@ -397,29 +363,17 @@ public class DebugStickNextEntityStates {
 				creeper.setExplosionRadius(nextInt(creeper.getExplosionRadius(), 64, next));
 				
 				break;
-			case FIRE_TRICKS:
-				break;
-			case FLY_SPEED:
-				break;
 			case FUSE_TICKS:
 				if(!(entity instanceof TNTPrimed)) break;
 				TNTPrimed tntPrimed = (TNTPrimed) entity;
 				tntPrimed.setFuseTicks(nextInt(tntPrimed.getFuseTicks(), 64, next));
 				
 				break;
-			case GLIDING:
-				break;
-			case GLOWING:
-				break;
 			case GLOWING_TICKS:
 				if(!(entity instanceof SpectralArrow)) break;
 				SpectralArrow spectralArrow = (SpectralArrow) entity;
 				spectralArrow.setGlowingTicks(nextInt(spectralArrow.getGlowingTicks(), 200, next));
 				
-				break;
-			case GRAVITY:
-				break;
-			case HEALTH:
 				break;
 			case HIDDEN_GENE:
 				if(!(entity instanceof Panda)) break;
@@ -428,12 +382,22 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case HURT_ENTITIES:
-				break;
-			case INVULNERABLE:
+				if(!(entity instanceof FallingBlock)) break;
+				FallingBlock fallingBlock = (FallingBlock) entity;
+				fallingBlock.setHurtEntities(!fallingBlock.canHurtEntities());
+				
 				break;
 			case IS_INCENDIARY:
+				if(!(entity instanceof Explosive)) break;
+				Explosive explosive = (Explosive) entity;
+				explosive.setIsIncendiary(!explosive.isIncendiary());
+				
 				break;
 			case JUMP_STRENGTH:
+				if(!(entity instanceof AbstractHorse)) break;
+				abstractHorse = (AbstractHorse) entity;
+				abstractHorse.setJumpStrength(nextDouble(abstractHorse.getJumpStrength(), 64, next));
+				
 				break;
 			case MAIN_GENE:
 				if(!(entity instanceof Panda)) break;
@@ -448,8 +412,20 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case MAXSPEED:
+				if(entity instanceof Minecart) {
+					minecart = (Minecart) entity;
+					minecart.setMaxSpeed(nextDouble(minecart.getMaxSpeed(), 200, next));
+				} else if(entity instanceof Boat) {
+					Boat boat = (Boat) entity;
+					boat.setWorkOnLand(!boat.getWorkOnLand());
+				}
+				
 				break;
 			case OCCUPIED_DECELERATION:
+				if(!(entity instanceof Boat)) break;
+				Boat boat = (Boat) entity;
+				boat.setOccupiedDeceleration(nextDouble(boat.getOccupiedDeceleration(), 64, next));
+				
 				break;
 			case PATROL_LEADER:
 				if(!(entity instanceof Raider)) break;
@@ -470,8 +446,6 @@ public class DebugStickNextEntityStates {
 				tropicalFish.setPatternColor(nextPosition(tropicalFish.getPatternColor(), next, DyeColor.values()));
 				
 				break;
-			case PERSISTENT:
-				break;
 			case PICKUP_DELAY:
 				if(!(entity instanceof Item)) break;
 				Item item = (Item) entity;
@@ -479,8 +453,16 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case PICKUP_STATUS:
+				if(!(entity instanceof AbstractArrow)) break;
+				abstractArrow = (AbstractArrow) entity;
+				abstractArrow.setPickupStatus(nextPosition(abstractArrow.getPickupStatus(), next, AbstractArrow.PickupStatus.values()));
+				
 				break;
 			case PIERCE_LEVEL:
+				if(!(entity instanceof AbstractArrow)) break;
+				abstractArrow = (AbstractArrow) entity;
+				abstractArrow.setPierceLevel(nextInt(abstractArrow.getPierceLevel(), 64, next));
+				
 				break;
 			case PLAYER_CREATED:
 				if(!(entity instanceof IronGolem)) break;
@@ -506,10 +488,6 @@ public class DebugStickNextEntityStates {
 				PufferFish pufferFish = (PufferFish) entity;
 				pufferFish.setPuffState(nextInt(pufferFish.getPuffState(), 2, next));
 				
-				break;
-			case REMAINING_AIR:
-				break;
-			case REMOVE_WHEN_FAR_AWAY:
 				break;
 			case SADDLE:
 				if(!(entity instanceof Pig)) break;
@@ -539,10 +517,6 @@ public class DebugStickNextEntityStates {
 				enderCrystal.setShowingBottom(!enderCrystal.isShowingBottom());
 				
 				break;
-			case SILENT:
-				break;
-			case SITTABLE:
-				break;
 			case SIZE:
 				if(entity instanceof Phantom) {
 					Phantom phantom = (Phantom) entity;
@@ -568,6 +542,10 @@ public class DebugStickNextEntityStates {
 
 				break;
 			case SLOW_WHEN_EMPTY:
+				if(!(entity instanceof Minecart)) break;
+				minecart = (Minecart) entity;
+				minecart.setSlowWhenEmpty(!minecart.isSlowWhenEmpty());
+				
 				break;
 			case SPELL:
 				if(!(entity instanceof Spellcaster)) break;
@@ -587,13 +565,9 @@ public class DebugStickNextEntityStates {
 				horse.setStyle(nextPosition(horse.getStyle(), next, Horse.Style.values()));
 				
 				break;
-			case SWIMMING:
-				break;
-			case TAMED:
-				break;
 			case TYPE:
 				if(entity instanceof Boat) {
-					Boat boat = (Boat) entity;
+					boat = (Boat) entity;
 					boat.setWoodType(nextPosition(boat.getWoodType(), next, TreeSpecies.values()));
 				} else if(entity instanceof Cat) {
 					Cat cat = (Cat) entity;
@@ -631,13 +605,18 @@ public class DebugStickNextEntityStates {
 				villager.setVillagerLevel(nextInt(villager.getVillagerLevel(), 64, next));
 				
 				break;
-			case WAKEUP:
-				break;
-			case WALK_SPEED:
-				break;
 			case WORK_ON_LAND:
+				if(!(entity instanceof Boat)) break;
+				boat = (Boat) entity;
+				boat.setWorkOnLand(!boat.getWorkOnLand());
+				
 				break;
 			case YIELD:
+				if(!(entity instanceof Explosive)) break;
+				explosive = (Explosive) entity;
+				explosive.setYield((float) nextDouble(explosive.getYield(), 64, next));
+				break;
+			default:
 				break;
 		}
 	}
