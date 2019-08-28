@@ -16,11 +16,11 @@ import essentials.inventory.itemtypes.InventoryObjectField;
 
 public class DebugStickBlockInventory {
 	public static void openInventory(Player player, Block block) {
-		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54, "Entity Editor"));
-		
-		InventoryPage page = factory.createFirstPage();
-		
 		List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
+		if(list.isEmpty()) return;
+		
+		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54, "Block Editor"));
+		InventoryPage page = factory.createFirstPage();
 		
 		for(DebugStickBlockChanges debugStickBlockChanges : list) {
 			InventoryItem inventoryItem = null;

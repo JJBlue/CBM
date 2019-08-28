@@ -21,11 +21,11 @@ public class DebugStickEntityInventory {
 	 */
 	
 	public static void openInventory(Player player, Entity entity) {
-		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54, "Entity Editor"));
-		
-		InventoryPage page = factory.createFirstPage();
-		
 		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);
+		if(list.isEmpty()) return;
+		
+		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54, "Entity Editor"));
+		InventoryPage page = factory.createFirstPage();
 		
 		for(DebugStickEntityChanges debugStickEntitiesChange : list) {
 			InventoryItem inventoryItem = null;
