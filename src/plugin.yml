@@ -1,5 +1,5 @@
 name: Allgemein
-version: 4.0
+version: 0.4.beta
 author: JJ
 main: essentials.main.Main
 api-version: 1.13
