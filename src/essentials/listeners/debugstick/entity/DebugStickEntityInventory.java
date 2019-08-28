@@ -15,10 +15,7 @@ import essentials.inventory.itemtypes.InventoryItemTypes;
 import essentials.inventory.itemtypes.InventoryObjectField;
 
 public class DebugStickEntityInventory {
-	/*
-	 * TODO
-	 * Zombie crasshed
-	 * 
+	/* 
 	 * fireticks & remaining air are updated from bukkit -> Value is not refreshed
 	 * 
 	 */

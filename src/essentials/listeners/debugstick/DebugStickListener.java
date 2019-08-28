@@ -43,6 +43,11 @@ public class DebugStickListener implements Listener {
 		
 		switch (event.getAction()) {
 			case LEFT_CLICK_BLOCK:
+				if(player.isSneaking()) {
+					DebugStickBlocks.openBlockStateEditor(player, block);
+					return;
+				}
+				
 				List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
 				if(list.isEmpty()) break;
 				DebugStickBlockChanges debugStickBlockChanges = (DebugStickBlockChanges) config.get("DebugStickBlockChangesCurrent");
