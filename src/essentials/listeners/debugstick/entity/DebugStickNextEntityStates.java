@@ -32,7 +32,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Llama;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.MushroomCow;
-import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Panda;
 import org.bukkit.entity.Parrot;
@@ -74,18 +73,10 @@ public class DebugStickNextEntityStates {
 		boat.setMaxSpeed(arg0);
 		boat.setOccupiedDeceleration(arg0);
 		boat.setWorkOnLand(arg0);
-
-		Creeper creeper;
-		creeper.setPowered(arg0);
-		creeper.setExplosionRadius(arg0);
-		creeper.setMaxFuseTicks(arg0);
 		
 		EnderSignal enderSignal;
 		enderSignal.setDropItem(arg0);
 		enderSignal.setDespawnTimer(arg0);
-		
-		ExperienceOrb experienceOrb;
-		experienceOrb.setExperience(arg0);
 		
 		Explosive explosive;
 		explosive.setYield(arg0);
@@ -101,15 +92,6 @@ public class DebugStickNextEntityStates {
 		Guardian guardian;
 		guardian.setElder(arg0);
 		
-		Husk husk;
-		husk.setConversionTime(arg0);
-		
-		Item item;
-		item.setPickupDelay(arg0);
-		
-		Llama llama;
-		llama.setStrength(arg0);
-		
 		Minecart minecart;
 		minecart.setDamage(arg0);
 		minecart.setMaxSpeed(arg0);
@@ -119,49 +101,8 @@ public class DebugStickNextEntityStates {
 		Painting painting;
 		painting.setArt(arg0);
 		
-		Phantom phantom;
-		phantom.setSize(arg0);
-		
-		PigZombie pigZombie;
-		pigZombie.setAnger(arg0);
-		pigZombie.setAngry(arg0);
-		pigZombie.setConversionTime(arg0);
-		
-		PufferFish pufferFish;
-		pufferFish.setPuffState(arg0);
-		
 		Skeleton skeleton;
 		skeleton.setSkeletonType(arg0);
-		
-		Slime slime;
-		slime.setSize(arg0);
-		
-		SpectralArrow spectralArrow;
-		spectralArrow.setGlowingTicks(arg0);
-		
-		Spellcaster spellcaster;
-		spellcaster.setSpell(arg0);
-		
-		TNTPrimed tntPrimed;
-		tntPrimed.setFuseTicks(arg0);
-		
-		TropicalFish tropicalFish;
-		tropicalFish.setPatternColor(arg0);
-		tropicalFish.setBodyColor(arg0);
-		tropicalFish.setPattern(arg0);
-		
-		Villager villager;
-		villager.setProfession(arg0);
-		villager.setVillagerLevel(arg0);
-		villager.setVillagerExperience(arg0);
-		villager.wakeup();
-		
-		Wolf wolf;
-		wolf.setAngry(arg0);
-		
-		Zombie zombie;
-		zombie.setBaby(arg0);
-		zombie.setConversionTime(arg0);
 		
 		AbstractArrow abstractArrow;
 		abstractArrow.setDamage(arg0);
@@ -309,8 +250,20 @@ public class DebugStickNextEntityStates {
 			case AI:
 				break;
 			case ANGER:
+				if(!(entity instanceof PigZombie)) break;
+				PigZombie pigZombie = (PigZombie) entity;
+				pigZombie.setAnger(nextInt(pigZombie.getAnger(), 20, next));
+				
 				break;
 			case ANGRY:
+				if(entity instanceof PigZombie) {
+					pigZombie = (PigZombie) entity;
+					pigZombie.setAngry(!pigZombie.isAngry());
+				} else if(entity instanceof Wolf) {
+					Wolf wolf = (Wolf) entity;
+					wolf.setAngry(!wolf.isAngry());
+				}
+				
 				break;
 			case ART:
 				break;
@@ -326,6 +279,10 @@ public class DebugStickNextEntityStates {
 			case BITE_CHANCE:
 				break;
 			case BODY_COLOR:
+				if(!(entity instanceof TropicalFish)) break;
+				TropicalFish tropicalFish = (TropicalFish) entity;
+				tropicalFish.setBodyColor(nextPosition(tropicalFish.getBodyColor(), next, DyeColor.values()));
+				
 				break;
 			case BOUNCE:
 				if(!(entity instanceof Projectile)) break;
@@ -345,6 +302,10 @@ public class DebugStickNextEntityStates {
 					
 				break;
 			case CHANGE_AGE:
+				if(!(entity instanceof Zombie)) break;
+				Zombie zombie = (Zombie) entity;
+				zombie.setBaby(!zombie.isBaby());
+				
 				break;
 			case CHARGED:
 				if(!(entity instanceof WitherSkull)) break;
@@ -383,6 +344,17 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case CONVERSION_TIME:
+				if(entity instanceof Husk) {
+					Husk husk = (Husk) entity;
+					husk.setConversionTime(nextInt(husk.getConversionTime(), 64, next));
+				} else if(entity instanceof PigZombie) {
+					pigZombie = (PigZombie) entity;
+					pigZombie.setConversionTime(nextInt(pigZombie.getConversionTime(), 64, next));
+				} else if(entity instanceof Zombie) {
+					zombie = (Zombie) entity;
+					zombie.setConversionTime(nextInt(zombie.getConversionTime(), 64, next));
+				}
+				
 				break;
 			case CRITICAL:
 				break;
@@ -414,20 +386,36 @@ public class DebugStickNextEntityStates {
 			case ELDER:
 				break;
 			case EXPERIENCE:
+				if(!(entity instanceof ExperienceOrb)) break;
+				ExperienceOrb experienceOrb = (ExperienceOrb) entity;
+				experienceOrb.setExperience(nextInt(experienceOrb.getExperience(), 64, next));
+				
 				break;
 			case EXPLOSION_RADIUS:
+				if(!(entity instanceof Creeper)) break;
+				Creeper creeper = (Creeper) entity;
+				creeper.setExplosionRadius(nextInt(creeper.getExplosionRadius(), 64, next));
+				
 				break;
 			case FIRE_TRICKS:
 				break;
 			case FLY_SPEED:
 				break;
 			case FUSE_TICKS:
+				if(!(entity instanceof TNTPrimed)) break;
+				TNTPrimed tntPrimed = (TNTPrimed) entity;
+				tntPrimed.setFuseTicks(nextInt(tntPrimed.getFuseTicks(), 64, next));
+				
 				break;
 			case GLIDING:
 				break;
 			case GLOWING:
 				break;
 			case GLOWING_TICKS:
+				if(!(entity instanceof SpectralArrow)) break;
+				SpectralArrow spectralArrow = (SpectralArrow) entity;
+				spectralArrow.setGlowingTicks(nextInt(spectralArrow.getGlowingTicks(), 200, next));
+				
 				break;
 			case GRAVITY:
 				break;
@@ -453,9 +441,13 @@ public class DebugStickNextEntityStates {
 				panda.setMainGene(nextPosition(panda.getMainGene(), next, Panda.Gene.values()));
 				
 				break;
-			case MAXSPEED:
-				break;
 			case MAX_FUSE_TICKS:
+				if(!(entity instanceof Creeper)) break;
+				creeper = (Creeper) entity;
+				creeper.setMaxFuseTicks(nextInt(creeper.getMaxFuseTicks(), 64, next));
+				
+				break;
+			case MAXSPEED:
 				break;
 			case OCCUPIED_DECELERATION:
 				break;
@@ -467,12 +459,24 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case PATTERN:
+				if(!(entity instanceof TropicalFish)) break;
+				tropicalFish = (TropicalFish) entity;
+				tropicalFish.setPattern(nextPosition(tropicalFish.getPattern(), next, TropicalFish.Pattern.values()));
+				
 				break;
 			case PATTERN_COLOR:
+				if(!(entity instanceof TropicalFish)) break;
+				tropicalFish = (TropicalFish) entity;
+				tropicalFish.setPatternColor(nextPosition(tropicalFish.getPatternColor(), next, DyeColor.values()));
+				
 				break;
 			case PERSISTENT:
 				break;
 			case PICKUP_DELAY:
+				if(!(entity instanceof Item)) break;
+				Item item = (Item) entity;
+				item.setPickupDelay(nextInt(item.getPickupDelay(), 200, next));
+				
 				break;
 			case PICKUP_STATUS:
 				break;
@@ -486,10 +490,22 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case POWERED:
+				if(!(entity instanceof Creeper)) break;
+				creeper = (Creeper) entity;
+				creeper.setPowered(!creeper.isPowered());
+				
 				break;
 			case PROFESSION:
+				if(!(entity instanceof Villager)) break;
+				Villager villager = (Villager) entity;
+				villager.setProfession(nextPosition(villager.getProfession(), next, Villager.Profession.values()));
+				
 				break;
 			case PUFF_STATE:
+				if(!(entity instanceof PufferFish)) break;
+				PufferFish pufferFish = (PufferFish) entity;
+				pufferFish.setPuffState(nextInt(pufferFish.getPuffState(), 2, next));
+				
 				break;
 			case REMAINING_AIR:
 				break;
@@ -528,18 +544,42 @@ public class DebugStickNextEntityStates {
 			case SITTABLE:
 				break;
 			case SIZE:
+				if(entity instanceof Phantom) {
+					Phantom phantom = (Phantom) entity;
+					phantom.setSize(nextInt(phantom.getSize(), 30, next));
+				} else if(entity instanceof Slime) {
+					Slime slime = (Slime) entity;
+					slime.setSize(nextInt(slime.getSize(), 30, next));
+				}
+				
 				break;
 			case SLEEPING:
-				if(!(entity instanceof Fox)) break;
-				fox = (Fox) entity;
-				fox.setSleeping(!fox.isSleeping());
-				
+				if(entity instanceof Fox) {
+					fox = (Fox) entity;
+					fox.setSleeping(!fox.isSleeping());
+				} else if(entity instanceof Villager) {
+					villager = (Villager) entity;
+					
+					if(villager.isSleeping())
+						villager.wakeup();
+					else
+						villager.sleep(villager.getLocation());
+				}
+
 				break;
 			case SLOW_WHEN_EMPTY:
 				break;
 			case SPELL:
+				if(!(entity instanceof Spellcaster)) break;
+				Spellcaster spellcaster = (Spellcaster) entity;
+				spellcaster.setSpell(nextPosition(spellcaster.getSpell(), next, Spellcaster.Spell.values()));
+				
 				break;
 			case STRENGTH:
+				if(!(entity instanceof Llama)) break;
+				Llama llama = (Llama) entity;
+				llama.setStrength(nextInt(llama.getStrength(), 20, next));
+				
 				break;
 			case STYLE:
 				if(!(entity instanceof Horse)) break;
@@ -565,7 +605,7 @@ public class DebugStickNextEntityStates {
 					Rabbit rabbit = (Rabbit) entity;
 					rabbit.setRabbitType(nextPosition(rabbit.getRabbitType(), next, Rabbit.Type.values()));
 				} else if(entity instanceof Villager) {
-					Villager villager = (Villager) entity;
+					villager = (Villager) entity;
 					villager.setVillagerType(nextPosition(villager.getVillagerType(), next, Villager.Type.values()));
 				}
 				
@@ -580,8 +620,16 @@ public class DebugStickNextEntityStates {
 				}
 				break;
 			case VILLAGER_EXPERIENCE:
+				if(!(entity instanceof Villager)) break;
+				villager = (Villager) entity;
+				villager.setVillagerExperience(nextInt(villager.getVillagerExperience(), 64, next));
+				
 				break;
 			case VILLAGER_LEVEL:
+				if(!(entity instanceof Villager)) break;
+				villager = (Villager) entity;
+				villager.setVillagerLevel(nextInt(villager.getVillagerLevel(), 64, next));
+				
 				break;
 			case WAKEUP:
 				break;
