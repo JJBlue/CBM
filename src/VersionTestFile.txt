@@ -1,7 +1,6 @@
 Classes Only for 1.14:
 
-	SudoPlayer:
-		commands: sudo, silent
+	
 
 Classes used Reflections:
 	# Must be checked each minecraft version
@@ -10,3 +9,6 @@ Classes used Reflections:
 	- ChatUtilities..
 	- SignUtilities..
 		commands: sign
+	- SudoPlayer
+		commands: sudo, silent
+		# cross Version SudoPlayer -> Can not be cast to CraftPlayer. (But it give a 1.14 ((CraftPlayer) SudoPlayer))
