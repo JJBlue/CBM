@@ -1,11 +1,10 @@
 package essentials.listeners.debugstick.entity;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.TreeSpecies;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.RedstoneWire;
-import org.bukkit.block.data.type.Snow;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Ageable;
@@ -60,9 +59,6 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
-import org.bukkit.entity.ZombieVillager;
-
-import essentials.Image.staticImage;
 
 public class DebugStickNextEntityStates {
 	/*
@@ -75,18 +71,10 @@ public class DebugStickNextEntityStates {
 		abstractHorse.setJumpStrength(arg0);
 		
 		Boat boat;
-		boat.setWoodType(arg0);
 		boat.setMaxSpeed(arg0);
 		boat.setOccupiedDeceleration(arg0);
 		boat.setWorkOnLand(arg0);
-		
-		Cat cat;
-		cat.setCatType(arg0);
-		cat.setCollarColor(arg0);
-		
-		ChestedHorse chestedHorse;
-		chestedHorse.setCarryingChest(arg0);
-		
+
 		Creeper creeper;
 		creeper.setPowered(arg0);
 		creeper.setExplosionRadius(arg0);
@@ -109,18 +97,9 @@ public class DebugStickNextEntityStates {
 		
 		FishHook fishHook;
 		fishHook.setBiteChance(arg0);
-		
-		Fox fox;
-		fox.setFoxType(arg0);
-		fox.setCrouching(arg0);
-		fox.setSleeping(arg0);
-		
+
 		Guardian guardian;
 		guardian.setElder(arg0);
-		
-		Horse horse;
-		horse.setColor(arg0);
-		horse.setStyle(arg0);
 		
 		Husk husk;
 		husk.setConversionTime(arg0);
@@ -129,7 +108,6 @@ public class DebugStickNextEntityStates {
 		item.setPickupDelay(arg0);
 		
 		Llama llama;
-		llama.setColor(arg0);
 		llama.setStrength(arg0);
 		
 		Minecart minecart;
@@ -138,21 +116,8 @@ public class DebugStickNextEntityStates {
 		minecart.setSlowWhenEmpty(arg0);
 		minecart.setDisplayBlockOffset(arg0);
 		
-		MushroomCow mushroomCow;
-		mushroomCow.setVariant(arg0);
-		
-		Ocelot ocelot;
-		ocelot.setCatType(arg0);
-		
 		Painting painting;
 		painting.setArt(arg0);
-		
-		Panda panda;
-		panda.setMainGene(arg0);
-		panda.setHiddenGene(arg0);
-		
-		Parrot parrot;
-		parrot.setVariant(arg0);
 		
 		Phantom phantom;
 		phantom.setSize(arg0);
@@ -164,9 +129,6 @@ public class DebugStickNextEntityStates {
 		
 		PufferFish pufferFish;
 		pufferFish.setPuffState(arg0);
-		
-		Rabbit rabbit;
-		rabbit.setRabbitType(arg0);
 		
 		Skeleton skeleton;
 		skeleton.setSkeletonType(arg0);
@@ -190,14 +152,12 @@ public class DebugStickNextEntityStates {
 		
 		Villager villager;
 		villager.setProfession(arg0);
-		villager.setVillagerType(arg0);
 		villager.setVillagerLevel(arg0);
 		villager.setVillagerExperience(arg0);
 		villager.wakeup();
 		
 		Wolf wolf;
 		wolf.setAngry(arg0);
-		wolf.setCollarColor(arg0);
 		
 		Zombie zombie;
 		zombie.setBaby(arg0);
@@ -379,8 +339,10 @@ public class DebugStickNextEntityStates {
 			case CAN_PICKUP_ITEMS:
 				break;
 			case CARRYING_CHEST:
-				break;
-			case CAT_TYPE:
+				if(!(entity instanceof ChestedHorse)) break;
+				ChestedHorse chestedHorse = (ChestedHorse) entity;
+				chestedHorse.setCarryingChest(!chestedHorse.isCarryingChest());
+					
 				break;
 			case CHANGE_AGE:
 				break;
@@ -399,16 +361,36 @@ public class DebugStickNextEntityStates {
 				
 				break;
 			case COLLAR_COLOR:
+				if(entity instanceof Cat) {
+					Cat cat = (Cat) entity;
+					cat.setCollarColor(nextPosition(cat.getCollarColor(), next, DyeColor.values()));
+				} else if(entity instanceof Wolf) {
+					Wolf wolf = (Wolf) entity;
+					wolf.setCollarColor(nextPosition(wolf.getCollarColor(), next, DyeColor.values()));
+				}
+				
 				break;
 			case COLLIDABLE:
 				break;
 			case COLOR:
+				if(entity instanceof Horse) {
+					Horse horse = (Horse) entity;
+					horse.setColor(nextPosition(horse.getColor(), next, Horse.Color.values()));
+				} else if(entity instanceof Llama) {
+					Llama llama = (Llama) entity;
+					llama.setColor(nextPosition(llama.getColor(), next, Llama.Color.values()));
+				}
+				
 				break;
 			case CONVERSION_TIME:
 				break;
 			case CRITICAL:
 				break;
 			case CROUCHING:
+				if(!(entity instanceof Fox)) break;
+				Fox fox = (Fox) entity;
+				fox.setCrouching(!fox.isCrouching());
+				
 				break;
 			case CUSTOM_NAME_VISIBLE:
 				break;
@@ -439,8 +421,6 @@ public class DebugStickNextEntityStates {
 				break;
 			case FLY_SPEED:
 				break;
-			case FOX_TYPE:
-				break;
 			case FUSE_TICKS:
 				break;
 			case GLIDING:
@@ -454,6 +434,10 @@ public class DebugStickNextEntityStates {
 			case HEALTH:
 				break;
 			case HIDDEN_GENE:
+				if(!(entity instanceof Panda)) break;
+				Panda panda = (Panda) entity;
+				panda.setHiddenGene(nextPosition(panda.getHiddenGene(), next, Panda.Gene.values()));
+				
 				break;
 			case HURT_ENTITIES:
 				break;
@@ -464,6 +448,10 @@ public class DebugStickNextEntityStates {
 			case JUMP_STRENGTH:
 				break;
 			case MAIN_GENE:
+				if(!(entity instanceof Panda)) break;
+				panda = (Panda) entity;
+				panda.setMainGene(nextPosition(panda.getMainGene(), next, Panda.Gene.values()));
+				
 				break;
 			case MAXSPEED:
 				break;
@@ -503,8 +491,6 @@ public class DebugStickNextEntityStates {
 				break;
 			case PUFF_STATE:
 				break;
-			case RABBIT_TYPE:
-				break;
 			case REMAINING_AIR:
 				break;
 			case REMOVE_WHEN_FAR_AWAY:
@@ -543,9 +529,11 @@ public class DebugStickNextEntityStates {
 				break;
 			case SIZE:
 				break;
-			case SKELETON_TYPE:
-				break;
 			case SLEEPING:
+				if(!(entity instanceof Fox)) break;
+				fox = (Fox) entity;
+				fox.setSleeping(!fox.isSleeping());
+				
 				break;
 			case SLOW_WHEN_EMPTY:
 				break;
@@ -554,24 +542,50 @@ public class DebugStickNextEntityStates {
 			case STRENGTH:
 				break;
 			case STYLE:
+				if(!(entity instanceof Horse)) break;
+				Horse horse = (Horse) entity;
+				horse.setStyle(nextPosition(horse.getStyle(), next, Horse.Style.values()));
+				
 				break;
 			case SWIMMING:
 				break;
 			case TAMED:
 				break;
+			case TYPE:
+				if(entity instanceof Boat) {
+					Boat boat = (Boat) entity;
+					boat.setWoodType(nextPosition(boat.getWoodType(), next, TreeSpecies.values()));
+				} else if(entity instanceof Cat) {
+					Cat cat = (Cat) entity;
+					cat.setCatType(nextPosition(cat.getCatType(), next, Cat.Type.values()));
+				} else if(entity instanceof Fox) {
+					fox = (Fox) entity;
+					fox.setFoxType(nextPosition(fox.getFoxType(), next, Fox.Type.values()));
+				} else if(entity instanceof Rabbit) {
+					Rabbit rabbit = (Rabbit) entity;
+					rabbit.setRabbitType(nextPosition(rabbit.getRabbitType(), next, Rabbit.Type.values()));
+				} else if(entity instanceof Villager) {
+					Villager villager = (Villager) entity;
+					villager.setVillagerType(nextPosition(villager.getVillagerType(), next, Villager.Type.values()));
+				}
+				
+				break;
 			case VARIANT:
+				if(entity instanceof MushroomCow) {
+					MushroomCow mushroomCow = (MushroomCow) entity;
+					mushroomCow.setVariant(nextPosition(mushroomCow.getVariant(), next, MushroomCow.Variant.values()));
+				} else if(entity instanceof Parrot) {
+					Parrot parrot = (Parrot) entity;
+					parrot.setVariant(nextPosition(parrot.getVariant(), next, Parrot.Variant.values()));
+				}
 				break;
 			case VILLAGER_EXPERIENCE:
 				break;
 			case VILLAGER_LEVEL:
 				break;
-			case VILLAGER_TYPE:
-				break;
 			case WAKEUP:
 				break;
 			case WALK_SPEED:
-				break;
-			case WOOD_TYPE:
 				break;
 			case WORK_ON_LAND:
 				break;
