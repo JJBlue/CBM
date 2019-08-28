@@ -191,6 +191,7 @@ public class DebugStickNextEntityStates {
 			}
 		}
 		
+		//##########################################################################
 		switch (type) {
 			case ANGER:
 				if(!(entity instanceof PigZombie)) break;
