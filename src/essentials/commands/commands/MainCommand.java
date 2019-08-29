@@ -64,7 +64,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			return false;
 		
 		args[0] = args[0].toLowerCase();
-		if(!PermissionHelper.hasPermission(sender, args[0])) return true;
+		if(!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 		
 		switch (args[0]) {
 			case "afk":
@@ -626,7 +626,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			
 			Iterator<String> it = returnArguments.iterator();
 			while(it.hasNext()) {
-				if(!PermissionHelper.hasPermission(sender, it.next()))
+				if(!sender.hasPermission(PermissionHelper.getPermissionCommand(it.next())))
 					it.remove();
 			}
 			
