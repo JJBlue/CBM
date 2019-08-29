@@ -28,6 +28,11 @@ public class Tablist {
 	static boolean defaultEnabled;
 	static TablistListener tablistListener;
 	
+	static boolean onJoin;
+	static boolean onDeath;
+	static boolean onTeleport;
+	static boolean onWorldChange;
+	
 	static {
 		tablistListener = new TablistListener();
 	}
@@ -36,13 +41,16 @@ public class Tablist {
 		file = new File(MainConfig.getDataFolder(), "tablist");
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
-		//TODO
-		configuration.addDefault(PREFIX + "Enabled", true); //TODO set to false
+		configuration.addDefault(PREFIX + "Enabled", false);
 		configuration.addDefault(PREFIX + "DefaultEnabled", true);
 		configuration.addDefault(PREFIX + "GroupEnabled", false);
 		
 		configuration.addDefault(PREFIX + "Udates.AutoInterval", 60);
-		configuration.addDefault(PREFIX + "Udates.onAfk", false);
+		configuration.addDefault(PREFIX + "Udates.onAfk", false); //TODO
+		configuration.addDefault(PREFIX + "Udates.onJoin", false);
+		configuration.addDefault(PREFIX + "Udates.onDeath", false);
+		configuration.addDefault(PREFIX + "Udates.onTeleport", false);
+		configuration.addDefault(PREFIX + "Udates.onWorldChange", false);
 		
 		if(!file.exists()) {
 			List<String> headerFooter = new LinkedList<>();
@@ -66,6 +74,11 @@ public class Tablist {
 		defaultEnabled = configuration.getBoolean(PREFIX + "DefaultEnabled");
 		groupEnabled = configuration.getBoolean(PREFIX + "GroupEnabled");
 		TablistTimer.setSleep(configuration.getInt(PREFIX + "Udates.AutoInterval") * 1000);
+		
+		onJoin = configuration.getBoolean(PREFIX + "Udates.onJoin");
+		onDeath = configuration.getBoolean(PREFIX + "Udates.onDeath");
+		onTeleport = configuration.getBoolean(PREFIX + "Udates.onTeleport");
+		onWorldChange = configuration.getBoolean(PREFIX + "Udates.onWorldChange");
 		
 		Bukkit.getPluginManager().registerEvents(tablistListener, Main.getPlugin());
 		
