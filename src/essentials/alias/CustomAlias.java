@@ -2,6 +2,7 @@ package essentials.alias;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,8 +21,16 @@ public class CustomAlias {
 		
 		String commandAlias = null;
 		
-		String command = fileConfiguration.getString(prefix + commandAlias + ".Cmds");
+		/*
+		 * 	fromConsole!
+		 * 	$[argsNumber]
+		 * 	delay!
+		 */
+		
+		List<?> commands = fileConfiguration.getList(prefix + commandAlias + ".Cmds");
 		boolean useExtraPermission = fileConfiguration.getBoolean(prefix + commandAlias + ".Perm");
+		
+		
 		
 		
 		fileConfiguration.options().copyDefaults(true);

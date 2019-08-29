@@ -26,7 +26,7 @@ public class ChatUtilitiesReflections {
 		mainJson.add("extra", array);
 		
 		try {
-			Object chat = getIChatBaseComponent(mainJson.toJSONString());
+			Object chat = getIChatBaseComponentA(mainJson.toJSONString());
 			Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), chat);
 			PlayerUtilitiesReflections.sendPacket(player, packetPlayOutChat);
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException | NoSuchFieldException e) {
@@ -37,7 +37,7 @@ public class ChatUtilitiesReflections {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void sendHotbarMessage(Player player, String message) {
         try {
-        	Object IChatBaseComponent = getIChatBaseComponent("{\"text\": \"" + message + "\"}");
+        	Object IChatBaseComponent = getIChatBaseComponentA("{\"text\": \"" + message + "\"}");
         	Enum ChatMessageType = SimpleReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "GAME_INFO");
         	Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), IChatBaseComponent, ChatMessageType);
         	
@@ -47,7 +47,7 @@ public class ChatUtilitiesReflections {
 		}
 	}
 	
-	private static Object getIChatBaseComponent(String text) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static Object getIChatBaseComponentA(String text) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Class<?> IChatBaseComponent = ReflectionsUtilities.getMCClass("IChatBaseComponent$ChatSerializer");
 		return SimpleReflection.callStaticMethod(IChatBaseComponent, "a", text);
 	}

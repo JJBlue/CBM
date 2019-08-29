@@ -33,6 +33,7 @@ import essentials.listeners.debugstick.DebugStickListener;
 import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.pluginmanager.DisableEnable;
+import essentials.tablist.Tablist;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -92,11 +93,14 @@ public class Main extends JavaPlugin implements Listener{
 		
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		Timerplus.TimerSekunden();
+		Tablist.load();
 		Loading();
 	}
 	
 	@Override
 	public void onDisable() {
+		//Used Runnable, because when one crashed the other could work
+		unloadHelper(() -> { Tablist.unload(); });
 		unloadHelper(() -> { PlayerManager.unload(); });
 		unloadHelper(() -> { Databases.unload(); });
 		
