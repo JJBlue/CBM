@@ -18,6 +18,7 @@ import essentials.listeners.debugstick.blocks.DebugStickBlockChanges;
 import essentials.listeners.debugstick.blocks.DebugStickBlocks;
 import essentials.listeners.debugstick.entity.DebugStickEntities;
 import essentials.listeners.debugstick.entity.DebugStickEntityChanges;
+import essentials.listeners.debugstick.entity.DebugStickEntityInventory;
 import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
@@ -74,6 +75,9 @@ public class DebugStickListener implements Listener {
 				DebugStickBlocks.setNextBlockState(block, debugStickBlockChanges, !player.isSneaking());
 				ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickBlocks.getBlockDataValue(block, debugStickBlockChanges));
 				
+				break;
+			case LEFT_CLICK_AIR:
+				DebugStickEntityInventory.openInventory(player, player);
 				break;
 			default:
 				break;

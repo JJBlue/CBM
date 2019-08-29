@@ -33,6 +33,8 @@ public class Tablist {
 	static boolean onTeleport;
 	static boolean onWorldChange;
 	
+	static int counterPageCurrent = 0; //TODO
+	
 	static {
 		tablistListener = new TablistListener();
 	}
@@ -41,7 +43,7 @@ public class Tablist {
 		file = new File(MainConfig.getDataFolder(), "tablist.yml");
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
-		configuration.addDefault(PREFIX + "Enabled", true); //TODO
+		configuration.addDefault(PREFIX + "Enabled", false);
 		configuration.addDefault(PREFIX + "DefaultEnabled", true);
 		configuration.addDefault(PREFIX + "GroupEnabled", false);
 		
@@ -55,13 +57,13 @@ public class Tablist {
 		if(!file.exists()) {
 			List<String> headerFooter = new LinkedList<>();
 			headerFooter.add("Default text");
-			configuration.addDefault(PREFIX + "DefaultTablist.Header", headerFooter);
-			configuration.addDefault(PREFIX + "DefaultTablist.Footer", headerFooter);
 			configuration.addDefault(PREFIX + "DefaultTablist.PlayerName", "§2[%name%]");
+			configuration.addDefault(PREFIX + "DefaultTablist.Header", new LinkedList<>(headerFooter));
+			configuration.addDefault(PREFIX + "DefaultTablist.Footer", new LinkedList<>(headerFooter));
 			
-			configuration.addDefault(PREFIX + "GroupTablist.1.Header", headerFooter);
-			configuration.addDefault(PREFIX + "GroupTablist.1.Footer", headerFooter);
 			configuration.addDefault(PREFIX + "GroupTablist.1.PlayerName", "§4[%name%]");
+			configuration.addDefault(PREFIX + "GroupTablist.1.Header", new LinkedList<>(headerFooter));
+			configuration.addDefault(PREFIX + "GroupTablist.1.Footer", new LinkedList<>(headerFooter));
 		}
 		
 		configuration.options().copyDefaults(true);
