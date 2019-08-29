@@ -38,10 +38,10 @@ public class Tablist {
 	}
 	
 	public synchronized static void load() {
-		file = new File(MainConfig.getDataFolder(), "tablist");
+		file = new File(MainConfig.getDataFolder(), "tablist.yml");
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
-		configuration.addDefault(PREFIX + "Enabled", false);
+		configuration.addDefault(PREFIX + "Enabled", true); //TODO
 		configuration.addDefault(PREFIX + "DefaultEnabled", true);
 		configuration.addDefault(PREFIX + "GroupEnabled", false);
 		
@@ -57,9 +57,11 @@ public class Tablist {
 			headerFooter.add("Default text");
 			configuration.addDefault(PREFIX + "DefaultTablist.Header", headerFooter);
 			configuration.addDefault(PREFIX + "DefaultTablist.Footer", headerFooter);
+			configuration.addDefault(PREFIX + "DefaultTablist.PlayerName", "§2[%name%]");
 			
 			configuration.addDefault(PREFIX + "GroupTablist.1.Header", headerFooter);
 			configuration.addDefault(PREFIX + "GroupTablist.1.Footer", headerFooter);
+			configuration.addDefault(PREFIX + "GroupTablist.1.PlayerName", "§4[%name%]");
 		}
 		
 		configuration.options().copyDefaults(true);
@@ -80,10 +82,10 @@ public class Tablist {
 		onTeleport = configuration.getBoolean(PREFIX + "Udates.onTeleport");
 		onWorldChange = configuration.getBoolean(PREFIX + "Udates.onWorldChange");
 		
-		Bukkit.getPluginManager().registerEvents(tablistListener, Main.getPlugin());
-		
-		if(enabled)
+		if(enabled) {
+			Bukkit.getPluginManager().registerEvents(tablistListener, Main.getPlugin());
 			TablistTimer.start();
+		}
 	}
 	
 	public synchronized static void unload() {
@@ -134,17 +136,22 @@ public class Tablist {
 	public static void sendTablist(Player player, int number) {
 		String header;
 		String footer;
+		String playerName;
 		
 		if(number == -1) {
 			header = configuration.getString(PREFIX + "DefaultTablist.Header");
 			footer = configuration.getString(PREFIX + "DefaultTablist.Footer");
-			
-			TablistUtilities.sendHeaderFooter(player, header, footer);
-			return;
+			playerName = configuration.getString(PREFIX + "DefaultTablist.PlayerName");
+		} else {
+			header = configuration.getString(PREFIX + "GroupTablist." + number + ".Header");
+			footer = configuration.getString(PREFIX + "GroupTablist." + number + ".Header");
+			playerName = configuration.getString(PREFIX + "GroupTablist." + number + ".PlayerName");
 		}
 		
-		header = configuration.getString(PREFIX + "GroupTablist." + number + ".Header");
-		footer = configuration.getString(PREFIX + "GroupTablist." + number + ".Header");
+		header = TablistFormatter.parseToString(player, header);
+		footer = TablistFormatter.parseToString(player, footer);
+		playerName = TablistFormatter.parseToString(player, playerName);
+		
 		TablistUtilities.sendHeaderFooter(player, header, footer);
 	}
 }

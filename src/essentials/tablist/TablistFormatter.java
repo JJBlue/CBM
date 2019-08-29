@@ -1,7 +1,10 @@
 package essentials.tablist;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
+import org.apache.logging.log4j.spi.ThreadContextMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
@@ -142,6 +145,7 @@ public class TablistFormatter {
 	 * 
 	 * format = Uppercase, Lowercase, firstUp
 	 * boolean = text, number
+	 * time = HH:mm:ss
 	 */
 	public static String objectToString(CommandSender commandSender, String text, String args) {
 		Object value = parser(commandSender, text);
@@ -183,6 +187,13 @@ public class TablistFormatter {
 					
 					break;
 			}
+		} else if(value instanceof LocalDateTime) {
+			
+			if(argsMap.containsKey("time"))
+				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("time")));
+			else
+				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("HH:mm")));
+			
 		} else
 			endString = value.toString();
 		
@@ -423,6 +434,8 @@ server_time_[timeFormat]
 				return Bukkit.getOnlinePlayers().size();
 			case "server_max_players":
 				return Bukkit.getMaxPlayers();
+			case "real_time":
+				return LocalDateTime.now();
 		}
 		
 		return ersetzen;

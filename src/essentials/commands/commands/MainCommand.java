@@ -45,7 +45,6 @@ import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
-import essentials.tablist.Tablist;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -68,10 +67,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		if(!PermissionHelper.hasPermission(sender, args[0])) return true;
 		
 		switch (args[0]) {
-			case "test":
-				Tablist.update(p);
-				break;
-		
 			case "afk":
 				
 				Player p1 = null;

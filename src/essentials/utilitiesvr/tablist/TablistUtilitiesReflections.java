@@ -10,6 +10,9 @@ import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.chat.ChatUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 
+/*
+ * Not being used -> Player#setPlayerListHeaderFooter
+ */
 public class TablistUtilitiesReflections {
 	public static void sendHeaderFooter(Player player, String header, String footer) {
 		try {
