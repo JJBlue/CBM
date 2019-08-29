@@ -13,6 +13,7 @@ Futures:
 	- mail
 	- sleeping time -> Speed Time faster when more sleep
 	- Noteblock Editor
+	- Oneline Player Tab -> Design
 	
 	Commands:
 	- set air

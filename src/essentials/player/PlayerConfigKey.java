@@ -13,7 +13,8 @@ public enum PlayerConfigKey {
 	homeLocation,
 	logoutLocation,
 	teleportLocation,
-	tTeleport;
+	tTeleport,
+	tWallGhost;
 	
 	private String value;
 	PlayerConfigKey() {}
