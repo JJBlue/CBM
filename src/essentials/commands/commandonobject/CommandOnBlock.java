@@ -21,6 +21,8 @@ import essentials.database.Databases;
 public class CommandOnBlock {
 	private CommandOnBlock() {}
 	
+	//TODO load Chunk?
+	
 	public static Map<Location, CoBBlock> buffer = Collections.synchronizedMap(new HashMap<>());
 	public static Set<Location> bufferEmptyLocations = Collections.synchronizedSet(new HashSet<>());
 	

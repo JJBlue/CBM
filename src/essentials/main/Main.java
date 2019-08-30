@@ -76,11 +76,6 @@ public class Main extends JavaPlugin implements Listener{
 		}
 		
 		{ //TODO move under all command
-			this.getCommand("cos").setExecutor(CoBCommands.commandDruckplatten);
-			this.getCommand("cos").setTabCompleter(CoBCommands.commandDruckplatten);
-		}
-		
-		{ //TODO move under all command
 			this.getCommand("post").setExecutor(Post.post);
 			this.getCommand("post").setTabCompleter(Post.post);
 		}
