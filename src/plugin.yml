@@ -13,8 +13,6 @@ commands:
      cv:
           description: ChatVerbesserung
           permission: ChatV.use
-     cos:
-          description: CommandonBlocks
      post:
           description: Post/Chest open
           permission: post.use

@@ -26,6 +26,7 @@ import org.bukkit.inventory.ItemStack;
 
 import essentials.commands.NameTag.nt;
 import essentials.commands.armorstand.ArmorstandCommands;
+import essentials.commands.commandonobject.CoBCommands;
 import essentials.commands.commandspy.CommandSpy;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
@@ -124,6 +125,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					Bukkit.broadcastMessage(msg);
 				
 				break;
+				
+			case "cob":
+				
+				return CoBCommands.commandOnBlock.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "commandspy":
 				
@@ -650,6 +655,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				case "book":
 					
 					return bookCommand.bookcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "cob":
+					
+					return CoBCommands.commandOnBlock.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "commandspy":
 					

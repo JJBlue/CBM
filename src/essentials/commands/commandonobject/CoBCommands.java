@@ -19,17 +19,15 @@ import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 
 public class CoBCommands implements CommandExecutor, TabCompleter {
-	public final static CoBCommands commandDruckplatten;
+	public final static CoBCommands commandOnBlock;
 	
 	static {
-		commandDruckplatten = new CoBCommands();
+		commandOnBlock = new CoBCommands();
 	}
 	
 	//MoveEvent Listener ist im MoveEvents
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(!sender.hasPermission("all.all")) return false;
-		
 		Player p = null;
 		
 		if(sender instanceof Player)
