@@ -51,9 +51,9 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				p.sendMessage("Auf dem Item sind folgende Commands:");
 				
 				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation())) {
-					ChatUtilities.sendChatMessage(p, "\t/" + commandInfo.command + " ",
+					ChatUtilities.sendChatMessage(p, "  /" + commandInfo.command + " ",
 						ChatUtilities.createExtra(
-							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/cos remove " + commandInfo.command)
+							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/all cob remove " + commandInfo.command)
 						)
 					);
 				}
@@ -124,11 +124,6 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				p.sendMessage("Saved");
 				break;
 				
-			case "clearFalseLocations":
-				
-				CommandOnBlock.bufferEmptyLocations.clear();
-				break;
-				
 			default:
 				help(sender);
 		}
@@ -146,8 +141,6 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(!cmdLabel.equalsIgnoreCase("cos")) return null;
-		
 		List<String> returnArguments = new LinkedList<>();
 		
 		if(args.length == 1) {
@@ -156,7 +149,6 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 			returnArguments.add("add");
 			returnArguments.add("remove");
 			returnArguments.add("save");
-			returnArguments.add("clearFalseLocations");
 		} else {
 			switch(args[0].toLowerCase()) {
 				case "add":

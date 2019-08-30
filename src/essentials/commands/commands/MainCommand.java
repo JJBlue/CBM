@@ -597,6 +597,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("book");
 			returnArguments.add("burn");
 			returnArguments.add("broadcast");
+			returnArguments.add("cob");
 			returnArguments.add("commandspy");
 			returnArguments.add("chestplate");
 			returnArguments.add("fly");

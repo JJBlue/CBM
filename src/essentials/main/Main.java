@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import essentials.ChatVerbesserung.ChatVerbesserung;
 import essentials.commands.armorstand.ArmorstandListener;
-import essentials.commands.commandonobject.CoBCommands;
 import essentials.commands.commandonobject.CommandListener;
 import essentials.commands.commandonobject.CommandOnBlock;
 import essentials.commands.commands.MainCommand;
@@ -87,7 +86,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
-		CommandOnBlock.load();
+//		CommandOnBlock.load();
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		Timerplus.TimerSekunden();
 		Tablist.load();

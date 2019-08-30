@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class CommandListener implements Listener {
 	@EventHandler
@@ -50,5 +52,15 @@ public class CommandListener implements Listener {
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
 		CommandOnBlock.clear(e.getBlock().getLocation());
+	}
+	
+	@EventHandler
+	public void onChunkLoad(ChunkLoadEvent event) {
+		CommandOnBlock.loadChunk(event.getChunk());
+	}
+	
+	@EventHandler
+	public void onChunkUnload(ChunkUnloadEvent event) {
+		CommandOnBlock.unloadChunk(event.getChunk());
 	}
 }
