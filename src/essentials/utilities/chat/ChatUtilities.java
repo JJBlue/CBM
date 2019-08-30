@@ -10,6 +10,10 @@ import components.json.JSONObject;
 import essentials.utilitiesvr.chat.ChatUtilitiesReflections;
 
 public class ChatUtilities {
+	public static String convertToColor(String text) {
+		return text.replaceAll("&(\\d|\\w)", "§$1");
+	}
+	
 	public static void sendChatMessage(Player player, String message, JSONArray array) {
 		ChatUtilitiesReflections.sendChatMessage(player, message, array);
 	}

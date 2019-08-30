@@ -15,6 +15,7 @@ import essentials.config.MainConfig;
 import essentials.main.Main;
 import essentials.permissions.PermissionHelper;
 import essentials.utilities.TablistUtilities;
+import essentials.utilities.chat.ChatUtilities;
 
 public class Tablist {
 	private Tablist() {}
@@ -24,7 +25,7 @@ public class Tablist {
 	
 	static boolean enabled;
 	static boolean groupEnabled;
-	static final String PREFIX = "TabList.";
+	static final String PREFIX = "";
 	static boolean defaultEnabled;
 	static TablistListener tablistListener;
 	
@@ -47,12 +48,12 @@ public class Tablist {
 		configuration.addDefault(PREFIX + "DefaultEnabled", true);
 		configuration.addDefault(PREFIX + "GroupEnabled", false);
 		
-		configuration.addDefault(PREFIX + "Udates.AutoInterval", 60);
-		configuration.addDefault(PREFIX + "Udates.onAfk", false); //TODO
-		configuration.addDefault(PREFIX + "Udates.onJoin", false);
-		configuration.addDefault(PREFIX + "Udates.onDeath", false);
-		configuration.addDefault(PREFIX + "Udates.onTeleport", false);
-		configuration.addDefault(PREFIX + "Udates.onWorldChange", false);
+		configuration.addDefault(PREFIX + "Update.AutoInterval", 60);
+		configuration.addDefault(PREFIX + "Update.onAfk", false); //TODO
+		configuration.addDefault(PREFIX + "Update.onJoin", true);
+		configuration.addDefault(PREFIX + "Update.onDeath", false);
+		configuration.addDefault(PREFIX + "Update.onTeleport", false);
+		configuration.addDefault(PREFIX + "Update.onWorldChange", false);
 		
 		if(!file.exists()) {
 			List<String> headerFooter = new LinkedList<>();
@@ -77,12 +78,12 @@ public class Tablist {
 		enabled = configuration.getBoolean(PREFIX + "Enabled");
 		defaultEnabled = configuration.getBoolean(PREFIX + "DefaultEnabled");
 		groupEnabled = configuration.getBoolean(PREFIX + "GroupEnabled");
-		TablistTimer.setSleep(configuration.getInt(PREFIX + "Udates.AutoInterval") * 1000);
+		TablistTimer.setSleep(configuration.getInt(PREFIX + "Update.AutoInterval") * 1000);
 		
-		onJoin = configuration.getBoolean(PREFIX + "Udates.onJoin");
-		onDeath = configuration.getBoolean(PREFIX + "Udates.onDeath");
-		onTeleport = configuration.getBoolean(PREFIX + "Udates.onTeleport");
-		onWorldChange = configuration.getBoolean(PREFIX + "Udates.onWorldChange");
+		onJoin = configuration.getBoolean(PREFIX + "Update.onJoin");
+		onDeath = configuration.getBoolean(PREFIX + "Update.onDeath");
+		onTeleport = configuration.getBoolean(PREFIX + "Update.onTeleport");
+		onWorldChange = configuration.getBoolean(PREFIX + "Update.onWorldChange");
 		
 		if(enabled) {
 			Bukkit.getPluginManager().registerEvents(tablistListener, Main.getPlugin());
@@ -150,9 +151,9 @@ public class Tablist {
 			playerName = configuration.getString(PREFIX + "GroupTablist." + number + ".PlayerName");
 		}
 		
-		header = TablistFormatter.parseToString(player, header);
-		footer = TablistFormatter.parseToString(player, footer);
-		playerName = TablistFormatter.parseToString(player, playerName);
+		header = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, header));
+		footer = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, footer));
+		playerName = ChatUtilities.convertToColor(	TablistFormatter.parseToString(player, playerName));
 		
 		TablistUtilities.sendHeaderFooter(player, header, footer);
 	}

@@ -14,8 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import essentials.listeners.ColorListener;
 import essentials.utilities.SignUtilities;
+import essentials.utilities.chat.ChatUtilities;
 
 public class SignCommands implements CommandExecutor, TabCompleter {
 
@@ -135,7 +135,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 						anf = !anf;
 					
 					if(!anf) {
-						array[count++] = ColorListener.Farben(builder.toString());
+						array[count++] = ChatUtilities.convertToColor(builder.toString());
 						builder = null;
 					}
 					
