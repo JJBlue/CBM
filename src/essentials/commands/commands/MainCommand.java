@@ -411,7 +411,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			case "reload":
 				
 				MainConfig.reload();
-				Main.Loading();
+				Main.reload();
 				sender.sendMessage("§aReload complete!");
 				
 				break;

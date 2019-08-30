@@ -10,13 +10,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.server.MapInitializeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapCanvas;
@@ -25,23 +23,15 @@ import org.bukkit.map.MapView;
 
 import essentials.config.MainConfig;
 
-public class PlayerMapListener implements Listener{
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void Interact(PlayerInteractEvent e){
-		Player p = e.getPlayer();
-		
-		if(!MapPaint.containsPlayer(p) || !p.hasPermission("map.image")) return;
-		
-		String filename = MapPaint.getStringFromPlayer(p);
+public class MPRenderer {
+	public static void paint(CommandSender commandSender, String filename, Block block, BlockFace blockFace) {
 		File foto = new File(MainConfig.getDataFolder() + "picture", filename);
-		MapPaint.removePainting(p);
 
 		Image image = null;
 		try {
 			image = ImageIO.read(foto);
 		} catch(Exception e2) {
-			p.sendMessage("§4Bild konnte nicht geladen werden. Hier ihre Error Messages");
+			commandSender.sendMessage("§4Bild konnte nicht geladen werden. Hier ihre Error Messages");
 			return;
 		}
 		
@@ -51,13 +41,13 @@ public class PlayerMapListener implements Listener{
 		int ps = (int) Math.ceil(((double) height) / ((double) 128));
 		int pw = (int) Math.ceil(((double) width) / ((double) 128));
 		
-		Location cbl = e.getClickedBlock().getLocation();
+		Location cbl = block.getLocation();
 		World world = cbl.getWorld();
 		int sx = cbl.getBlockX();
 		int sy = cbl.getBlockY();
 		int sz = cbl.getBlockZ();
 		
-		switch(e.getBlockFace()) {
+		switch(blockFace) {
 			case NORTH:
 				sz--;
 				break;
@@ -86,7 +76,7 @@ public class PlayerMapListener implements Listener{
 				int newY = sy;
 				int newZ = sz;
 				
-				switch(e.getBlockFace()) {
+				switch(blockFace) {
 					case NORTH:
 						newX -= y;
 						newY -= i;
@@ -136,7 +126,7 @@ public class PlayerMapListener implements Listener{
 				} else {
 					mapView = Bukkit.createMap(l.getWorld());
 					
-					LoadMapPaint.setMapPaint(mapView.getId(), MainConfig.getDataFolder() + "picture", filename, -128*y, -128*i);
+					LoadMapPaint.setMapPaint(mapView.getId(), null, filename, -128*y, -128*i);
 					setRenderer(mapView);
 				}
 				
@@ -150,10 +140,10 @@ public class PlayerMapListener implements Listener{
 			}
 		}
 		
-		p.sendMessage("§6Map Fertig geladen!");
+		commandSender.sendMessage("§6Map Fertig geladen!");
 	}
 	
-	public boolean couldSpawnItemFrame(Location location) {
+	public static boolean couldSpawnItemFrame(Location location) {
 		if(!couldSpawnInIt(location)) {
 			Bukkit.broadcastMessage("SDS");
 			return false;
@@ -177,7 +167,7 @@ public class PlayerMapListener implements Listener{
 		return false;
 	}
 	
-	public boolean couldSpawnInIt(Location location) {
+	public static boolean couldSpawnInIt(Location location) {
 		Block block = location.getBlock();
 		if(block.isLiquid()) return true;
 		
@@ -186,13 +176,7 @@ public class PlayerMapListener implements Listener{
 		return false;
 	}
 	
-	@EventHandler
-	public void onMap(MapInitializeEvent e){
-		MapView map = e.getMap();
-		setRenderer(map);
-	}
-	
-	public void setRenderer(MapView map) {
+	public static void setRenderer(MapView map) {
 		if(!LoadMapPaint.contains(map.getId())) return;
 		
 		for(MapRenderer r : map.getRenderers()) map.removeRenderer(r);

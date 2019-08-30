@@ -27,7 +27,8 @@ import essentials.listeners.ColorListener;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.noHunger;
 import essentials.listeners.FlyThrowBlocks.FTB;
-import essentials.listeners.MapPaint.PlayerMapListener;
+import essentials.listeners.MapPaint.LoadMapPaint;
+import essentials.listeners.MapPaint.MPListener;
 import essentials.listeners.chair.chair;
 import essentials.listeners.debugstick.DebugStickListener;
 import essentials.player.PlayerListener;
@@ -50,7 +51,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new Deop(), this);
 		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CommandsEvents(), this);
-		Bukkit.getPluginManager().registerEvents(new PlayerMapListener(), this);
+		Bukkit.getPluginManager().registerEvents(new MPListener(), this);
 		Bukkit.getPluginManager().registerEvents(new chair(), this);
 		Bukkit.getPluginManager().registerEvents(new Join(), this);
 		Bukkit.getPluginManager().registerEvents(new noHunger(), this);
@@ -86,11 +87,11 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
-//		CommandOnBlock.load();
+		CommandOnBlock.load();
+		LoadMapPaint.load();
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		Timerplus.TimerSekunden();
-		Tablist.load();
-		Loading();
+		reload();
 	}
 	
 	@Override
@@ -127,7 +128,9 @@ public class Main extends JavaPlugin implements Listener{
 		return false;
 	}
 	
-	public static void Loading() {
+	public static void reload() {
+		Tablist.load();
+		LoadMapPaint.load();
 		ChatVerbesserung.Load();
 		bookCommand.saveDefaultBook();
 		Post.Load();

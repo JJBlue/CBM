@@ -3,31 +3,37 @@ package essentials.listeners.MapPaint;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
+import components.datenbank.Datenbank;
+import components.sql.SQLParser;
 import essentials.Image.staticImage;
+import essentials.config.MainConfig;
+import essentials.database.Databases;
 
 public class LoadMapPaint {
-	private static File file = new File("plugins/Allgemein", "MapPaint.yml");
-	private static FileConfiguration fileConf = YamlConfiguration.loadConfiguration(file);
 	
-	private static boolean tested = false;
+	public static void load() {
+		Datenbank database = Databases.getWorldDatabase();
+		
+		for(String s : SQLParser.getResources("sql/create.sql", LoadMapPaint.class))
+			database.execute(s);
+	}
 	
-	public static Image getMapPaint(int id){
-		String pfad = fileConf.getString(id + ".Pfad");
-		String filename = fileConf.getString(id + ".Filename");
+	public static Image getMapPaint(int id) {
+		//Pfad
+		//Filename
 		
-		if(pfad == null || pfad.isEmpty()) return null;
-		if(filename == null || filename.isEmpty()) return null;
+		MPInformation mpi = getMpInformation(id);
+		if(mpi == null) return null;
 		
-		Image img = staticImage.getImage(pfad, filename);
+		if(mpi.path == null || mpi.path.isEmpty())
+			mpi.path = MainConfig.getDataFolder() + "pictures";
+		
+		
+		Image img = staticImage.getImage(mpi.path, mpi.filename);
 		int width = img.getWidth(null);
 		int height = img.getHeight(null);
 		
@@ -36,8 +42,8 @@ public class LoadMapPaint {
 		bGr.drawImage(img, 0, 0, null);
 		bGr.dispose();
 		
-		int x = getX(id);
-		int y = getY(id);
+		int x = mpi.startX;
+		int y = mpi.startY;
 		if(x < 0) x *= -1;
 		if(y < 0) y *= -1;
 		
@@ -51,141 +57,101 @@ public class LoadMapPaint {
 		return bimg;
 	}
 	
-	private static int getX(int id){
-		int x = fileConf.getInt(id + ".X");
-		
-		return x;
-	}
-	
-	private static int getY(int id){
-		int y = fileConf.getInt(id + ".Y");
-		
-		return y;
-	}
-	
-	public static int get(String pfad, String filename, int x, int y) {
-		List<Integer> list = getIDs();
-		if(list == null) return -1;
-		
-		for(int id : list){
-			String pfad2 = fileConf.getString(id + ".Pfad");
-			if(pfad2 == null || !pfad2.equals(pfad)) continue;
-			
-			String f2 = fileConf.getString(id + ".Filename");
-			if(f2 == null || !f2.equals(filename)) continue;
-			
-			if(fileConf.getInt(id + ".X") == x || fileConf.getInt(id + ".X") == (x * -1)) {
-				if(fileConf.getInt(id + ".Y") == y || fileConf.getInt(id + ".Y") == (y * -1)) {
-					return id;
-				}
-			}
-		}
-		
-		return -1;
-	}
-	
-	public static void setMapPaint(int id, String pfad, String filename, int x, int y){
-		fileConf.set(id + ".Pfad", pfad);
-		fileConf.set(id + ".Filename", filename);
-		fileConf.set(id + ".X", x);
-		fileConf.set(id + ".Y", y);
-		
-		addIDs(id);
-	}
-	
-	public static boolean contains(int id) {
-		List<Integer> list = getIDs();
-		if(list == null) return false;
-		return list.contains(id);
-	}
-	
-	public static void addIDs(int id){
-		List<Integer> list = getIDs();
-		if(list == null)list = new LinkedList<>();
-		
-		if(list.contains(id)) return;
-		
-		list.add((int) id);
-		fileConf.set("IDs", list);
+	public static MPInformation getMpInformation(int id) {
+		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getPaintInformation.sql", LoadMapPaint.class));
 		
 		try {
-			fileConf.save(file);
-		} catch (IOException e) {}
-	}
-	
-	public static void removeID(int id){
-		List<Integer> list = getIDs();
-		if(list == null || !list.contains(id)) return;
-		
-		list.remove(id);
-		fileConf.set("IDs", list);
-		fileConf.set(id + "", null);
-		
-		try {
-			fileConf.save(file);
-		} catch (IOException e) {}
-	}
-	
-	public static List<Integer> getIDs(){
-		@SuppressWarnings("unchecked")
-		List<Integer> list = (List<Integer>) fileConf.getList("IDs");
-		
-		if(!tested){
-			tested = true;
-			list = shouldRemove(list);
-		}
-		
-		if(list != null){
-			return list;
+			preparedStatement.setInt(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if(!resultSet.next()) return null;
+			
+			MPInformation mpInformation = new MPInformation();
+			mpInformation.mapID = id;
+			mpInformation.path = resultSet.getString("filePath");
+			mpInformation.filename = resultSet.getString("fileName");
+			mpInformation.startX = resultSet.getInt("startX");
+			mpInformation.startY = resultSet.getInt("startY");
+			
+			return mpInformation;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return null;
 	}
 	
-	private static List<Integer> shouldRemove(List<Integer> list){
-		if(list != null){
-			ArrayList<Integer> copyList = new ArrayList<>(list);
-			boolean change = false;
+	public static int get(String pfad, String filename, int x, int y) {
+		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getMapID.sql", LoadMapPaint.class));
+		
+		try {
+			preparedStatement.setInt(1, x);
+			preparedStatement.setInt(2, y);
+			preparedStatement.setString(3, pfad);
+			preparedStatement.setString(4, filename);
 			
-			for(int i = 0; i < list.size(); i++){
-				int id = list.get(i);
-				
-				String pfad = fileConf.getString(id + ".Pfad");
-				String filename = fileConf.getString(id + ".Filename");
-				
-				if(pfad == null || pfad.equals("")){
-					change = true;
-					Integer i1 = i;
-					copyList.remove(i1);
-					fileConf.set(id + "", null);
-				}else if(filename == null || filename.equals("")){
-					change = true;
-					Integer i1 = i;
-					copyList.remove(i1);
-					fileConf.set(id + "", null);
-				}else{
-					File file = new File(pfad, filename);
-					if(!file.exists()){
-						change = true;
-						Integer i1 = i;
-						copyList.remove(i1);
-						fileConf.set(id + "", null);
-					}
-				}
-			}
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if(!resultSet.next()) return resultSet.getInt("mapID");
 			
-			if(change){
-				fileConf.set("IDs", copyList);
-				
-				try {
-					fileConf.save(file);
-				} catch (IOException e) {
-				}
-			}
-			
-			return copyList;
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
-		return list;
+		return -1;
+	}
+	
+	public static void setMapPaint(int id, String pfad, String filename, int x, int y) {
+		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addFile.sql", LoadMapPaint.class));
+		
+		try {
+			preparedStatement.setString(1, pfad);
+			preparedStatement.setString(2, filename);
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/setPaint.sql", LoadMapPaint.class));
+		
+		try {
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, x);
+			preparedStatement.setInt(3, y);
+			
+			preparedStatement.setString(4, pfad);
+			preparedStatement.setString(5, filename);
+			
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void removeID(int id) {
+		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deletePaint.sql", LoadMapPaint.class));
+		
+		try {
+			preparedStatement.setInt(1, id);
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static boolean contains(int id) {
+		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getPaintInformation.sql", LoadMapPaint.class));
+		
+		try {
+			preparedStatement.setInt(1, id);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			return resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 }
