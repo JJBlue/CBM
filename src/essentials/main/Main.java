@@ -103,6 +103,7 @@ public class Main extends JavaPlugin implements Listener{
 	public void onDisable() {
 		//Used Runnable, because when one crashed the other could work
 		unloadHelper(() -> { Tablist.unload(); });
+		unloadHelper(() -> { CommandOnBlock.unload(); });
 		unloadHelper(() -> { PlayerManager.unload(); });
 		
 		unloadHelper(() -> { Databases.unload(); });

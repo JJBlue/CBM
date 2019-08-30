@@ -17,6 +17,7 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
+import sun.security.provider.JavaKeyStore.CaseExactJKS;
 
 public class CoBCommands implements CommandExecutor, TabCompleter {
 	public final static CoBCommands commandDruckplatten;
@@ -118,6 +119,12 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation()))
 					p.sendMessage("/" + commandInfo.command);
 				
+				break;
+				
+			case "save":
+				
+				CommandOnBlock.save();
+				p.sendMessage("Saved");
 				break;
 				
 			default:

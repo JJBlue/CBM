@@ -83,7 +83,7 @@ public class CoBBlock {
 			PreparedStatement preparedStatement;
 			
 			if(!isIDSet) {
-				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommandToBlock", CoBBlock.class));
+				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommandToBlock.sql", CoBBlock.class));
 				try {
 					preparedStatement.setString(index++, location.getWorld().getName());
 					preparedStatement.setInt(index++, location.getBlockX());
@@ -95,7 +95,7 @@ public class CoBBlock {
 				}
 				
 			} else {
-				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommand", CoBBlock.class));
+				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommand.sql", CoBBlock.class));
 				try {
 					preparedStatement.setInt(index++, ID);
 				} catch (SQLException e) {
@@ -107,6 +107,7 @@ public class CoBBlock {
 			try {
 				preparedStatement.setString(index++, ci.action.name());
 				preparedStatement.setString(index++, ci.command);
+				preparedStatement.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

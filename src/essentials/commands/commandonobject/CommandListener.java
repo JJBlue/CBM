@@ -44,7 +44,6 @@ public class CommandListener implements Listener {
 					action = CoBAction.STAND_LEFT_CLICK;
 		}
 		
-		
 		CommandOnBlock.executeBlock(p, action, e.getClickedBlock().getLocation());
 	}
 	
