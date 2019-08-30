@@ -17,7 +17,6 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
-import sun.security.provider.JavaKeyStore.CaseExactJKS;
 
 public class CoBCommands implements CommandExecutor, TabCompleter {
 	public final static CoBCommands commandDruckplatten;
@@ -127,6 +126,11 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				p.sendMessage("Saved");
 				break;
 				
+			case "clearFalseLocations":
+				
+				CommandOnBlock.bufferEmptyLocations.clear();
+				break;
+				
 			default:
 				help(sender);
 		}
@@ -153,6 +157,8 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 			returnArguments.add("clear");
 			returnArguments.add("add");
 			returnArguments.add("remove");
+			returnArguments.add("save");
+			returnArguments.add("clearFalseLocations");
 		} else {
 			switch(args[0].toLowerCase()) {
 				case "add":
