@@ -137,6 +137,7 @@ public class CommandOnBlock {
 		chunkBuffer.remove(chunk);
 	}
 	
+	@SuppressWarnings("unused")
 	private void loadLocation(Location location) {
 //		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getCommands.sql", CommandOnBlock.class));
 //		
