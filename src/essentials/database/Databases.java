@@ -16,16 +16,16 @@ public class Databases {
 		
 		for(String s : SQLParser.getResources("sql/create.sql", PlayerManager.class))
 			playerDatabase.execute(s);
+		
+		worldDatabase = new Datenbank(null, null, MainConfig.getDataFolder() + "worlds.db");
 	}
 	
 	public static void unload() {
-		if(playerDatabase != null) {
+		if(playerDatabase != null)
 			playerDatabase.close();
-		}
 		
-		if(worldDatabase != null) {
+		if(worldDatabase != null)
 			worldDatabase.close();
-		}
 	}
 
 	public static Datenbank getWorldDatabase() {
