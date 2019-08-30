@@ -1,18 +1,12 @@
 package essentials.commands.commandonobject;
 
-import java.util.ArrayList;
-
-import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class CommandListener implements Listener{
-	
-	@SuppressWarnings("unchecked")
+public class CommandListener implements Listener {
 	@EventHandler
 	private void onBlockClick(PlayerInteractEvent e){
 		Player p = e.getPlayer();
@@ -27,42 +21,35 @@ public class CommandListener implements Listener{
 				case RIGHT_CLICK_AIR:
 				case RIGHT_CLICK_BLOCK:
 					return;
-				case PHYSICAL:
+				default:
 					break;
 			}
 		}
 		
-		FileConfiguration fileConf = CommandDruckplatten.CDConf(p.getWorld().getName());
-		ArrayList<String> l = new ArrayList<String>();
-		
-		Block targetblock = e.getClickedBlock();
-		
-		int X = targetblock.getLocation().getBlockX();
-		int Y  = targetblock.getLocation().getBlockY();
-		int Z  = targetblock.getLocation().getBlockZ();
-		String s = X + "-" + Y + "-" + Z;
-
-		if(fileConf.getList(s) != null){
-			l = (ArrayList<String>) fileConf.getList(s);
-			
-			for(String s2 : l)
-				CommandAusfuehren.Command(p, s2);
+		CoBAction action = null;
+		switch(e.getAction()) {
+			case PHYSICAL:
+				break;
+			case RIGHT_CLICK_BLOCK:
+				if(p.isSneaking())
+					action = CoBAction.SNEAK_RIGHT_CLICK;
+				else
+					action = CoBAction.STAND_RIGHT_CLICK;
+				break;
+			case LEFT_CLICK_BLOCK:
+			default:
+				if(p.isSneaking())
+					action = CoBAction.SNEAK_LEFT_CLICK;
+				else
+					action = CoBAction.STAND_LEFT_CLICK;
 		}
+		
+		
+		CommandOnBlock.executeBlock(p, action, e.getClickedBlock().getLocation());
 	}
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
-		Block targetblock = (Block) e.getBlock();
-		FileConfiguration fileConf = CommandDruckplatten.CDConf(e.getBlock().getWorld().getName());
-		
-		int X = targetblock.getLocation().getBlockX();
-		int Y  = targetblock.getLocation().getBlockY();
-		int Z  = targetblock.getLocation().getBlockZ();
-		String s = X + "-" + Y + "-" + Z;
-		
-		if(fileConf.getList(s) != null) {
-			fileConf.set(s, null);
-			CommandDruckplatten.save(fileConf, e.getBlock().getWorld().getName());
-		}
+		CommandOnBlock.clear(e.getBlock().getLocation());
 	}
 }

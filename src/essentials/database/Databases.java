@@ -18,6 +18,7 @@ public class Databases {
 			playerDatabase.execute(s);
 		
 		worldDatabase = new Datenbank(null, null, MainConfig.getDataFolder() + "worlds.db");
+		worldDatabase.connect(Datenbanken.SQLLite);
 	}
 	
 	public static void unload() {

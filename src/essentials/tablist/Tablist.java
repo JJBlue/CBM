@@ -141,12 +141,12 @@ public class Tablist {
 		String playerName;
 		
 		if(number == -1) {
-			header = configuration.getString(PREFIX + "DefaultTablist.Header");
-			footer = configuration.getString(PREFIX + "DefaultTablist.Footer");
+			header = ListToString(configuration.getList(PREFIX + "DefaultTablist.Header"));
+			footer = ListToString(configuration.getList(PREFIX + "DefaultTablist.Footer"));
 			playerName = configuration.getString(PREFIX + "DefaultTablist.PlayerName");
 		} else {
-			header = configuration.getString(PREFIX + "GroupTablist." + number + ".Header");
-			footer = configuration.getString(PREFIX + "GroupTablist." + number + ".Header");
+			header = ListToString(configuration.getList(PREFIX + "GroupTablist." + number + ".Header"));
+			footer = ListToString(configuration.getList(PREFIX + "GroupTablist." + number + ".Header"));
 			playerName = configuration.getString(PREFIX + "GroupTablist." + number + ".PlayerName");
 		}
 		
@@ -155,5 +155,22 @@ public class Tablist {
 		playerName = TablistFormatter.parseToString(player, playerName);
 		
 		TablistUtilities.sendHeaderFooter(player, header, footer);
+	}
+	
+	public static String ListToString(List<?> list) {
+		StringBuilder builder = new StringBuilder();
+		boolean start = true;
+		
+		for(Object obj : list) {
+			if(start) start = false;
+			else builder.append('\n');
+			
+			if(obj == null) continue;
+			else if(obj instanceof String)
+				builder.append((String) obj);
+			else
+				builder.append(obj.toString());
+		}
+		return builder.toString();
 	}
 }

@@ -8,8 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import essentials.ChatVerbesserung.ChatVerbesserung;
 import essentials.commands.armorstand.ArmorstandListener;
-import essentials.commands.commandonobject.CommandDruckplatten;
+import essentials.commands.commandonobject.CoBCommands;
 import essentials.commands.commandonobject.CommandListener;
+import essentials.commands.commandonobject.CommandOnBlock;
 import essentials.commands.commands.MainCommand;
 import essentials.commands.commands.bookCommand;
 import essentials.commands.commandspy.CommandSpyListener;
@@ -75,8 +76,8 @@ public class Main extends JavaPlugin implements Listener{
 		}
 		
 		{ //TODO move under all command
-			this.getCommand("cos").setExecutor(CommandDruckplatten.commandDruckplatten);
-			this.getCommand("cos").setTabCompleter(CommandDruckplatten.commandDruckplatten);
+			this.getCommand("cos").setExecutor(CoBCommands.commandDruckplatten);
+			this.getCommand("cos").setTabCompleter(CoBCommands.commandDruckplatten);
 		}
 		
 		{ //TODO move under all command
@@ -91,6 +92,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
+		CommandOnBlock.load();
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		Timerplus.TimerSekunden();
 		Tablist.load();

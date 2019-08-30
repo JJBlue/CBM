@@ -1,4 +1,4 @@
-package essentials.commands.commandonobject.newNotUsed;
+package essentials.commands.commandonobject;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -18,11 +18,11 @@ import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 
-public class CommandOnBlockCommands implements CommandExecutor, TabCompleter {
-	public final static CommandOnBlockCommands commandDruckplatten;
+public class CoBCommands implements CommandExecutor, TabCompleter {
+	public final static CoBCommands commandDruckplatten;
 	
 	static {
-		commandDruckplatten = new CommandOnBlockCommands();
+		commandDruckplatten = new CoBCommands();
 	}
 	
 	//MoveEvent Listener ist im MoveEvents
@@ -52,10 +52,10 @@ public class CommandOnBlockCommands implements CommandExecutor, TabCompleter {
 				Block targetblock = p.getTargetBlock(null,50);
 				p.sendMessage("Auf dem Item sind folgende Commands:");
 				
-				for(String s2 : CommandOnBlock.getCommands(targetblock.getLocation())) {
-					ChatUtilities.sendChatMessage(p, "\t/" + s2 + " ",
+				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation())) {
+					ChatUtilities.sendChatMessage(p, "\t/" + commandInfo.command + " ",
 						ChatUtilities.createExtra(
-							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/cos remove " + s2)
+							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/cos remove " + commandInfo.command)
 						)
 					);
 				}
@@ -89,8 +89,8 @@ public class CommandOnBlockCommands implements CommandExecutor, TabCompleter {
 				CommandOnBlock.addCommand(targetblock.getLocation(), argsstring);
 				
 				p.sendMessage("Auf dem Item sind nun folgende Commands:");
-				for(String s2 : CommandOnBlock.getCommands(targetblock.getLocation()))
-					p.sendMessage("/" + s2);
+				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation()))
+					p.sendMessage("/" + commandInfo.command);
 				
 				break;
 				
@@ -115,8 +115,8 @@ public class CommandOnBlockCommands implements CommandExecutor, TabCompleter {
 				
 				p.sendMessage("Auf dem Item sind nun folgende Commands:");
 				
-				for(String s2 : CommandOnBlock.getCommands(targetblock.getLocation()))
-					p.sendMessage("/" + s2);
+				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation()))
+					p.sendMessage("/" + commandInfo.command);
 				
 				break;
 				

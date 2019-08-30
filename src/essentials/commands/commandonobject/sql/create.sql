@@ -1,16 +1,19 @@
 
 CREATE TABLE IF NOT EXISTS commandOnBlock(
-	world TEXT,
-	x int,
-	y int,
-	z int,
-	Commands Text,
+	ID INT,
+	world TEXT NOT NULL,
+	x int NOT NULL,
+	y int NOT NULL,
+	z int NOT NULL,
 	
-	PRIMARY KEY (world, x, y, z) UNIQUE NOT NULL
+	PRIMARY KEY (ID),
+	UNIQUE (world, x, y, z)
 );
 
-CREATE TABLE IF NOT EXISTS friends(
+CREATE TABLE IF NOT EXISTS commandOnBlockAction (
+	IDCommandOnBlock int NOT NULL,
+	CoBAction Text NOT NULL, /* Leftclick, Rightclick, Boths, ...*/
+	Command TEXT NOT NULL,
 	
-	
-	PRIMARY KEY (friendOne, friendTwo)
+	FOREIGN KEY (IDCommandOnBlock) REFERENCES commandOnBlock(ID) ON DELETE CASCADE
 );
