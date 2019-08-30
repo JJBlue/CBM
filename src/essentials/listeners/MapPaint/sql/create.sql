@@ -1,8 +1,10 @@
 
 CREATE TABLE IF NOT EXISTS paintingsFileInformation(
 	ID INTEGER PRIMARY KEY AUTOINCREMENT,
-	filePath TEXT,
-	fileName Text NOT NULL
+	filePath TEXT NOT NULL,
+	fileName Text NOT NULL,
+	
+	UNIQUE (filePath, fileName)
 );
 
 CREATE TABLE IF NOT EXISTS paintings(

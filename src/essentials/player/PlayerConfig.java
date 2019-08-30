@@ -29,6 +29,10 @@ public class PlayerConfig {
 		if(player != null) set("name", player.getName());
 	}
 	
+	public boolean containsLoadedKey(String key) {
+		return buffer.containsKey(key);
+	}
+	
 	public void set(PlayerConfigKey key, Object value) {
 		set(key.toString(), value, false, false);
 	}

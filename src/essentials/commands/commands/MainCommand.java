@@ -34,7 +34,6 @@ import essentials.commands.trade.TradeCommands;
 import essentials.config.MainConfig;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
-import essentials.listeners.MapPaint.MapPaint;
 import essentials.listeners.chair.chair;
 import essentials.main.Deop;
 import essentials.main.Join;
@@ -400,7 +399,9 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			case "paint":
 				
 				if(args.length < 2) break;
-				MapPaint.addPainting(p, args[1]);
+				
+				PlayerConfig config = PlayerManager.getPlayerConfig(p);
+				config.setTmp("mapPaintImage", args[1]);
 				
 				break;
 				

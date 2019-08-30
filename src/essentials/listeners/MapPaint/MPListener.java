@@ -7,6 +7,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.server.MapInitializeEvent;
 import org.bukkit.map.MapView;
 
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+
 public class MPListener implements Listener {
 	@EventHandler
 	public void onMap(MapInitializeEvent e){
@@ -18,10 +21,13 @@ public class MPListener implements Listener {
 	public void Interact(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		
-		if(!MapPaint.containsPlayer(p) || !p.hasPermission("map.image")) return;
+		if(!p.hasPermission("map.image")) return;
 		
-		String filename = MapPaint.getStringFromPlayer(p);
-		MapPaint.removePainting(p);
+		PlayerConfig config = PlayerManager.getPlayerConfig(p);
+		if(!config.containsLoadedKey("mapPaintImage")) return;
+		
+		String filename = config.getString("mapPaintImage");
+		config.removeBuffer("mapPaintImage");
 		
 		MPRenderer.paint(p, filename, event.getClickedBlock(), event.getBlockFace());
 	}

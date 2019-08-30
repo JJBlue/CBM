@@ -25,7 +25,7 @@ import essentials.config.MainConfig;
 
 public class MPRenderer {
 	public static void paint(CommandSender commandSender, String filename, Block block, BlockFace blockFace) {
-		File foto = new File(MainConfig.getDataFolder() + "picture", filename);
+		File foto = new File(MainConfig.getDataFolder(), "picture/" + filename);
 
 		Image image = null;
 		try {
@@ -70,8 +70,8 @@ public class MPRenderer {
 				break;
 		}
 		
-		for(int i = 0; i < ps; i++){						
-			for(int y = 0; y < pw; y++){
+		for(int i = 0; i < ps; i++) {
+			for(int y = 0; y < pw; y++) {
 				int newX = sx;
 				int newY = sy;
 				int newZ = sz;
@@ -115,7 +115,7 @@ public class MPRenderer {
 					return; // or continue;
 				}
 				
-				int maybeID = LoadMapPaint.get(MainConfig.getDataFolder() + "picture", filename, 128*y, 128*i);
+				int maybeID = LoadMapPaint.get("", filename, 128*y, 128*i);
 				ItemStack is = null;
 				
 				MapView mapView;
@@ -126,7 +126,7 @@ public class MPRenderer {
 				} else {
 					mapView = Bukkit.createMap(l.getWorld());
 					
-					LoadMapPaint.setMapPaint(mapView.getId(), null, filename, -128*y, -128*i);
+					LoadMapPaint.setMapPaint(mapView.getId(), "", filename, -128*y, -128*i);
 					setRenderer(mapView);
 				}
 				
@@ -144,26 +144,27 @@ public class MPRenderer {
 	}
 	
 	public static boolean couldSpawnItemFrame(Location location) {
-		if(!couldSpawnInIt(location)) {
-			Bukkit.broadcastMessage("SDS");
-			return false;
-		}
+		if(!couldSpawnInIt(location)) return false;
 		
 		Location l2 = location.clone();
 		
 		if(l2.add(0, 1, 0).getBlock().getType().isSolid()) return true;
-		Bukkit.broadcastMessage(l2.getBlock().getType().isSolid() + " " + l2.getBlock().getType().name());
-		Bukkit.broadcastMessage("");
 		l2.add(0, -1, 0);
+		
 		if(l2.add(0, -1, 0).getBlock().getType().isSolid()) return true;
 		l2.add(0, 1, 0);
-		if(location.add(1, 0, 0).getBlock().getType().isSolid()) return true;
+		
+		if(l2.add(1, 0, 0).getBlock().getType().isSolid()) return true;
 		l2.add(-1, 0, 0);
-		if(location.add(-1, 0, 0).getBlock().getType().isSolid()) return true;
+		
+		if(l2.add(-1, 0, 0).getBlock().getType().isSolid()) return true;
 		l2.add(1, 0, 0);
-		if(location.add(0, 0, 1).getBlock().getType().isSolid()) return true;
+		
+		if(l2.add(0, 0, 1).getBlock().getType().isSolid()) return true;
 		l2.add(0, 0, -1);
-		if(location.add(0, 0, -1).getBlock().getType().isSolid()) return true;
+		
+		if(l2.add(0, 0, -1).getBlock().getType().isSolid()) return true;
+		
 		return false;
 	}
 	

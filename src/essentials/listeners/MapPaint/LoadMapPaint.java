@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import components.datenbank.Datenbank;
 import components.sql.SQLParser;
 import essentials.Image.staticImage;
-import essentials.config.MainConfig;
 import essentials.database.Databases;
 
 public class LoadMapPaint {
@@ -23,17 +22,10 @@ public class LoadMapPaint {
 	}
 	
 	public static Image getMapPaint(int id) {
-		//Pfad
-		//Filename
-		
 		MPInformation mpi = getMpInformation(id);
 		if(mpi == null) return null;
 		
-		if(mpi.path == null || mpi.path.isEmpty())
-			mpi.path = MainConfig.getDataFolder() + "pictures";
-		
-		
-		Image img = staticImage.getImage(mpi.path, mpi.filename);
+		Image img = staticImage.getImage(mpi.getConvertedPath(), mpi.filename);
 		int width = img.getWidth(null);
 		int height = img.getHeight(null);
 		
@@ -83,6 +75,8 @@ public class LoadMapPaint {
 	}
 	
 	public static int get(String pfad, String filename, int x, int y) {
+		if(pfad == null || filename == null) return -1;
+		
 		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getMapID.sql", LoadMapPaint.class));
 		
 		try {
@@ -92,7 +86,7 @@ public class LoadMapPaint {
 			preparedStatement.setString(4, filename);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
-			if(!resultSet.next()) return resultSet.getInt("mapID");
+			if(resultSet.next()) return resultSet.getInt("mapID");
 			
 			return -1;
 		} catch (SQLException e) {
@@ -103,6 +97,8 @@ public class LoadMapPaint {
 	}
 	
 	public static void setMapPaint(int id, String pfad, String filename, int x, int y) {
+		if(pfad == null || filename == null) return;
+		
 		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addFile.sql", LoadMapPaint.class));
 		
 		try {
