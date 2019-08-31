@@ -54,16 +54,20 @@ public class Tablist {
 		configuration.addDefault("Update.onTeleport", false);
 		configuration.addDefault("Update.onWorldChange", false);
 		
+		List<String> headerFooter = new LinkedList<>();
+		headerFooter.add("Default text");
+		configuration.addDefault("DefaultTablist.PlayerName", "§2[%name%]");
+		configuration.addDefault("DefaultTablist.Header.1", new LinkedList<>(headerFooter));
+		configuration.addDefault("DefaultTablist.Header.Enabled", true); //TODO
+		configuration.addDefault("DefaultTablist.Footer.1", new LinkedList<>(headerFooter));
+		configuration.addDefault("DefaultTablist.Footer.Enabled", true);
+		
 		if(!file.exists()) {
-			List<String> headerFooter = new LinkedList<>();
-			headerFooter.add("Default text");
-			configuration.addDefault("DefaultTablist.PlayerName", "§2[%name%]");
-			configuration.addDefault("DefaultTablist.Header.1", new LinkedList<>(headerFooter));
-			configuration.addDefault("DefaultTablist.Footer.1", new LinkedList<>(headerFooter));
-			
 			configuration.addDefault("GroupTablist.1.PlayerName", "§4[%name%]");
 			configuration.addDefault("GroupTablist.1.Header.1", new LinkedList<>(headerFooter));
+			configuration.addDefault("GroupTablist.1.Header.Enabled", true);
 			configuration.addDefault("GroupTablist.1.Footer.1", new LinkedList<>(headerFooter));
+			configuration.addDefault("GroupTablist.1.Footer.Enabled", true);
 		}
 		
 		configuration.options().copyDefaults(true);
@@ -136,22 +140,28 @@ public class Tablist {
 	 * @param number of the Group Tablist, -1 is default
 	 */
 	public static void sendTablist(Player player, int number) {
-		String header;
-		String footer;
+		String header = null;
+		String footer = null;
 		String playerName;
 		
 		if(number == -1) {
-			header = ListToString(configuration.getList("DefaultTablist.Header.1"));
-			footer = ListToString(configuration.getList("DefaultTablist.Footer.1"));
+			if(configuration.getBoolean("DefaultTablist.Header.Enabled"))
+				header = ListToString(configuration.getList("DefaultTablist.Header.1"));
+			if(configuration.getBoolean("DefaultTablist.Footer.Enabled"))
+				footer = ListToString(configuration.getList("DefaultTablist.Footer.1"));
 			playerName = configuration.getString("DefaultTablist.PlayerName");
 		} else {
-			header = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
-			footer = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
+			if(configuration.getBoolean("GroupTablist." + number + ".Header.Enabled"))
+				header = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
+			if(configuration.getBoolean("GroupTablist." + number + ".Header.Enabled"))
+				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
 			playerName = configuration.getString("GroupTablist." + number + ".PlayerName");
 		}
 		
-		header = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, header));
-		footer = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, footer));
+		if(header != null)
+			header = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, header));
+		if(footer != null)
+			footer = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, footer));
 		playerName = ChatUtilities.convertToColor(	TablistFormatter.parseToString(player, playerName));
 		
 		TablistUtilities.sendHeaderFooter(player, header, footer);
