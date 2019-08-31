@@ -1,6 +1,5 @@
 package essentials.commands.commands;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,6 +33,7 @@ import essentials.commands.trade.TradeCommands;
 import essentials.config.MainConfig;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
+import essentials.listeners.MapPaint.MPCommand;
 import essentials.listeners.chair.chair;
 import essentials.main.Deop;
 import essentials.main.Join;
@@ -398,12 +398,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "paint":
 				
-				if(args.length < 2) break;
-				
-				PlayerConfig config = PlayerManager.getPlayerConfig(p);
-				config.setTmp("mapPaintImage", args[1]);
-				
-				break;
+				return MPCommand.mpcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "pluginmanager":
 				
@@ -738,19 +733,8 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					break;
 					
 				case "paint":
-					if(args.length == 2) {
-						File dir = new File(MainConfig.getDataFolder() + "picture");
-						
-						for(File file : dir.listFiles()) {
-							if(file.isDirectory()) continue;
-							
-							returnArguments.add(file.getName());
-						}
-					}
-					else if(args.length == 3) returnArguments.add("<X>");
-					else if(args.length == 4) returnArguments.add("<Y>");
 					
-					break;
+					return MPCommand.mpcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "pluginmanager":
 					

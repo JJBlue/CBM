@@ -6,12 +6,12 @@ public class TablistTimer {
 	static boolean run;
 	
 	public synchronized static void start() {
-		if(timer != null) return;
+		if(timer != null || sleepMilliSeconds == -1) return;
 		
 		run = true;
 		
 		timer = new Thread(() -> {
-			while(run) {
+			while(run && sleepMilliSeconds != -1) {
 				Tablist.updateAllPlayers();
 				
 				try {
@@ -34,7 +34,7 @@ public class TablistTimer {
 	}
 	
 	public static void setSleep(long sleep) {
-		if(sleep < 1000) return;
+		if(sleep < 1000 && sleep != -1) return;
 		sleepMilliSeconds = sleep;
 	}
 }
