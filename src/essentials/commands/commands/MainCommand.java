@@ -77,13 +77,15 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				if(p1 == null) return true;
 				
-				if(CommandsEvents.afk.contains(p1)) {
-					CommandsEvents.afk.remove(p1);
+				PlayerConfig config = PlayerManager.getPlayerConfig(p1);
+				
+				boolean nV = !(config.containsLoadedKey("afk") && config.getBoolean("afk"));
+				config.setTmp("afk", nV);
+				
+				if(!nV)
 					Bukkit.broadcastMessage(p1.getName() + " ist nicht mehr afk");
-				} else {
-					CommandsEvents.afk.add(p1);
+				else
 					Bukkit.broadcastMessage(p1.getName() + " ist jetzt afk");
-				}
 				
 				break;
 				

@@ -1,7 +1,7 @@
 package essentials.listeners;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,9 +19,9 @@ import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 
+//TODO
 public class CommandsEvents implements Listener{
-	public final static List<Player> afk = new LinkedList<>();
-	public final static List<Player> hide = new LinkedList<>();
+	public final static Set<Player> hide = new HashSet<>();
 	
 	@EventHandler
 	private void Chat(AsyncPlayerChatEvent e){
@@ -35,14 +35,16 @@ public class CommandsEvents implements Listener{
 	@EventHandler
 	private void Move(PlayerMoveEvent e){
 		Player p = e.getPlayer();
-		if(!afk.contains(p)) return;
+		
+		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
+		if(!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk")) return;
 		
 		Location to = e.getTo();
 		Location from = e.getFrom();
 		
 		if(from.getX() != to.getX() || from.getZ() != to.getZ()) {
-			afk.remove(p);
-			Bukkit.broadcastMessage(p.getName() + " ist nicht mehr afk");
+			playerConfig.set("afk", false);
+			Bukkit.broadcastMessage("§e" + p.getName() + " ist nicht mehr §6afk");
 		}
 	}
 	
@@ -50,7 +52,11 @@ public class CommandsEvents implements Listener{
 	public void damage(EntityDamageEvent event) {
 		Entity entity = event.getEntity();
 		if(!(entity instanceof Player)) return;
-		if(!afk.contains((Player) entity)) return;
+		
+		Player player = (Player) entity;
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		if(!config.containsLoadedKey("afk") || !config.getBoolean("afk")) return;
+		
 		event.setCancelled(true);
 	}
 	
