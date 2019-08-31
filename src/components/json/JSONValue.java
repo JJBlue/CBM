@@ -116,7 +116,7 @@ public class JSONValue extends abstractJSON{
 			
 			switch(c) {
 				case '"':
-					builder.append("\"");
+					builder.append("\\\"");
 					break;
 				case '\\':
 					builder.append("\\\\");
