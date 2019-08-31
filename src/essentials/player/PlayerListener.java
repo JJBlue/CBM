@@ -12,19 +12,34 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	private void login(PlayerJoinEvent e) {
-		Player p = e.getPlayer();
-		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		playerConfig.set(PlayerConfigKey.loginTime, LocalDateTime.now());
+		join(e.getPlayer());
 	}
 	
 	@EventHandler
 	public void quit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
-		
+		quit(event.getPlayer());
+	}
+	
+	public static void join(Player player) {
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
-		playerConfig.set(PlayerConfigKey.logoutTime, LocalDateTime.now());
+		playerConfig.set(PlayerConfigKey.loginTime, LocalDateTime.now());
+	}
+	
+	public static void quit(Player player) {
+		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
 		
-		PlayerManager.unload(event.getPlayer().getUniqueId());
+		LocalDateTime logoutTime = LocalDateTime.now();
+		playerConfig.set(PlayerConfigKey.logoutTime, logoutTime);
+		
+		LocalDateTime loginTime = playerConfig.getLocalDateTime(PlayerConfigKey.loginTime);
+		
+		if(loginTime != null) {
+			CountTime countTime = new CountTime(playerConfig.getString(PlayerConfigKey.playTime));
+			countTime.add(loginTime, logoutTime);
+			
+			playerConfig.set(PlayerConfigKey.playTime, countTime.toString());
+		}
+		
+		PlayerManager.unload(player.getUniqueId());
 	}
 }

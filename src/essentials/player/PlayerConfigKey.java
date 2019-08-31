@@ -7,13 +7,13 @@ public enum PlayerConfigKey {
 	tMute,
 	loginTime,
 	logoutTime,
-	totalPlayTime,
+	playTime,
 	tCommandSpy,
 	deathLocation,
 	homeLocation,
 	logoutLocation,
-	teleportLocation,
-	tTeleport,
+	tpLocation,
+	tTp,
 	tWallGhost;
 	
 	private String value;

@@ -20,7 +20,7 @@ public class TeleportListener implements Listener {
 		
 		Player p = event.getPlayer();
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		playerConfig.set(PlayerConfigKey.teleportLocation, event.getFrom());
+		playerConfig.set(PlayerConfigKey.tpLocation, event.getFrom());
 	}
 	
 	@EventHandler
@@ -39,7 +39,7 @@ public class TeleportListener implements Listener {
 		
 		if(p1 != null && p1 != executer) {
 			PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
-			if(playerConfig.getBoolean(PlayerConfigKey.tTeleport)) {
+			if(playerConfig.getBoolean(PlayerConfigKey.tTp)) {
 				event.setCancelled(true);
 				executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
 			}
@@ -48,7 +48,7 @@ public class TeleportListener implements Listener {
 			if(p2 == null) return;
 			
 			PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p2);
-			if(playerConfig.getBoolean(PlayerConfigKey.tTeleport)) {
+			if(playerConfig.getBoolean(PlayerConfigKey.tTp)) {
 				event.setCancelled(true);
 				executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
 			}

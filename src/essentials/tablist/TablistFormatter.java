@@ -1,8 +1,10 @@
 package essentials.tablist;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,6 +12,11 @@ import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+
+import essentials.player.CountTime;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerConfigKey;
+import essentials.player.PlayerManager;
 
 public class TablistFormatter {
 	public static String parseToString(CommandSender commandSender, String text) {
@@ -186,12 +193,21 @@ public class TablistFormatter {
 					
 					break;
 			}
+		} else if(value instanceof CountTime) {
+			
+			CountTime countTime = (CountTime) value;
+			
+			if(argsMap.containsKey("time"))
+				endString = countTime.format(argsMap.get("time"));
+			else
+				endString = countTime.format("dd:HH");
+			
 		} else if(value instanceof LocalDateTime) {
 			
 			if(argsMap.containsKey("time"))
 				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("time")));
 			else
-				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("HH:mm")));
+				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern("HH:mm"));
 			
 		} else
 			endString = value.toString();
@@ -227,7 +243,6 @@ user_charges_left
 user_charges_max
 user_charges_time
 user_charges_cooldown
-user_display_name
 user_nickname
 user_cuffed
 user_muted
@@ -239,7 +254,6 @@ user_banned
 user_maxhomes
 user_ping
 user_canfly
-user_flying
 user_homeamount
 user_vanished_symbol
 user_balance_formatted
@@ -266,13 +280,6 @@ user_jailcell
 user_jailtime
 user_jailreason
 user_bungeeserver
-user_playtime_days
-user_playtime_dayst
-user_playtime_hours
-user_playtime_hoursf
-user_playtime_hourst
-user_playtime_minutes
-user_playtime_minutest
 user_itemcount_[itemIdName(:data)]
 user_maxperm_[corePerm]_[defaultValue]
 equation_[equation]
@@ -307,12 +314,15 @@ user_kitcd_[kitName]
 jail_time_[jailName]_[cellId]
 jail_username_[jailName]_[cellId]
 jail_reason_[jailName]_[cellId]
-server_time_[timeFormat]
 */
 	public static Object parser(CommandSender commandSender, String ersetzen) {
 		Player player = null;
 		if(commandSender instanceof Player)
 			player = (Player) commandSender;
+		
+		PlayerConfig config = null;
+		if(player != null)
+			config = PlayerManager.getPlayerConfig(player);
 		
 		Entity entity = null;
 		if(commandSender instanceof Entity)
@@ -387,6 +397,21 @@ server_time_[timeFormat]
 			case "op":
 				return commandSender.isOp();
 				
+			case "playertime": //TODO check if it is currect
+				if(player != null)
+					return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getPlayerTime()), TimeZone.getDefault().toZoneId());
+				break;
+			case "playtime":
+				if(player != null) {
+					CountTime countTime = new CountTime(config.getString(PlayerConfigKey.playTime));
+					
+					if(player.isOnline())
+						countTime.add(config.getLocalDateTime(PlayerConfigKey.loginTime), LocalDateTime.now());
+					
+					return countTime;
+				}
+				break;
+				
 			case "location_world":
 				if(location != null)
 					return location.getWorld();
@@ -424,17 +449,20 @@ server_time_[timeFormat]
 					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY()).name();
 				break;
 				
-			case "user_fly":
-				if(player != null)
-					return player.isFlying();
-				break;
-			
 			case "server_online":
 				return Bukkit.getOnlinePlayers().size();
 			case "server_max_players":
 				return Bukkit.getMaxPlayers();
 			case "real_time":
 				return LocalDateTime.now();
+				
+			case "user_fly":
+				if(player != null)
+					return player.isFlying();
+				break;
+				
+			case "worldtime":
+				return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getWorld().getTime()), TimeZone.getDefault().toZoneId());
 		}
 		
 		return ersetzen;

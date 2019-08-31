@@ -3,6 +3,7 @@ package essentials.player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -56,6 +57,10 @@ public class PlayerConfig {
 	
 	public synchronized void removeBuffer(String key) {
 		buffer.remove(key);
+	}
+	
+	public Object get(PlayerConfigKey key) {
+		return get(key.toString());
 	}
 	
 	public Object get(String key) {
@@ -198,6 +203,26 @@ public class PlayerConfig {
 				return PlayerSQLHelper.StringToLocation(resultSet.getString(key));
 		} catch (SQLException e) {}
 		
+		return null;
+	}
+	
+	public LocalDateTime getLocalDateTime(PlayerConfigKey key) {
+		return getLocalDateTime(key.toString());
+	}
+	
+	public LocalDateTime getLocalDateTime(String key) {
+		PlayerConfigValue value = buffer.get(key);
+		if(value != null) {
+			if(value.getObject() instanceof LocalDateTime)
+				return (LocalDateTime) value.getObject();
+			return null;
+		}
+		
+		try {
+			ResultSet resultSet = getPlayerInformation(key);
+			if(resultSet != null && resultSet.next())
+				return resultSet.getTimestamp(key).toLocalDateTime();
+		} catch (SQLException e) {}
 		return null;
 	}
 	

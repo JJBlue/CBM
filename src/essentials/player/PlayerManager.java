@@ -57,6 +57,9 @@ public class PlayerManager {
 	}
 	
 	public synchronized static void unloadAll() {
+		for(Player player : Bukkit.getOnlinePlayers())
+			PlayerListener.quit(player);
+		
 		for(PlayerConfig pcv : players.values())
 			pcv.save();
 		

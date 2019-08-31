@@ -2,9 +2,18 @@
 CREATE TABLE IF NOT EXISTS players(
 	uuid VARCHAR(36) UNIQUE NOT NULL,
 	name VARCHAR(20),
+	nickname VARCHAR(20),
 	commandSpyOperator BOOLEAN,
 	logoutTime TIMESTAMP,
 	loginTime TIMESTAMP,
+	homeLocation TEXT,
+	deathLocation TEXT,
+	tpLocation TEXT,
+	tTp BOOLEAN,
+	tGod BOOLEAN,
+	tWallGhost BOOLEAN,
+	tMute BOOLEAN,
+	playTime TEXT,
 	
 	PRIMARY KEY (uuid)
 );

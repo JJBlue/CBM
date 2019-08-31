@@ -11,7 +11,6 @@ public class TablistTimer {
 		run = true;
 		
 		timer = new Thread(() -> {
-			
 			while(run) {
 				Tablist.updateAllPlayers();
 				

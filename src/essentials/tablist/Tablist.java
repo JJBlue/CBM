@@ -25,7 +25,6 @@ public class Tablist {
 	
 	static boolean enabled;
 	static boolean groupEnabled;
-	static final String PREFIX = "";
 	static boolean defaultEnabled;
 	static TablistListener tablistListener;
 	
@@ -44,27 +43,27 @@ public class Tablist {
 		file = new File(MainConfig.getDataFolder(), "tablist.yml");
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
-		configuration.addDefault(PREFIX + "Enabled", false);
-		configuration.addDefault(PREFIX + "DefaultEnabled", true);
-		configuration.addDefault(PREFIX + "GroupEnabled", false);
+		configuration.addDefault("Enabled", false);
+		configuration.addDefault("DefaultEnabled", true);
+		configuration.addDefault("GroupEnabled", false);
 		
-		configuration.addDefault(PREFIX + "Update.AutoInterval", 60);
-		configuration.addDefault(PREFIX + "Update.onAfk", false); //TODO
-		configuration.addDefault(PREFIX + "Update.onJoin", true);
-		configuration.addDefault(PREFIX + "Update.onDeath", false);
-		configuration.addDefault(PREFIX + "Update.onTeleport", false);
-		configuration.addDefault(PREFIX + "Update.onWorldChange", false);
+		configuration.addDefault("Update.AutoInterval", 60);
+		configuration.addDefault("Update.onAfk", false); //TODO
+		configuration.addDefault("Update.onJoin", true);
+		configuration.addDefault("Update.onDeath", false);
+		configuration.addDefault("Update.onTeleport", false);
+		configuration.addDefault("Update.onWorldChange", false);
 		
 		if(!file.exists()) {
 			List<String> headerFooter = new LinkedList<>();
 			headerFooter.add("Default text");
-			configuration.addDefault(PREFIX + "DefaultTablist.PlayerName", "§2[%name%]");
-			configuration.addDefault(PREFIX + "DefaultTablist.Header", new LinkedList<>(headerFooter));
-			configuration.addDefault(PREFIX + "DefaultTablist.Footer", new LinkedList<>(headerFooter));
+			configuration.addDefault("DefaultTablist.PlayerName", "§2[%name%]");
+			configuration.addDefault("DefaultTablist.Header.1", new LinkedList<>(headerFooter));
+			configuration.addDefault("DefaultTablist.Footer.1", new LinkedList<>(headerFooter));
 			
-			configuration.addDefault(PREFIX + "GroupTablist.1.PlayerName", "§4[%name%]");
-			configuration.addDefault(PREFIX + "GroupTablist.1.Header", new LinkedList<>(headerFooter));
-			configuration.addDefault(PREFIX + "GroupTablist.1.Footer", new LinkedList<>(headerFooter));
+			configuration.addDefault("GroupTablist.1.PlayerName", "§4[%name%]");
+			configuration.addDefault("GroupTablist.1.Header.1", new LinkedList<>(headerFooter));
+			configuration.addDefault("GroupTablist.1.Footer.1", new LinkedList<>(headerFooter));
 		}
 		
 		configuration.options().copyDefaults(true);
@@ -75,15 +74,15 @@ public class Tablist {
 		}
 		
 		//Loading
-		enabled = configuration.getBoolean(PREFIX + "Enabled");
-		defaultEnabled = configuration.getBoolean(PREFIX + "DefaultEnabled");
-		groupEnabled = configuration.getBoolean(PREFIX + "GroupEnabled");
-		TablistTimer.setSleep(configuration.getInt(PREFIX + "Update.AutoInterval") * 1000);
+		enabled = configuration.getBoolean("Enabled");
+		defaultEnabled = configuration.getBoolean("DefaultEnabled");
+		groupEnabled = configuration.getBoolean("GroupEnabled");
+		TablistTimer.setSleep(configuration.getInt("Update.AutoInterval") * 1000);
 		
-		onJoin = configuration.getBoolean(PREFIX + "Update.onJoin");
-		onDeath = configuration.getBoolean(PREFIX + "Update.onDeath");
-		onTeleport = configuration.getBoolean(PREFIX + "Update.onTeleport");
-		onWorldChange = configuration.getBoolean(PREFIX + "Update.onWorldChange");
+		onJoin = configuration.getBoolean("Update.onJoin");
+		onDeath = configuration.getBoolean("Update.onDeath");
+		onTeleport = configuration.getBoolean("Update.onTeleport");
+		onWorldChange = configuration.getBoolean("Update.onWorldChange");
 		
 		if(enabled) {
 			Bukkit.getPluginManager().registerEvents(tablistListener, Main.getPlugin());
@@ -142,13 +141,13 @@ public class Tablist {
 		String playerName;
 		
 		if(number == -1) {
-			header = ListToString(configuration.getList(PREFIX + "DefaultTablist.Header"));
-			footer = ListToString(configuration.getList(PREFIX + "DefaultTablist.Footer"));
-			playerName = configuration.getString(PREFIX + "DefaultTablist.PlayerName");
+			header = ListToString(configuration.getList("DefaultTablist.Header.1"));
+			footer = ListToString(configuration.getList("DefaultTablist.Footer.1"));
+			playerName = configuration.getString("DefaultTablist.PlayerName");
 		} else {
-			header = ListToString(configuration.getList(PREFIX + "GroupTablist." + number + ".Header"));
-			footer = ListToString(configuration.getList(PREFIX + "GroupTablist." + number + ".Header"));
-			playerName = configuration.getString(PREFIX + "GroupTablist." + number + ".PlayerName");
+			header = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
+			footer = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
+			playerName = configuration.getString("GroupTablist." + number + ".PlayerName");
 		}
 		
 		header = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, header));
@@ -159,6 +158,8 @@ public class Tablist {
 	}
 	
 	public static String ListToString(List<?> list) {
+		if(list == null) return "";
+		
 		StringBuilder builder = new StringBuilder();
 		boolean start = true;
 		
