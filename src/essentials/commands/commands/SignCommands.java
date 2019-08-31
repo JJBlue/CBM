@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import essentials.permissions.PermissionHelper;
 import essentials.utilities.SignUtilities;
 import essentials.utilities.chat.ChatUtilities;
 
@@ -42,7 +43,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 		switch(args[0].toLowerCase()) {
 			case "edit":
 				
-				if(!sender.hasPermission("all.sign.edit")) return true;
+				if(!PermissionHelper.hasPermission(sender, "sign.edit")) return true;
 				if(p == null) break;
 				
 				Block block = p.getTargetBlock(null, 50);
@@ -57,7 +58,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 			case "fake":
 				
 				{
-					if(!sender.hasPermission("all.sign.fake")) return true;
+					if(!PermissionHelper.hasPermission(sender, "sign.fake")) return true;
 					if(args.length < 3) break;
 					
 					Player showPlayer = Bukkit.getPlayer(args[1]);
@@ -84,7 +85,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 				
 			case "show":
 				
-				if(!sender.hasPermission("all.sign.show")) return true;
+				if(!PermissionHelper.hasPermission(sender, "sign.show")) return true;
 				if(args.length < 3) break;
 				
 				Player showPlayer = Bukkit.getPlayer(args[1]);

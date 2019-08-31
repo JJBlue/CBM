@@ -35,7 +35,7 @@ public class DebugStickListener implements Listener {
 		
 		if(player.getGameMode().equals(GameMode.CREATIVE) && player.isOp()) return; //He could use the normal Debug_Stick
 		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
+		if(!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
 		
 		event.setCancelled(true);
 		
@@ -77,7 +77,8 @@ public class DebugStickListener implements Listener {
 				
 				break;
 			case LEFT_CLICK_AIR:
-				DebugStickEntityInventory.openInventory(player, player);
+				if(!player.isSneaking())
+					DebugStickEntityInventory.openInventory(player, player);
 				break;
 			default:
 				break;
@@ -89,7 +90,7 @@ public class DebugStickListener implements Listener {
 		Player player = event.getPlayer();
 		
 		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
+		if(!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
 		
 		event.setCancelled(true);
 		
@@ -119,7 +120,7 @@ public class DebugStickListener implements Listener {
 		Player player = (Player) event.getDamager();
 		
 		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() || !PermissionHelper.hasPermission(player, "debugStick")) return;
+		if(!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
 		
 		event.setCancelled(true);
 		

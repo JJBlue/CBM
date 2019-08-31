@@ -24,7 +24,7 @@ public class DebugStickEntityInventory {
 		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);
 		if(list.isEmpty()) return;
 		
-		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54, "Entity Editor"));
+		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54, "Entity (" + entity.getName() + ") Editor"));
 		InventoryPage page = factory.createFirstPage();
 		
 		for(DebugStickEntityChanges debugStickEntitiesChange : list) {

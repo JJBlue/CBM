@@ -45,6 +45,7 @@ import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
+import essentials.status.SystemStatus;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -478,6 +479,25 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					if(command != null)
 						command.execute(SudoPlayerManager.getSudoPlayer(sender, sudoPlayer), args[2], Arrays.copyOfRange(args, 3, args.length));
 				}
+				
+				break;
+				
+			case "status":
+				//TODO
+				sender.sendMessage("§e--------------------------------------------------");
+				
+				sender.sendMessage("§e Platform: §6" + SystemStatus.getPlatform() + " §eRunning threads: §6" + SystemStatus.getRunningThreads());
+				sender.sendMessage("§e CPU usage: % ( cores)");
+				sender.sendMessage("§e Uptime: ");
+				sender.sendMessage("§e TPS: ()");
+				sender.sendMessage("§e Memory usage: " + (SystemStatus.BytestoMB(SystemStatus.getTotalMemory()) / SystemStatus.BytestoMB(SystemStatus.getUsedMemory())) + "% (" + SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + "/ " + SystemStatus.BytestoMB(SystemStatus.getTotalMemory()) + " MB)");
+				sender.sendMessage("§e Java version: " + SystemStatus.getJavaVersion());
+				sender.sendMessage("§e Disk usage: " + (SystemStatus.BytestoGB(SystemStatus.getTotalDisk()) / SystemStatus.BytestoGB(SystemStatus.getUsedDisk())) + "% (" + SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + "/ " + SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB)");
+				
+				sender.sendMessage("§e--------------------------------------------------");
+				
+				//TODO world
+				sender.sendMessage("§e1. ");
 				
 				break;
 				

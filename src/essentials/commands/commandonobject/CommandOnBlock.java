@@ -126,6 +126,8 @@ public class CommandOnBlock {
 	}
 	
 	public synchronized static void unloadChunk(Chunk chunk) {
+		if(!chunkBuffer.containsKey(chunk)) return;
+		
 		Map<Location, CoBBlock> map = chunkBuffer.get(chunk);
 		if(map != null) {
 			synchronized (map) {

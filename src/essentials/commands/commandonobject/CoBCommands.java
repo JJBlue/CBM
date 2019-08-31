@@ -48,9 +48,17 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 			case "list":
 				
 				Block targetblock = p.getTargetBlock(null,50);
-				p.sendMessage("Auf dem Item sind folgende Commands:");
+				if(targetblock == null) break;
 				
-				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation())) {
+				
+				List<CoBCommandInfo> commandInfos = CommandOnBlock.getCommandInfos(targetblock.getLocation());
+				if(commandInfos == null || commandInfos.isEmpty()) {
+					sender.sendMessage("No Commands on this block");
+					break;
+				}
+				
+				sender.sendMessage("These Commands are on this block:");
+				for(CoBCommandInfo commandInfo : commandInfos) {
 					ChatUtilities.sendChatMessage(p, "  /" + commandInfo.command + " ",
 						ChatUtilities.createExtra(
 							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/all cob remove " + commandInfo.command)
