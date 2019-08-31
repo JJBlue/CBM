@@ -58,7 +58,7 @@ public class Tablist {
 		headerFooter.add("Default text");
 		configuration.addDefault("DefaultTablist.PlayerName", "§2[%name%]");
 		configuration.addDefault("DefaultTablist.Header.1", new LinkedList<>(headerFooter));
-		configuration.addDefault("DefaultTablist.Header.Enabled", true); //TODO
+		configuration.addDefault("DefaultTablist.Header.Enabled", true);
 		configuration.addDefault("DefaultTablist.Footer.1", new LinkedList<>(headerFooter));
 		configuration.addDefault("DefaultTablist.Footer.Enabled", true);
 		
