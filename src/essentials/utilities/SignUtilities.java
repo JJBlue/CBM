@@ -1,5 +1,7 @@
 package essentials.utilities;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,7 +11,7 @@ import org.bukkit.entity.Player;
 import essentials.utilitiesvr.sign.SignUtilitiesReflections;
 
 public class SignUtilities {
-	public static void editSign(Player player, Sign sign) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
+	public static void editSign(Player player, Sign sign) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException, InvocationTargetException {
 		SignUtilitiesReflections.editSign(player, sign);
 	}
 	

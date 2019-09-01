@@ -1,5 +1,6 @@
 package essentials.commands.commands;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 				Block block = p.getTargetBlock(null, 50);
 				try {
 					SignUtilities.editSign(p, (Sign) block.getState());
-				} catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchFieldException e1) {
+				} catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchFieldException | InvocationTargetException e1) {
 					e1.printStackTrace();
 				}
 				

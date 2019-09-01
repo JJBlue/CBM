@@ -13,6 +13,14 @@ public class PlayerUtilitiesReflections {
 	}
 	
 	public static Object getPlayerConnection(Player player) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
-		return SimpleReflection.getObject("playerConnection", SimpleReflection.callMethod(player, "getHandle"));
+		return SimpleReflection.getObject("playerConnection", getEntityPlayer(player));
+	}
+	
+	public static Object getEntityPlayerFromPlayerConnection(Player player) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
+		return SimpleReflection.getObject("player", getPlayerConnection(player));
+	}
+	
+	public static Object getEntityPlayer(Player player) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		return SimpleReflection.callMethod(player, "getHandle");
 	}
 }
