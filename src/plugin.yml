@@ -1,5 +1,5 @@
 name: CBM
-version: 0.4.2.beta
+version: 0.4.3.beta
 author: JJ
 main: essentials.main.Main
 api-version: 1.13
