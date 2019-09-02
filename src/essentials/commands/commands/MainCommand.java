@@ -501,9 +501,9 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					e.printStackTrace();
 				}
 				
-				sender.sendMessage("§e Memory usage: §6" + SystemStatus.round( (SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) / SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) ) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + " §e/§6 " + (int) SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) + " MB§e)");
+				sender.sendMessage("§e Memory usage: §6" + SystemStatus.round(( SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) / SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) ) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + " §e/§6 " + (int) SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) + " MB§e)");
 				sender.sendMessage("§e Java version: " + SystemStatus.getJavaVersion());
-				sender.sendMessage("§e Disk usage: " + SystemStatus.round((SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) / SystemStatus.BytestoGB(SystemStatus.getUsedDisk())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + " §e/§6 " + (int) SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB§e)");
+				sender.sendMessage("§e Disk usage: " + SystemStatus.round(( SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) / SystemStatus.BytestoGB(SystemStatus.getMaxDisk())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + " §e/§6 " + (int) SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB§e)");
 				
 				sender.sendMessage("§e--------------------------------------------------");
 				
