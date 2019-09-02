@@ -1,5 +1,7 @@
 package essentials.main;
 
+import java.time.LocalDateTime;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -40,9 +42,11 @@ import essentials.tablist.Tablist;
 public class Main extends JavaPlugin implements Listener{
 
 	private static JavaPlugin plugin;
+	private static LocalDateTime online;
 	
 	public void onEnable() {
 		plugin = this;
+		online = LocalDateTime.now();
 		System.out.println("[All] wurde gestartet");
 		
 		MainConfig.reload();
@@ -143,5 +147,9 @@ public class Main extends JavaPlugin implements Listener{
 
 	public static JavaPlugin getPlugin() {
 		return plugin;
+	}
+
+	public static LocalDateTime getOnline() {
+		return LocalDateTime.from(online);
 	}
 }
