@@ -37,7 +37,7 @@ Futures:
 	- shakeitoff -> remove all entities riding on you
 	- skin
 	- nickname
-	- itemStack add org.bukkit.attribute.Attribute
+	- itemStack add org.bukkit.attribute.Attribäute
 	
 Finished without released:
-	- status
+	
