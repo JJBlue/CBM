@@ -506,10 +506,8 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				sender.sendMessage("§e--------------------------------------------------");
 				
-				for(World world : Bukkit.getWorlds()) {
+				for(World world : Bukkit.getWorlds())
 					sender.sendMessage("§eWorld: §6" + world.getName() + "§e Loaded Chunks: §6" + world.getLoadedChunks().length + "§e ForceLoaded Chunks: §6" + world.getForceLoadedChunks().size() + "§e Entities: §6" + world.getEntities().size() + "§e Players: §6" + world.getPlayers().size());
-					
-				}
 				
 				sender.sendMessage("§e--------------------------------------------------");
 				
