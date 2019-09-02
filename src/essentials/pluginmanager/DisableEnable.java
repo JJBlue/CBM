@@ -31,7 +31,7 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 2 || !sender.hasPermission("all.pluginmanager")) return true;
+		if(args.length < 2) return true;
 		
 		String pluginname = args[1];
 		final Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin(pluginname);

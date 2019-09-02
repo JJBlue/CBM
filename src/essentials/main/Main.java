@@ -131,12 +131,10 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(sender.hasPermission("all.all")) {
-			if (cmd.getName().equalsIgnoreCase("timer"))
-				Timerplus.onTimerCommand(sender, cmd, cmdLabel, args);
-			else if(cmd.getName().equalsIgnoreCase("cv"))
-				ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
-		}
+		if (sender.hasPermission("timer") && cmd.getName().equalsIgnoreCase("timer"))
+			Timerplus.onTimerCommand(sender, cmd, cmdLabel, args);
+		if(sender.hasPermission("cv") && cmd.getName().equalsIgnoreCase("cv"))
+			ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
 		
 		return false;
 	}

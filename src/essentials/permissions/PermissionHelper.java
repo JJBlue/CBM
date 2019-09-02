@@ -10,7 +10,7 @@ public class PermissionHelper {
 	}
 	
 	public static String getPermission(String permission) {
-		return "all." + permission;
+		return "cbm." + permission;
 	}
 	
 	public static boolean hasPermission(CommandSender sender, String permission) {

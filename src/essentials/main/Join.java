@@ -46,8 +46,6 @@ public class Join implements Listener{
 	//TODO update
 	@SuppressWarnings("deprecation")
 	public static boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {	
-		if(!sender.hasPermission("all.join")) return false;
-		
 		if(args.length == 2){
 			if(args[1].equalsIgnoreCase("help")){
 				sender.sendMessage("/all join list");

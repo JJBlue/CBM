@@ -161,7 +161,7 @@ public class SignCommands implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1 || !sender.hasPermission("all.all")) return null;
+		if(args.length < 1) return null;
 		
 		List<String> returnArguments = new LinkedList<>();
 		
