@@ -1,6 +1,5 @@
 Classes Only for 1.14:
 
-	
 
 Classes used Reflections:
 	# Must be checked each minecraft version
