@@ -2,13 +2,15 @@ package essentials.status;
 
 import java.io.File;
 
-import essentials.Image.staticImage;
-
 public class SystemStatus {
 	private SystemStatus() {}
 	
 	public static String getPlatform() {
-		return null;//TODO
+		return System.getProperty("os.name");
+	}
+	
+	public static long getAllProcesses() {
+		return ProcessHandle.allProcesses().count();
 	}
 	
 	public static long getMaxMemory() {
@@ -28,7 +30,7 @@ public class SystemStatus {
 	}
 	
 	public static int getRunningThreads() {
-		return -1; //TODO
+		return Thread.getAllStackTraces().size();
 	}
 	
 	public static int getCores() {
@@ -63,7 +65,17 @@ public class SystemStatus {
 		return bytes / 1000000000d;
 	}
 	
+	public static double BytestoGB(long bytes, int amount) {
+		return round(bytes / 1000000000d, amount);
+	}
+	
 	private static File myFile() {
 		return new File(".");
+	}
+	
+	public static double round(double value, int amount) {
+		long roundV = (long) Math.pow(10, amount);
+		long tmp = (long) (value * roundV);
+		return (double) tmp / (double) roundV;
 	}
 }
