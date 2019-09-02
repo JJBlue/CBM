@@ -30,9 +30,13 @@ public class SystemStatus {
 	}
 	
 	public static double getCPUUsage() {
-//		ThreadMXBean threadMXBean = new THread
 		OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		return operatingSystemMXBean.getProcessCpuLoad() * 100;
+	}
+	
+	public static double getSystemCPUUsage() {
+		OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+		return operatingSystemMXBean.getSystemCpuLoad() * 100;
 	}
 	
 	public static double[] getRecentTPS() {
@@ -120,5 +124,9 @@ public class SystemStatus {
 		long roundV = (long) Math.pow(10, amount);
 		long tmp = (long) (value * roundV);
 		return (double) tmp / (double) roundV;
+	}
+	
+	public static double toProzent(double ganzes, double anteil) {
+		return anteil / ganzes;
 	}
 }
