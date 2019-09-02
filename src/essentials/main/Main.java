@@ -1,5 +1,6 @@
 package essentials.main;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 import org.bukkit.Bukkit;
@@ -48,6 +49,9 @@ public class Main extends JavaPlugin implements Listener{
 		plugin = this;
 		online = LocalDateTime.now();
 		System.out.println("[CBM] wurde gestartet");
+		
+		File file = new File(getDataFolder().getParentFile(), "Allgemein");
+		file.renameTo(getDataFolder());
 		
 		MainConfig.reload();
 		Databases.load();

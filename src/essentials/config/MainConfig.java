@@ -21,7 +21,7 @@ public class MainConfig {
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		configuration.options().copyDefaults(true);
 		
-		configuration.addDefault(MainConfigEnum.DataFolder.value, "./plugins/" + Main.getPlugin().getName() + "/");
+		configuration.addDefault(MainConfigEnum.DataFolder.value, "-");
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
 		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll");
 		
@@ -35,11 +35,20 @@ public class MainConfig {
 		
 		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing");
 		
+		//TODO remove later
+		String folder = configuration.getString(MainConfigEnum.DataFolder.value);
+		if(new File(folder).equals(new File("./plugins/Allgemein/")))
+			configuration.set(MainConfigEnum.DataFolder.value, "-");
+		
 		save();
 	}
 	
 	public static String getDataFolder() {
 		String folder = configuration.getString(MainConfigEnum.DataFolder.value);
+
+		if(folder == null || folder.isEmpty() || folder.equals("-"))
+			folder = Main.getPlugin().getDataFolder().getAbsolutePath();
+		
 		if(!folder.endsWith("\\") && !folder.endsWith("/"))
 			return folder + "/";
 		return folder;

@@ -15,11 +15,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import essentials.config.MainConfig;
 import essentials.main.Main;
 
 public class ChatVerbesserung implements Listener{
 	
-	public static File CV = new File("plugins/Allgemein", "ChatCleaner.yml");
+	public static File CV = new File(MainConfig.getDataFolder(), "ChatCleaner.yml");
 	public static FileConfiguration CVConf = YamlConfiguration.loadConfiguration(CV);
 	private static List<String> Verboten = new ArrayList<String>();
 	
