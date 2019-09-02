@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -485,8 +486,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "status":
-				//TODO
-				
 				sender.sendMessage("§e--------------------------------------------------");
 				
 				sender.sendMessage("§e Platform: §6" + SystemStatus.getPlatform() + "§e(§6" + SystemStatus.getArchitecture() + "§e)" + " §eRunning threads: §6" + SystemStatus.getRunningThreads());
@@ -507,8 +506,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				sender.sendMessage("§e--------------------------------------------------");
 				
-				//TODO world information
-//				sender.sendMessage("§e1. ");
+				for(World world : Bukkit.getWorlds()) {
+					sender.sendMessage("§eWorld: §6" + world.getName() + "§e Loaded Chunks: §6" + world.getLoadedChunks().length + "§e ForceLoaded Chunks: §6" + world.getForceLoadedChunks().size() + "§e Entities: §6" + world.getEntities().size() + "§e Players: §6" + world.getPlayers().size());
+					
+				}
+				
+				sender.sendMessage("§e--------------------------------------------------");
 				
 				break;
 				
@@ -650,6 +653,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("sit");
 			returnArguments.add("sign");
 			returnArguments.add("skull");
+			returnArguments.add("status");
 			returnArguments.add("sudo");
 			returnArguments.add("speed");
 			returnArguments.add("teleport");

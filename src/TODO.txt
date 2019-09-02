@@ -38,3 +38,6 @@ Futures:
 	- skin
 	- nickname
 	- itemStack add org.bukkit.attribute.Attribute
+	
+Finished without released:
+	- status
