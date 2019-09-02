@@ -40,4 +40,4 @@ Futures:
 	- itemStack add org.bukkit.attribute.Attribäute
 	
 Finished without released:
-	
+	- commandspy value

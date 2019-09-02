@@ -2,8 +2,11 @@ package essentials.tablist;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,10 +36,11 @@ public class Tablist {
 	static boolean onTeleport;
 	static boolean onWorldChange;
 	
-	static int counterPageCurrent = 0; //TODO
+	static Map<String, Integer> counterPageCurrent;
 	
 	static {
 		tablistListener = new TablistListener();
+		counterPageCurrent = Collections.synchronizedMap(new HashMap<>());
 	}
 	
 	public synchronized static void load() {
@@ -145,16 +149,28 @@ public class Tablist {
 		String playerName;
 		
 		if(number == -1) {
+			
+			if(!counterPageCurrent.containsKey("DefaultTablist"))
+				counterPageCurrent.put("DefaultTablist", 1);
+			
+			int page = (int) counterPageCurrent.get("DefaultTablist");
+			
 			if(configuration.getBoolean("DefaultTablist.Header.Enabled"))
-				header = ListToString(configuration.getList("DefaultTablist.Header.1"));
+				header = ListToString(configuration.getList("DefaultTablist.Header." + page));
 			if(configuration.getBoolean("DefaultTablist.Footer.Enabled"))
-				footer = ListToString(configuration.getList("DefaultTablist.Footer.1"));
+				footer = ListToString(configuration.getList("DefaultTablist.Footer." + page));
 			playerName = configuration.getString("DefaultTablist.PlayerName");
 		} else {
+			
+			if(!counterPageCurrent.containsKey("GroupTablist." + number))
+				counterPageCurrent.put("GroupTablist." + number, 1);
+			
+			int page = (int) counterPageCurrent.get("GroupTablist." + number);
+			
 			if(configuration.getBoolean("GroupTablist." + number + ".Header.Enabled"))
-				header = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
-			if(configuration.getBoolean("GroupTablist." + number + ".Header.Enabled"))
-				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header.1"));
+				header = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
+			if(configuration.getBoolean("GroupTablist." + number + ".Footer.Enabled"))
+				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
 			playerName = configuration.getString("GroupTablist." + number + ".PlayerName");
 		}
 		
@@ -162,9 +178,28 @@ public class Tablist {
 			header = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, header));
 		if(footer != null)
 			footer = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, footer));
-		playerName = ChatUtilities.convertToColor(	TablistFormatter.parseToString(player, playerName));
+		playerName = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, playerName));
 		
 		TablistUtilities.sendHeaderFooter(player, header, footer);
+	}
+	
+	public static void nextTablist() {
+		for(String prefixText : counterPageCurrent.keySet()) {
+			if(!counterPageCurrent.containsKey(prefixText)) {
+				counterPageCurrent.put(prefixText, 1);
+				continue;
+			}
+			
+			int cur = counterPageCurrent.get(prefixText);
+			cur++;
+			
+			if(configuration.contains(prefixText + ".Header." + cur) || configuration.contains(prefixText + ".Footer." + cur)) {
+				counterPageCurrent.put(prefixText, cur);
+				continue;
+			}
+			
+			counterPageCurrent.put(prefixText, 1);
+		}
 	}
 	
 	public static String ListToString(List<?> list) {
