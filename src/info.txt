@@ -3,7 +3,7 @@
 BETA (could contain many bugs and mistakes)
 
 My English is not the best. By spelling mistakes you can send me a correction.
-Pluginname could be changed for release, when I have a better one.
+Pluginname could be changed for release, when I have a better one. (In Some parts the Plugin have his old name: "Allgemein")
 Some commands could be moved or name could be changed
 
 TODO:
