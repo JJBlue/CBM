@@ -16,5 +16,3 @@ commands:
      post:
           description: Post/Chest open
           permission: post.use
-permissions:
-	cbm.command
