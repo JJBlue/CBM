@@ -45,9 +45,9 @@ public class CommandSpyListener implements Listener {
 		int value = -1;
 		
 		for(PermissionAttachmentInfo pai : player.getEffectivePermissions()) {
-			if(pai.getPermission().startsWith(PermissionHelper.getPermissionCommand("commandspy"))) {
+			if(pai.getPermission().startsWith(PermissionHelper.getPermission("commandspy"))) {
 				String per = pai.getPermission();
-				per = per.substring(PermissionHelper.getPermissionCommand("commandspy").length(), per.length());
+				per = per.substring(PermissionHelper.getPermission("commandspy").length(), per.length());
 				
 				try {
 					int tmp = Integer.parseInt(per);
