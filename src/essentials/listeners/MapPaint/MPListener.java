@@ -21,8 +21,6 @@ public class MPListener implements Listener {
 	public void Interact(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		
-		if(!p.hasPermission("map.image")) return;
-		
 		PlayerConfig config = PlayerManager.getPlayerConfig(p);
 		if(!config.containsLoadedKey("mapPaintImage")) return;
 		

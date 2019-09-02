@@ -27,7 +27,7 @@ public class ArmorstandCommands implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1 || !PermissionHelper.hasPermission(sender, "armorstand")) return true;
+		if(args.length < 1) return true;
 		if(!(sender instanceof Player)) return true;
 		
 		Player p = (Player) sender;

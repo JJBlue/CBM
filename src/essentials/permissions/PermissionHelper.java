@@ -16,4 +16,8 @@ public class PermissionHelper {
 	public static boolean hasPermission(CommandSender sender, String permission) {
 		return sender.hasPermission(getPermission(permission));
 	}
+	
+	public static boolean hasCommandPermission(CommandSender sender, String permission) {
+		return sender.hasPermission(getPermissionCommand(permission));
+	}
 }

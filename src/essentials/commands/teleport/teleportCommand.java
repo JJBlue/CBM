@@ -30,7 +30,7 @@ public class teleportCommand implements CommandExecutor, TabCompleter{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 0 || !sender.hasPermission("all.teleport.*")) return false;
+		if(args.length < 0) return false;
 		
 		Location l = null;
 		Player p = null;
