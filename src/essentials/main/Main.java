@@ -47,7 +47,7 @@ public class Main extends JavaPlugin implements Listener{
 	public void onEnable() {
 		plugin = this;
 		online = LocalDateTime.now();
-		System.out.println("[All] wurde gestartet");
+		System.out.println("[CBM] wurde gestartet");
 		
 		MainConfig.reload();
 		Databases.load();
@@ -76,8 +76,8 @@ public class Main extends JavaPlugin implements Listener{
 		
 		{
 			MainCommand mainCommand = new MainCommand();
-			this.getCommand("all").setExecutor(mainCommand);
-			this.getCommand("all").setTabCompleter(mainCommand);
+			this.getCommand("cbm").setExecutor(mainCommand);
+			this.getCommand("cbm").setTabCompleter(mainCommand);
 		}
 		
 		{ //TODO move under all command
