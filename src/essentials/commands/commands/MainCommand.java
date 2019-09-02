@@ -449,14 +449,14 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 						p.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
 					
 					sender.sendMessage("Normal Speed == 2");
-				} else if(args.length >= 3) {
-					p1 = Bukkit.getPlayer(args[2]);
+				} else if(args.length >= 4) {
+					p1 = Bukkit.getPlayer(args[3]);
 					if(p1 == null) return true;
 					
-					if(args[1].equalsIgnoreCase("walk"))
-						p1.setWalkSpeed(flo(Double.parseDouble(args[0]), sender));
-					else if(args[1].equalsIgnoreCase("fly"))
-						p1.setFlySpeed(flo(Double.parseDouble(args[0]), sender));
+					if(args[2].equalsIgnoreCase("walk"))
+						p1.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
+					else if(args[2].equalsIgnoreCase("fly"))
+						p1.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
 					
 					sender.sendMessage("Normal Speed == 2");
 				}

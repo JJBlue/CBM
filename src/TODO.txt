@@ -8,7 +8,6 @@ Futures:
 	- disableenchantments
 	- holograms
 	- homes
-	- import from other databases
 	- kids
 	- mail
 	- sleeping time -> Speed Time faster when more sleep
@@ -16,7 +15,6 @@ Futures:
 	- Oneline Player Tab -> Design
 	
 	Commands:
-	- set air
 	- alert player
 	- alias commands
 	- attachcommand to items (NBT ?)
@@ -29,7 +27,6 @@ Futures:
 	- playtime
 	- world player time | weather
 	- warps
-	- fly
 	- better speed command -> fly, walk, swim
 	- giveall
 	- glow player color

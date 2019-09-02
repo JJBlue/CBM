@@ -29,7 +29,7 @@ public class Skullitem implements Listener, CommandExecutor, TabCompleter {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1 || !sender.hasPermission("all.skull")) return true;
+		if(args.length < 1) return true;
 		if(!(sender instanceof Player)) return true;
 		
 		Player p = (Player) sender;

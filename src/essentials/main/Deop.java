@@ -31,8 +31,6 @@ public class Deop implements Listener, CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-    	if(!cmd.getName().equalsIgnoreCase("oplist")) return false;
-    	
     	List<String> list = MainConfig.getOperators();
     	StringBuilder builder = new StringBuilder();
     	builder.append("###### Operators ######\n");

@@ -20,7 +20,7 @@ public class TradeCommands implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1 || !sender.hasPermission("all.trade")) return true;
+		if(args.length < 1) return true;
 		if(!(sender instanceof Player)) return true;
 		
 		Player player = Bukkit.getPlayer(args[0]);
