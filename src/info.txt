@@ -8,20 +8,19 @@ Some commands could be moved or name could be changed
 
 TODO:
 	1. Missing language file. Some text at the moment are not English.
-	2. Tablist text change after a while
-	3. Enable & Disable all possible Functions.
-	4. Bossbar
-	5. Timers
-	6. Custom Recipes
-	7. Custom Command Alias
-	8. Holograms
-	9. Homes
-	10. Add Commands to ItemStacks
-	11. money
-	12. Jail
-	13. Ban
-	14. Spawner Editor
-	15. Warps
+	2. Enable & Disable all possible Functions.
+	3. Bossbar
+	4. Timers
+	5. Custom Recipes
+	6. Custom Command Alias
+	7. Holograms
+	8. Homes
+	9. Add Commands to ItemStacks
+	10. money
+	11. Jail
+	12. Ban
+	13. Spawner Editor
+	14. Warps
 	x. ...
 
 Features:
@@ -127,6 +126,7 @@ Commands and permissions:
 	- uuid <Player>
 	- wallghost (<Player>)
 	- repair <Player>
+	...
 
 
 F.A.Q.:
