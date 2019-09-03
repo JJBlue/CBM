@@ -6,7 +6,7 @@ public enum MainConfigEnum {
 	JoinPlayersWhenFull("server.joinPlayersWhenFull"),
 	CouldOperators("server.couldOperator"),
 	Motd("server.motd"),
-	
+	Language("plugin.language"),
 	DataFolder("plugin.dataFolder"),
 	;
 	

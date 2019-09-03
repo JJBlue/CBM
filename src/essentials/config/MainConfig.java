@@ -40,6 +40,8 @@ public class MainConfig {
 		if(new File(folder).equals(new File("./plugins/Allgemein/")))
 			configuration.set(MainConfigEnum.DataFolder.value, "-");
 		
+		configuration.addDefault(MainConfigEnum.Language.value, "en");
+		
 		save();
 	}
 	
@@ -98,6 +100,15 @@ public class MainConfig {
 	
 	public static void setMotd(String message) {
 		configuration.set(MainConfigEnum.Motd.value, message);
+		save();
+	}
+	
+	public static String getLanguage() {
+		return configuration.getString(MainConfigEnum.Language.value);
+	}
+	
+	public static void setLanguage(String lang) {
+		configuration.set(MainConfigEnum.Language.value, lang);
 		save();
 	}
 	

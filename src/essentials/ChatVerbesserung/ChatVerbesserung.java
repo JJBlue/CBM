@@ -56,13 +56,6 @@ public class ChatVerbesserung implements Listener{
 		l.add("huren");
 		l.add("scheiss");
 		
-		l.add("juli");
-		l.add("j u l i");
-		l.add("j u li");
-		l.add("ju li");
-		l.add("j uli");
-		l.add("jul i");
-		l.add("j ul i");
 		CVConf.addDefault("Verboten", l);
 		CVConf.options().copyDefaults(true);
 		try {
