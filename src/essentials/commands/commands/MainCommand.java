@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.boss.BarColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,8 +48,6 @@ import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.status.SystemStatus;
-import essentials.timer.BukkitTimer;
-import essentials.timer.TimerPosition;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -72,18 +69,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		args[0] = args[0].toLowerCase();
 		if(!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 		
-		switch (args[0]) {
-			case "test":
-				
-				BukkitTimer timer = new BukkitTimer(TimerPosition.BOSSBAR);
-				timer.setMaxValue(10);
-				timer.setCountUp();
-				timer.setColor(BarColor.BLUE);
-				timer.setTitle("test");
-				timer.start();
-				
-				break;
-		
+		switch (args[0]) {		
 			case "afk":
 				
 				Player p1 = null;

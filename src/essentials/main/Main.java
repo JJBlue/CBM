@@ -26,6 +26,7 @@ import essentials.commands.trolling.TrolCommands;
 import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.inventory.InventoryListener;
+import essentials.language.LanguageConfig;
 import essentials.listeners.ColorListener;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.noHunger;
@@ -95,6 +96,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
+		LanguageConfig.load();
 		CommandOnBlock.load();
 		LoadMapPaint.load();
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren

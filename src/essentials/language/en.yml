@@ -1,3 +1,3 @@
 afk:
-  noLongerAfk: "§e$1 is no longer afk"
-  isNowAfk: "§e$1 is now afk"
+  isNowAfk: §e$1 is now §6afk
+  noLongerAfk: §e$1 is no longer §6afk

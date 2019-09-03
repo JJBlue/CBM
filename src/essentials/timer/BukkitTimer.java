@@ -18,6 +18,8 @@ public class BukkitTimer {
 	
 	private int maxValue = 60; //1 Per Second
 	private int currentValue = 0;
+	private Runnable onFinished;
+	private Runnable onEverySecond;
 	
 	//Bossbar Information if needed
 	private String title;
@@ -67,6 +69,8 @@ public class BukkitTimer {
 				
 				if(currentValue > maxValue) {
 					stop();
+					if(onFinished != null)
+						onFinished.run();
 					return;
 				}
 			} else {
@@ -74,9 +78,14 @@ public class BukkitTimer {
 				
 				if(currentValue <= 0) {
 					stop();
+					if(onFinished != null)
+						onFinished.run();
 					return;
 				}
 			}
+			
+			if(onEverySecond != null)
+				onEverySecond.run();
 			
 			switch (position) {
 				case BOSSBAR:
