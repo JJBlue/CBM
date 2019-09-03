@@ -48,6 +48,7 @@ import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.status.SystemStatus;
+import essentials.timer.TimerCommand;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -525,6 +526,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
+			case "timer":
+				
+				return TimerCommand.timerCommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				
 			case "trade":
 				
 				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -662,6 +667,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("sudo");
 			returnArguments.add("speed");
 			returnArguments.add("teleport");
+			returnArguments.add("timer");
 			returnArguments.add("trade");
 			returnArguments.add("uuid");
 			returnArguments.add("wallGhost");
@@ -784,6 +790,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				case "pluginmanager":
 					
 					return DisableEnable.disableEnable.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "timer":
+					
+					return TimerCommand.timerCommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "trade":
 					

@@ -8,3 +8,6 @@ mute:
   disabled-Command: §6$1 is no longer muted
   enabled-Player: §eYou were muted
   disabled-Player: §eYou were unmuted
+timer:
+  cancelTimer: §eTimer with ID §6$1§e was stopped
+  startTimer: §eTimer with ID §6$1§e was started

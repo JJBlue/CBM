@@ -38,13 +38,13 @@ public class BukkitTimer {
 		switch (position) {
 			case BOSSBAR:
 				if(style == null)
-					style = BarStyle.SEGMENTED_10;
+					style = BarStyle.SOLID;
 				
 				if(color == null)
 					color = BarColor.WHITE;
 				
 				if(title == null)
-					title = "";
+					title = "$1";
 				
 				if(barFlags == null)
 					barFlags = new BarFlag[0];
@@ -64,11 +64,18 @@ public class BukkitTimer {
 		}
 		
 		ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), () -> {
+			if(currentValue > maxValue)
+				maxValue = currentValue;
+			
 			if(UpOrDown) {
 				currentValue++;
 				
-				if(currentValue > maxValue) {
-					stop();
+				if(currentValue >= maxValue) {
+					if(repeat)
+						currentValue = 0;
+					else
+						stop();
+					
 					if(onFinished != null)
 						onFinished.run();
 					return;
@@ -77,7 +84,11 @@ public class BukkitTimer {
 				currentValue--;
 				
 				if(currentValue <= 0) {
-					stop();
+					if(repeat)
+						currentValue = maxValue;
+					else
+						stop();
+					
 					if(onFinished != null)
 						onFinished.run();
 					return;
@@ -87,17 +98,23 @@ public class BukkitTimer {
 			if(onEverySecond != null)
 				onEverySecond.run();
 			
+			title = title.replace("$1", currentValue + "");
+			
 			switch (position) {
 				case BOSSBAR:
+					bossBar.setTitle(title);
 					bossBar.setProgress((1d / maxValue) * currentValue);
 					break;
 				case CHAT:
-					Bukkit.broadcastMessage(currentValue + "");
+					
+					Bukkit.broadcastMessage(title);
 					break;
 				default:
 					break;
 			}
 		}, 0l, 20l);
+		
+		TimerManager.timers.put(ID, this);
 	}
 	
 	public synchronized void stop() {
@@ -105,6 +122,7 @@ public class BukkitTimer {
 		
 		if(bossBar != null) {
 			bossBar.setVisible(false);
+			bossBar.removeAll();
 		}
 		
 		Bukkit.getScheduler().cancelTask(ID);
@@ -203,5 +221,10 @@ public class BukkitTimer {
 
 	public void setMaxValue(int maxValue) {
 		this.maxValue = maxValue;
+		
+		if(isCountUp())
+			currentValue = 0;
+		else
+			currentValue = maxValue;
 	}
 }
