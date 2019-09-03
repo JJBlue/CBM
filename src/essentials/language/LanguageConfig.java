@@ -68,7 +68,7 @@ public class LanguageConfig {
 		return configuration.getString(key);
 	}
 	
-	public static void sendMessage(CommandSender sender, String key, String... args) {
+	public static String getString(String key, String... args) {
 		String m = getString(key);
 		
 		if(m == null) {
@@ -88,6 +88,10 @@ public class LanguageConfig {
 		for(int i = 1; i <= args.length; i++)
 			m = m.replace("$" + i, args[i]);
 		
-		sender.sendMessage(m);
+		return m;
+	}
+	
+	public static void sendMessage(CommandSender sender, String key, String... args) {
+		sender.sendMessage(getString(key, args));
 	}
 }

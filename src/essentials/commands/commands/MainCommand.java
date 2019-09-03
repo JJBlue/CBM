@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.boss.BarColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,7 @@ import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.teleportCommand;
 import essentials.commands.trade.TradeCommands;
 import essentials.config.MainConfig;
+import essentials.language.LanguageConfig;
 import essentials.listeners.CommandsEvents;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MPCommand;
@@ -47,6 +49,8 @@ import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.status.SystemStatus;
+import essentials.timer.BukkitTimer;
+import essentials.timer.TimerPosition;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -69,6 +73,17 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		if(!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 		
 		switch (args[0]) {
+			case "test":
+				
+				BukkitTimer timer = new BukkitTimer(TimerPosition.BOSSBAR);
+				timer.setMaxValue(10);
+				timer.setCountUp();
+				timer.setColor(BarColor.BLUE);
+				timer.setTitle("test");
+				timer.start();
+				
+				break;
+		
 			case "afk":
 				
 				Player p1 = null;
@@ -84,9 +99,9 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				config.setTmp("afk", nV);
 				
 				if(!nV)
-					Bukkit.broadcastMessage(p1.getName() + " ist nicht mehr afk");
+					Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p1.getName()));
 				else
-					Bukkit.broadcastMessage(p1.getName() + " ist jetzt afk");
+					Bukkit.broadcastMessage(LanguageConfig.getString("afk.isNowAfk", p1.getName()));
 				
 				break;
 				

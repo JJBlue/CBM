@@ -20,7 +20,6 @@ import essentials.commands.commandspy.CommandSpyListener;
 import essentials.commands.post.Post;
 import essentials.commands.skull.Skullitem;
 import essentials.commands.teleport.TeleportListener;
-import essentials.commands.timerplus.Timerplus;
 import essentials.commands.trade.TradeListener;
 import essentials.commands.trolling.BlockClick;
 import essentials.commands.trolling.TrolCommands;
@@ -99,7 +98,6 @@ public class Main extends JavaPlugin implements Listener{
 		CommandOnBlock.load();
 		LoadMapPaint.load();
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
-		Timerplus.TimerSekunden();
 		
 		for(Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
@@ -131,8 +129,6 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if (sender.hasPermission("timer") && cmd.getName().equalsIgnoreCase("timer"))
-			Timerplus.onTimerCommand(sender, cmd, cmdLabel, args);
 		if(sender.hasPermission("cv") && cmd.getName().equalsIgnoreCase("cv"))
 			ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
 		
