@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -46,12 +47,21 @@ public class LanguageConfig {
 	public static void load() {		
 		File l = new File(MainConfig.getDataFolder(), "language/" + getLanguage() + ".yml");
 		if(!l.exists()) {
-			configuration = ConfigLoader.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"));
+			try {
+				configuration = ConfigLoader.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
+			} catch (InvalidConfigurationException | IOException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 		
-		file = l;
-		configuration = YamlConfiguration.loadConfiguration(l);
+		
+		try {
+			configuration = ConfigLoader.loadConfig(l, "UTF-8");
+			file = l;
+		} catch (InvalidConfigurationException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void save() {
