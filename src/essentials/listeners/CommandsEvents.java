@@ -14,6 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
@@ -44,7 +45,7 @@ public class CommandsEvents implements Listener{
 		
 		if(from.getX() != to.getX() || from.getZ() != to.getZ()) {
 			playerConfig.set("afk", false);
-			Bukkit.broadcastMessage("§e" + p.getName() + " ist nicht mehr §6afk");
+			Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p.getName()));
 		}
 	}
 	

@@ -335,6 +335,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				if(args.length < 2) break;
 				MainConfig.setLanguage(args[1]);
+				LanguageConfig.load();
 				
 				LanguageConfig.sendMessage(sender, "language.change", args[1]);
 				break;
