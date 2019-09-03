@@ -189,7 +189,7 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 			}
 		}
 		
-		returnArguments.removeIf(s -> !s.startsWith(args[args.length - 1]));
+		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
 		returnArguments.sort((s1, s2) -> {
 			return s1.compareTo(s2);
