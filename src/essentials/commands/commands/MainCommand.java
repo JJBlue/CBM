@@ -330,6 +330,14 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
 				
+			case "language":
+				
+				if(args.length < 2) break;
+				MainConfig.setLanguage(args[1]);
+				
+				LanguageConfig.sendMessage(sender, "language.change", args[1]);
+				break;
+				
 			case "more":
 				
 				if(p == null) return true;
@@ -358,17 +366,13 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					
 					if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
 						playerConfig.set(PlayerConfigKey.tMute, true);
-						sender.sendMessage(p1.getName() + " wurde gemutet");
-						p1.sendMessage("Du wurdest gemutet");
+						LanguageConfig.sendMessage(sender, "enabled-Command", p1.getName());
+						LanguageConfig.sendMessage(p1, "mute.enabled-Player");
 					} else {
 						playerConfig.set(PlayerConfigKey.tMute, false);
-						sender.sendMessage(p1.getName() + " wurde entmutet");
-						p1.sendMessage("Du wurdest entmutet");
+						LanguageConfig.sendMessage(sender, "disabled-Command", p1.getName());
+						LanguageConfig.sendMessage(p1, "mute.disabled-Player");
 					}
-				} else {
-					sender.sendMessage("Es sind folgende Spieler gemutet:");
-					
-					//TODO
 				}
 				
 				break;

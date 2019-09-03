@@ -55,7 +55,6 @@ public class LanguageConfig {
 			return;
 		}
 		
-		
 		try {
 			configuration = ConfigLoader.loadConfig(l, "UTF-8");
 			file = l;
