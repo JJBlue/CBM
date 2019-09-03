@@ -28,7 +28,7 @@ import essentials.database.Databases;
 import essentials.inventory.InventoryListener;
 import essentials.language.LanguageConfig;
 import essentials.listeners.ColorListener;
-import essentials.listeners.CommandsEvents;
+import essentials.listeners.MainListener;
 import essentials.listeners.noHunger;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.LoadMapPaint;
@@ -60,7 +60,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
 		Bukkit.getPluginManager().registerEvents(new Deop(), this);
 		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
-		Bukkit.getPluginManager().registerEvents(new CommandsEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new MainListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MPListener(), this);
 		Bukkit.getPluginManager().registerEvents(new chair(), this);
 		Bukkit.getPluginManager().registerEvents(new Join(), this);

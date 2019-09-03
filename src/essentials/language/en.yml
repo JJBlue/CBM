@@ -5,6 +5,11 @@ error:
 afk:
   isNowAfk: §e$1 is now §6afk
   noLongerAfk: §e$1 is no longer §6afk
+god:
+  enabled: §eGod mod is now enabled
+  disabled: §eGod mod is now disabled
+  enabled-Player: §eGod mod is enabled for $6$1
+  disabled-Player: §eGod mod is disabled for $6$1
 language:
   change: §eLanguage changed to §6$1
 mute:

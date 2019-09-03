@@ -20,8 +20,7 @@ import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 
-//TODO
-public class CommandsEvents implements Listener{
+public class MainListener implements Listener{
 	public final static Set<Player> hide = new HashSet<>();
 	
 	@EventHandler
@@ -56,7 +55,7 @@ public class CommandsEvents implements Listener{
 		
 		Player player = (Player) entity;
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		if(!config.containsLoadedKey("afk") || !config.getBoolean("afk")) return;
+		if(!config.containsLoadedKey("afk") || !config.getBoolean("afk") || !config.getBoolean(PlayerConfigKey.tGod)) return;
 		
 		event.setCancelled(true);
 	}

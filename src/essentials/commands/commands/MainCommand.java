@@ -33,7 +33,7 @@ import essentials.commands.teleport.teleportCommand;
 import essentials.commands.trade.TradeCommands;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
-import essentials.listeners.CommandsEvents;
+import essentials.listeners.MainListener;
 import essentials.listeners.FlyThrowBlocks.FTB;
 import essentials.listeners.MapPaint.MPCommand;
 import essentials.listeners.chair.chair;
@@ -72,26 +72,26 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		
 		switch (args[0]) {		
 			case "afk":
-				
-				Player p1 = null;
-				
-				if(args.length == 1) p1 = p;
-				else p1 = Bukkit.getPlayer(args[0]);
-				
-				if(p1 == null) return true;
-				
-				PlayerConfig config = PlayerManager.getPlayerConfig(p1);
-				
-				boolean nV = !(config.containsLoadedKey("afk") && config.getBoolean("afk"));
-				config.setTmp("afk", nV);
-				
-				if(!nV)
-					Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p1.getName()));
-				else
-					Bukkit.broadcastMessage(LanguageConfig.getString("afk.isNowAfk", p1.getName()));
-				
-				break;
-				
+				{
+					Player p1 = null;
+					
+					if(args.length == 1) p1 = p;
+					else p1 = Bukkit.getPlayer(args[0]);
+					
+					if(p1 == null) return true;
+					
+					PlayerConfig config = PlayerManager.getPlayerConfig(p1);
+					
+					boolean nV = !(config.containsLoadedKey("afk") && config.getBoolean("afk"));
+					config.setTmp("afk", nV);
+					
+					if(!nV)
+						Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p1.getName()));
+					else
+						Bukkit.broadcastMessage(LanguageConfig.getString("afk.isNowAfk", p1.getName()));
+					
+					break;
+				}
 			case "armorstand":
 				
 				return ArmorstandCommands.armorstandCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -107,30 +107,56 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				return bookCommand.bookcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
+			case "boot":
+				
+				if(p == null) return true;
+				
+				ItemStack is = p.getInventory().getItemInMainHand();
+				if(is == null || is.getType().equals(Material.AIR)) return true;
+				
+				ItemStack tmp = p.getInventory().getBoots();
+				p.getInventory().setBoots(is);
+				p.getInventory().setItemInMainHand(tmp);
+				
+				break;
+				
 			case "burn":
-				
-				if(args.length < 2) return true;
-				p1 = (Player) Bukkit.getPlayer(args[1]);
-				if(p1 == null) return true;
-				p1.setFireTicks(Integer.parseInt(args[2]));
-				
-				break;
-				
-			case "broadcast":
-				
-				String msg = null;
-				for(int i = 1; i < args.length; i++){
-					if(msg == null)
-						msg = args[i];
-					else
-						msg = msg + " " + args[i];
+				{
+					if(args.length < 2) return true;
+					Player p1 = (Player) Bukkit.getPlayer(args[1]);
+					if(p1 == null) return true;
+					p1.setFireTicks(Integer.parseInt(args[2]));
+					
+					break;
 				}
-				
-				if(msg != null)
-					Bukkit.broadcastMessage(msg);
-				
-				break;
-				
+			case "broadcast":
+				{
+					String msg = null;
+					for(int i = 1; i < args.length; i++){
+						if(msg == null)
+							msg = args[i];
+						else
+							msg = msg + " " + args[i];
+					}
+					
+					if(msg != null)
+						Bukkit.broadcastMessage(msg);
+					
+					break;
+				}
+			case "chestplate":
+				{
+					if(p == null) return true;
+					
+					is = p.getInventory().getItemInMainHand();
+					if(is == null || is.getType().equals(Material.AIR)) return true;
+					
+					tmp = p.getInventory().getChestplate();
+					p.getInventory().setChestplate(is);
+					p.getInventory().setItemInMainHand(tmp);
+					
+					break;
+				}
 			case "cob":
 				
 				return CoBCommands.commandOnBlock.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -140,52 +166,142 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				return CommandSpy.commandSpy.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "feed":
-				
-				p1 = null;
+				{
+					Player p1 = null;
+						
+					if(args.length >= 2) {
+						p1 = Bukkit.getPlayer(args[1]);
+						if(p1 == null) return true;
+						
+						if(args.length == 2)
+							p1.setFoodLevel(20);
+						else
+							try{
+								p1.setFoodLevel(Integer.parseInt(args[2]));
+							}catch(NumberFormatException nfe){}
+						
+						sender.sendMessage(args[1] +  " wurdest gefuettert");
+					} else {
+						if(p == null) return true;
+						
+						p.setFoodLevel(20);
+						sender.sendMessage("Du wurdest gefuettert");
+					}
 					
+					break;
+				}
+			case "fly":
+				{
+					Player p1 = null;
+					
+					if(args.length >= 1) p1 = Bukkit.getPlayer(args[1]);
+					else p1 = p;
+					
+					if(p1 == null) return true;
+					p1.setAllowFlight(true);
+					
+					break;
+				}
+			case "god":
+				{
+					Player p1 = null;
+					
+					if(args.length >= 1) p1 = Bukkit.getPlayer(args[1]);
+					else p1 = p;
+					
+					if(p1 == null) break;
+					
+					PlayerConfig config = PlayerManager.getPlayerConfig(p1);
+					boolean nV = !config.getBoolean(PlayerConfigKey.tGod);
+					config.set(PlayerConfigKey.tGod, nV);
+					
+					if(args.length >= 1) {
+						if(nV) {
+							LanguageConfig.sendMessage(sender, "god.enabled-Player", p1.getName());
+							LanguageConfig.sendMessage(p1, "god.enabled");
+						} else {
+							LanguageConfig.sendMessage(sender, "god.disabled-Player", p1.getName());
+							LanguageConfig.sendMessage(p1, "god.disabled");
+						}
+					} else {
+						if(nV)
+							LanguageConfig.sendMessage(sender, "god.enabled");
+						else
+							LanguageConfig.sendMessage(sender, "god.disabled");
+					}
+				}
+			case "head":
+				if(p == null) return true;
+				
+				is = p.getInventory().getItemInMainHand();
+				if(is == null || is.getType().equals(Material.AIR)) return true;
+				
+				tmp = p.getInventory().getHelmet();
+				p.getInventory().setHelmet(is);
+				p.getInventory().setItemInMainHand(tmp);
+				
+				break;
+				
+			case "heal":
+				
 				if(args.length >= 2) {
-					p1 = Bukkit.getPlayer(args[1]);
+					Player p1 = Bukkit.getPlayer(args[1]);
 					if(p1 == null) return true;
 					
 					if(args.length == 2)
-						p1.setFoodLevel(20);
+						p1.setHealth(p1.getHealthScale());
 					else
 						try{
-							p1.setFoodLevel(Integer.parseInt(args[2]));
+							p1.setHealth(Integer.parseInt(args[2]));
 						}catch(NumberFormatException nfe){}
 					
-					sender.sendMessage(args[1] +  " wurdest gefuettert");
+					sender.sendMessage(args[1] +  " wurde geheilt");
 				} else {
 					if(p == null) return true;
 					
-					p.setFoodLevel(20);
-					sender.sendMessage("Du wurdest gefuettert");
+					p.setHealth(p.getHealthScale());
+					sender.sendMessage("Du wurdest geheilt");
 				}
 				
 				break;
 				
-			case "fly":
+			case "hide":
+				{
+					Player p1 = null;
+					if(args.length <= 1) p1 = p;
+					else Bukkit.getPlayer(args[1]);
+					
+					if(p1 == null) return true;
+					
+					for(Player p2 : Bukkit.getOnlinePlayers()){
+						if(MainListener.hide.contains(p))
+							p2.showPlayer(Main.getPlugin(), p);
+						else
+							p2.hidePlayer(Main.getPlugin(), p);
+					}
+					
+					if(MainListener.hide.contains(p)){
+						MainListener.hide.remove(p);
+						sender.sendMessage(p1.getName() + " sind jetzt unsichtbar");
+					} else {
+						MainListener.hide.add(p);
+						sender.sendMessage(p1.getName() + " sind jetzt sichtbar");
+					}
+					
+					break;
+				}
+			case "itemdb":
 				
-				p1 = null;
+				if(p == null) return true;
 				
-				if(args.length >= 1) p1 = Bukkit.getPlayer(args[1]);
-				else p1 = p;
-				
-				if(p1 == null) return true;
-				p1.setAllowFlight(true);
+				is = p.getInventory().getItemInMainHand();
+				p.sendMessage("Item: §4" + is.getType());
 				
 				break;
 				
-			case "head":
-				if(p == null) return true;
+			case "inventory":
 				
-				ItemStack is = p.getInventory().getItemInMainHand();
-				if(is == null || is.getType().equals(Material.AIR)) return true;
-				
-				ItemStack tmp = p.getInventory().getHelmet();
-				p.getInventory().setHelmet(is);
-				p.getInventory().setItemInMainHand(tmp);
-				
+				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
 				
 			case "jump":
@@ -212,19 +328,6 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				return Join.onCommand(sender, cmd, cmdLabel, args);
 				
-			case "chestplate":
-				
-				if(p == null) return true;
-				
-				is = p.getInventory().getItemInMainHand();
-				if(is == null || is.getType().equals(Material.AIR)) return true;
-				
-				tmp = p.getInventory().getChestplate();
-				p.getInventory().setChestplate(is);
-				p.getInventory().setItemInMainHand(tmp);
-				
-				break;
-				
 			case "legging":
 				
 				if(p == null) return true;
@@ -239,98 +342,23 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "lightning":
-				
-				if(args.length == 1) {
-					if(p == null) return true;
+				{
+					if(args.length == 1) {
+						if(p == null) return true;
+						
+						b = p.getTargetBlock((Set<Material>) null, Integer.MAX_VALUE);
+						if(b == null) return true;
+						
+						p.getWorld().spawnEntity(b.getLocation(), EntityType.LIGHTNING);
+					} else if(args.length > 1) {
+						Player p1 = Bukkit.getPlayer(args[0]);
+						if(p1 == null) return true;
+						
+						p1.getWorld().spawnEntity(p1.getLocation(), EntityType.LIGHTNING);
+					}
 					
-					b = p.getTargetBlock((Set<Material>) null, Integer.MAX_VALUE);
-					if(b == null) return true;
-					
-					p.getWorld().spawnEntity(b.getLocation(), EntityType.LIGHTNING);
-				} else if(args.length > 1) {
-					p1 = Bukkit.getPlayer(args[0]);
-					if(p1 == null) return true;
-					
-					p1.getWorld().spawnEntity(p1.getLocation(), EntityType.LIGHTNING);
+					break;
 				}
-				
-				break;
-				
-			case "boot":
-				
-				if(p == null) return true;
-				
-				is = p.getInventory().getItemInMainHand();
-				if(is == null || is.getType().equals(Material.AIR)) return true;
-				
-				tmp = p.getInventory().getBoots();
-				p.getInventory().setBoots(is);
-				p.getInventory().setItemInMainHand(tmp);
-				
-				break;
-				
-			case "heal":
-				
-				if(args.length >= 2) {
-					p1 = Bukkit.getPlayer(args[1]);
-					if(p1 == null) return true;
-					
-					if(args.length == 2)
-						p1.setHealth(p1.getHealthScale());
-					else
-						try{
-							p1.setHealth(Integer.parseInt(args[2]));
-						}catch(NumberFormatException nfe){}
-					
-					sender.sendMessage(args[1] +  " wurde geheilt");
-				} else {
-					if(p == null) return true;
-					
-					p.setHealth(p.getHealthScale());
-					sender.sendMessage("Du wurdest geheilt");
-				}
-				
-				break;
-				
-			case "hide":
-				
-				p1 = null;
-				if(args.length <= 1) p1 = p;
-				else Bukkit.getPlayer(args[1]);
-				
-				if(p1 == null) return true;
-				
-				for(Player p2 : Bukkit.getOnlinePlayers()){
-					if(CommandsEvents.hide.contains(p))
-						p2.showPlayer(Main.getPlugin(), p);
-					else
-						p2.hidePlayer(Main.getPlugin(), p);
-				}
-				
-				if(CommandsEvents.hide.contains(p)){
-					CommandsEvents.hide.remove(p);
-					sender.sendMessage(p1.getName() + " sind jetzt unsichtbar");
-				} else {
-					CommandsEvents.hide.add(p);
-					sender.sendMessage(p1.getName() + " sind jetzt sichtbar");
-				}
-				
-				break;
-				
-			case "itemdb":
-				
-				if(p == null) return true;
-				
-				is = p.getInventory().getItemInMainHand();
-				p.sendMessage("Item: §4" + is.getType());
-				
-				break;
-				
-			case "inventory":
-				
-				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				break;
-				
 			case "language":
 				
 				if(args.length < 2) break;
@@ -359,26 +387,26 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "mute":
-				
-				if(args.length >= 2){
-					p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
-					if(p1 == null) return true;
-					
-					PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
-					
-					if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
-						playerConfig.set(PlayerConfigKey.tMute, true);
-						LanguageConfig.sendMessage(sender, "enabled-Command", p1.getName());
-						LanguageConfig.sendMessage(p1, "mute.enabled-Player");
-					} else {
-						playerConfig.set(PlayerConfigKey.tMute, false);
-						LanguageConfig.sendMessage(sender, "disabled-Command", p1.getName());
-						LanguageConfig.sendMessage(p1, "mute.disabled-Player");
+				{
+					if(args.length >= 2){
+						Player p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
+						if(p1 == null) return true;
+						
+						PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
+						
+						if(!playerConfig.getBoolean(PlayerConfigKey.tMute)){
+							playerConfig.set(PlayerConfigKey.tMute, true);
+							LanguageConfig.sendMessage(sender, "enabled-Command", p1.getName());
+							LanguageConfig.sendMessage(p1, "mute.enabled-Player");
+						} else {
+							playerConfig.set(PlayerConfigKey.tMute, false);
+							LanguageConfig.sendMessage(sender, "disabled-Command", p1.getName());
+							LanguageConfig.sendMessage(p1, "mute.disabled-Player");
+						}
 					}
+					
+					break;
 				}
-				
-				break;
-				
 			case "nametag":
 				
 				if(args.length < 2) break;
@@ -447,30 +475,30 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				return SignCommands.signCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "speed":
-				
-				if(args.length == 2) {
-					if(p == null) return true;
+				{
+					if(args.length == 2) {
+						if(p == null) return true;
+						
+						if(p.isFlying())
+							p.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
+						else
+							p.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
+						
+						sender.sendMessage("Normal Speed == 2");
+					} else if(args.length >= 4) {
+						Player p1 = Bukkit.getPlayer(args[3]);
+						if(p1 == null) return true;
+						
+						if(args[2].equalsIgnoreCase("walk"))
+							p1.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
+						else if(args[2].equalsIgnoreCase("fly"))
+							p1.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
+						
+						sender.sendMessage("Normal Speed == 2");
+					}
 					
-					if(p.isFlying())
-						p.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
-					else
-						p.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
-					
-					sender.sendMessage("Normal Speed == 2");
-				} else if(args.length >= 4) {
-					p1 = Bukkit.getPlayer(args[3]);
-					if(p1 == null) return true;
-					
-					if(args[2].equalsIgnoreCase("walk"))
-						p1.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
-					else if(args[2].equalsIgnoreCase("fly"))
-						p1.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
-					
-					sender.sendMessage("Normal Speed == 2");
+					break;
 				}
-				
-				break;
-				
 			case "skull":
 				
 				Skullitem.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -602,20 +630,20 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				break;
 				
 			case "repair":
-				
-				if(args.length <= 1) {
-					if(p == null) return true;
-					is = p.getInventory().getItemInMainHand();
-				} else {
-					p1 = Bukkit.getPlayer(args[1]);
-					is = p1.getInventory().getItemInMainHand();
+				{
+					if(args.length <= 1) {
+						if(p == null) return true;
+						is = p.getInventory().getItemInMainHand();
+					} else {
+						Player p1 = Bukkit.getPlayer(args[1]);
+						is = p1.getInventory().getItemInMainHand();
+					}
+					
+					if(is == null || is.getType().equals(Material.AIR)) return true;
+					ItemUtilies.setDurability(is, 0);
+					
+					break;
 				}
-				
-				if(is == null || is.getType().equals(Material.AIR)) return true;
-				ItemUtilies.setDurability(is, 0);
-				
-				break;
-				
 			default:
 				break;
 		}
