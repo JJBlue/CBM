@@ -3,7 +3,6 @@ Futures:
 	- Make a plugin silent for BroadcastMassages
 	- set Loot to an entity
 	- bossbar
-	- timers
 	- customrecipes
 	- disableenchantments
 	- holograms
