@@ -644,6 +644,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("legging");
 			returnArguments.add("join");
 			returnArguments.add("jump");
+			returnArguments.add("language");
 			returnArguments.add("more");
 			returnArguments.add("mute");
 			returnArguments.add("nametag");
@@ -765,6 +766,11 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					returnArguments.add("help");
 					break;
 					
+				case "language":
+					
+					returnArguments.add("<Language>");
+					break;
+					
 				case "nametag":
 					returnArguments.add("true");
 					returnArguments.add("false");
@@ -802,7 +808,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			}
 		}
 		
-		returnArguments.removeIf(s -> !s.startsWith(args[args.length - 1]));
+		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
 		returnArguments.sort((s1, s2) -> {
 			return s1.compareTo(s2);
