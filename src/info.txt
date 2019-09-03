@@ -10,17 +10,16 @@ TODO:
 	1. Missing language file. Some text at the moment are not English.
 	2. Enable & Disable all possible Functions.
 	3. Bossbar
-	4. Timers
-	5. Custom Recipes
-	6. Custom Command Alias
-	7. Holograms
-	8. Homes
-	9. Add Commands to ItemStacks
-	10. money
-	11. Jail
-	12. Ban
-	13. Spawner Editor
-	14. Warps
+	4. Custom Recipes
+	5. Custom Command Alias
+	6. Holograms
+	7. Homes
+	8. Add Commands to ItemStacks
+	9. money
+	10. Jail
+	11. Ban
+	12. Spawner Editor
+	13. Warps
 	x. ...
 
 Features:
