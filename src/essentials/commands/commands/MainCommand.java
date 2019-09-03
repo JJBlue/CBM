@@ -670,6 +670,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("chestplate");
 			returnArguments.add("fly");
 			returnArguments.add("feed");
+			returnArguments.add("god");
 			returnArguments.add("head");
 			returnArguments.add("heal");
 			returnArguments.add("hide");
