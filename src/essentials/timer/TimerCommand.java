@@ -45,7 +45,9 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
 					bukkitTimer.start();
 					
 					LanguageConfig.sendMessage(sender, "timer.startTimer", bukkitTimer.getID() + "");
-				} catch (IllegalArgumentException e) {}
+				} catch (IllegalArgumentException e) {
+					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
+				}
 				
 				break;
 				
@@ -64,13 +66,20 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
 					bukkitTimer.setTitle(StringUtilities.arrayToStringRange(args, 5, args.length));
 					
 					bukkitTimer.start();
-				} catch (IllegalArgumentException e) {}
+				} catch (IllegalArgumentException e) {
+					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
+				}
 				
 				break;
 				
 			case "run":
 				
-				//TODO config
+				if(args.length < 2) break;
+				
+				BukkitTimer bukkitTimer = TimerConfig.startTimer(args[1]);
+				if(bukkitTimer != null)
+					LanguageConfig.sendMessage(sender, "timer.startTimer", bukkitTimer.getID() + "");
+				
 				break;
 				
 			case "stop":
@@ -78,7 +87,9 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
 				try {
 					TimerManager.stopTimer(Integer.parseInt(args[1]));
 					LanguageConfig.sendMessage(sender, "timer.cancelTimer", args[1]);
-				} catch (NumberFormatException e) {}
+				} catch (NumberFormatException e) {
+					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+				}
 				
 				break;
 		}

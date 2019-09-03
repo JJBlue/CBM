@@ -1,3 +1,7 @@
+error:
+  IllegalArgumentException: §4Error. Wrong Arguements are uesed
+  NumberFormatException: §4Error. Number could not be parsed
+  default: §4Error
 afk:
   isNowAfk: §e$1 is now §6afk
   noLongerAfk: §e$1 is no longer §6afk

@@ -39,6 +39,7 @@ import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.tablist.Tablist;
+import essentials.timer.TimerConfig;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -97,12 +98,14 @@ public class Main extends JavaPlugin implements Listener{
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
 		LanguageConfig.load();
+		bookCommand.saveDefaultBook();
 		CommandOnBlock.load();
 		LoadMapPaint.load();
 		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 		
 		for(Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
+		
 		
 		reload();
 	}
@@ -141,8 +144,8 @@ public class Main extends JavaPlugin implements Listener{
 		Tablist.load();
 		LoadMapPaint.load();
 		ChatVerbesserung.Load();
-		bookCommand.saveDefaultBook();
 		Post.Load();
+		TimerConfig.load();
 	}
 
 	public static JavaPlugin getPlugin() {

@@ -98,16 +98,16 @@ public class BukkitTimer {
 			if(onEverySecond != null)
 				onEverySecond.run();
 			
-			title = title.replace("$1", currentValue + "");
+			String Reptitle = title.replace("$1", currentValue + "");
 			
 			switch (position) {
 				case BOSSBAR:
-					bossBar.setTitle(title);
+					bossBar.setTitle(Reptitle);
 					bossBar.setProgress((1d / maxValue) * currentValue);
 					break;
 				case CHAT:
 					
-					Bukkit.broadcastMessage(title);
+					Bukkit.broadcastMessage(Reptitle);
 					break;
 				default:
 					break;
@@ -119,6 +119,8 @@ public class BukkitTimer {
 	
 	public synchronized void stop() {
 		if(ID < 0) return;
+		
+		TimerManager.timers.remove(ID);
 		
 		if(bossBar != null) {
 			bossBar.setVisible(false);
@@ -226,5 +228,21 @@ public class BukkitTimer {
 			currentValue = 0;
 		else
 			currentValue = maxValue;
+	}
+
+	public Runnable getOnFinished() {
+		return onFinished;
+	}
+
+	public void setOnFinished(Runnable onFinished) {
+		this.onFinished = onFinished;
+	}
+
+	public Runnable getOnEverySecond() {
+		return onEverySecond;
+	}
+
+	public void setOnEverySecond(Runnable onEverySecond) {
+		this.onEverySecond = onEverySecond;
 	}
 }
