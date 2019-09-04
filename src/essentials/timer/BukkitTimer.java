@@ -245,4 +245,9 @@ public class BukkitTimer {
 	public void setOnEverySecond(Runnable onEverySecond) {
 		this.onEverySecond = onEverySecond;
 	}
+
+	public void addPlayer(Player player) {
+		if(bossBar != null)
+			bossBar.addPlayer(player);
+	}
 }

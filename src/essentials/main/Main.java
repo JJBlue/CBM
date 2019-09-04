@@ -40,6 +40,7 @@ import essentials.player.PlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.tablist.Tablist;
 import essentials.timer.TimerConfig;
+import essentials.timer.TimerListener;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -78,6 +79,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new ArmorstandListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
 		Bukkit.getPluginManager().registerEvents(new DebugStickListener(), this);
+		Bukkit.getPluginManager().registerEvents(new TimerListener(), this);
 		
 		{
 			MainCommand mainCommand = new MainCommand();
