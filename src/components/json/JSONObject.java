@@ -27,6 +27,10 @@ public class JSONObject extends abstractJSON{
 		map.clear();
 	}
 	
+	public Map<String, abstractJSON> getMap() {
+		return map;
+	}
+	
 	//-----------------------------------------Extra Getter and Setter------------------------------
 	public String getString(String key) {
 		abstractJSON json = get(key);
