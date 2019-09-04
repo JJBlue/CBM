@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
+import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
@@ -30,6 +31,22 @@ public class MainListener implements Listener{
 		
 		if(playerConfig.getBoolean(PlayerConfigKey.tMute))
 			e.setCancelled(true);
+		
+		String text = e.getMessage();
+		
+		if(PermissionHelper.hasPermission(p, "CommandTypingError")) { //TODO disable in config, maybe?
+			if(text.startsWith("\\7")) {
+				e.setMessage(text.replaceFirst("\\", ""));
+			} else if(text.startsWith("7")) {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> {
+					p.performCommand(text.replaceFirst("7", ""));
+				});
+				
+				LanguageConfig.sendMessage(p, "command.TypingError");
+				e.setCancelled(true);
+				return;
+			}
+		}
 	}
 	
 	@EventHandler
