@@ -1,6 +1,5 @@
 package essentials.utilities;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,7 +22,6 @@ import org.bukkit.util.Vector;
 import components.json.JSONArray;
 import components.json.JSONObject;
 import components.json.JSONValue;
-import components.json.JSONWriter;
 import components.json.abstractJSON;
 import components.json.parser.JSONParser;
 import components.reflections.SimpleReflection;
@@ -51,13 +49,7 @@ public class ConfigUtilities {
 	}
 	
 	public static String toString(ConfigurationSerializable serializable) {
-//		return toJsonObject(serializable).toJSONString();
-		try {
-			return JSONWriter.getJSONString(toJsonObject(serializable));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return toJsonObject(serializable).toJSONString();
 	}
 	
 	/*
@@ -130,6 +122,7 @@ public class ConfigUtilities {
 	}
 	
 	public static Object toObject(String json) {
+		if(json == null) return null;
 		return toObject(JSONParser.parse(json));
 	}
 	

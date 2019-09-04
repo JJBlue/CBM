@@ -29,7 +29,6 @@ Futures:
 	- better speed command -> fly, walk, swim
 	- giveall
 	- glow player color
-	- god
 	- clear ground
 	- kick
 	- scan for items in containers

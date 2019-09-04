@@ -26,7 +26,7 @@ public class ChatVerbesserung implements Listener{
 	
 	@SuppressWarnings("unchecked")
 	public static void Load(){
-		CVConf.addDefault("aktiv", true);
+		CVConf.addDefault("aktiv", false);
 		
 		ArrayList<String> l = new ArrayList<String>();
 		l.add("Scheisse");

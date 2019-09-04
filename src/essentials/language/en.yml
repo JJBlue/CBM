@@ -20,3 +20,5 @@ mute:
 timer:
   cancelTimer: §eTimer with ID §6$1§e was stopped
   startTimer: §eTimer with ID §6$1§e was started
+command:
+  TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"

@@ -53,6 +53,7 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
+import essentials.warpmanager.warpCommands;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
@@ -70,7 +71,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		args[0] = args[0].toLowerCase();
 		if(!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 		
-		switch (args[0]) {		
+		switch (args[0]) {
 			case "afk":
 				{
 					Player p1 = null;
@@ -571,6 +572,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				sender.sendMessage(uuid.toString());
 				
 				break;
+				
+			case "warp":
+			case "setwarp":
+			case "delwarp":
+				
+				return warpCommands.commands.onCommand(sender, cmd, cmdLabel, args);
 				
 			case "wallghost":
 				

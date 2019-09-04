@@ -41,6 +41,7 @@ import essentials.pluginmanager.DisableEnable;
 import essentials.tablist.Tablist;
 import essentials.timer.TimerConfig;
 import essentials.timer.TimerListener;
+import essentials.warpmanager.WarpManager;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin implements Listener{
 		file.renameTo(getDataFolder());
 		
 		MainConfig.reload();
+		LanguageConfig.load();
 		Databases.load();
 		
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
@@ -99,7 +101,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
-		LanguageConfig.load();
+		WarpManager.load();
 		bookCommand.saveDefaultBook();
 		CommandOnBlock.load();
 		LoadMapPaint.load();
@@ -107,7 +109,6 @@ public class Main extends JavaPlugin implements Listener{
 		
 		for(Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
-		
 		
 		reload();
 	}

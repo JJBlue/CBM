@@ -1,13 +1,23 @@
 package essentials.warpmanager;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class warpServer {
-	public static boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		
+public class warpCommands implements CommandExecutor, TabCompleter {
+	public final static warpCommands commands;
+	
+	static {
+		commands = new warpCommands();
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		Player p = null;
 		if(sender instanceof Player)
 			p = (Player) sender;
@@ -27,19 +37,30 @@ public class warpServer {
 			case "setwarp":
 				
 				if(args.length < 2 || p == null) break;
-				WarpManager.setWarp(args[1], p.getLocation());
+				
+				Warp warp = new Warp(args[1]);
+				warp.setLocation(p.getLocation());
+				warp.itemStack = p.getInventory().getItemInMainHand();
+				
+				WarpManager.addWarp(warp);
 				
 				break;
 				
 			case "delwarp":
 
 				if(args.length < 2 || p == null) break;
-				WarpManager.setWarp(args[1], p.getLocation());
+				WarpManager.deleteWarp(args[1]);
 				
 				break;
 				
 		}
 		
 		return true;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
