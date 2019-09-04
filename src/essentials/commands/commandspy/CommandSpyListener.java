@@ -36,7 +36,7 @@ public class CommandSpyListener implements Listener {
 			if(!searched)
 				val = getCommandSpyValue(player);
 			
-			if(commandSpyValue >= val)
+			if(commandSpyValue >= val && val != -1 && commandSpyValue != 0)
 				onlinePlayer.sendMessage("§oCSpy: §6§o[" + player.getName() + "]: " + event.getMessage());
 		}
 	}
