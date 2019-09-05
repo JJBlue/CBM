@@ -13,6 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import essentials.language.LanguageConfig;
+
 public class weatherCommands implements CommandExecutor, TabCompleter {
 	
 	public final static weatherCommands weather;
@@ -44,7 +46,7 @@ public class weatherCommands implements CommandExecutor, TabCompleter {
 				
 				world.setStorm(false);
 				world.setThundering(false);
-				sender.sendMessage("Wechsle in der Welt " + l.getWorld().getName() + " zu schönem Wetter");
+				LanguageConfig.sendMessage(sender, "weather.changeTo-sun", l.getWorld().getName());
 				
 				break;
 				
@@ -52,7 +54,7 @@ public class weatherCommands implements CommandExecutor, TabCompleter {
 				
 				world.setStorm(true);
 	    		world.setThundering(false);
-				sender.sendMessage("Wechsle in der Welt " + l.getWorld().getName() + " zu Regenwetter");
+	    		LanguageConfig.sendMessage(sender, "weather.changeTo-rain", l.getWorld().getName());
 				
 				break;
 				
@@ -60,7 +62,7 @@ public class weatherCommands implements CommandExecutor, TabCompleter {
 				
 				world.setStorm(true);
 				world.setThundering(true);
-				sender.sendMessage("Wechsle in der Welt " + l.getWorld().getName() + " zu Gewitter");
+				LanguageConfig.sendMessage(sender, "weather.changeTo-thunder", l.getWorld().getName());
 				
 				break;
 				

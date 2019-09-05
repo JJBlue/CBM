@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import essentials.language.LanguageConfig;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 
@@ -33,13 +34,13 @@ public class CommandSpy implements CommandExecutor, TabCompleter {
 				
 				if(args[1].toLowerCase().equals("false")) {
 					config.set("commandSpy", -1);
-					sender.sendMessage("§eCommand spy toggled to §4False");
+					LanguageConfig.sendMessage(sender, "command-spy.toggled", LanguageConfig.getString("value.false"));
 				} else {
 					try {
 						config.set("commandSpy", Integer.valueOf(args[1]));
-						sender.sendMessage("§eCommand spy toggled to §6" +Integer.valueOf(args[1]));
+						LanguageConfig.sendMessage(sender, "command-spy.toggled", Integer.valueOf(args[1]).toString());
 					} catch (NumberFormatException e) {
-						sender.sendMessage("§4NumberFormatException");
+						LanguageConfig.sendMessage(sender, "error.NumberFormatException");
 					}
 				}
 				
@@ -49,7 +50,7 @@ public class CommandSpy implements CommandExecutor, TabCompleter {
 				
 				boolean value = !config.getBoolean("commandSpyOperator");
 				config.set("commandSpyOperator", value);
-				sender.sendMessage("§eCommand spy toggled to §6" + value);
+				LanguageConfig.sendMessage(sender, "command-spy.toggled", value + "");
 				
 				break;
 		}

@@ -2,6 +2,9 @@ error:
   IllegalArgumentException: §4Error. Wrong Arguements are uesed
   NumberFormatException: §4Error. Number could not be parsed
   default: §4Error
+value:
+  true: 'True'
+  false: 'False'
 time:
   years: years
   months: months
@@ -18,6 +21,8 @@ afk:
   noLongerAfk: §e$1 is no longer §6afk
 command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
+command-spy:
+  toggled: §eCommand spy toggled to &6$1
 god:
   enabled: §eGod mod is now enabled
   disabled: §eGod mod is now disabled
@@ -41,6 +46,10 @@ trade:
   sendTrade: $1 send you a Trade Request
   gotTrade: You got a Trade Request from $1
   expired: Trade Request from $1 is expired
+weather:
+  changeTo-sun: World $1 changed weather to sunny weather
+  changeTo-rain: World $1 changed wather to rainy weather
+  changeTo-thunder: World $1 changed weather to thunder
 warp:
   setWarp: '§eAdd Warp §6$1'
   setWarp2: '§eAdd Warp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4)'
