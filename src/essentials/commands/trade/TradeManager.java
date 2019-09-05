@@ -64,7 +64,7 @@ public class TradeManager {
 			
 			ChatUtilities.sendChatMessage(to, from.getName() + " sendet eine Trade Anfrage ",
 				ChatUtilities.createExtra(
-					ChatUtilities.createClickHoverMessage("§3[Annehmen]", null, null, ClickAction.RUN_COMMAND, "/all trade " + from.getName())
+					ChatUtilities.createClickHoverMessage("§3[Annehmen]", null, null, ClickAction.RUN_COMMAND, "/cbm trade " + from.getName())
 				)
 			);
 			
