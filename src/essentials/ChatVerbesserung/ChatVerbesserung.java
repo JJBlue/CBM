@@ -73,21 +73,6 @@ public class ChatVerbesserung implements Listener{
 	public void ChatV(AsyncPlayerChatEvent e){
 		Player p = e.getPlayer();
 		String text = e.getMessage();
-
-		if(p.hasPermission("ChatV.use")){
-			if(text.startsWith("-7")) {
-				e.setMessage(text.replaceFirst("-", ""));
-			} else if(text.startsWith("7")) {
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> {
-					p.performCommand(text.replaceFirst("7", ""));
-				});
-				
-				p.sendMessage("§4Text wurde in Befehl umgewandelt.");
-				p.sendMessage("§4Sollte dies nicht passieren, so geben sie davor '-' ein");
-				e.setCancelled(true);
-				return;
-			}
-		}
 		
 		if(CVConf.getBoolean("aktiv")) {
 			String Stern = "*****";
