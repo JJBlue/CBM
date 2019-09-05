@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryPage {
 	
-	Map<Integer, ItemStack> inv = Collections.synchronizedMap(new HashMap<>());
+	protected Map<Integer, ItemStack> inv = Collections.synchronizedMap(new HashMap<>());
 	
 	public InventoryPage() {}
 	
@@ -123,5 +123,13 @@ public class InventoryPage {
 	public void fill(Inventory inventory) {
 		for(Integer pos : inv.keySet())
 			inventory.setItem(pos, inv.get(pos));
+	}
+
+	public Map<Integer, ItemStack> getInv() {
+		return inv;
+	}
+
+	public void setInv(Map<Integer, ItemStack> inv) {
+		this.inv = inv;
 	}
 }

@@ -9,14 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import components.datenbank.Datenbank;
 import components.sql.SQLParser;
 import essentials.database.Databases;
-import essentials.inventory.InventoryFactory;
+import essentials.permissions.PermissionHelper;
 import essentials.player.PlayerSQLHelper;
 import essentials.utilities.ConfigUtilities;
 
@@ -111,7 +111,7 @@ public class WarpManager {
 			PreparedStatement preparedStatement = database.prepareStatement("SELECT name FROM warps ORDER BY pos ASC LIMIT " + length + " OFFSET " + start);
 			ResultSet result = preparedStatement.executeQuery();
 			
-			if(result.next()) {
+			while(result.next()) {
 				Warp warp = getWarp(result.getString("name"));
 				list.add(warp);
 			}
@@ -129,23 +129,19 @@ public class WarpManager {
 	
 	public static void teleport(Player player, String warp) {
 		if(player == null) return;
-		
 		loadWarp(warp);
-		
-		Warp w = warps.get(warp);
-		
-		if(w != null) {
-			player.teleport(w.location);
-			return;
-		}
+		teleport(player, warps.get(warp));
+	}
+	
+	public static void teleport(Entity entity, Warp warp) {
+		if(entity == null || warp == null) return;
+		//TODO cost
+		if(warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
+		entity.teleport(warp.location);
 	}
 	
 	public static void openInventory(Player player) {
 		if(player == null) return;
-		
-		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 9));
-		factory.refreshPage();
-		
-		//TODO
+		WarpInventory.openNewInventory(player);
 	}
 }

@@ -35,6 +35,7 @@ public class InventoryItem extends ItemStack {
 
     public void setDisplayName(String displayName) {
     	ItemMeta meta = this.getItemMeta();
+    	if(meta == null) return;
     	meta.setDisplayName(displayName);
     	this.setItemMeta(meta);
     }

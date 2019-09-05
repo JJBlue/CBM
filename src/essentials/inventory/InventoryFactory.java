@@ -31,7 +31,7 @@ public class InventoryFactory {
 	protected RunnableInventoryDrag onDrag;
 	protected RunnableInventoryMove onMove;
 	
-	Map<Integer, InventoryPage> pages = Collections.synchronizedMap(new HashMap<>());
+	protected Map<Integer, InventoryPage> pages = Collections.synchronizedMap(new HashMap<>());
 	
 	public InventoryFactory(Inventory inventory) {
 		this.inventory = inventory;
@@ -106,10 +106,10 @@ public class InventoryFactory {
 		else
 			currentPage = 0;
 		
-		refreshPage();
+		cleanRefreshPage();
 	}
 	
-	public void prevous() {
+	public void previous() {
 		if(pages.containsKey(currentPage - 1))
 			currentPage--;
 		else {
@@ -117,7 +117,7 @@ public class InventoryFactory {
 				currentPage++;
 		}
 		
-		refreshPage();
+		cleanRefreshPage();
 	}
 	
 	public boolean isDeleteOnExit() {
@@ -158,6 +158,18 @@ public class InventoryFactory {
 	
 	public Inventory getInventory() {
 		return inventory;
+	}
+	
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public Map<Integer, InventoryPage> getPages() {
+		return pages;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 	public RunnableInventoryClose getOnClose() {

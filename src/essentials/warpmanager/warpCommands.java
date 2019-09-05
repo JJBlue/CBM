@@ -40,7 +40,6 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 				
 				Warp warp = new Warp(args[1]);
 				warp.setLocation(p.getLocation());
-				warp.itemStack = p.getInventory().getItemInMainHand();
 				
 				WarpManager.addWarp(warp);
 				
