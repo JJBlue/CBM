@@ -9,6 +9,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
@@ -32,11 +33,11 @@ public class TradeManager {
 					
 					Player player = Bukkit.getPlayer(players[0]);
 					if(player != null)
-						player.sendMessage("Trade Anfrage an " + players[1] + " ist abgelaufen");
+						LanguageConfig.sendMessage(player, "trade.expired", players[1]);
 					
 					player = Bukkit.getPlayer(players[1]);
 					if(player != null)
-						player.sendMessage("Trade Anfrage an " + players[0] + " ist abgelaufen");
+						LanguageConfig.sendMessage(player, "trade.expired", players[0]);
 					
 					delete.add(s);
 				}
@@ -62,13 +63,13 @@ public class TradeManager {
 		} else {
 			tradesRequests.put(id, new TradeInformation(System.currentTimeMillis(), from));
 			
-			ChatUtilities.sendChatMessage(to, from.getName() + " sendet eine Trade Anfrage ",
+			ChatUtilities.sendChatMessage(to, LanguageConfig.getString("trade.sendTrade", from.getName()),
 				ChatUtilities.createExtra(
-					ChatUtilities.createClickHoverMessage("§3[Annehmen]", null, null, ClickAction.RUN_COMMAND, "/cbm trade " + from.getName())
+					ChatUtilities.createClickHoverMessage(LanguageConfig.getString("trade.accept"), null, null, ClickAction.RUN_COMMAND, "/cbm trade " + from.getName())
 				)
 			);
 			
-			from.sendMessage("Du hast " + to.getName() + " eine Trade Anfrage gesendet");
+			LanguageConfig.sendMessage(from, "trade.gotTrade", to.getName());
 		}
 	}
 	

@@ -26,3 +26,8 @@ warp:
   setWarp: '§eAdd Warp §6$1'
   setWarp2: '§eAdd Warp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4)'
   delWarp: '§eDeleted Warp §6$1'
+trade:
+  accept: §3[Accept]
+  sendTrade: $1 send you a Trade Request
+  gotTrade: You got a Trade Request from $1
+  expired: Trade Request from $1 is expired
