@@ -39,7 +39,8 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 				
 			case "editwarp":
 				
-				//TODO
+				if(args.length < 2) break;
+				WarpEditor.openEditor(p, WarpManager.getWarp(args[1]));
 				
 				break;
 				
@@ -75,6 +76,10 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 				LanguageConfig.sendMessage(sender, "warp.delWarp", args[1]);
 				
 				break;
+				
+			case "savewarp":
+				WarpManager.save();
+				break;
 		}
 		
 		return true;
@@ -89,7 +94,7 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 			returnArguments.add("delwarp");
 			returnArguments.add("setwarp");
 			returnArguments.add("editwarp");
-			
+			returnArguments.add("savewarp");
 		} else {
 			switch (args[0]) {
 				case "warp":

@@ -25,4 +25,33 @@ public class InventoryItemTypes {
 		item.setValue(value);
 		return item;
 	}
+	
+	public static InventoryObjectField<Integer> createIntField(final String displayName, int min, int max, int cur) {
+		InventoryObjectField<Integer> item = new InventoryObjectField<Integer>(Material.BROWN_WOOL) {
+			@Override
+			protected void change(Integer oldValue, Integer value) {
+				this.setDisplayName(displayName + value);
+			}
+		};
+		
+		item.setOnClick((event, i) -> {
+			switch(event.getClick()) {
+				case LEFT:
+				case SHIFT_LEFT:
+					item.setValue(item.getValue() + 1);
+					break;
+				case RIGHT:
+				case SHIFT_RIGHT:
+					item.setValue(item.getValue() - 1);
+					break;
+				default:
+					break;
+			}
+			event.setCancelled(true);
+		});
+		
+		item.setDisplayName(displayName + cur);
+		item.setValue(cur);
+		return item;
+	}
 }

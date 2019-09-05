@@ -40,6 +40,11 @@ public class InventoryItem extends ItemStack {
     	this.setItemMeta(meta);
     }
     
+    public String getDisplayName() {
+    	ItemMeta meta = this.getItemMeta();
+		return meta.getDisplayName();
+	}
+    
     public void setLore(List<String> lore) {
     	ItemMeta meta = this.getItemMeta();
     	meta.setLore(lore);

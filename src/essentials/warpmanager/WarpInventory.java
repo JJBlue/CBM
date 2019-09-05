@@ -20,6 +20,7 @@ public class WarpInventory extends InventoryFactory {
 	
 	public WarpInventory(Player player, Inventory inventory) {
 		super(inventory);
+		this.player = player;
 	}
 
 	public static void openNewInventory(Player player) {
@@ -62,8 +63,7 @@ public class WarpInventory extends InventoryFactory {
 			else
 				previous();
 			
-//			event.setCancelled(true);
-			event.setCurrentItem(new ItemStack(Material.AIR));
+			event.setCancelled(true);
 		});
 		
 		return inventoryItem;
@@ -92,7 +92,8 @@ public class WarpInventory extends InventoryFactory {
 			
 			for(Warp warp : tmp) {
 				curWarpsLoaded++;
-				if(warp.hasPermission && !player.hasPermission(warp.getPermission())) continue;
+				String per = warp.getPermission();
+				if(warp.hasPermission && per != null && !player.hasPermission(per)) continue;
 				warps.add(warp);
 				if(warps.size() >= 45) break;
 			}

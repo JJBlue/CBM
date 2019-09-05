@@ -41,7 +41,7 @@ public class Warp {
 		PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ? WHERE name = ?");
 		try {
 			preparedStatement.setString(1, PlayerSQLHelper.LocationToString(location));
-			if(!itemStack.getType().equals(Material.AIR))
+			if(itemStack != null && !itemStack.getType().equals(Material.AIR))
 				preparedStatement.setString(2, ConfigUtilities.toString(itemStack));
 			else
 				preparedStatement.setString(2, null);

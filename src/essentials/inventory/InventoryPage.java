@@ -132,4 +132,8 @@ public class InventoryPage {
 	public void setInv(Map<Integer, ItemStack> inv) {
 		this.inv = inv;
 	}
+
+	public boolean contains(int pos) {
+		return inv.containsKey(pos);
+	}
 }

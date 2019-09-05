@@ -19,7 +19,6 @@ TODO:
 	10. Jail
 	11. Ban
 	12. Spawner Editor
-	13. Warps
 	x. ...
 
 Features:
@@ -55,6 +54,7 @@ Features:
 		  You could fly throught blocks without flying around the house or break blocks.
 		  In the moment, when you are flying through blocks you be switched to spectator mode and after back to creative. 
 	- And more see "Commands and permissions"
+	- ...
 	
 
 Commands and permissions:

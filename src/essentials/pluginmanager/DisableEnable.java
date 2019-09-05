@@ -149,8 +149,6 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
     	        		if(a1 == plugin.getClass().getClassLoader()) {
     	        			deleteList.add(a1);
 							((URLClassLoader) a1).close();
-    	        			
-    	        			Bukkit.broadcastMessage("found");
     	        		}
     	        	}
     	        	

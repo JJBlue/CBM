@@ -53,9 +53,7 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
-import essentials.warpmanager.WarpInventory;
 import essentials.warpmanager.warpCommands;
-import sun.security.provider.JavaKeyStore.CaseExactJKS;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
@@ -578,6 +576,8 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			case "warp":
 			case "setwarp":
 			case "delwarp":
+			case "editwarp":
+			case "savewarp":
 				
 				return warpCommands.commands.onCommand(sender, cmd, cmdLabel, args);
 				
@@ -700,6 +700,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("random");
 			returnArguments.add("repair");
 			returnArguments.add("reload");
+			returnArguments.add("savewarp");
 			returnArguments.add("setwarp");
 			returnArguments.add("silent");
 			returnArguments.add("sit");

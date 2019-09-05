@@ -25,7 +25,6 @@ Futures:
 	- clearchat
 	- playtime
 	- world player time | weather
-	- warps
 	- better speed command -> fly, walk, swim
 	- giveall
 	- glow player color
