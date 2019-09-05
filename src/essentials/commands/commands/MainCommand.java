@@ -53,7 +53,9 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
+import essentials.warpmanager.WarpInventory;
 import essentials.warpmanager.warpCommands;
+import sun.security.provider.JavaKeyStore.CaseExactJKS;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
@@ -675,6 +677,8 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("cob");
 			returnArguments.add("commandspy");
 			returnArguments.add("chestplate");
+			returnArguments.add("delwarp");
+			returnArguments.add("editwarp");
 			returnArguments.add("fly");
 			returnArguments.add("feed");
 			returnArguments.add("god");
@@ -696,6 +700,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("random");
 			returnArguments.add("repair");
 			returnArguments.add("reload");
+			returnArguments.add("setwarp");
 			returnArguments.add("silent");
 			returnArguments.add("sit");
 			returnArguments.add("sign");
@@ -708,6 +713,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("trade");
 			returnArguments.add("uuid");
 			returnArguments.add("wallGhost");
+			returnArguments.add("warp");
 			
 			Iterator<String> it = returnArguments.iterator();
 			while(it.hasNext()) {
@@ -850,6 +856,14 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				case "wallGhost":
 					for(Player player : Bukkit.getOnlinePlayers())
 						returnArguments.add(player.getName());
+					
+					break;
+					
+				case "warp":
+				case "delwarp":
+				case "editwarp":
+				case "setwarp":
+					warpCommands.commands.onTabComplete(sender, cmd, cmdLabel, args);
 					
 					break;
 			}

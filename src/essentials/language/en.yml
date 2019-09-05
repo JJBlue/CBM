@@ -22,3 +22,7 @@ timer:
   startTimer: §eTimer with ID §6$1§e was started
 command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
+warp:
+  setWarp: §eAdd Warp §6$1§e
+  setWarp2: '§eAdd Warp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4)'
+  delWarp: §eDeleted Warp §6$1

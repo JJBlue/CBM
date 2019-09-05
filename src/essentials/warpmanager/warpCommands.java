@@ -1,5 +1,6 @@
 package essentials.warpmanager;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+
+import essentials.language.LanguageConfig;
 
 public class warpCommands implements CommandExecutor, TabCompleter {
 	public final static warpCommands commands;
@@ -34,14 +37,34 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 				
 				break;
 				
+			case "editwarp":
+				
+				//TODO
+				
+				break;
+				
 			case "setwarp":
 				
+				// setwarp <Name> (<autoLore> <hasPermission> <showWithoutPermission> <pos>)
 				if(args.length < 2 || p == null) break;
 				
 				Warp warp = new Warp(args[1]);
 				warp.setLocation(p.getLocation());
 				
-				WarpManager.addWarp(warp);
+				if(args.length >= 6) {
+					try {
+						warp.autoLore = Boolean.parseBoolean(args[2]);
+						warp.hasPermission = Boolean.parseBoolean(args[3]);
+						warp.showWithoutPermission = Boolean.parseBoolean(args[4]);
+						warp.pos = Integer.parseInt(args[5]);
+						LanguageConfig.sendMessage(sender, "warp.setWarp2", args[1], args[2], args[3], args[4], args[5]);
+					} catch (NumberFormatException e) {
+						LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+					}
+				} else if(args.length == 2) {
+					WarpManager.addWarp(warp);
+					LanguageConfig.sendMessage(sender, "warp.setWarp", args[1]);
+				}
 				
 				break;
 				
@@ -49,17 +72,64 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 
 				if(args.length < 2 || p == null) break;
 				WarpManager.deleteWarp(args[1]);
+				LanguageConfig.sendMessage(sender, "warp.delWarp", args[1]);
 				
 				break;
-				
 		}
 		
 		return true;
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		List<String> returnArguments = new LinkedList<>();
+		
+		if(args.length == 1) {
+			returnArguments.add("warp");
+			returnArguments.add("delwarp");
+			returnArguments.add("setwarp");
+			returnArguments.add("editwarp");
+			
+		} else {
+			switch (args[0]) {
+				case "warp":
+				case "delwarp":
+					if(args.length == 2)
+						returnArguments.add("<Name>");
+					break;
+					
+				case "setwarp":
+					switch(args.length) {
+						case 2:
+							returnArguments.add("<Name>");
+							break;
+						case 3:
+						case 4:
+						case 5:
+							returnArguments.add("True");
+							returnArguments.add("False");
+							break;
+						default:
+							returnArguments.add(args[args.length] + "0");
+							returnArguments.add(args[args.length] + "1");
+							returnArguments.add(args[args.length] + "2");
+							returnArguments.add(args[args.length] + "3");
+							returnArguments.add(args[args.length] + "4");
+							returnArguments.add(args[args.length] + "5");
+							returnArguments.add(args[args.length] + "6");
+							returnArguments.add(args[args.length] + "7");
+							returnArguments.add(args[args.length] + "8");
+							returnArguments.add(args[args.length] + "9");
+					}
+			}
+		}
+		
+		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
+		
+		returnArguments.sort((s1, s2) -> {
+			return s1.compareTo(s2);
+		});
+		
+		return returnArguments;
 	}
 }
