@@ -1,5 +1,6 @@
 package essentials.commands.commands;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -53,6 +54,7 @@ import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
+import essentials.utilities.TimeUtilities;
 import essentials.warpmanager.warpCommands;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
@@ -451,6 +453,34 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				sender.sendMessage("§aReload complete!");
 				
 				break;
+				
+			case "seen":
+				{
+					try {
+						OfflinePlayer offlinePlayer = PlayerUtilities.getOfflinePlayer(args[1]);
+						if(offlinePlayer == null) break;
+						
+						PlayerConfig config = PlayerManager.getPlayerConfig(offlinePlayer.getUniqueId(), false);
+						if(config == null) break;
+						
+						if(offlinePlayer.isOnline()) {
+							LocalDateTime loginTime = config.getLocalDateTime(PlayerConfigKey.loginTime);
+							if(loginTime == null) break;
+							
+							LanguageConfig.sendMessage(sender, "seen.loginSince", offlinePlayer.getName(), TimeUtilities.timeToString(loginTime, LocalDateTime.now()));
+						} else {
+							LocalDateTime logoutTime = config.getLocalDateTime(PlayerConfigKey.logoutTime);
+							if(logoutTime == null) break;
+							
+							LanguageConfig.sendMessage(sender, "seen.logoutSince", offlinePlayer.getName(), TimeUtilities.timeToString(logoutTime, LocalDateTime.now()));
+						}
+						
+					} catch (IllegalArgumentException e) {
+						LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
+					}
+					
+					break;
+				}
 				
 			case "silent":
 				

@@ -30,17 +30,24 @@ public class PlayerManager {
 	}
 	
 	public static synchronized PlayerConfig getPlayerConfig(UUID uuid) {
+		return getPlayerConfig(uuid, true);
+	}
+	
+	public static synchronized PlayerConfig getPlayerConfig(UUID uuid, boolean buffer) {
 		PlayerConfig playerConfig = players.get(uuid);
 		
 		if(playerConfig != null)
 			return playerConfig;
 		
-		Datenbank database = Databases.getPlayerDatabase();
-		database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
+		if(buffer) {
+			Datenbank database = Databases.getPlayerDatabase();
+			database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
+			
+			Player player = Bukkit.getPlayer(uuid);
+			if(player != null && player.isOnline())
+				return load(uuid, true);
+		}
 		
-		Player player = Bukkit.getPlayer(uuid);
-		if(player != null && player.isOnline())
-			return load(uuid, true);
 		return load(uuid, false);
 	}
 	

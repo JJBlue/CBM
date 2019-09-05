@@ -30,6 +30,12 @@ public class PlayerConfig {
 		if(player != null) set("name", player.getName());
 	}
 	
+	public PlayerConfig(String uuidS) {
+		uuid = UUID.fromString(uuidS);
+		
+		
+	}
+	
 	public boolean containsLoadedKey(String key) {
 		return buffer.containsKey(key);
 	}
