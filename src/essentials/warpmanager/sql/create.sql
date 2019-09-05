@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS warps(
 	showWithoutPermission BOOl,
 	autoLore BOOL,
 	cost INTEGER,
-	pos INT,
+	pos INT DEFAULT 0,
 	
 	PRIMARY KEY (name)
 );
