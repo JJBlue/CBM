@@ -145,6 +145,7 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	public static void reload() {
+		LanguageConfig.load();
 		Tablist.load();
 		LoadMapPaint.load();
 		ChatVerbesserung.Load();
