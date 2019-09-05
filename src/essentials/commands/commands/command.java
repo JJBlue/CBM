@@ -23,17 +23,6 @@ public class command {
 				else if(args[1].equalsIgnoreCase("set"))
 					p1.setPlayerTime((long) i, true);
 			}
-		}else if(cmd.getName().equalsIgnoreCase("seen")){
-			OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(args[0]);
-//			FileConfiguration fileConf = essentials.player.player.playerConf(oPlayer.getPlayer());
-			
-			if(oPlayer.isOnline()){
-//				String s = fileConf.getString("lastlogin");
-//				sender.sendMessage("Player ist Zeit " + s + " online." );
-			} else {
-//				String s = fileConf.getString("lastlogout");
-//				sender.sendMessage("Player ist Zeit " + s + " offline." );
-			}
 		}
 		
 		return true;
