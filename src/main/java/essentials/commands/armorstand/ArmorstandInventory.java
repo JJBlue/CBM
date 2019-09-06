@@ -111,8 +111,8 @@ public class ArmorstandInventory {
 		head.setLore(usage);
 		head.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.HEAD);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.HEAD);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -123,8 +123,8 @@ public class ArmorstandInventory {
 		body.setLore(usage);
 		body.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.BODY);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.BODY);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -135,8 +135,8 @@ public class ArmorstandInventory {
 		leftArm.setLore(usage);
 		leftArm.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_ARM);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.LEFT_ARM);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -147,8 +147,8 @@ public class ArmorstandInventory {
 		rightArm.setLore(usage);
 		rightArm.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_ARM);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_ARM);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -159,8 +159,8 @@ public class ArmorstandInventory {
 		leftLeg.setLore(usage);
 		leftLeg.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.LEFT_LEG);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.LEFT_LEG);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -171,8 +171,8 @@ public class ArmorstandInventory {
 		rightLeg.setLore(usage);
 		rightLeg.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_LEG);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_LEG);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -184,7 +184,7 @@ public class ArmorstandInventory {
 		position.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
 			config.setTmp("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.POSITION);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.POSITION);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
@@ -202,8 +202,8 @@ public class ArmorstandInventory {
 		rotation.setLore(usage);
 		rotation.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
-			config.set("armorstandEditorListener", true);
-			config.set("armorstandEditorEnum", ArmorstandBodyParts.ROTATION);
+			config.setTmp("armorstandEditorListener", true);
+			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.ROTATION);
 			armorstand.setMarker(false);
 			player.closeInventory();
 			event.setCancelled(true);
