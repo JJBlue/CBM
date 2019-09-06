@@ -134,48 +134,6 @@ public class CommandOnBlock {
 		chunkBuffer.remove(chunk);
 	}
 	
-	@SuppressWarnings("unused")
-	private void loadLocation(Location location) {
-//		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getCommands.sql", CommandOnBlock.class));
-//		
-//		try {
-//			preparedStatement.setString(1, location.getWorld().getName());
-//			preparedStatement.setInt(2, location.getBlockX());
-//			preparedStatement.setInt(3, location.getBlockY());
-//			preparedStatement.setInt(4, location.getBlockZ());
-//			ResultSet resultSet = preparedStatement.executeQuery();
-//			
-//			List<CoBCommandInfo> commands = null;
-//			CoBBlock block = null;
-//			
-//			while(resultSet.next()) {
-//				if(block == null) {
-//					commands = Collections.synchronizedList(new LinkedList<>());
-//					block = new CoBBlock(location);
-//				}
-//				
-//				if(!block.isIDSet())
-//					block.setID(resultSet.getInt("IDCommandOnBlock"));
-//				
-//				CoBCommandInfo coBCommandInfo = new CoBCommandInfo();
-//				coBCommandInfo.saved = true;
-//				
-//				coBCommandInfo.command = resultSet.getString("Command");
-//				coBCommandInfo.action = CoBAction.valueOf(resultSet.getString("CoBAction"));
-//				commands.add(coBCommandInfo);
-//			}
-//			
-//			if(block != null) {
-//				block.commands = commands;
-//				buffer.put(location, block);
-//			}
-//			
-//			return block;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-	}
-	
 	public static List<CoBCommandInfo> getCommandInfos(Location location) {
 		CoBBlock commandOnBlock = getCommandOnBlock(location);
 		if(commandOnBlock == null) return null;
