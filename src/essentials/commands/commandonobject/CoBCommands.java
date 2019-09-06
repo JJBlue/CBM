@@ -13,6 +13,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import essentials.permissions.PermissionHelper;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
@@ -61,7 +62,7 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				for(CoBCommandInfo commandInfo : commandInfos) {
 					ChatUtilities.sendChatMessage(p, "  /" + commandInfo.command + " ",
 						ChatUtilities.createExtra(
-							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/all cob remove " + commandInfo.command)
+							ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/" + PermissionHelper.getPluginDefaultCommand() + " cob remove " + commandInfo.command)
 						)
 					);
 				}

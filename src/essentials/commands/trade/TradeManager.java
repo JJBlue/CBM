@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
+import essentials.permissions.PermissionHelper;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 
@@ -65,7 +66,7 @@ public class TradeManager {
 			
 			ChatUtilities.sendChatMessage(to, LanguageConfig.getString("trade.sendTrade", from.getName()),
 				ChatUtilities.createExtra(
-					ChatUtilities.createClickHoverMessage(LanguageConfig.getString("trade.accept"), null, null, ClickAction.RUN_COMMAND, "/cbm trade " + from.getName())
+					ChatUtilities.createClickHoverMessage(LanguageConfig.getString("trade.accept"), null, null, ClickAction.RUN_COMMAND, "/" + PermissionHelper.getPluginDefaultCommand() + " trade " + from.getName())
 				)
 			);
 			

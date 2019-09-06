@@ -20,4 +20,8 @@ public class PermissionHelper {
 	public static boolean hasCommandPermission(CommandSender sender, String permission) {
 		return sender.hasPermission(getPermissionCommand(permission));
 	}
+	
+	public static String getPluginDefaultCommand() {
+		return "cbm";
+	}
 }

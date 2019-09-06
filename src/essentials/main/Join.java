@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import essentials.config.MainConfig;
+import essentials.permissions.PermissionHelper;
 import essentials.utilities.PlayerUtilities;
 
 public class Join implements Listener{
@@ -48,15 +49,15 @@ public class Join implements Listener{
 	public static boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {	
 		if(args.length == 2){
 			if(args[1].equalsIgnoreCase("help")){
-				sender.sendMessage("/all join list");
-				sender.sendMessage("/all join clear");
-				sender.sendMessage("/all join add <player>");
-				sender.sendMessage("/all join remove <player>");
-				sender.sendMessage("/all join full <Zahl>");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join list");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join clear");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join add <player>");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join remove <player>");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join full <Zahl>");
 			}else if(args[1].equalsIgnoreCase("helpo")){
-				sender.sendMessage("/all join listo");
-				sender.sendMessage("/all join addo <player>");
-				sender.sendMessage("/all join removeo <player>");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join listo");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join addo <player>");
+				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join removeo <player>");
 			}else if(args[1].equalsIgnoreCase("list")){
 				if(!tempPlayer.isEmpty()) {
 					String list = "";
