@@ -33,7 +33,7 @@ public class CoBBlock {
 	}
 	
 	public void addCommand(CoBAction action, String command) {
-		
+		//TODO
 	}
 	
 	public void removeCommand(String command) {
@@ -46,12 +46,41 @@ public class CoBBlock {
 					iterator.remove();
 					break;
 				}
+				
+				removeCommand(ci);
 			}
 		}
 	}
 	
 	public void removeCommand(CoBAction action, String command) {
-		
+		//TODO
+	}
+	
+	public void removeCommand(CoBCommandInfo ci) {
+		if(isIDSet) {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommand.sql", CoBBlock.class));
+			try {
+				preparedStatement.setInt(1, ID);
+				preparedStatement.setString(2, ci.action.name());
+				preparedStatement.setString(3, ci.command);
+				preparedStatement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommandLocation.sql", CoBBlock.class));
+			try {
+				preparedStatement.setString(1, location.getWorld().getName());
+				preparedStatement.setInt(2, location.getBlockX());
+				preparedStatement.setInt(3, location.getBlockY());
+				preparedStatement.setInt(4, location.getBlockZ());
+				preparedStatement.setString(5, ci.action.name());
+				preparedStatement.setString(6, ci.command);
+				preparedStatement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public synchronized int save() {
