@@ -44,10 +44,9 @@ public class CoBBlock {
 				
 				if(ci.command.equals(command)) {
 					iterator.remove();
+					removeCommand(ci);
 					break;
 				}
-				
-				removeCommand(ci);
 			}
 		}
 	}
@@ -60,10 +59,9 @@ public class CoBBlock {
 				
 				if(ci.command.equals(command) && ci.action.equals(action)) {
 					iterator.remove();
+					removeCommand(ci);
 					break;
 				}
-				
-				removeCommand(ci);
 			}
 		}
 	}
