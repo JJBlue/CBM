@@ -1,0 +1,56 @@
+error:
+  IllegalArgumentException: §4Error. Wrong Arguements are uesed
+  NumberFormatException: §4Error. Number could not be parsed
+  default: §4Error
+value:
+  true: 'True'
+  false: 'False'
+time:
+  years: years
+  months: months
+  days: days
+  day-short: d
+  hours: hours
+  hour-short: h
+  minutes: minutes
+  minute-short: m
+  seconds: seconds
+  second-short: s
+afk:
+  isNowAfk: §e$1 is now §6afk
+  noLongerAfk: §e$1 is no longer §6afk
+command:
+  TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
+command-spy:
+  toggled: §eCommand spy toggled to &6$1
+god:
+  enabled: §eGod mod is now enabled
+  disabled: §eGod mod is now disabled
+  enabled-Player: §eGod mod is enabled for $6$1
+  disabled-Player: §eGod mod is disabled for $6$1
+language:
+  change: §eLanguage changed to §6$1
+mute:
+  enabled-Command: §6$1 §eis now muted
+  disabled-Command: §6$1 is no longer muted
+  enabled-Player: §eYou were muted
+  disabled-Player: §eYou were unmuted
+seen:
+  loginSince: §ePlayer $1 is online since $2
+  logoutSince: §ePlayer $1 is offline since $2
+timer:
+  cancelTimer: §eTimer with ID §6$1§e was stopped
+  startTimer: §eTimer with ID §6$1§e was started
+trade:
+  accept: §3[Accept]
+  sendTrade: $1 send you a Trade Request
+  gotTrade: You got a Trade Request from $1
+  expired: Trade Request from $1 is expired
+weather:
+  changeTo-sun: World $1 changed weather to sunny weather
+  changeTo-rain: World $1 changed wather to rainy weather
+  changeTo-thunder: World $1 changed weather to thunder
+warp:
+  setWarp: '§eAdd Warp §6$1'
+  setWarp2: '§eAdd Warp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4)'
+  delWarp: '§eDeleted Warp §6$1'
