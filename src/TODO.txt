@@ -1,5 +1,8 @@
 Futures:
 
+	- Login System
+	- Auto-Updater
+
 	- Make a plugin silent for BroadcastMassages
 	- set Loot to an entity
 	- bossbar
