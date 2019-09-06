@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import essentials.ChatVerbesserung.ChatVerbesserung;
+import essentials.alias.CustomAlias;
 import essentials.commands.armorstand.ArmorstandListener;
 import essentials.commands.commandonobject.CommandListener;
 import essentials.commands.commandonobject.CommandOnBlock;
@@ -89,12 +90,12 @@ public class Main extends JavaPlugin implements Listener{
 			this.getCommand("cbm").setTabCompleter(mainCommand);
 		}
 		
-		{ //TODO move under all command
+		{ //TODO move under cbm command
 			this.getCommand("post").setExecutor(Post.post);
 			this.getCommand("post").setTabCompleter(Post.post);
 		}
 		
-		{ //TODO move under all command
+		{ //TODO move under cbm command
 			this.getCommand("trol").setExecutor(TrolCommands.commands);
 			this.getCommand("trol").setTabCompleter(TrolCommands.commands);
 		}
@@ -145,6 +146,7 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	public static void reload() {
+		CustomAlias.load();
 		LanguageConfig.load();
 		Tablist.load();
 		LoadMapPaint.load();

@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import essentials.config.MainConfig;
+import essentials.main.Main;
 
 public class CustomAlias {
 	static File file;
@@ -30,7 +33,8 @@ public class CustomAlias {
 		List<?> commands = fileConfiguration.getList(prefix + commandAlias + ".Cmds");
 		boolean useExtraPermission = fileConfiguration.getBoolean(prefix + commandAlias + ".Perm");
 		
-		
+		PluginCommand ingo = Main.getPlugin().getCommand("ingo");
+		Bukkit.broadcastMessage((ingo != null) + "");
 		
 		
 		fileConfiguration.options().copyDefaults(true);
