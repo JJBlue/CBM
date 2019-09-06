@@ -33,7 +33,7 @@ public class CoBBlock {
 	}
 	
 	public void addCommand(CoBAction action, String command) {
-		//TODO
+		commands.add(new CoBCommandInfo(action, command));
 	}
 	
 	public void removeCommand(String command) {
@@ -53,7 +53,19 @@ public class CoBBlock {
 	}
 	
 	public void removeCommand(CoBAction action, String command) {
-		//TODO
+		synchronized (commands) {
+			Iterator<CoBCommandInfo> iterator = commands.iterator();
+			while(iterator.hasNext()) {
+				CoBCommandInfo ci = iterator.next();
+				
+				if(ci.command.equals(command) && ci.action.equals(action)) {
+					iterator.remove();
+					break;
+				}
+				
+				removeCommand(ci);
+			}
+		}
 	}
 	
 	public void removeCommand(CoBCommandInfo ci) {
