@@ -24,7 +24,7 @@ public class Join implements Listener{
 		Player player = e.getPlayer();
 		
 		if(player.isOp()) return;
-		if(Bukkit.getOnlinePlayers().size() < MainConfig.getFullSize()) return;
+		if(MainConfig.getFullSize() == -1 || Bukkit.getOnlinePlayers().size() < MainConfig.getFullSize()) return;
 		if(MainConfig.getJoinable().contains(player.getUniqueId().toString())) return;
 		if(tempPlayer.contains(e.getPlayer().getName())) {
 			tempPlayer.remove(e.getPlayer().getName());
