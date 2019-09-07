@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO old - not used yet
 public class noHunger implements Listener{
 	private static String config = "plugins/Allgemein";
 	
@@ -24,7 +25,6 @@ public class noHunger implements Listener{
 	
 	private static boolean enable;
 	
-	//TODO -> configFile to world.database
 	public static void onLoad(){
 		try {
 			BackupwarpConf.load(Backupwarp);
