@@ -1,12 +1,18 @@
 package essentials.utilities;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.plugin.Plugin;
 
-import java.util.LinkedList;
-import java.util.List;
+import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilitiesvr.bukkit.BukkitUtilitiesReflection;
+import essentials.utilitiesvr.bukkit.BukkitUtilities_v1_14;
 
 public class BukkitUtilities {
 	public static List<String> getAvailableCommands(CommandSender sender){
@@ -35,5 +41,23 @@ public class BukkitUtilities {
 		}
 		
 		return commands;
+	}
+	
+	public static boolean registerCommand(String fallbackPrefix, Command command) {
+		return getSimpleCommandMap().register(fallbackPrefix, command);
+	}
+	
+	public static boolean registerCommand(String label, String fallbackPrefix, Command command) {
+		return getSimpleCommandMap().register(label, fallbackPrefix, command);
+	}
+	
+	public static void registerCommands(String fallbackPrefix, List<Command> commands) {
+		getSimpleCommandMap().registerAll(fallbackPrefix, commands);
+	}
+	
+	public static SimpleCommandMap getSimpleCommandMap() {
+		if(ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
+			return BukkitUtilities_v1_14.getSimpleCommandMap();
+		return BukkitUtilitiesReflection.getSimpleCommandMap();
 	}
 }
