@@ -47,7 +47,7 @@ public class CustomAlias {
 				writer.append("\n# 	- say 5s later");
 				writer.append("\n" + prefixCommands.substring(0, prefixCommands.length() - 1) + ":");
 				writer.append("\n  test:");
-				writer.append("\n    enable: true");
+				writer.append("\n    enable: false");
 				writer.append("\n    extraPermission: false");
 				writer.append("\n    cmds:");
 				writer.append("\n    - '@c say $2 is $3 ...'");
@@ -62,7 +62,7 @@ public class CustomAlias {
 				writer.append("\n      3:");
 				writer.append("\n      - b");
 				writer.append("\n  test2:");
-				writer.append("\n    enable: true");
+				writer.append("\n    enable: false");
 				writer.append("\n    extraPermission: false");
 				writer.append("\n    cmds:");
 				writer.append("\n    - 'cbm timer ...'");
