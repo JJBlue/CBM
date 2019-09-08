@@ -24,6 +24,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import essentials.commands.NameTag.nt;
 import essentials.commands.armorstand.ArmorstandCommands;
@@ -302,6 +304,30 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
+			case "info":
+				
+				if(args.length < 2) break;
+				Plugin plugin = Bukkit.getPluginManager().getPlugin(args[1]);
+				if(plugin == null) break;
+				
+				PluginDescriptionFile description = plugin.getDescription();
+				
+				LanguageConfig.sendMessage(
+					sender, "info.info-Plugin",
+					description.getFullName(),
+					description.getName(),
+					description.getPrefix(),
+					description.getVersion(),
+					description.getAPIVersion() == null ? "-" : description.getAPIVersion(),
+					description.getAuthors() == null ? "-" : StringUtilities.listToListingString(description.getAuthors()),
+					description.getWebsite() == null ? "-" : description.getWebsite(),
+					description.getDescription() == null ? "-" : description.getDescription(),
+					description.getDepend() == null ? "-" : StringUtilities.listToListingString(description.getDepend()),
+					description.getSoftDepend() == null ? "-" : StringUtilities.listToListingString(description.getSoftDepend())
+				);
+				
+				break;
+				
 			case "inventory":
 				
 				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -446,6 +472,44 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
+			case "random":
+				if(args.length < 3) break;
+				
+				int amount = Integer.parseInt(args[1]);
+				LinkedList<Integer> pl = new LinkedList<>();
+				String[] players;
+				if(!args[2].contains(",")) {
+					players = new String[1];
+					players[0] = args[2];
+				}else {
+					players = args[2].split(",");
+				}
+				
+				if(players.length >= amount && amount >= 0) {
+					Random rnd = new Random();
+					int i = 0;
+					while(i < amount) {
+						int z = rnd.nextInt(players.length);
+						if(!pl.contains(z)){
+							pl.add(z);
+							Player player1 = Bukkit.getPlayer(players[z]);
+							if(player1 != null)
+								player1.sendMessage("You were selected!");
+							i++;
+						}
+					}
+					
+					for(int y = 0; y < players.length; y++){
+						if(!pl.contains(y)) {
+							Player player1 = Bukkit.getPlayer(players[y]);
+							if(player1 != null)
+								player1.sendMessage("§4You were not selected!");
+						}
+					}
+				}
+				
+				break;
+				
 			case "reload":
 				
 				MainConfig.reload();
@@ -453,6 +517,22 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				sender.sendMessage("§aReload complete!");
 				
 				break;
+				
+			case "repair":
+				{
+					if(args.length <= 1) {
+						if(p == null) return true;
+						is = p.getInventory().getItemInMainHand();
+					} else {
+						Player p1 = Bukkit.getPlayer(args[1]);
+						is = p1.getInventory().getItemInMainHand();
+					}
+					
+					if(is == null || is.getType().equals(Material.AIR)) return true;
+					ItemUtilies.setDurability(is, 0);
+					
+					break;
+				}
 				
 			case "seen":
 				{
@@ -603,6 +683,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
+			case "version":
+				
+				LanguageConfig.sendMessage(sender, "version.current-version", Main.getPlugin().getDescription().getVersion());
+				
+				break;
+				
 			case "warp":
 			case "setwarp":
 			case "delwarp":
@@ -630,59 +716,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				break;
 				
-			case "random":
-				if(args.length < 3) break;
-				
-				int amount = Integer.parseInt(args[1]);
-				LinkedList<Integer> pl = new LinkedList<>();
-				String[] players;
-				if(!args[2].contains(",")) {
-					players = new String[1];
-					players[0] = args[2];
-				}else {
-					players = args[2].split(",");
-				}
-				
-				if(players.length >= amount && amount >= 0) {
-					Random rnd = new Random();
-					int i = 0;
-					while(i < amount) {
-						int z = rnd.nextInt(players.length);
-						if(!pl.contains(z)){
-							pl.add(z);
-							Player player1 = Bukkit.getPlayer(players[z]);
-							if(player1 != null)
-								player1.sendMessage("You were selected!");
-							i++;
-						}
-					}
-					
-					for(int y = 0; y < players.length; y++){
-						if(!pl.contains(y)) {
-							Player player1 = Bukkit.getPlayer(players[y]);
-							if(player1 != null)
-								player1.sendMessage("§4You were not selected!");
-						}
-					}
-				}
-				
-				break;
-				
-			case "repair":
-				{
-					if(args.length <= 1) {
-						if(p == null) return true;
-						is = p.getInventory().getItemInMainHand();
-					} else {
-						Player p1 = Bukkit.getPlayer(args[1]);
-						is = p1.getInventory().getItemInMainHand();
-					}
-					
-					if(is == null || is.getType().equals(Material.AIR)) return true;
-					ItemUtilies.setDurability(is, 0);
-					
-					break;
-				}
+			
 			default:
 				break;
 		}
@@ -716,6 +750,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("heal");
 			returnArguments.add("hide");
 			returnArguments.add("itemdb");
+			returnArguments.add("info");
 			returnArguments.add("inventory");
 			returnArguments.add("legging");
 			returnArguments.add("join");
@@ -743,6 +778,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("timer");
 			returnArguments.add("trade");
 			returnArguments.add("uuid");
+			returnArguments.add("version");
 			returnArguments.add("wallGhost");
 			returnArguments.add("warp");
 			
@@ -837,6 +873,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				case "teleport":
 					
 					return teleportCommand.teleport.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "info":
+					
+					for(Plugin plugin : Bukkit.getPluginManager().getPlugins())
+						returnArguments.add(plugin.getName());
+					break;
 					
 				case "inventory":
 					

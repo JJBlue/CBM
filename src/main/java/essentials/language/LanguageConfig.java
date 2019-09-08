@@ -90,14 +90,16 @@ public class LanguageConfig {
 		if(m == null) {
 			addMissingStringToExample(key);
 			
-			m = "§4Message is missing! Paramters: ";
+			m = "§4Message is missing! Paramters: "; //TODO Fallback
 			
 			for(int i = 1; i <= args.length; i++)
 				m += "$" + i + " ";
 		}
 		
 		for(int i = 1; i <= args.length; i++)
-			m = m.replace("$" + i, args[i - 1]);
+			m = m.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
+		
+		m = m.replaceAll("(?<!\\\\)\\\\n", "\n");
 		
 		return m;
 	}

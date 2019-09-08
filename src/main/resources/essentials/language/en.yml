@@ -28,6 +28,8 @@ god:
   disabled: §eGod mod is now disabled
   enabled-Player: §eGod mod is enabled for $6$1
   disabled-Player: §eGod mod is disabled for $6$1
+info:
+  info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAuthors: §6$6\n§eWebsite: §6$7\n§eDescription: §6$8\n§eDepend: §6$9\n§eSoftDepend: §6$10'
 language:
   change: §eLanguage changed to §6$1
 mute:
@@ -46,6 +48,8 @@ trade:
   sendTrade: $1 send you a Trade Request
   gotTrade: You got a Trade Request from $1
   expired: Trade Request from $1 is expired
+version:
+  current-version: §eCurrent Version is $1
 weather:
   changeTo-sun: World $1 changed weather to sunny weather
   changeTo-rain: World $1 changed wather to rainy weather
