@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 //TODO old
 public class command {
-	@SuppressWarnings("deprecation")
 	public static boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("ptime")){
 			if(args.length == 3){

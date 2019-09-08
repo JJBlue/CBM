@@ -1,9 +1,10 @@
 package essentials.utilitiesvr.player;
 
-import components.reflections.SimpleReflection;
+import java.lang.reflect.InvocationTargetException;
+
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
+import components.reflections.SimpleReflection;
 
 public class PlayerUtilitiesReflections {
 	public static void sendPacket(Player player, Object obj) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SecurityException, NoSuchFieldException {
