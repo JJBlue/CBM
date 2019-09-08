@@ -3,11 +3,13 @@ package essentials.alias;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -51,6 +53,19 @@ public class CustomAlias {
 				writer.append("\n    - '@c say $2 is $3 ...'");
 				writer.append("\n    - '!delay 100'");
 				writer.append("\n    - 'say 5s later'");
+				writer.append("\n    tabComplete:");
+				writer.append("\n      1:");
+				writer.append("\n      - '@p'");
+				writer.append("\n      - 'Meier'");
+				writer.append("\n      2:");
+				writer.append("\n      - a");
+				writer.append("\n      3:");
+				writer.append("\n      - b");
+				writer.append("\n  test2:");
+				writer.append("\n    enable: true");
+				writer.append("\n    extraPermission: false");
+				writer.append("\n    cmds:");
+				writer.append("\n    - 'cbm timer ...'");
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -77,6 +92,8 @@ public class CustomAlias {
 	}
 	
 	public static void registerCommand(String name) {
+//		new PluginCommand
+		
 		BukkitUtilities.registerCommand("cbm", new Command(name) {
 			@Override
 			public boolean execute(CommandSender sender, String commandLabel, String[] args) {
@@ -96,11 +113,45 @@ public class CustomAlias {
 					final List<?> commands = fileConfiguration.getList(prefixCommands + commandLabel + ".cmds");
 					if(commands.size() == 1) {
 						if(commands.get(0) instanceof String) {
-							String c = (String) commands.get(0);
+							String command = (String) commands.get(0);
 							
-							PluginCommand pluginCommand = Bukkit.getPluginCommand(c);
-							if(pluginCommand != null)
-								return pluginCommand.tabComplete(sender, commandLabel, args);
+							if(command.startsWith("@c"))
+								command = command.substring(3, command.length());
+							
+							boolean dots3 = command.endsWith(" ...");
+							if(dots3)
+								command = command.substring(0, command.length() - 4);
+							
+							command = PlaceholderFormatter.parseToString(sender, command);
+							
+							if(command.contains("$" + args.length)) {
+								command = command.substring(0, command.indexOf("$" + args.length));
+							} else {
+								for(int i = 1; i <= args.length; i++) {
+									if(command.contains("$" + i))
+										command = command.replace("$" + i, args[i - 1]);
+									else if(dots3)
+										command += " " + args[i - 1];
+								}
+							}
+							
+							String[] cAndArgs = command.split(" ");
+							String label = cAndArgs[0];
+							
+							if(command.endsWith(" ")) {
+								for(int i = 0; i < cAndArgs.length; i++) {
+									if(i == cAndArgs.length - 1)
+										cAndArgs[i] = "";
+									else
+										cAndArgs[i] = cAndArgs[i+1];
+								}
+							} else
+								cAndArgs = Arrays.copyOfRange(cAndArgs, 1, cAndArgs.length);
+							
+							PluginCommand pluginCommand = Main.getPlugin().getCommand(label);
+							
+							if(pluginCommand != null && pluginCommand.getTabCompleter() != null)
+								return pluginCommand.getTabCompleter().onTabComplete(sender, pluginCommand, commandLabel, cAndArgs);
 						}
 					}
 				}
@@ -131,6 +182,11 @@ public class CustomAlias {
 				
 				return returnA;
 			}
+			
+			@Override
+			public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
+				return tabComplete(sender, alias, args);
+			}
 		});
 	}
 	
@@ -144,7 +200,7 @@ public class CustomAlias {
 	 * 	@c say $2 in $4 with ...
 	 * 	!delay 5
 	 */
-	public static void execute(CommandSender sender, List<?> commands, String[] args) { //TODO add Placeholder
+	public static void execute(CommandSender sender, List<?> commands, String[] args) {
 		while(!commands.isEmpty()) {
 			Object obj = commands.remove(0);
 			

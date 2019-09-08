@@ -1,15 +1,16 @@
 package essentials.timer;
 
-import essentials.language.LanguageConfig;
-import essentials.utilities.StringUtilities;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.boss.BarColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import java.util.LinkedList;
-import java.util.List;
+import essentials.language.LanguageConfig;
+import essentials.utilities.StringUtilities;
 
 public class TimerCommand implements CommandExecutor, TabCompleter {
 
