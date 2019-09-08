@@ -617,7 +617,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 			case "sudo":
 				
-				if(args[1].equalsIgnoreCase("§4Server")) {
+				if(args[1].equalsIgnoreCase("@c")) {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
 				} else {
 					Player sudoPlayer = Bukkit.getPlayer(args[1]);
@@ -850,7 +850,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 							for(Player player : Bukkit.getOnlinePlayers())
 								returnArguments.add(player.getName());
 							
-							returnArguments.add("§4Server");
+							returnArguments.add("@c");
 							
 							break;
 							
