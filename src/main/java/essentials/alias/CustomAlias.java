@@ -92,8 +92,6 @@ public class CustomAlias {
 	}
 	
 	public static void registerCommand(String name) {
-//		new PluginCommand
-		
 		BukkitUtilities.registerCommand("cbm", new Command(name) {
 			@Override
 			public boolean execute(CommandSender sender, String commandLabel, String[] args) {
