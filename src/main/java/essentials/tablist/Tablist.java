@@ -3,6 +3,7 @@ package essentials.tablist;
 import essentials.config.MainConfig;
 import essentials.main.Main;
 import essentials.permissions.PermissionHelper;
+import essentials.placeholder.PlaceholderFormatter;
 import essentials.utilities.TablistUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import org.bukkit.Bukkit;
@@ -170,10 +171,10 @@ public class Tablist {
 		}
 		
 		if(header != null)
-			header = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, header));
+			header = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, header));
 		if(footer != null)
-			footer = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, footer));
-		playerName = ChatUtilities.convertToColor(TablistFormatter.parseToString(player, playerName));
+			footer = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, footer));
+		playerName = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, playerName));
 		
 		TablistUtilities.sendHeaderFooter(player, header, footer);
 	}

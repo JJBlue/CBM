@@ -1,5 +1,9 @@
-package essentials.tablist;
+package essentials.placeholder;
 
+import essentials.player.CountTime;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerConfigKey;
+import essentials.player.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
@@ -7,58 +11,138 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-/*
- * Test says it is slower when TablistFormatter
- */
-public class TablistFormatterRegex {
+import java.util.TimeZone;
+
+public class PlaceholderFormatter {
 	public static String parseToString(CommandSender commandSender, String text) {
 		if(text == null) return "";
 		
-		/*
-		 * "%((?!%).)*%" -> %...%
-		 * (?<!\\)%((?!%).|\\%)*(?<!\\)% ->
-		 * 		not matches: starting with \%, end with \%
-		 * 		ignores: \% between %...%
-		 * 
-		 * (?<!\\)%((?!%).|\\%)*(?<!\\)%(\[.*\])? -> could ends with [arguments]
-		 * 
-		 */
-		Pattern pattern = Pattern.compile("(?<!\\\\)%((?!%).|\\\\%)*(?<!\\\\)%(\\[.*\\])?");
-		Matcher matcher = pattern.matcher(text);
+		StringBuilder finialize = new StringBuilder();
+		StringBuilder parser = null;
+		String preCommand = null;
 		
-		while(matcher.find())
-			text = splitSecond(commandSender, text, matcher.group(0));
+		boolean inParser = false;
+		boolean backSlash = false;
 		
-		text = text.replaceAll("\\\\(\\[|%)", "$1");
+		boolean couldUseArgs = false;
+		boolean argsEnabled = false;
 		
-		return text;
-	}
-	
-	public static String splitSecond(CommandSender commandSender, String original, String repAndArgs) {
-		String replaceString = null;
-		
-		String persentString = null;
-		String args = null;
-		
-		Pattern pattern = Pattern.compile("%((?!%).|\\\\%)*(?<!\\\\)%");
-		Matcher matcher = pattern.matcher(repAndArgs);
-		if(matcher.find())
-			persentString = matcher.group(0);
-		else
-			return original;
-		
-		if(persentString.length() != repAndArgs.length())
-			args = repAndArgs.substring(persentString.length() + 1, repAndArgs.length() - 1); // [] entfernen
+		for(char c : text.toCharArray()) {
+			switch (c) {
+				case '\\':
+					
+					if(!argsEnabled && preCommand != null) {
+						finialize.append(objectToString(commandSender, preCommand, null));
+						preCommand = null;
+					}
+					couldUseArgs = false;
+					
+					backSlash = !backSlash;
+					
+					if(!backSlash) {
+						if(inParser)
+							parser.append(c);
+						else
+							finialize.append(c);
+					}
+						
+					break;
+				case '[':
+					if(!couldUseArgs) {
+						if(inParser)
+							parser.append(c);
+						else
+							finialize.append(c);
+						break;
+					}
+					
+					argsEnabled = true;
+					inParser = true;
+					couldUseArgs = false;
+					parser = new StringBuilder();
+					
+					break;
+				case ']':
+					
+					if(!argsEnabled && preCommand != null) {
+						finialize.append(objectToString(commandSender, preCommand, null));
+						preCommand = null;
+					}
+					couldUseArgs = false;
+					
+					if(!argsEnabled) {
+						if(inParser)
+							parser.append(c);
+						else
+							finialize.append(c);
+						break;
+					}
+					
+					argsEnabled = false;
+					inParser = false;
+					
+					finialize.append(objectToString(commandSender, preCommand, parser.toString()));
+					parser = null;
+					preCommand = null;
+					
+					break;
+				case '%':
+					
+					if(!argsEnabled && preCommand != null) {
+						finialize.append(objectToString(commandSender, preCommand, null));
+						preCommand = null;
+					}
+					couldUseArgs = false;
+					
+					if(backSlash || argsEnabled) {
+						backSlash = false;
+						
+						if(inParser)
+							parser.append(c);
+						else
+							finialize.append(c);
+						
+						break;
+					}
+					
+					inParser = !inParser;
+					
+					if(inParser) {
+						if(parser == null)
+							parser = new StringBuilder();
+						parser.append(c);
+					} else {
+						parser.append(c);
+						preCommand = parser.toString();
+						parser = null;
+						couldUseArgs = true;
+					}
+					
+					break;
 
-		replaceString = persentString.substring(1, persentString.length() - 1);
-		replaceString = objectToString(commandSender, persentString, args);
+				default:
+					if(!argsEnabled && preCommand != null) {
+						finialize.append(objectToString(commandSender, preCommand, null));
+						preCommand = null;
+					}
+					
+					couldUseArgs = false;
+					
+					if(!inParser)
+						finialize.append(c);
+					else
+						parser.append(c);
+			}
+		}
 		
-		return original.replace(repAndArgs, replaceString);
+		if(preCommand != null)
+			finialize.append(objectToString(commandSender, preCommand, parser != null ? parser.toString() : null));
+		
+		return finialize.toString();
 	}
 	
 	/*
@@ -108,12 +192,21 @@ public class TablistFormatterRegex {
 					
 					break;
 			}
+		} else if(value instanceof CountTime) {
+			
+			CountTime countTime = (CountTime) value;
+			
+			if(argsMap.containsKey("time"))
+				endString = countTime.format(argsMap.get("time"));
+			else
+				endString = countTime.format("dd:HH");
+			
 		} else if(value instanceof LocalDateTime) {
 			
 			if(argsMap.containsKey("time"))
 				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("time")));
 			else
-				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("HH:mm")));
+				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern("HH:mm"));
 			
 		} else
 			endString = value.toString();
@@ -149,7 +242,6 @@ user_charges_left
 user_charges_max
 user_charges_time
 user_charges_cooldown
-user_display_name
 user_nickname
 user_cuffed
 user_muted
@@ -161,7 +253,6 @@ user_banned
 user_maxhomes
 user_ping
 user_canfly
-user_flying
 user_homeamount
 user_vanished_symbol
 user_balance_formatted
@@ -188,13 +279,6 @@ user_jailcell
 user_jailtime
 user_jailreason
 user_bungeeserver
-user_playtime_days
-user_playtime_dayst
-user_playtime_hours
-user_playtime_hoursf
-user_playtime_hourst
-user_playtime_minutes
-user_playtime_minutest
 user_itemcount_[itemIdName(:data)]
 user_maxperm_[corePerm]_[defaultValue]
 equation_[equation]
@@ -229,12 +313,15 @@ user_kitcd_[kitName]
 jail_time_[jailName]_[cellId]
 jail_username_[jailName]_[cellId]
 jail_reason_[jailName]_[cellId]
-server_time_[timeFormat]
 */
 	public static Object parser(CommandSender commandSender, String ersetzen) {
 		Player player = null;
 		if(commandSender instanceof Player)
 			player = (Player) commandSender;
+		
+		PlayerConfig config = null;
+		if(player != null)
+			config = PlayerManager.getPlayerConfig(player);
 		
 		Entity entity = null;
 		if(commandSender instanceof Entity)
@@ -309,6 +396,21 @@ server_time_[timeFormat]
 			case "op":
 				return commandSender.isOp();
 				
+			case "playertime": //TODO check if it is currect
+				if(player != null)
+					return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getPlayerTime()), TimeZone.getDefault().toZoneId());
+				break;
+			case "playtime":
+				if(player != null) {
+					CountTime countTime = new CountTime(config.getString(PlayerConfigKey.playTime));
+					
+					if(player.isOnline())
+						countTime.add(config.getLocalDateTime(PlayerConfigKey.loginTime), LocalDateTime.now());
+					
+					return countTime;
+				}
+				break;
+				
 			case "location_world":
 				if(location != null)
 					return location.getWorld();
@@ -346,17 +448,20 @@ server_time_[timeFormat]
 					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY()).name();
 				break;
 				
-			case "user_fly":
-				if(player != null)
-					return player.isFlying();
-				break;
-			
 			case "server_online":
 				return Bukkit.getOnlinePlayers().size();
 			case "server_max_players":
 				return Bukkit.getMaxPlayers();
 			case "real_time":
 				return LocalDateTime.now();
+				
+			case "user_fly":
+				if(player != null)
+					return player.isFlying();
+				break;
+				
+			case "worldtime":
+				return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getWorld().getTime()), TimeZone.getDefault().toZoneId());
 		}
 		
 		return ersetzen;

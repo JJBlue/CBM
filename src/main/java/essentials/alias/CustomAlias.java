@@ -10,6 +10,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,6 +18,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
+import essentials.placeholder.PlaceholderFormatter;
 import essentials.utilities.BukkitUtilities;
 
 public class CustomAlias {
@@ -89,11 +91,45 @@ public class CustomAlias {
 			}
 			
 			@Override
-			public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+			public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) throws IllegalArgumentException {
+				{ //Tab Complete for one Command
+					final List<?> commands = fileConfiguration.getList(prefixCommands + commandLabel + ".cmds");
+					if(commands.size() == 1) {
+						if(commands.get(0) instanceof String) {
+							String c = (String) commands.get(0);
+							
+							PluginCommand pluginCommand = Bukkit.getPluginCommand(c);
+							if(pluginCommand != null)
+								return pluginCommand.tabComplete(sender, commandLabel, args);
+						}
+					}
+				}
 				
-				//TODO
+				List<String> returnA = new LinkedList<>();
 				
-				return super.tabComplete(sender, alias, args);
+				List<?> tabCompletes = fileConfiguration.getList(prefixCommands + commandLabel + ".tabComplete." + args.length);
+				if(tabCompletes == null) return null;
+				
+				for(Object obj : tabCompletes) {
+					if(!(obj instanceof String)) continue;
+					
+					String tab = (String) obj;
+					
+					if(tab.equalsIgnoreCase("@p"))
+						returnA.add(sender.getName());
+					else if(tab.contains("%"))
+						returnA.add(PlaceholderFormatter.parseToString(sender, tab));
+					else
+						returnA.add(tab);
+				}
+				
+				returnA.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
+				
+				returnA.sort((s1, s2) -> {
+					return s1.compareTo(s2);
+				});
+				
+				return returnA;
 			}
 		});
 	}
@@ -108,7 +144,7 @@ public class CustomAlias {
 	 * 	@c say $2 in $4 with ...
 	 * 	!delay 5
 	 */
-	public static void execute(CommandSender sender, List<?> commands, String[] args) {
+	public static void execute(CommandSender sender, List<?> commands, String[] args) { //TODO add Placeholder
 		while(!commands.isEmpty()) {
 			Object obj = commands.remove(0);
 			
@@ -140,6 +176,8 @@ public class CustomAlias {
 			boolean dots3 = command.endsWith(" ...");
 			if(dots3)
 				command = command.substring(0, command.length() - 4);
+			
+			command = PlaceholderFormatter.parseToString(sender, command);
 			
 			for(int i = 1; i <= args.length; i++) {
 				if(command.contains("$" + i))
