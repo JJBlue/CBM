@@ -18,7 +18,6 @@ Futures:
 	
 	Commands:
 	- alert player
-	- alias commands
 	- attachcommand to items (NBT ?)
 	- money
 	- ban
