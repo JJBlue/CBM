@@ -22,7 +22,7 @@ afk:
 command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
 command-spy:
-  toggled: §eCommand spy toggled to &6$1
+  toggled: §eCommand spy toggled to §6$1
 god:
   enabled: §eGod mod is now enabled
   disabled: §eGod mod is now disabled
