@@ -37,4 +37,10 @@ public class RecipeIterator_v1_14 implements RecipeIterator {
 		if(currentIterator == null) return null;
 		return currentIterator.next().toBukkitRecipe();
 	}
+	
+	@Override
+	public void remove() {
+		if(currentIterator == null) return;
+		currentIterator.remove();
+	}
 }
