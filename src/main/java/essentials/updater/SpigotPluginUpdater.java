@@ -6,20 +6,30 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+import com.google.common.io.Files;
+
 import components.classes.Static;
 import components.downloader.Downloader;
 import essentials.main.Main;
 
-public class CBMUpdater {
-	public static String getVersion() {
+public class SpigotPluginUpdater {
+	
+	private final int pluginID; //CBM = 70992
+	private File lastDownloadedFile;
+	
+	public SpigotPluginUpdater(int ID) {
+		this.pluginID = ID;
+	}
+	
+	public String getVersion() {
 		return Main.getPlugin().getDescription().getVersion();
 	}
 	
-	public static int getPluginID() {
-		return 70992;
+	public int getPluginID() {
+		return pluginID;
 	}
 	
-	public static String getOnlineVersion() {
+	public String getOnlineVersion() {
 		Scanner scanner = null;
 		URLConnection connection = null;
 		
@@ -52,16 +62,35 @@ public class CBMUpdater {
 		return null;
 	}
 	
-	public static boolean hasNewerVersion() {
+	public boolean hasNewerVersion() {
 		return Static.isHeigherVersion(getVersion(), getOnlineVersion());
 	}
 	
-	/*
-	 * WARNING! Maybe you must restart your Server.
-	 */
-	public static void download() {
+	public synchronized void download() {
+		if(!hasNewerVersion() || lastDownloadedFile.exists()) return;
+		
 		try {
-			Downloader.downloadFile("https://api.spiget.org/v2/resources/" + getPluginID() + "/download", new File(Main.getPlugin().getDataFolder().getParentFile(), Main.getPlugin().getName() +".jar"), -1, null);
+			lastDownloadedFile = new File(ServerManager.getDownloadFolder(), Main.getPlugin().getName() +".jar");
+			
+			Downloader.downloadFile(
+				"https://api.spiget.org/v2/resources/" + getPluginID() + "/download",
+				lastDownloadedFile,
+				-1,
+				null
+			);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * WARNING! Maybe you need to restart the Server
+	 */
+	public synchronized void install() {
+		if(!lastDownloadedFile.exists()) return;
+		
+		try {
+			Files.move(lastDownloadedFile, Main.getPlugin().getDataFolder().getParentFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
