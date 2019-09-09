@@ -15,10 +15,16 @@ import essentials.main.Main;
 public class SpigotPluginUpdater {
 	
 	private final int pluginID; //CBM = 70992
+	private String name;
 	private File lastDownloadedFile;
 	
 	public SpigotPluginUpdater(int ID) {
 		this.pluginID = ID;
+	}
+	
+	public SpigotPluginUpdater(int ID, String name) {
+		this.pluginID = ID;
+		this.name = name;
 	}
 	
 	public String getVersion() {
@@ -94,5 +100,13 @@ public class SpigotPluginUpdater {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
