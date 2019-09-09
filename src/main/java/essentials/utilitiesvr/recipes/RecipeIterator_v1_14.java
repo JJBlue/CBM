@@ -8,9 +8,6 @@ import org.bukkit.inventory.Recipe;
 import net.minecraft.server.v1_14_R1.IRecipe;
 import net.minecraft.server.v1_14_R1.MinecraftKey;
 
-/*
- * Didn't work. Minecraft isn't support this
- */
 public class RecipeIterator_v1_14 implements RecipeIterator {
 	Iterator<? extends Map<MinecraftKey, IRecipe<?>>> iterator;
 	Iterator<IRecipe<?>> currentIterator;
