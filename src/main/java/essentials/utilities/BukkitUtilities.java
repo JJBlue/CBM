@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.entity.Player;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.plugin.Plugin;
 
@@ -59,5 +60,13 @@ public class BukkitUtilities {
 		if(ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
 			return BukkitUtilities_v1_14.getSimpleCommandMap();
 		return BukkitUtilitiesReflection.getSimpleCommandMap();
+	}
+	
+	public static void broadcast(String message, String permission) {
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			if(player.isOp() || player.hasPermission(permission))
+				player.sendMessage(message);
+		}
+		Bukkit.getConsoleSender().sendMessage(message);
 	}
 }

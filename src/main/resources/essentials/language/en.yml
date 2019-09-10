@@ -57,6 +57,16 @@ trade:
   sendTrade: $1 send you a Trade Request
   gotTrade: You got a Trade Request from $1
   expired: Trade Request from $1 is expired
+updater:
+  no-new-versions: §eNo Updates available
+  new-versions: '§eUpdates available: §6$1'
+  install-need-confirm: §4Warning!§e Server must be restarted after installing. Please type /cbm updater update confirm
+  install-confirm: §eStart to install Updates
+  download: §eStart to downloading Updates
+  download-complete: §eDownload is completed
+  download-plugin: §eDownloading Plugin $1
+  install-complete: §eInstalling is completed
+  install-plugin: §eInstalling Plugin $1
 version:
   current-version: §eCurrent Version is §6$1
   new-version: §eAn Update is available. Newer Version is §6$1

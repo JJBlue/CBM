@@ -7,10 +7,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import components.classes.Files;
+import org.bukkit.Bukkit;
 
-public class ServerManager {
-	private ServerManager() {}
+import components.classes.Files;
+import essentials.language.LanguageConfig;
+import essentials.permissions.PermissionHelper;
+import essentials.utilities.BukkitUtilities;
+
+public class UpdaterServerManager {
+	private UpdaterServerManager() {}
 	
 	static Map<Integer, SpigotPluginUpdater> plugins = Collections.synchronizedMap(new HashMap<>());
 	static File downloadFolder;
@@ -42,12 +47,12 @@ public class ServerManager {
 	
 	public static void restart() {
 		//TODO
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 	}
 	
-	public static void updateInstallAndRestart() {
+	public static void updateInstall() {
 		update();
 		install();
-		restart();
 	}
 	
 	public static List<String> checkForUpdate() {
@@ -68,16 +73,26 @@ public class ServerManager {
 	
 	public static void update() {
 		synchronized (plugins) {
-			for(SpigotPluginUpdater plugin : plugins.values())
+			for(SpigotPluginUpdater plugin : plugins.values()) {
 				plugin.download();
+				BukkitUtilities.broadcast(LanguageConfig.getString("updater.download-plugin", plugin.getName()), PermissionHelper.getPermission("updater.seeBroadcast"));
+			}
 		}
+		
+		BukkitUtilities.broadcast(LanguageConfig.getString("updater.download-complete"), PermissionHelper.getPermission("updater.seeBroadcast"));
 	}
 	
 	public static void install() {
 		synchronized (plugins) {
-			for(SpigotPluginUpdater plugin : plugins.values())
+			for(SpigotPluginUpdater plugin : plugins.values()) {
 				plugin.install();
+				BukkitUtilities.broadcast(LanguageConfig.getString("updater.install-plugin", plugin.getName()), PermissionHelper.getPermission("updater.seeBroadcast"));
+			}
 		}
+		
+		BukkitUtilities.broadcast(LanguageConfig.getString("updater.install-complete"), PermissionHelper.getPermission("updater.seeBroadcast"));
+		
+		restart();
 	}
 	
 	public static void cleanUpFolder() {
@@ -89,6 +104,6 @@ public class ServerManager {
 	}
 
 	public static void setDownloadFolder(File downloadFolder) {
-		ServerManager.downloadFolder = downloadFolder;
+		UpdaterServerManager.downloadFolder = downloadFolder;
 	}
 }

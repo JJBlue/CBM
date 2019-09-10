@@ -53,6 +53,7 @@ import essentials.pluginmanager.DisableEnable;
 import essentials.status.SystemStatus;
 import essentials.timer.TimerCommand;
 import essentials.updater.SpigotPluginUpdater;
+import essentials.updater.UpdaterCommand;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -675,6 +676,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
+			case "updater":
+				
+				return UpdaterCommand.updaterCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				
 			case "uuid":
 				if(args.length < 2) break;
 				
@@ -781,6 +786,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("teleport");
 			returnArguments.add("timer");
 			returnArguments.add("trade");
+			returnArguments.add("updater");
 			returnArguments.add("uuid");
 			returnArguments.add("version");
 			returnArguments.add("wallGhost");
@@ -924,6 +930,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					else if(args.length == 3) returnArguments.add("<Player,Player...>");
 					
 					break;
+					
+				case "updater":
+					
+					return UpdaterCommand.updaterCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 				case "hide":
 				case "lightning":

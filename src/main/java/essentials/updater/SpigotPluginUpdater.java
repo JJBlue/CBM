@@ -81,11 +81,16 @@ public class SpigotPluginUpdater {
 		return Static.isHeigherVersion(getVersion(), getOnlineVersion());
 	}
 	
+	/**
+	 * You need a name to download a file.
+	 */
 	public synchronized void download() {
-		if(!hasNewerVersion() || lastDownloadedFile.exists()) return;
+		if(!hasNewerVersion() || (lastDownloadedFile != null && lastDownloadedFile.exists())) return;
+		if(name == null) return;
 		
 		try {
-			lastDownloadedFile = new File(ServerManager.getDownloadFolder(), Main.getPlugin().getName() +".jar");
+			UpdaterServerManager.getDownloadFolder().mkdirs();
+			lastDownloadedFile = new File(UpdaterServerManager.getDownloadFolder(), name +".jar");
 			
 			Downloader.downloadFile(
 				"https://api.spiget.org/v2/resources/" + getPluginID() + "/download",
@@ -102,10 +107,10 @@ public class SpigotPluginUpdater {
 	 * WARNING! Maybe you need to restart the Server
 	 */
 	public synchronized void install() {
-		if(!lastDownloadedFile.exists()) return;
+		if(lastDownloadedFile == null || !lastDownloadedFile.exists()) return;
 		
 		try {
-			Files.move(lastDownloadedFile, Main.getPlugin().getDataFolder().getParentFile());
+			Files.move(lastDownloadedFile, new File(Main.getPlugin().getDataFolder().getParentFile() + "/" + lastDownloadedFile.getName()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

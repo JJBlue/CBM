@@ -3,7 +3,6 @@ package essentials.main;
 import java.io.File;
 import java.time.LocalDateTime;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,6 +42,8 @@ import essentials.pluginmanager.DisableEnable;
 import essentials.tablist.Tablist;
 import essentials.timer.TimerConfig;
 import essentials.timer.TimerListener;
+import essentials.updater.UpdaterConfig;
+import essentials.updater.UpdaterServerManager;
 import essentials.warpmanager.WarpManager;
 
 public class Main extends JavaPlugin implements Listener{
@@ -113,14 +114,9 @@ public class Main extends JavaPlugin implements Listener{
 			PlayerListener.join(player);
 		
 		if(!MainConfig.isFirstTime() && MainConfig.useBStats())
-			enableBStats();
+			bStats.enableBStats();
 		
 		reload();
-	}
-	
-	public void enableBStats() {
-		Metrics metrics = new Metrics(this);
-		metrics.addCustomChart(new Metrics.SimplePie("language", () -> LanguageConfig.getLanguage()));
 	}
 	
 	@Override
@@ -130,6 +126,13 @@ public class Main extends JavaPlugin implements Listener{
 		unloadHelper(() -> Tablist.unload());
 		unloadHelper(() -> CommandOnBlock.unload());
 		unloadHelper(() -> PlayerManager.unload());
+		
+		unloadHelper(() -> {
+			if(UpdaterConfig.isInstallOnShutdown())
+				UpdaterServerManager.install();
+			
+			UpdaterServerManager.unload();
+		});
 		
 		unloadHelper(() -> Databases.unload());
 		
@@ -155,6 +158,7 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	public static void reload() {
+		UpdaterServerManager.load();
 		CustomAlias.load();
 		LanguageConfig.load();
 		Tablist.load();
