@@ -86,9 +86,9 @@ public class SpigotPluginUpdater {
 		version = version.toLowerCase();
 		onlineVersion = onlineVersion.toLowerCase();
 		
-		return Static.isHeigherVersion(getVersion(), getOnlineVersion());
+		return Static.isHeigherVersion(version, onlineVersion);
 	}
-	
+		
 	/**
 	 * You need a name to download a file.
 	 */

@@ -113,6 +113,8 @@ public class Static {
     }
 	
 	public static boolean isHeigherVersion(String v1, String v2) {
+		if(v1.equalsIgnoreCase(v2)) return false;
+		
 		if(v1.contains("*") || v2.contains("*")) {
 			String[] splitV1 = v1.split("\\.");
 			String[] splitV2 = v2.split("\\.");
