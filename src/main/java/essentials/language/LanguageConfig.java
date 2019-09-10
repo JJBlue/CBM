@@ -96,7 +96,7 @@ public class LanguageConfig {
 				m += "$" + i + " ";
 		}
 		
-		for(int i = 1; i <= args.length; i++)
+		for(int i = args.length; i > 0; i--)
 			m = m.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
 		
 		m = m.replaceAll("(?<!\\\\)\\\\n", "\n");

@@ -125,7 +125,7 @@ public class CustomAlias {
 							if(command.contains("$" + args.length)) {
 								command = command.substring(0, command.indexOf("$" + args.length));
 							} else {
-								for(int i = 1; i <= args.length; i++) {
+								for(int i = args.length; i > 0; i--) {
 									if(command.contains("$" + i))
 										command = command.replace("$" + i, args[i - 1]);
 									else if(dots3)
@@ -233,7 +233,7 @@ public class CustomAlias {
 			
 			command = PlaceholderFormatter.parseToString(sender, command);
 			
-			for(int i = 1; i <= args.length; i++) {
+			for(int i = args.length; i > 0; i--) {
 				if(command.contains("$" + i))
 					command = command.replace("$" + i, args[i - 1]);
 				else if(dots3)

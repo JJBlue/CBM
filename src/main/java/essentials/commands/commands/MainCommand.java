@@ -260,12 +260,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 							p1.setHealth(Integer.parseInt(args[2]));
 						}catch(NumberFormatException nfe){}
 					
-					sender.sendMessage(args[1] +  " wurde geheilt");
+					LanguageConfig.sendMessage(p1, "heal.heal-Player", args[1]);
 				} else {
 					if(p == null) return true;
 					
 					p.setHealth(p.getHealthScale());
-					sender.sendMessage("Du wurdest geheilt");
+					LanguageConfig.sendMessage(p, "heal.heal");
 				}
 				
 				break;
@@ -287,10 +287,10 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					
 					if(MainListener.hide.contains(p)){
 						MainListener.hide.remove(p);
-						sender.sendMessage(p1.getName() + " sind jetzt unsichtbar");
+						LanguageConfig.sendMessage(sender, "hide.invisible-Player", p1.getName());
 					} else {
 						MainListener.hide.add(p);
-						sender.sendMessage(p1.getName() + " sind jetzt sichtbar");
+						LanguageConfig.sendMessage(sender, "hide.visible-Player", p1.getName());
 					}
 					
 					break;

@@ -23,13 +23,19 @@ command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
 command-spy:
   toggled: §eCommand spy toggled to §6$1
+heal:
+  heal-Player: §6$1 §ewere healed
+  heal: §eYou were healed
+hide:
+  invisible-Player: §6$1 §eare invisible
+  visible-Player: §6$1 §eare visible
 god:
   enabled: §eGod mod is now enabled
   disabled: §eGod mod is now disabled
   enabled-Player: §eGod mod is enabled for $6$1
   disabled-Player: §eGod mod is disabled for $6$1
 info:
-  info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAuthors: §6$6\n§eWebsite: §6$7\n§eDescription: §6$8\n§eDepend: §6$9\n§eSoftDepend: §6$1'
+  info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAuthors: §6$6\n§eWebsite: §6$7\n§eDescription: §6$8\n§eDepend: §6$9\n§eSoftDepend: §6$10'
 language:
   change: §eLanguage changed to §6$1
 mute:
