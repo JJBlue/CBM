@@ -18,9 +18,14 @@ public class RecipeIterator_v1_14 implements RecipeIterator {
 
 	@Override
 	public boolean hasNext() {
+		if(iterator == null) return false;
+		
 		if(currentIterator == null || !currentIterator.hasNext()) {
 			while(iterator.hasNext()) {
 				currentIterator = iterator.next().values().iterator();
+				
+				if(currentIterator == null) continue;
+				
 				if(currentIterator.hasNext())
 					return true;
 			}
@@ -31,6 +36,8 @@ public class RecipeIterator_v1_14 implements RecipeIterator {
 
 	@Override
 	public Recipe next() {
+		hasNext();
+		
 		if(currentIterator == null) return null;
 		return currentIterator.next().toBukkitRecipe();
 	}
