@@ -23,9 +23,10 @@ public class UpdaterConfig {
 		{
 			if(!configFile.exists()) {
 				try {
+					configFile.createNewFile();
 					FileWriter writer = new FileWriter(configFile);
 					writer.append("# UpdatePlugins.ID: Is needed. ID of the Plugin in Spigot. You can find the ID for example in the Spigot URL");
-					writer.append("# UpdatePlugins.name: Is needed. The downloaded file is renamed to this name");
+					writer.append("\n# UpdatePlugins.name: Is needed. The downloaded file is renamed to this name");
 					writer.close();
 				} catch (IOException e) {
 					e.printStackTrace();

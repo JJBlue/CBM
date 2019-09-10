@@ -28,10 +28,12 @@ public class MainConfig {
 		
 		if(isFirstTime) {
 			try {
+				configFile.getParentFile().mkdirs();
+				configFile.createNewFile();
 				FileWriter writer = new FileWriter(configFile);
 				writer.append("# Restart: Commands or scripts to be executed when restarting");
-				writer.append("#          !file <File>: Means to execute a file");
-				writer.append("#          <Command>: Execute a command");
+				writer.append("\n#          !file <File>: Means to execute a file");
+				writer.append("\n#          <Command>: Execute a command");
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();

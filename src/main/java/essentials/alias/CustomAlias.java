@@ -34,6 +34,7 @@ public class CustomAlias {
 		
 		if(!file.exists()) {
 			try {
+				file.createNewFile();
 				FileWriter writer = new FileWriter(file);
 				writer.append("# extraPermission: This command has a additional Permission. ExtraPermission: CustomAlias.command.<Command>");
 				writer.append("\n# cmds: All Commands to be executed");

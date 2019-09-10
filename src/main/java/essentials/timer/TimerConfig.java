@@ -21,9 +21,9 @@ public class TimerConfig {
 	public static void load() {
 		file = new File(MainConfig.getDataFolder(), "timer.yml");
 		
-		
 		if(!file.exists()) {
 			try {
+				file.createNewFile();
 				FileWriter writer = new FileWriter(file);
 				writer.write("#Name of the timer. This Timer is called 'default'. You need for each Timer: position, title, (color), maxValue, countUpOrDown");
 				writer.write("\ndefault:");
