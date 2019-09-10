@@ -536,6 +536,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					break;
 				}
 				
+			case "restart":
+				
+				MainConfig.restart();
+				
+				break;
+				
 			case "seen":
 				{
 					try {
@@ -783,6 +789,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("status");
 			returnArguments.add("sudo");
 			returnArguments.add("speed");
+			returnArguments.add("restart");
 			returnArguments.add("teleport");
 			returnArguments.add("timer");
 			returnArguments.add("trade");
