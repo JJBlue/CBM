@@ -23,6 +23,9 @@ command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
 command-spy:
   toggled: §eCommand spy toggled to §6$1
+feed:
+  feed-Player: §6$1 §ewere fed
+  feed: §eYou were fed
 heal:
   heal-Player: §6$1 §ewere healed
   heal: §eYou were healed
@@ -41,7 +44,7 @@ language:
 mute:
   enabled-Command: §6$1 §eis now muted
   disabled-Command: §6$1 is no longer muted
-  enabled-Player: §eYou were muted
+  enabled-Player: §eYou were mu ted
   disabled-Player: §eYou were unmuted
 seen:
   loginSince: §ePlayer $1 is online since $2
@@ -56,6 +59,9 @@ trade:
   expired: Trade Request from $1 is expired
 version:
   current-version: §eCurrent Version is $1
+wallghost:
+  add-Player: '§eWallGhost added Player <§6$1§e>'
+  remove-Player: '§eWallGhost removed Player <§6$1§e>'
 weather:
   changeTo-sun: World $1 changed weather to sunny weather
   changeTo-rain: World $1 changed wather to rainy weather

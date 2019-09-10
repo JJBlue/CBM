@@ -19,6 +19,8 @@ public class LanguageConfig {
 	private static File file;
 	private static FileConfiguration configuration;
 	
+	private static FileConfiguration fallback;
+	
 	static {
 		File f = new File(MainConfig.getDataFolder(), "language/example.yml");
 		f.getParentFile().mkdirs();
@@ -46,9 +48,10 @@ public class LanguageConfig {
 	
 	public static void load() {		
 		File l = new File(MainConfig.getDataFolder(), "language/" + getLanguage() + ".yml");
-		if(!l.exists()) {
+		if(l.exists()) {
 			try {
-				configuration = ConfigLoader.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
+				configuration = ConfigLoader.loadConfig(l, "UTF-8");
+				file = l;
 			} catch (InvalidConfigurationException | IOException e) {
 				e.printStackTrace();
 			}
@@ -56,8 +59,7 @@ public class LanguageConfig {
 		}
 		
 		try {
-			configuration = ConfigLoader.loadConfig(l, "UTF-8");
-			file = l;
+			fallback = ConfigLoader.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
 		} catch (InvalidConfigurationException | IOException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +83,12 @@ public class LanguageConfig {
 	}
 	
 	public static String getString(String key) {
-		return configuration.getString(key);
+		if(configuration != null) {
+			String r = configuration.getString(key);
+			if(r != null)
+				return r;
+		}
+		return fallback.getString(key);
 	}
 	
 	public static String getString(String key, String... args) {
@@ -90,7 +97,7 @@ public class LanguageConfig {
 		if(m == null) {
 			addMissingStringToExample(key);
 			
-			m = "§4Message is missing! Paramters: "; //TODO Fallback
+			m = "§4Message is missing! Paramters: ";
 			
 			for(int i = 1; i <= args.length; i++)
 				m += "$" + i + " ";

@@ -185,12 +185,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 								p1.setFoodLevel(Integer.parseInt(args[2]));
 							}catch(NumberFormatException nfe){}
 						
-						sender.sendMessage(args[1] +  " wurdest gefuettert");
+						LanguageConfig.sendMessage(sender, "feed.feed-Player", args[1]);
 					} else {
 						if(p == null) return true;
 						
 						p.setFoodLevel(20);
-						sender.sendMessage("Du wurdest gefuettert");
+						LanguageConfig.sendMessage(sender, "feed.feed");
 					}
 					
 					break;
@@ -260,12 +260,12 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 							p1.setHealth(Integer.parseInt(args[2]));
 						}catch(NumberFormatException nfe){}
 					
-					LanguageConfig.sendMessage(p1, "heal.heal-Player", args[1]);
+					LanguageConfig.sendMessage(sender, "heal.heal-Player", args[1]);
 				} else {
 					if(p == null) return true;
 					
 					p.setHealth(p.getHealthScale());
-					LanguageConfig.sendMessage(p, "heal.heal");
+					LanguageConfig.sendMessage(sender, "heal.heal");
 				}
 				
 				break;
@@ -410,7 +410,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					try{
 						is.setAmount(Integer.parseInt(args[0]));
 					}catch(NumberFormatException nfe){
-						sender.sendMessage("§4" + args[0] + " ist keine Zahl");
+						LanguageConfig.sendMessage(sender, "error.NumberFormatException", args[0]);
 					}
 				
 				break;
@@ -701,17 +701,17 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				
 				if(args.length <= 1) {
 					if(FTB.toogle(p))
-						sender.sendMessage("WallGhost: Player <" + p.getName() + "> hinzugefuegt");
+						LanguageConfig.sendMessage(sender, "wallghost.add-Player", p.getName());
 					else
-						sender.sendMessage("WallGhost: Player <" + p.getName() + "> entfernt");
+						LanguageConfig.sendMessage(sender, "wallghost.remove-Player", p.getName());
 				} else {
 					Player p2 = Bukkit.getPlayer(args[1]);
 					if(p2 == null) break;
 					
 					if(FTB.toogle(p2))
-						sender.sendMessage("WallGhost: Player <" + args[1] + "> hinzugefuegt");
+						LanguageConfig.sendMessage(sender, "wallghost.add-Player", args[1]);
 					else
-						sender.sendMessage("WallGhost: Player <" + args[1] + "> entfernt");
+						LanguageConfig.sendMessage(sender, "wallghost.add-Player", args[1]);
 				}
 				
 				break;
