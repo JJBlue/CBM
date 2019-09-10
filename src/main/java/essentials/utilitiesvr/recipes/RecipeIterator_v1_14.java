@@ -31,7 +31,9 @@ public class RecipeIterator_v1_14 implements RecipeIterator {
 			}
 		}
 		
-		return currentIterator.hasNext();
+		if(currentIterator != null)
+			return currentIterator.hasNext();
+		return false;
 	}
 
 	@Override
