@@ -6,6 +6,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+
 import com.google.common.io.Files;
 
 import components.classes.Static;
@@ -28,7 +31,13 @@ public class SpigotPluginUpdater {
 	}
 	
 	public String getVersion() {
-		return Main.getPlugin().getDescription().getVersion();
+		if(name == null)
+			return null;
+		
+		Plugin plugin = Bukkit.getPluginManager().getPlugin(name);
+		if(plugin == null)
+			return null;
+		return plugin.getDescription().getVersion();
 	}
 	
 	public int getPluginID() {

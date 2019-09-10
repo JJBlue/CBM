@@ -52,6 +52,7 @@ import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.pluginmanager.DisableEnable;
 import essentials.status.SystemStatus;
 import essentials.timer.TimerCommand;
+import essentials.updater.SpigotPluginUpdater;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
@@ -686,6 +687,9 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			case "version":
 				
 				LanguageConfig.sendMessage(sender, "version.current-version", Main.getPlugin().getDescription().getVersion());
+				SpigotPluginUpdater spu = new SpigotPluginUpdater(70992);
+				if(spu.hasNewerVersion())
+					LanguageConfig.sendMessage(sender, "version.new-version", spu.getOnlineVersion());
 				
 				break;
 				

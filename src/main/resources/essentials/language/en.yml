@@ -58,7 +58,8 @@ trade:
   gotTrade: You got a Trade Request from $1
   expired: Trade Request from $1 is expired
 version:
-  current-version: §eCurrent Version is $1
+  current-version: §eCurrent Version is §6$1
+  new-version: §eAn Update is available. Newer Version is §6$1
 wallghost:
   add-Player: '§eWallGhost added Player <§6$1§e>'
   remove-Player: '§eWallGhost removed Player <§6$1§e>'

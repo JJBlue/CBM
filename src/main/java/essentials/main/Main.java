@@ -3,6 +3,7 @@ package essentials.main;
 import java.io.File;
 import java.time.LocalDateTime;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -111,7 +112,15 @@ public class Main extends JavaPlugin implements Listener{
 		for(Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
 		
+		if(!MainConfig.isFirstTime() && MainConfig.useBStats())
+			enableBStats();
+		
 		reload();
+	}
+	
+	public void enableBStats() {
+		Metrics metrics = new Metrics(this);
+		metrics.addCustomChart(new Metrics.SimplePie("language", () -> LanguageConfig.getLanguage()));
 	}
 	
 	@Override

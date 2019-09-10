@@ -1,13 +1,14 @@
 package essentials.config;
 
-import essentials.main.Main;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import essentials.main.Main;
 
 public class MainConfig {
 	private MainConfig() {}
@@ -15,12 +16,23 @@ public class MainConfig {
 	private static File configFile;
 	private static FileConfiguration configuration;
 	
+	private static boolean isFirstTime;
+	private static String lastVerstionRun;
+	private static boolean useBStats;
+	
 	public static void reload() {
 		configFile = new File(Main.getPlugin().getDataFolder(), "config.yml");
+		isFirstTime = !configFile.exists();
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		configuration.options().copyDefaults(true);
 		
+		//Plugin
 		configuration.addDefault(MainConfigEnum.DataFolder.value, "-");
+		configuration.addDefault(MainConfigEnum.Language.value, "en");
+		lastVerstionRun = configuration.getString(MainConfigEnum.lastVersionRun.value);
+		configuration.set(MainConfigEnum.lastVersionRun.value, Main.getPlugin().getDescription().getVersion());
+		
+		//Server
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
 		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll");
 		
@@ -34,12 +46,9 @@ public class MainConfig {
 		
 		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing");
 		
-		//TODO remove later
-		String folder = configuration.getString(MainConfigEnum.DataFolder.value);
-		if(new File(folder).equals(new File("./plugins/Allgemein/")))
-			configuration.set(MainConfigEnum.DataFolder.value, "-");
-		
-		configuration.addDefault(MainConfigEnum.Language.value, "en");
+		//bstats
+		useBStats = configuration.getBoolean(MainConfigEnum.bStatsEnable.value);
+		configuration.addDefault(MainConfigEnum.bStatsEnable.value, true);
 		
 		save();
 	}
@@ -117,5 +126,21 @@ public class MainConfig {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static boolean isFirstTime() {
+		return isFirstTime;
+	}
+
+	public static FileConfiguration getConfiguration() {
+		return configuration;
+	}
+
+	public static String getLastVerstionRun() {
+		return lastVerstionRun;
+	}
+
+	public static boolean useBStats() {
+		return useBStats;
 	}
 }

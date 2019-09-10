@@ -6,11 +6,15 @@ public enum MainConfigEnum {
 	JoinPlayersWhenFull("server.joinPlayersWhenFull"),
 	CouldOperators("server.couldOperator"),
 	Motd("server.motd"),
+	
 	Language("plugin.language"),
 	DataFolder("plugin.dataFolder"),
+	lastVersionRun("plugin.lastVersionRun"),
+	
+	bStatsEnable("bStats.enable"),
 	;
 	
-	final String value;
+	public final String value;
 	private MainConfigEnum(String key) {
 		value = key;
 	}
