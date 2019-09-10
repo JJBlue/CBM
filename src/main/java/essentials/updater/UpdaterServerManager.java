@@ -7,9 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
-
 import components.classes.Files;
+import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.permissions.PermissionHelper;
 import essentials.utilities.BukkitUtilities;
@@ -46,8 +45,7 @@ public class UpdaterServerManager {
 	}
 	
 	public static void restart() {
-		//TODO
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+		MainConfig.restart();
 	}
 	
 	public static void updateInstall() {

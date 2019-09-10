@@ -1,6 +1,7 @@
 package essentials.updater;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,6 +19,20 @@ public class UpdaterConfig {
 	
 	public static void load() {
 		configFile = new File(MainConfig.getDataFolder(), "Updater.yml");
+		
+		{
+			if(!configFile.exists()) {
+				try {
+					FileWriter writer = new FileWriter(configFile);
+					writer.append("# UpdatePlugins.ID: Is needed. ID of the Plugin in Spigot. You can find the ID for example in the Spigot URL");
+					writer.append("# UpdatePlugins.name: Is needed. The downloaded file is renamed to this name");
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		
 		//Load default

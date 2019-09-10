@@ -1,10 +1,12 @@
 package essentials.config;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -23,6 +25,19 @@ public class MainConfig {
 	public static void reload() {
 		configFile = new File(Main.getPlugin().getDataFolder(), "config.yml");
 		isFirstTime = !configFile.exists();
+		
+		if(isFirstTime) {
+			try {
+				FileWriter writer = new FileWriter(configFile);
+				writer.append("# Restart: Commands or scripts to be executed when restarting");
+				writer.append("#          !file <File>: Means to execute a file");
+				writer.append("#          <Command>: Execute a command");
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		configuration.options().copyDefaults(true);
 		
@@ -45,6 +60,10 @@ public class MainConfig {
 		configuration.addDefault(MainConfigEnum.CouldOperators.value, list);
 		
 		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing");
+		
+		List<String> stringsTmp = new LinkedList<>();
+		stringsTmp.add("stop");
+		configuration.addDefault(MainConfigEnum.Restart.value, stringsTmp);
 		
 		//bstats
 		useBStats = configuration.getBoolean(MainConfigEnum.bStatsEnable.value);
@@ -142,5 +161,27 @@ public class MainConfig {
 
 	public static boolean useBStats() {
 		return useBStats;
+	}
+
+	public static void restart() {
+		//TODO
+		List<String> restartList = configuration.getStringList(MainConfigEnum.Restart.value);
+		
+		for(String element : restartList) {
+			if(element.startsWith("!file")) {
+				if(element.length() <= 6) continue;
+				element = element.substring(6, element.length());
+				
+				File file = new File(element);
+				if(!file.exists() || file.isDirectory()) continue;
+				
+				try {
+					Runtime.getRuntime().exec(file.getAbsolutePath(), null, file.getParentFile());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), element);
+		}
 	}
 }
