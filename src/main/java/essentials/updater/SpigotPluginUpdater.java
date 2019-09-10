@@ -78,6 +78,14 @@ public class SpigotPluginUpdater {
 	}
 	
 	public boolean hasNewerVersion() {
+		String version = getVersion();
+		String onlineVersion = getOnlineVersion();
+		
+		if(version == null || onlineVersion == null) return false;
+		
+		version = version.toLowerCase();
+		onlineVersion = onlineVersion.toLowerCase();
+		
 		return Static.isHeigherVersion(getVersion(), getOnlineVersion());
 	}
 	
