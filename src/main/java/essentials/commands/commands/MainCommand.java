@@ -28,38 +28,38 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import essentials.commands.NameTag.nt;
-import essentials.commands.armorstand.ArmorstandCommands;
-import essentials.commands.commandonobject.CoBCommands;
-import essentials.commands.commandspy.CommandSpy;
-import essentials.commands.skull.Skullitem;
-import essentials.commands.teleport.teleportCommand;
-import essentials.commands.trade.TradeCommands;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
-import essentials.listeners.MainListener;
-import essentials.listeners.FlyThrowBlocks.FTB;
-import essentials.listeners.MapPaint.MPCommand;
-import essentials.listeners.chair.chair;
-import essentials.main.Deop;
-import essentials.main.Join;
 import essentials.main.Main;
-import essentials.permissions.PermissionHelper;
+import essentials.modules.Deop;
+import essentials.modules.Join;
+import essentials.modules.MainListener;
+import essentials.modules.FlyThrowBlocks.FTB;
+import essentials.modules.MapPaint.MPCommand;
+import essentials.modules.armorstandeditor.ArmorstandCommands;
+import essentials.modules.chair.chair;
+import essentials.modules.commandonobject.CoBCommands;
+import essentials.modules.commandspy.CommandSpy;
+import essentials.modules.pluginmanager.DisableEnable;
+import essentials.modules.skull.SkullInventory;
+import essentials.modules.teleport.teleportCommand;
+import essentials.modules.timer.TimerCommand;
+import essentials.modules.trade.TradeCommands;
+import essentials.modules.updater.SpigotPluginUpdater;
+import essentials.modules.updater.UpdaterCommand;
+import essentials.modules.warpmanager.warpCommands;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
-import essentials.pluginmanager.DisableEnable;
-import essentials.status.SystemStatus;
-import essentials.timer.TimerCommand;
-import essentials.updater.SpigotPluginUpdater;
-import essentials.updater.UpdaterCommand;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.TimeUtilities;
-import essentials.warpmanager.warpCommands;
+import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilities.system.SystemStatus;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
@@ -620,7 +620,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				}
 			case "skull":
 				
-				Skullitem.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				SkullInventory.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
 				
 			case "sudo":
@@ -857,7 +857,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 					
 				case "skull":
 					
-					return Skullitem.skullitem.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					return SkullInventory.skullitem.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "sudo":
 					

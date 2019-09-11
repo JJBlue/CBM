@@ -1,8 +1,9 @@
 package essentials.commands.commands;
 
-import essentials.permissions.PermissionHelper;
 import essentials.utilities.SignUtilities;
 import essentials.utilities.chat.ChatUtilities;
+import essentials.utilities.permissions.PermissionHelper;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
