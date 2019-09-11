@@ -1,4 +1,4 @@
-package essentials.modules.world;
+package essentials.modules.world.time;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

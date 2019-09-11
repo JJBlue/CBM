@@ -13,19 +13,19 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import java.util.LinkedList;
-import java.util.List;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
 
 public class chair implements Listener{
-	public final static List<Player> list = new LinkedList<Player>(); //sit player aktivate
-	
 	public static boolean toggle(Player player) {
-		if(!chair.list.contains(player)) {
-			chair.list.add(player);
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		
+		if(!config.containsLoadedKey("chair")) {
+			config.setTmp("chair", true);
 			return true;
 		}
 		
-		chair.list.remove(player);
+		config.removeBuffer("chair");
 		return false;
 	}
 	
@@ -60,23 +60,27 @@ public class chair implements Listener{
 	
 	@EventHandler
 	private void InteractEvent(PlayerInteractEvent e){
-		Player p = e.getPlayer();
+		Player player = e.getPlayer();
 		
 		if(e.getClickedBlock() == null) return;
-		if(list.isEmpty() || !list.contains(p)) return;
-		if(!p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+		if(!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+		
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		if(!config.containsLoadedKey("chair") || !config.getBoolean("chair")) return;
 		
 		Block b = e.getClickedBlock();	
 		Location l = b.getLocation();
 		
-		sit(p, l);
+		sit(player, l);
 	}
 	
 	@EventHandler
 	private void Interact(PlayerInteractAtEntityEvent e){
-		Player p = e.getPlayer();
-		if(list.isEmpty() || !list.contains(p)) return;
-		sitEntity(p, e.getRightClicked());
+		Player player = e.getPlayer();
+		
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		if(!config.containsLoadedKey("chair") || !config.getBoolean("chair")) return;
+		sitEntity(player, e.getRightClicked());
 	}
 	
 	@EventHandler
