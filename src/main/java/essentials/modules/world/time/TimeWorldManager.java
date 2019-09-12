@@ -1,13 +1,16 @@
 package essentials.modules.world.time;
 
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 import essentials.main.Main;
@@ -15,9 +18,9 @@ import essentials.main.Main;
 public class TimeWorldManager {
 	private static int taskID = -1;
 	
-	static TimeWorldValues defaultTWV; //TODO
-	private static Map<World, TimeWorldValues> map = new HashMap<>();
-	private static ReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
+	static TimeWorldValues defaultTWV;
+	private static Map<World, TimeWorldValues> map = Collections.synchronizedMap(new HashMap<>());
+	private static Map<World, BossBar> bossbars = Collections.synchronizedMap(new HashMap<>());
 	
 	/*
 	 * 	DAY:		1 000
@@ -89,25 +92,51 @@ public class TimeWorldManager {
 	}
 	
 	public static void addWorld(World world, TimeWorldValues timeWorldValues) {
-		readWriteLock.writeLock().lock();
 		map.put(world, timeWorldValues);
-		readWriteLock.writeLock().unlock();
 		startTimer();
 	}
 	
 	public static void clear() {
-		readWriteLock.writeLock().lock();
 		map.clear();
-		readWriteLock.writeLock().unlock();
 		stopTimer();
+	}
+	
+	public static void refreshSleepBossbar(World world, int currentPlayer, int maxPlayer) {
+		BossBar bossBar;
+		
+		if((bossBar = bossbars.get(world)) != null) {
+			
+		} else {
+			bossBar = Bukkit.createBossBar("Player sleeping: ", BarColor.WHITE, BarStyle.SOLID, new BarFlag[0]);
+			
+			bossBar.setVisible(true);
+			
+			for(Player player : world.getPlayers())
+				bossBar.addPlayer(player);
+		}
+		
+		bossBar.setTitle("Player sleeping: " + currentPlayer + "/" + maxPlayer);
+		bossBar.setProgress((1 / maxPlayer) * currentPlayer);
+	}
+	
+	public static void addBossBarPlayer(World world, Player player) {
+		BossBar bossBar = bossbars.get(world);
+		if(bossBar == null) return;
+		
+		bossBar.addPlayer(player);
+	}
+	
+	public static void removeBossBarPlayer(World world, Player player) {
+		BossBar bossBar = bossbars.get(world);
+		if(bossBar == null) return;
+		
+		bossBar.removePlayer(player);
 	}
 	
 	public synchronized static void startTimer() {
 		if(taskID != -1) return;
 		
 		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), () -> {
-			readWriteLock.readLock().lock();
-			
 			for(World world : Bukkit.getWorlds()) {
 				TimeWorldValues twv = map.get(world);
 				if(twv == null) twv = defaultTWV;
@@ -136,17 +165,23 @@ public class TimeWorldManager {
 								c++;
 						}
 						
-						if((100d / g) * c < twv.getMinPlayerSleepingPercent()) continue;
+						if((100d / g) * c < twv.getMinPlayerSleepingPercent()) {
+							bossbars.remove(world);
+							continue;
+						}
 						
 						long playerFactor = g != 0 ? 1 * (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
 						worldTime += playerFactor;
-					}
+						
+						if(twv.isUseBossBar())
+							refreshSleepBossbar(world, c, g);
+						
+					} else if(bossbars.containsKey(world))
+						bossbars.remove(world);
 					
 					world.setTime(worldTime);
 				}
 			}
-			
-			readWriteLock.readLock().unlock();
 		}, 0l, 1l);
 	}
 	

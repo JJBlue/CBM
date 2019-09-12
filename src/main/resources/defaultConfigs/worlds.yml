@@ -4,9 +4,11 @@ time:
     day-speed: 1
     night-speed: 1
     # sleep-speed is divided to all online-players
-    sleep-speed: 1
+    sleep-speed: 100
     # Min Player Sleeping to speed the night-time. Min value 0, max value 100
-    min-player-percent-sleeping: 0
+    min-player-percent-sleeping: 25
+    # Show a BossBar, how many persons are sleeping. Only shown if the min-player-percent-sleeping is reached
+    use-Sleep-BossBar:  true
     # The world time is set to real-time
     use-real-time: false
 # Worlds extra Configuration
@@ -17,4 +19,5 @@ worlds:
     time:
       enable: false
       sleep-speed: 100
-      min-player-sleeping: 1
+      min-player-percent-sleeping: 25
+      use-Sleep-BossBar:  true

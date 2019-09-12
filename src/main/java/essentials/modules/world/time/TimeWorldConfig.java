@@ -19,6 +19,7 @@ public class TimeWorldConfig {
 			defaultTWV.setSleepSpeedFactor(defaultSection.getDouble("sleep-speed"));
 			defaultTWV.setMinPlayerSleepingPercent(defaultSection.getInt("min-player-percent-sleeping"));
 			defaultTWV.setUseRealTime(defaultSection.getBoolean("use-real-time"));
+			defaultTWV.setUseBossBar(defaultSection.getBoolean("use-Sleep-BossBar"));
 			
 			TimeWorldManager.defaultTWV = defaultTWV;
 		} else
@@ -41,6 +42,7 @@ public class TimeWorldConfig {
 				worldTWV.setSleepSpeedFactor(worldSection.getDouble("sleep-speed"));
 				worldTWV.setMinPlayerSleepingPercent(worldSection.getInt("min-player-percent-sleeping"));
 				worldTWV.setUseRealTime(worldSection.getBoolean("use-real-time"));
+				worldTWV.setUseBossBar(worldSection.getBoolean("use-Sleep-BossBar"));
 				TimeWorldManager.addWorld(world, worldTWV);
 			}
 		}

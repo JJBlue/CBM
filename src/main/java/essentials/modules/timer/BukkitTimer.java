@@ -51,7 +51,7 @@ public class BukkitTimer {
 				bossBar = Bukkit.getServer().createBossBar(title, color, style, barFlags);
 				
 				for(Player player : Bukkit.getOnlinePlayers())
-					bossBar.addPlayer(player); //TODO Join Event
+					bossBar.addPlayer(player);
 				
 				bossBar.setVisible(true);
 				
