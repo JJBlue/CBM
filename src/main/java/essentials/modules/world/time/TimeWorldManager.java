@@ -102,21 +102,26 @@ public class TimeWorldManager {
 	}
 	
 	public static void refreshSleepBossbar(World world, int currentPlayer, int maxPlayer) {
-		BossBar bossBar;
+		if(maxPlayer == 0 || currentPlayer < 0) return;
 		
-		if((bossBar = bossbars.get(world)) != null) {
-			
-		} else {
-			bossBar = Bukkit.createBossBar("Player sleeping: ", BarColor.WHITE, BarStyle.SOLID, new BarFlag[0]);
-			
-			bossBar.setVisible(true);
-			
-			for(Player player : world.getPlayers())
-				bossBar.addPlayer(player);
+		BossBar bossBar = null;
+		synchronized (bossbars) {
+			if((bossBar = bossbars.get(world)) == null) {
+				bossBar = Bukkit.createBossBar("Player sleeping: ", BarColor.WHITE, BarStyle.SOLID, new BarFlag[0]);
+				
+				bossBar.setVisible(true);
+				
+				for(Player player : world.getPlayers())
+					bossBar.addPlayer(player);
+				
+				bossbars.put(world, bossBar);
+			}
 		}
 		
-		bossBar.setTitle("Player sleeping: " + currentPlayer + "/" + maxPlayer);
-		bossBar.setProgress((1 / maxPlayer) * currentPlayer);
+		if(bossBar != null) {
+			bossBar.setTitle("Player sleeping: " + currentPlayer + "/" + maxPlayer);
+			bossBar.setProgress((1d / maxPlayer) * currentPlayer);
+		}
 	}
 	
 	public static void addBossBarPlayer(World world, Player player) {
@@ -131,6 +136,12 @@ public class TimeWorldManager {
 		if(bossBar == null) return;
 		
 		bossBar.removePlayer(player);
+	}
+	
+	private static void removeBossBar(World world) {
+		BossBar bossBar = bossbars.remove(world);
+		if(bossBar == null) return;
+		bossBar.removeAll();
 	}
 	
 	public synchronized static void startTimer() {
@@ -166,7 +177,7 @@ public class TimeWorldManager {
 						}
 						
 						if((100d / g) * c < twv.getMinPlayerSleepingPercent()) {
-							bossbars.remove(world);
+							removeBossBar(world);
 							continue;
 						}
 						
@@ -177,7 +188,7 @@ public class TimeWorldManager {
 							refreshSleepBossbar(world, c, g);
 						
 					} else if(bossbars.containsKey(world))
-						bossbars.remove(world);
+						removeBossBar(world);
 					
 					world.setTime(worldTime);
 				}
