@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import essentials.main.Main;
 
@@ -28,8 +28,13 @@ public class MainConfig {
 		if(isFirstTime)
 			ConfigHelper.extractDefaultConfigs("config", configFile);
 		
-		configuration = YamlConfiguration.loadConfiguration(configFile);
-		configuration.options().copyDefaults(true);
+		try {
+			configuration = ConfigHelper.loadUTF8(configFile);
+		} catch (InvalidConfigurationException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(configuration.get(MainConfigEnum.Motd.value));
 		
 		//Plugin
 		configuration.addDefault(MainConfigEnum.DataFolder.value, "-");
@@ -59,6 +64,7 @@ public class MainConfig {
 		useBStats = configuration.getBoolean(MainConfigEnum.bStatsEnable.value);
 		configuration.addDefault(MainConfigEnum.bStatsEnable.value, true);
 		
+		configuration.options().copyDefaults(true);
 		save();
 	}
 	

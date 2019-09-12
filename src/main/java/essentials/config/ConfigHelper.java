@@ -31,6 +31,10 @@ public class ConfigHelper {
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(inputStream, Charset.forName(charsetName)));
 	}
 	
+	public static FileConfiguration loadUTF8(File file) throws InvalidConfigurationException, IOException {
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")));
+	}
+	
 	public static FileConfiguration loadConfig(File file, String charsetName) throws InvalidConfigurationException, IOException {
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Charset.forName(charsetName)));
 	}
@@ -50,6 +54,7 @@ public class ConfigHelper {
 		
 		try {
 			outputStream = new FileOutputStream(dest);
+			
 			while(inputStream.available() > 0)
 				outputStream.write(inputStream.read());
 		} catch (IOException e) {

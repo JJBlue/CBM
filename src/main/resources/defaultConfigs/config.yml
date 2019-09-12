@@ -1,6 +1,8 @@
+# Bukkit delete none Header Comments when saving the yml file
+# To see the deleted comments, go to the github repository and find unter resource the config file
 bStats:
   # Disable/Enable BStats. bStats is on the first start of the server disabled to generate this file
-  enable: false
+  enable: true
 server:
   # Restart: Commands or scripts to be executed when restarting
   restart:
