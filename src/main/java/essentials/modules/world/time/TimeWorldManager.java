@@ -30,13 +30,12 @@ public class TimeWorldManager {
 	
 	/*
 	 * 	Real-Time
-	 * 	Skip-Night (Percent of each Player)
-	 * 	Speed-Time (Factor)
+	 * 	Skip-Night (Percent of each Player), default 20
+	 * 	Speed-Time (Factor), default 50
 	 */
 	
-	
 	public static void addSlepSpeed(World world, double factor, int minPlayer) {
-		TimeWorldValues twv = new TimeWorldValues(TimeWorldEnum.SLEEP_SPEED);
+		TimeWorldValues twv = new TimeWorldValues();
 		twv.setStartMinPlayerSleeping(minPlayer);
 		twv.setSpeedFactor(factor);
 		
@@ -45,8 +44,15 @@ public class TimeWorldManager {
 	}
 
 	public static void addRealTime(World world) {
-		TimeWorldValues twv = new TimeWorldValues(TimeWorldEnum.REAL_TIME);
-		
+		TimeWorldValues twv = new TimeWorldValues();
+		twv.setUseRealTime(true);
+		addWorld(world, twv);
+		startTimer();
+	}
+	
+	public static void addTimeSpeed(World world, double factor) {
+		TimeWorldValues twv = new TimeWorldValues();
+		twv.setSpeedFactor(factor);
 		addWorld(world, twv);
 		startTimer();
 	}
@@ -63,12 +69,7 @@ public class TimeWorldManager {
 		int seconds = localTime.getSecond();
 		
 		/*
-		 * 0 = 18
-		 * 1 = 19
-		 * 2 = 20
-		 * 3 = 21
-		 * 4 = 22
-		 * 5 = 23
+		 * 0 = 18000
 		 * 6 uhr = 0 ticks
 		 * 7 = 1000
 		 * 8 = 2000
@@ -106,13 +107,20 @@ public class TimeWorldManager {
 				if(twv == null) twv = defaultTWV;
 				if(twv == null) continue;
 				
-				switch (twv.getTimeWorldEnum()) {
-					case REAL_TIME:
-						world.setTime(getRealTime());
-						break;
-					case SLEEP_SPEED:
-						if(world.getTime() > 1_000 || world.getTime() < 13_000) continue;
-						
+				if(twv.isUseRealTime())
+					world.setTime(getRealTime());
+				else {
+					
+					boolean isDay = world.getTime() > 1_000 && world.getTime() < 13_000;
+					long worldTime = world.getTime() - 1;
+					
+					if(isDay)
+						worldTime += (1 * twv.getDaySpeedFactor());
+					else
+						worldTime += (1 * twv.getNightSpeedFactor());
+					
+					//Sleep-Factor
+					if(!isDay && twv.getSleepSpeedFactor() != 1) {
 						int c = 0;
 						int g = 0;
 						for(Player player : world.getPlayers()) {
@@ -122,21 +130,11 @@ public class TimeWorldManager {
 								c++;
 						}
 						
-						if(c < twv.getStartMinPlayerSleeping())
-							continue;
-						
-						double playerFactor = (twv.getSpeedFactor() / g) * c;
-						
-						world.setTime((long) (world.getTime() - 1 + (1d * playerFactor)));
-						
-						break;
-					case SPEED_TIME:
-						
-						world.setTime((long) (world.getTime() - 1 + (1d * twv.getSpeedFactor())));
-						
-						break;
-					default:
-						break;
+						long playerFactor = g != 0 ? 1 * (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
+						worldTime += playerFactor;
+					}
+					
+					world.setTime(worldTime);
 				}
 			}
 			

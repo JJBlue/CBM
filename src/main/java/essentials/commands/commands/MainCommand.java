@@ -48,6 +48,7 @@ import essentials.modules.trade.TradeCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.updater.UpdaterCommand;
 import essentials.modules.warpmanager.warpCommands;
+import essentials.modules.world.time.TimeWorldManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
@@ -78,6 +79,18 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		if(!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 		
 		switch (args[0]) {
+			case "test":
+				TimeWorldManager.addSlepSpeed(p.getWorld(), 20, 0);
+				break;
+				
+			case "test2":
+				TimeWorldManager.addRealTime(p.getWorld());
+				break;
+				
+			case "test3":
+				TimeWorldManager.addTimeSpeed(p.getWorld(), 50);
+				break;
+		
 			case "afk":
 				{
 					Player p1 = null;
