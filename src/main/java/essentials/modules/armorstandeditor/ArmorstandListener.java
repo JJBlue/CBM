@@ -174,15 +174,15 @@ public class ArmorstandListener implements Listener {
 	private EulerAngle getNewAngle(EulerAngle angle, Player player, boolean sub) {
 		switch(player.getInventory().getHeldItemSlot()) {
 			case 0:
-				int degrees = (sub ? -1 : 1) * 1;
+				int degrees = (sub ? -1 : 1);
 				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees);
 				return angle.add(MathUtilities.degreeToEuler(degrees), 0, 0);
 			case 1:
-				degrees = (sub ? -1 : 1) * 1;
+				degrees = (sub ? -1 : 1);
 				ChatUtilities.sendHotbarMessage(player, "§3Move y " + degrees);
 				return angle.add(0, MathUtilities.degreeToEuler(degrees), 0);
 			case 2:
-				degrees = (sub ? -1 : 1) * 1;
+				degrees = (sub ? -1 : 1);
 				ChatUtilities.sendHotbarMessage(player, "§3Move z " + degrees);
 				return angle.add(0, 0, MathUtilities.degreeToEuler(degrees));
 			case 4:

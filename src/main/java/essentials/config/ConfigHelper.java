@@ -1,18 +1,13 @@
 package essentials.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-
+import com.google.common.io.Files;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.google.common.io.Files;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class ConfigHelper {
 	private ConfigHelper() {}
@@ -32,7 +27,7 @@ public class ConfigHelper {
 	}
 	
 	public static FileConfiguration loadUTF8(File file) throws InvalidConfigurationException, IOException {
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")));
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 	}
 	
 	public static FileConfiguration loadConfig(File file, String charsetName) throws InvalidConfigurationException, IOException {

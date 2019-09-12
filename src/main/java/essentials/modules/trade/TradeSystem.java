@@ -4,7 +4,6 @@ import essentials.main.Main;
 import essentials.utilities.inventory.InventoryFactory;
 import essentials.utilities.inventory.InventoryItem;
 import essentials.utilities.inventory.InventoryPage;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -95,8 +94,6 @@ public class TradeSystem {
 			
 			switch(event.getClick()) {
 				case DOUBLE_CLICK:
-					event.setCancelled(true);
-					return;
 				case NUMBER_KEY:
 					event.setCancelled(true);
 					return;
@@ -151,7 +148,7 @@ public class TradeSystem {
 			check1.setAmount(check1.getAmount() - 1);
 			check2.setAmount(check2.getAmount() - 1);
 			factory.refreshPage();
-		}, 0l, 20l);
+		}, 0L, 20L);
 	}
 	
 	private void putOut(Player p1, Player p2) {

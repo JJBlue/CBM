@@ -191,13 +191,13 @@ public class CountTime {
 		}
 		
 		int rest = amount - String.valueOf(n).length();
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		
 		for(int i = 0; i < rest; i++)
-			s += "0";
-		s += n;
+			s.append("0");
+		s.append(n);
 		
-		return s;
+		return s.toString();
 	}
 	
 	@Override

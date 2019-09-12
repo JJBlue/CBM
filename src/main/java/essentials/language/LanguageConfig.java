@@ -1,15 +1,14 @@
 package essentials.language;
 
-import java.io.File;
-import java.io.IOException;
-
+import essentials.config.ConfigHelper;
+import essentials.config.MainConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import essentials.config.ConfigHelper;
-import essentials.config.MainConfig;
+import java.io.File;
+import java.io.IOException;
 
 public class LanguageConfig {
 	private LanguageConfig() {}
@@ -69,23 +68,23 @@ public class LanguageConfig {
 	}
 	
 	public static String getString(String key, String... args) {
-		String m = getString(key);
+		StringBuilder m = new StringBuilder(getString(key));
 		
 		if(m == null) {
 			addMissingStringToExample(key);
 			
-			m = "§4Message is missing! Paramters: ";
+			m = new StringBuilder("§4Message is missing! Paramters: ");
 			
 			for(int i = 1; i <= args.length; i++)
-				m += "$" + i + " ";
+				m.append("$").append(i).append(" ");
 		}
 		
 		for(int i = args.length; i > 0; i--)
-			m = m.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
+			m = new StringBuilder(m.toString().replace("$" + i, args[i - 1] == null ? "" : args[i - 1]));
 		
-		m = m.replaceAll("(?<!\\\\)\\\\n", "\n");
+		m = new StringBuilder(m.toString().replaceAll("(?<!\\\\)\\\\n", "\n"));
 		
-		return m;
+		return m.toString();
 	}
 	
 	private static void addMissingStringToExample(String key) {

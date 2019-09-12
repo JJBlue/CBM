@@ -1,19 +1,10 @@
 package components.downloader;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.zip.ZipEntry;
@@ -29,7 +20,7 @@ public class Downloader {
 			return;
 		}
 		
-		LinkedList<File> dfiles = new LinkedList<File>();
+		LinkedList<File> dfiles = new LinkedList<>();
 		dfiles.add(file);
 		
 		while(!dfiles.isEmpty()) {
@@ -58,7 +49,7 @@ public class Downloader {
 		if(f.isFile())
 			copy(f, new File(dest +"/"+ f.getName()));
 		
-		LinkedList<File> cfiles = new LinkedList<File>();
+		LinkedList<File> cfiles = new LinkedList<>();
 		cfiles.add(f);
 		int substringlength = f.getAbsolutePath().length();
 		
@@ -67,8 +58,7 @@ public class Downloader {
 			
 			if(first.isDirectory()) {
 				first.mkdirs();
-				for(File files : first.listFiles())
-					cfiles.add(files);
+				cfiles.addAll(Arrays.asList(first.listFiles()));
 			}
 			else
 				copy(first, new File(dest + "/" + first.getAbsolutePath().substring(substringlength)));
@@ -130,7 +120,7 @@ public class Downloader {
 						BufferedInputStream is = new BufferedInputStream(zipfile.getInputStream(entry));
 						
 						int count;
-						byte data[] = new byte[BUFFER];
+						byte[] data = new byte[BUFFER];
 						
 						FileOutputStream fos = new FileOutputStream(destEntry);
 						BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER);
@@ -156,7 +146,7 @@ public class Downloader {
 	}
 	
 	public static void downloadFile(String URL, File file, int BUFFER, OutputWriter writer) throws MalformedURLException, IOException{
-		downloadFile(URL, (connection, type) -> {return file;}, BUFFER, writer);
+		downloadFile(URL, (connection, type) -> file, BUFFER, writer);
 	}
 	
 	public static DownloaderResult downloadFile(String URL, getFileRunnable getFile, int BUFFER, OutputWriter writer) throws MalformedURLException, IOException {
@@ -225,13 +215,13 @@ public class Downloader {
 	        
 	        String line = null;
 	        while((line = reader.readLine()) != null) {
-	        	builder.append("\n" + line);
+	        	builder.append("\n").append(line);
 	        }
 	        
 	        return builder.toString();
-		} catch (MalformedURLException e) {
-		} catch (IOException e) {}
-		
+		} catch (IOException e) {
+		}
+
 		return null;
 	}
 }

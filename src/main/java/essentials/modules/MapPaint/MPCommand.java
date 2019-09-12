@@ -10,6 +10,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -128,9 +129,7 @@ public class MPCommand implements CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

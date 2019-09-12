@@ -24,13 +24,13 @@ public class ChatVerbesserung implements Listener{
 	
 	public static File CV = new File(MainConfig.getDataFolder(), "ChatCleaner.yml");
 	public static FileConfiguration CVConf = YamlConfiguration.loadConfiguration(CV);
-	private static List<String> Verboten = new ArrayList<String>();
+	private static List<String> Verboten = new ArrayList<>();
 	
 	@SuppressWarnings("unchecked")
 	public static void Load(){
 		CVConf.addDefault("aktiv", false);
 		
-		ArrayList<String> l = new ArrayList<String>();
+		ArrayList<String> l = new ArrayList<>();
 		l.add("Scheisse");
 		l.add("Depp");
 		l.add("Pfotze");
@@ -79,16 +79,13 @@ public class ChatVerbesserung implements Listener{
 		if(CVConf.getBoolean("aktiv")) {
 			String Stern = "*****";
 			String textsend = text;
-			String oldtext = text;
-			
+
 			for(String s : Verboten)
 				textsend = textsend.replaceAll("(?i)" + s, Stern);
 			
-			if(oldtext != textsend) {
+			if(!text.equals(textsend)) {
 				e.setMessage(textsend);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> {
-					p.damage(1.0);
-				});
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> p.damage(1.0));
 			}
 		}
 	}
@@ -105,17 +102,17 @@ public class ChatVerbesserung implements Listener{
 			}else if(args.length >= 2){
 				if (args[0].compareTo("add") == 0){
 					int anzahl = args.length;
-					String argsstring = "";
+					StringBuilder argsstring = new StringBuilder();
 					
 					for(int y = 2; y <= anzahl; y++){
 						int y2 = y - 1;
 						if(y == 2)
-							argsstring = args[y2];
+							argsstring = new StringBuilder(args[y2]);
 						else
-							argsstring = argsstring + " " + args[y2];
+							argsstring.append(" ").append(args[y2]);
 					}
 					
-					Verboten.add(argsstring);
+					Verboten.add(argsstring.toString());
 					
 					CVConf.set("Verboten", Verboten);
 					
@@ -128,18 +125,18 @@ public class ChatVerbesserung implements Listener{
 					Load();
 				}else if (args[0].compareTo("remove") == 0){
 					int anzahl = args.length;
-					String argsstring = "";
+					StringBuilder argsstring = new StringBuilder();
 					
 					for(int y = 2; y <= anzahl; y++){
 						int y2 = y - 1;
 						if(y == 2)
-							argsstring = args[y2];
+							argsstring = new StringBuilder(args[y2]);
 						else
-							argsstring = argsstring + " " + args[y2];
+							argsstring.append(" ").append(args[y2]);
 					}
 					
-					if(Verboten.contains(argsstring)) {
-						Verboten.remove(argsstring);
+					if(Verboten.contains(argsstring.toString())) {
+						Verboten.remove(argsstring.toString());
 						
 						CVConf.set("Verboten", Verboten);
 						

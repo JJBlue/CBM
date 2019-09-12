@@ -1,10 +1,6 @@
 package essentials.modules.world.time;
 
-import java.time.LocalTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
+import essentials.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.boss.BarColor;
@@ -13,7 +9,10 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
-import essentials.main.Main;
+import java.time.LocalTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TimeWorldManager {
 	private static int taskID = -1;
@@ -84,7 +83,7 @@ public class TimeWorldManager {
 		else
 			mc_time = hours * 1_000 - 6_000;
 		
-		double tps = 1000 / 3600;
+		double tps = 1000 / 3600.0;
 		
 		mc_time += tps * ((minute * 60) + seconds);
 		
@@ -181,7 +180,7 @@ public class TimeWorldManager {
 							continue;
 						}
 						
-						long playerFactor = g != 0 ? 1 * (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
+						long playerFactor = g != 0 ? (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
 						worldTime += playerFactor;
 						
 						if(twv.isUseBossBar())
@@ -193,7 +192,7 @@ public class TimeWorldManager {
 					world.setTime(worldTime);
 				}
 			}
-		}, 0l, 1l);
+		}, 0L, 1L);
 	}
 	
 	public synchronized static void stopTimer() {

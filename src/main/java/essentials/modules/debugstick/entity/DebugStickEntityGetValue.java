@@ -18,24 +18,23 @@ public class DebugStickEntityGetValue {
 			}
 		}
 		
-		if(entity instanceof Entity) {
-			Entity livingEntity = (Entity) entity;
-			
+		if(entity != null) {
+
 			switch(type) {
 				case CUSTOM_NAME_VISIBLE:
-					return livingEntity.isCustomNameVisible();
+					return entity.isCustomNameVisible();
 				case FIRE_TRICKS:
-					return livingEntity.getFireTicks();
+					return entity.getFireTicks();
 				case GLOWING:
-					return livingEntity.isGlowing();
+					return entity.isGlowing();
 				case GRAVITY:
-					return livingEntity.hasGravity();
+					return entity.hasGravity();
 				case INVULNERABLE:
-					return livingEntity.isInvulnerable();
+					return entity.isInvulnerable();
 				case PERSISTENT:
-					return livingEntity.isPersistent();
+					return entity.isPersistent();
 				case SILENT:
-					return livingEntity.isSilent();
+					return entity.isSilent();
 				default:
 					break;
 			}

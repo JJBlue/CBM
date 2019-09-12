@@ -6,7 +6,6 @@ import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.utilities.permissions.PermissionHelper;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -38,9 +37,7 @@ public class MainListener implements Listener{
 			if(text.startsWith("\\7")) {
 				e.setMessage(text.replaceFirst("\\", ""));
 			} else if(text.startsWith("7")) {
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> {
-					p.performCommand(text.replaceFirst("7", ""));
-				});
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> p.performCommand(text.replaceFirst("7", "")));
 				
 				LanguageConfig.sendMessage(p, "command.TypingError");
 				e.setCancelled(true);

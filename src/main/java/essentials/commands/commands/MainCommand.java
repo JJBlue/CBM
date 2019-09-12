@@ -1,40 +1,13 @@
 package essentials.commands.commands;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-
 import essentials.commands.NameTag.nt;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.modules.Deop;
+import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
-import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;
@@ -54,13 +27,21 @@ import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.ItemUtilies;
-import essentials.utilities.PlayerUtilities;
-import essentials.utilities.StringUtilities;
-import essentials.utilities.TimeUtilities;
+import essentials.utilities.*;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.system.SystemStatus;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.command.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class MainCommand implements CommandExecutor, TabCompleter{
 
@@ -151,16 +132,16 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				}
 			case "broadcast":
 				{
-					String msg = null;
+					StringBuilder msg = null;
 					for(int i = 1; i < args.length; i++){
 						if(msg == null)
-							msg = args[i];
+							msg = new StringBuilder(args[i]);
 						else
-							msg = msg + " " + args[i];
+							msg.append(" ").append(args[i]);
 					}
 					
 					if(msg != null)
-						Bukkit.broadcastMessage(msg);
+						Bukkit.broadcastMessage(msg.toString());
 					
 					break;
 				}
@@ -357,7 +338,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 				Location l = b.getLocation();
 				
 				boolean top = false;
-				while(top == false && l.getY() <= 256) {
+				while(!top && l.getY() <= 256) {
 					l.setY(l.getY() + 1);
 					
 					if(l == null || l.getBlock().getType().equals(Material.AIR))
@@ -811,12 +792,8 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 			returnArguments.add("version");
 			returnArguments.add("wallGhost");
 			returnArguments.add("warp");
-			
-			Iterator<String> it = returnArguments.iterator();
-			while(it.hasNext()) {
-				if(!sender.hasPermission(PermissionHelper.getPermissionCommand(it.next())))
-					it.remove();
-			}
+
+			returnArguments.removeIf(s -> !sender.hasPermission(PermissionHelper.getPermissionCommand(s)));
 			
 		} else { // I know that I tested here the permission never -> But then he know the first arguement, I think he knows the rest...
 			switch (args[0]) {
@@ -978,9 +955,7 @@ public class MainCommand implements CommandExecutor, TabCompleter{
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

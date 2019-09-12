@@ -214,8 +214,7 @@ public class SimpleReflection {
 			}
 			if(best == 0) break;
 		}
-		
-		if(bestFound == null) return null;
+
 		return bestFound;
 	}
 	
@@ -282,10 +281,10 @@ public class SimpleReflection {
 		Class<?> classy = obj.getClass();
 		
 		do {
-			builder.append("\n" + classy.getName() + " :");
+			builder.append("\n").append(classy.getName()).append(" :");
 			
 			for(Field field : classy.getDeclaredFields())
-				builder.append("\n  " + field.getType().getSimpleName() + " " + field.getName());
+				builder.append("\n  ").append(field.getType().getSimpleName()).append(" ").append(field.getName());
 		} while((classy = classy.getSuperclass()) != null);
 		
 		return builder.toString();

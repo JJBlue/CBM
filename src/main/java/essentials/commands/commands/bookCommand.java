@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -123,9 +124,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}
@@ -195,7 +194,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 			if(s.length() < 3) continue;
 			
 			try {
-				pageHelper(list, Integer.valueOf(s.substring(0, 1)), s.substring(2, s.length()));
+				pageHelper(list, Integer.parseInt(s.substring(0, 1)), s.substring(2, s.length()));
 			}catch (NumberFormatException e) {}
 		}
 		

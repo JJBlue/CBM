@@ -110,7 +110,7 @@ public class JSONObject extends abstractJSON{
 				buffer.append(",");
 			}
 			
-			buffer.append("\"" + key + "\":");
+			buffer.append("\"").append(key).append("\":");
 			map.get(key).toJSONString(buffer);
 		}
 		

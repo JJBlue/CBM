@@ -3,7 +3,6 @@ package essentials.modules;
 import essentials.config.MainConfig;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Join implements Listener{
-	private static ArrayList<String> tempPlayer = new ArrayList<String>();
+	private static ArrayList<String> tempPlayer = new ArrayList<>();
 	
 	@EventHandler
 	private void J(PlayerJoinEvent e){
@@ -60,12 +59,12 @@ public class Join implements Listener{
 				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join removeo <player>");
 			}else if(args[1].equalsIgnoreCase("list")){
 				if(!tempPlayer.isEmpty()) {
-					String list = "";
+					StringBuilder list = new StringBuilder();
 					for(String s : tempPlayer){
-						if(list == "")
-							list = s;
+						if(list.toString().equals(""))
+							list = new StringBuilder(s);
 						else
-							list = list + ", " + s;
+							list.append(", ").append(s);
 					}
 				} else
 					sender.sendMessage("§4Liste ist leer");
@@ -86,7 +85,7 @@ public class Join implements Listener{
 						if(player != null)
 							builder.append(player.getName());
 						else
-							builder.append("§4" + uuid);
+							builder.append("§4").append(uuid);
 					}
 					
 					sender.sendMessage(builder.toString());

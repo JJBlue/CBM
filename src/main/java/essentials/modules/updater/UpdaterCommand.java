@@ -1,17 +1,17 @@
 package essentials.modules.updater;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import essentials.language.LanguageConfig;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.StringUtilities;
+import essentials.utilities.permissions.PermissionHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import essentials.language.LanguageConfig;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.StringUtilities;
-import essentials.utilities.permissions.PermissionHelper;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UpdaterCommand implements CommandExecutor, TabCompleter {
 
@@ -86,9 +86,7 @@ public class UpdaterCommand implements CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

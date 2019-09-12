@@ -100,18 +100,17 @@ public class Datenbank {
 				case DB2:
 				case Firebird:
 				case H2:
-					break;
+                case JavaDB_Derby:
+                case MySQL:
+                case PostgreSQL:
+                case SQLLite:
+                    break;
 				case HSQLDB:
 					System.setProperty("hsqldb.reconfig_logging", "false");
 					Class.forName("org.hsqldb.jdbcDriver");
 					logger = Logger.getLogger("hsqldb.db");
 					break;
-				case JavaDB_Derby:
-				case MySQL:
-				case PostgreSQL:
-				case SQLLite:
-					break;
-			}
+            }
 			
 			if(logger != null)logger.setLevel(level);
 		} catch (ClassNotFoundException e) {

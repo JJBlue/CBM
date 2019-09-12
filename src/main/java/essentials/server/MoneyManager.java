@@ -35,21 +35,15 @@ public class MoneyManager {
 				break;
 				
 			case "add":
-				
-				break;
-				
-			case "remove":
-				
-				break;
-				
-			case "set":
-				
-				break;
-				
-			case "transfer":
-				
-				break;
-		}
+
+            case "transfer":
+
+            case "set":
+
+            case "remove":
+
+                break;
+        }
 		
 	    return true;
 	}

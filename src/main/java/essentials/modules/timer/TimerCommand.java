@@ -1,16 +1,16 @@
 package essentials.modules.timer;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import essentials.language.LanguageConfig;
+import essentials.utilities.StringUtilities;
 import org.bukkit.boss.BarColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import essentials.language.LanguageConfig;
-import essentials.utilities.StringUtilities;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TimerCommand implements CommandExecutor, TabCompleter {
 
@@ -39,7 +39,7 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
 					
 					bukkitTimer.setMaxValue(Integer.parseInt(args[2]));
 					bukkitTimer.setColor(BarColor.valueOf(args[3]));
-					bukkitTimer.setRepeat(Boolean.valueOf(args[4]));
+					bukkitTimer.setRepeat(Boolean.parseBoolean(args[4]));
 					bukkitTimer.setTitle(StringUtilities.arrayToStringRange(args, 5, args.length));
 					
 					bukkitTimer.start();
@@ -62,7 +62,7 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
 						bukkitTimer.setCountDown();
 					
 					bukkitTimer.setMaxValue(Integer.parseInt(args[2]));
-					bukkitTimer.setRepeat(Boolean.valueOf(args[4]));
+					bukkitTimer.setRepeat(Boolean.parseBoolean(args[4]));
 					bukkitTimer.setTitle(StringUtilities.arrayToStringRange(args, 5, args.length));
 					
 					bukkitTimer.start();
@@ -154,9 +154,7 @@ public class TimerCommand implements CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

@@ -1,6 +1,8 @@
 package components.classes;
 
-import java.awt.Toolkit;
+import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
@@ -9,15 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
+import java.util.concurrent.*;
 
 public class Static {
 	private Static(){}
@@ -98,13 +92,13 @@ public class Static {
             md = MessageDigest.getInstance("SHA-512");
             byte[] messageDigest = md.digest(input.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
-            String hashtext = no.toString(16);
+            StringBuilder hashtext = new StringBuilder(no.toString(16));
 
             while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
+                hashtext.insert(0, "0");
             }
             
-            return hashtext;
+            return hashtext.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -120,26 +114,25 @@ public class Static {
 			String[] splitV2 = v2.split("\\.");
 			int min = Math.min(splitV1.length, splitV2.length);
 			
-			String ver1 = "";
-			String ver2 = "";
+			StringBuilder ver1 = new StringBuilder();
+			StringBuilder ver2 = new StringBuilder();
 			
 			for(int i = 0; i < min; i++) {
-				if(ver1.length() == 0)ver1 = splitV1[i];
-				else ver1 += "." + splitV1[i];
+				if(ver1.length() == 0) ver1 = new StringBuilder(splitV1[i]);
+				else ver1.append(".").append(splitV1[i]);
 				
-				if(ver2.length() == 0)ver2 = splitV2[i];
-				else ver2 += "." + splitV2[i];
+				if(ver2.length() == 0) ver2 = new StringBuilder(splitV2[i]);
+				else ver2.append(".").append(splitV2[i]);
 				
 				System.out.println(ver1 + " " + v2);
 				
 				if((ver1 + ".*").equals(v2) || (ver2 + ".*").equals(v1))return false;
 			}
-		
-			if(v1.compareTo(v2) < 0)return true;
+
+			return v1.compareTo(v2) < 0;
 		}
-		else if(v1.compareTo(v2) < 0)return true;
-		
-		return false;
+		else return v1.compareTo(v2) < 0;
+
 	}
 	
 	public static boolean compareVersion(String v1, String v2) {
@@ -149,15 +142,15 @@ public class Static {
 			String[] splitV2 = v2.split("\\.");
 			int min = Math.min(splitV1.length, splitV2.length);
 			
-			String ver1 = "";
-			String ver2 = "";
+			StringBuilder ver1 = new StringBuilder();
+			StringBuilder ver2 = new StringBuilder();
 			
 			for(int i = 0; i < min; i++) {
-				if(ver1.length() == 0)ver1 = splitV1[i];
-				else ver1 += "." + splitV1[i];
+				if(ver1.length() == 0) ver1 = new StringBuilder(splitV1[i]);
+				else ver1.append(".").append(splitV1[i]);
 				
-				if(ver2.length() == 0)ver2 = splitV2[i];
-				else ver2 += "." + splitV2[i];
+				if(ver2.length() == 0) ver2 = new StringBuilder(splitV2[i]);
+				else ver2.append(".").append(splitV2[i]);
 				
 				if((ver1 + ".*").equals(v2) || (ver2 + ".*").equals(v1))return true;
 			}
@@ -419,12 +412,12 @@ public class Static {
 	}
 
 	public static String toString(String[] args) {
-		String tmp = null;
+		StringBuilder tmp = null;
 		for(String s : args) {
-			if(tmp == null)tmp = s;
-			else tmp += "\n" + s;
+			if(tmp == null) tmp = new StringBuilder(s);
+			else tmp.append("\n").append(s);
 		}
-		return tmp;
+		return tmp.toString();
 	}
 	
 	public static String[] toArray(String args) {
@@ -432,20 +425,20 @@ public class Static {
 	}
 
 	public static boolean checkContainsPermission(String per, List<String> permissions) {
-		while(per.contains(" "))per = per.replace(" ", "");		
-		if(per == null || per.length() <= 0 || per.equals(""))return true;
+		while(per.contains(" ")) per = per.replace(" ", "");
+		if(per.length() <= 0 || per.equals(""))return true;
 		
 		if(!permissions.isEmpty()){
 			if(permissions.contains("*"))return true;
 			if(permissions.contains(per))return true;
 			
-			String pers[] = per.split("\\.");
-			String tmp = "";
-			for(int i = 0; i < pers.length; i++){
-				if(tmp.length() > 0)tmp += "." + pers[i];
-				else tmp += pers[i];
-				
-				if(permissions.contains(tmp + ".*"))return true;
+			String[] pers = per.split("\\.");
+			StringBuilder tmp = new StringBuilder();
+			for (String s : pers) {
+				if (tmp.length() > 0) tmp.append(".").append(s);
+				else tmp.append(s);
+
+				if (permissions.contains(tmp + ".*")) return true;
 			}
 		}
 		
@@ -458,9 +451,7 @@ public class Static {
 	
 	public static void run(final Runnable run, boolean wait) {
 		if(!wait) {
-			new Thread(() -> {
-				run.run();
-			}).start();
+			new Thread(run).start();
 			
 			return;
 		}
@@ -482,11 +473,7 @@ public class Static {
 	public static void runWithTimeout(Callable<Object> callable, long timeout, String message) {
 		try {
 			runWithTimeout(callable, timeout, TimeUnit.SECONDS, false);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (TimeoutException e) {
+		} catch (InterruptedException | ExecutionException | TimeoutException e) {
 			e.printStackTrace();
 		}
 	}
@@ -495,7 +482,7 @@ public class Static {
 	public static void runWithTimeout(Callable<Object> callable, long timeout, TimeUnit unit, boolean printStackTrace) throws InterruptedException, ExecutionException, TimeoutException {
 		FutureTask<Object> timeoutTask = null;
 		
-		timeoutTask = new FutureTask<Object>(callable);
+		timeoutTask = new FutureTask<>(callable);
 		Thread thread = new Thread(timeoutTask);
 		thread.start();
 		try {
@@ -504,7 +491,7 @@ public class Static {
 			thread.stop();
 			
 			if(printStackTrace) {
-				StringBuffer message = new StringBuffer();
+				StringBuilder message = new StringBuilder();
 				message.append("Timeout Thread:\n");
 				
 				boolean first = true;
@@ -514,7 +501,7 @@ public class Static {
 					else
 						first = false;
 						
-					message.append("\tat " + element);
+					message.append("\tat ").append(element);
 				}
 				
 				System.out.println(message.toString());
@@ -529,7 +516,7 @@ public class Static {
 	public static void runWithTimeout(Runnable run, long timeout, TimeUnit unit, boolean printStackTrace) throws InterruptedException, ExecutionException, TimeoutException {
 		FutureTask<Object> timeoutTask = null;
 		
-		timeoutTask = new FutureTask<Object>(run, null);
+		timeoutTask = new FutureTask<>(run, null);
 		Thread thread = new Thread(timeoutTask);
 		thread.start();
 		try {
@@ -538,7 +525,7 @@ public class Static {
 			thread.stop();
 			
 			if(printStackTrace) {
-				StringBuffer message = new StringBuffer();
+				StringBuilder message = new StringBuilder();
 				message.append("Timeout Thread:\n");
 				
 				boolean first = true;
@@ -548,7 +535,7 @@ public class Static {
 					else
 						first = false;
 						
-					message.append("\tat " + element);
+					message.append("\tat ").append(element);
 				}
 				
 				System.out.println(message.toString());

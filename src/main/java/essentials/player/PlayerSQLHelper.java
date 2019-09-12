@@ -13,19 +13,18 @@ import java.time.LocalTime;
 public class PlayerSQLHelper {
 	
 	public static String LocationToString(Location location) {
-		StringBuilder builder = new StringBuilder();
-		builder.append(location.getWorld().getName());
-		builder.append(':');
-		builder.append(round(location.getX()));
-		builder.append(':');
-		builder.append(round(location.getY()));
-		builder.append(':');
-		builder.append(round(location.getZ()));
-		builder.append(':');
-		builder.append(round(location.getYaw()));
-		builder.append(':');
-		builder.append(round(location.getPitch()));
-		return builder.toString();
+		String builder = location.getWorld().getName() +
+				':' +
+				round(location.getX()) +
+				':' +
+				round(location.getY()) +
+				':' +
+				round(location.getZ()) +
+				':' +
+				round(location.getYaw()) +
+				':' +
+				round(location.getPitch());
+		return builder;
 	}
 	
 	public static Location StringToLocation(String loc) {

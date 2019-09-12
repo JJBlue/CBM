@@ -57,7 +57,6 @@ public class BukkitTimer {
 				
 				break;
 			case CHAT:
-				break;
 			case NOWHERE:
 				break;
 		}
@@ -111,7 +110,7 @@ public class BukkitTimer {
 				default:
 					break;
 			}
-		}, 0l, 20l);
+		}, 0L, 20L);
 		
 		TimerManager.timers.put(ID, this);
 	}

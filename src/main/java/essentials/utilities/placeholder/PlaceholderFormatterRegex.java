@@ -28,13 +28,13 @@ public class PlaceholderFormatterRegex {
 		 * (?<!\\)%((?!%).|\\%)*(?<!\\)%(\[.*\])? -> could ends with [arguments]
 		 * 
 		 */
-		Pattern pattern = Pattern.compile("(?<!\\\\)%((?!%).|\\\\%)*(?<!\\\\)%(\\[.*\\])?");
+		Pattern pattern = Pattern.compile("(?<!\\\\)%((?!%).|\\\\%)*(?<!\\\\)%(\\[.*])?");
 		Matcher matcher = pattern.matcher(text);
 		
 		while(matcher.find())
 			text = splitSecond(commandSender, text, matcher.group(0));
 		
-		text = text.replaceAll("\\\\(\\[|%)", "$1");
+		text = text.replaceAll("\\\\([\\[%])", "$1");
 		
 		return text;
 	}

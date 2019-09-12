@@ -1,15 +1,14 @@
 package essentials.modules.debugstick.entity;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-
 import essentials.utilities.inventory.InventoryFactory;
 import essentials.utilities.inventory.InventoryItem;
 import essentials.utilities.inventory.InventoryPage;
 import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
 import essentials.utilities.inventory.itemtypes.InventoryObjectField;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,9 +32,7 @@ public class DebugStickEntityInventory {
 			
 			if(value instanceof Boolean) {
 				InventoryObjectField<Boolean> checkField = InventoryItemTypes.createCheckField(debugStickEntitiesChange.name(), (Boolean) value);
-				checkField.setOnChangeValue((old, neu, item) -> {
-					DebugStickEntities.setNextEntityState(entity, debugStickEntitiesChange, true);
-				});
+				checkField.setOnChangeValue((old, neu, item) -> DebugStickEntities.setNextEntityState(entity, debugStickEntitiesChange, true));
 				inventoryItem = checkField;
 			} else {
 				inventoryItem = new InventoryItem(Material.LIGHT_GRAY_CONCRETE);

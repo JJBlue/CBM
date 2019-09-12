@@ -7,7 +7,6 @@ import essentials.utilities.inventory.InventoryItem;
 import essentials.utilities.inventory.InventoryPage;
 import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
 import essentials.utilities.inventory.itemtypes.InventoryObjectField;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -29,59 +28,37 @@ public class ArmorstandInventory {
 		InventoryPage page = factory.createFirstPage();
 		
 		InventoryObjectField<Boolean> visibleField = InventoryItemTypes.createCheckField("Visible", armorstand.isVisible());
-		visibleField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setVisible(neu);
-		});
+		visibleField.setOnChangeValue((old, neu, item) -> armorstand.setVisible(neu));
 		
 		InventoryObjectField<Boolean> smallField = InventoryItemTypes.createCheckField("Small", armorstand.isSmall());
-		smallField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setSmall(neu);
-		});
+		smallField.setOnChangeValue((old, neu, item) -> armorstand.setSmall(neu));
 		
 		InventoryObjectField<Boolean> invulnerableField = InventoryItemTypes.createCheckField("Invulnerable", armorstand.isInvulnerable());
-		invulnerableField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setInvulnerable(neu);
-		});
+		invulnerableField.setOnChangeValue((old, neu, item) -> armorstand.setInvulnerable(neu));
 		
 		InventoryObjectField<Boolean> armsField = InventoryItemTypes.createCheckField("Arms", armorstand.hasArms());
-		armsField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setArms(neu);
-		});
+		armsField.setOnChangeValue((old, neu, item) -> armorstand.setArms(neu));
 		
 		InventoryObjectField<Boolean> basePlateField = InventoryItemTypes.createCheckField("Base Plate", armorstand.hasBasePlate());
-		basePlateField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setBasePlate(neu);
-		});
+		basePlateField.setOnChangeValue((old, neu, item) -> armorstand.setBasePlate(neu));
 		
 		InventoryObjectField<Boolean> collidableField = InventoryItemTypes.createCheckField("Collidable", armorstand.isCollidable());
-		collidableField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setCollidable(neu);
-		});
+		collidableField.setOnChangeValue((old, neu, item) -> armorstand.setCollidable(neu));
 		
 		InventoryObjectField<Boolean> glowingField = InventoryItemTypes.createCheckField("Glowing", armorstand.isGlowing());
-		glowingField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setGlowing(neu);
-		});
+		glowingField.setOnChangeValue((old, neu, item) -> armorstand.setGlowing(neu));
 		
 		InventoryObjectField<Boolean> gravityField = InventoryItemTypes.createCheckField("Gravity", armorstand.hasGravity());
-		gravityField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setGravity(neu);
-		});
+		gravityField.setOnChangeValue((old, neu, item) -> armorstand.setGravity(neu));
 		
 		InventoryObjectField<Boolean> glidingField = InventoryItemTypes.createCheckField("Gliding", armorstand.isGliding());
-		glidingField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setGliding(neu);
-		});
+		glidingField.setOnChangeValue((old, neu, item) -> armorstand.setGliding(neu));
 		
 		InventoryObjectField<Boolean> customNameVisible = InventoryItemTypes.createCheckField("Custom Name Visible", armorstand.isCustomNameVisible());
-		customNameVisible.setOnChangeValue((old, neu, item) -> {
-			armorstand.setCustomNameVisible(neu);
-		});
+		customNameVisible.setOnChangeValue((old, neu, item) -> armorstand.setCustomNameVisible(neu));
 		
 		InventoryObjectField<Boolean> markerField = InventoryItemTypes.createCheckField("Marker | Interactable", armorstand.isMarker());
-		markerField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setMarker(neu);
-		});
+		markerField.setOnChangeValue((old, neu, item) -> armorstand.setMarker(neu));
 		
 		InventoryItem reset = new InventoryItem(Material.GRAY_WOOL);
 		reset.setDisplayName("Reset Gesture");

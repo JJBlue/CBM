@@ -16,8 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,10 +33,9 @@ public class Post implements Listener, CommandExecutor, TabCompleter {
 	public static void Load(){
 		try {
 			PostConf.load(Post);
-		} catch (FileNotFoundException e1) {
-		} catch (IOException e1) {
-		} catch (InvalidConfigurationException e1) {}
-	}
+		} catch (InvalidConfigurationException | IOException e1) {
+		}
+    }
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {	
@@ -132,9 +131,7 @@ public class Post implements Listener, CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

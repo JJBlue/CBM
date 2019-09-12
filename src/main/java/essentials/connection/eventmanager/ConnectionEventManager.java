@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ConnectionEventManager {
@@ -40,23 +39,14 @@ public class ConnectionEventManager {
 	}
 	
 	protected static void call(ConnectionEvent event, Class<? extends Annotation> EH) {
-		Iterator<Listener> it = listeners.iterator();
 		// Alle Listener iterieren
-		while (it.hasNext()) {
-			Listener l = it.next();
-			
+		for (Listener l : listeners) {
 			for (Method m : l.getClass().getMethods()) {
 				if (m.isAnnotationPresent(EH)) {
 					if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].isAssignableFrom(event.getClass())) {
 						try {
 							m.invoke(l, event);
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-							System.out.println("Class: " + l.getClass().getName());
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-							System.out.println("Class: " + l.getClass().getName());
-						} catch (InvocationTargetException e) {
+						} catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
 							e.printStackTrace();
 							System.out.println("Class: " + l.getClass().getName());
 						}

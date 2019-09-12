@@ -82,10 +82,9 @@ public class JSONFinder {
 				char c = me.charAt(i);
 				switch(c) {
 					case '[':
-						return key.toString();
-					case '.':
-						return key.toString();
-					default:
+                    case '.':
+                        return key.toString();
+                    default:
 						key.append(c);
 				}
 			}

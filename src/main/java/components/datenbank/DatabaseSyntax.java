@@ -10,9 +10,9 @@ public class DatabaseSyntax {
 		for(String s : table)
 			if(first) {
 				first = false;
-				builder.append(" " + s);
+				builder.append(" ").append(s);
 			} else
-				builder.append(" ," + s);
+				builder.append(" ,").append(s);
 		
 		return builder.toString();
 	}
@@ -41,9 +41,9 @@ public class DatabaseSyntax {
 		for(String s : condition)
 			if(first) {
 				first = false;
-				builder.append(" " + s + " = ?");
+				builder.append(" ").append(s).append(" = ?");
 			} else
-				builder.append(" ," + s + " = ?");
+				builder.append(" ,").append(s).append(" = ?");
 		
 		return builder.toString();
 	}
@@ -55,37 +55,35 @@ public class DatabaseSyntax {
 	public static String updateSetWhere(String table, String coloum, String... where) {
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("Update " + table + " Set " + coloum + " = ? Where");
+		builder.append("Update ").append(table).append(" Set ").append(coloum).append(" = ? Where");
 		
 		boolean first = true;
 		for(String s : where)
 			if(first) {
 				first = false;
-				builder.append(" " + s + " = ?");
+				builder.append(" ").append(s).append(" = ?");
 			} else
-				builder.append(" ," + s + " = ?");
+				builder.append(" ,").append(s).append(" = ?");
 		
 		return builder.toString();
 	}
 	
 	public static String selectFrom(String select, String from) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT " + select + " FROM " + from);
-		return builder.toString();
+		return "SELECT " + select + " FROM " + from;
 	}
 	
 	public static String selectFromWhere(String select, String from, String... where) {
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("SELECT " + select + " FROM " + from + " Where");
+		builder.append("SELECT ").append(select).append(" FROM ").append(from).append(" Where");
 		
 		boolean first = true;
 		for(String s : where)
 			if(first) {
 				first = false;
-				builder.append(" " + s + " = ?");
+				builder.append(" ").append(s).append(" = ?");
 			} else
-				builder.append(" ," + s + " = ?");
+				builder.append(" ,").append(s).append(" = ?");
 		
 		return builder.toString();
 	}

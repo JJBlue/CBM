@@ -8,6 +8,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,9 +71,9 @@ public class TrolCommands implements Listener, CommandExecutor, TabCompleter {
 				
 				if(args.length < 2) return true;
 				
-				String text = "";
+				StringBuilder text = new StringBuilder();
 				for(int l = 2; l < args.length; l++)
-					text = text + " " + args[l];
+					text.append(" ").append(args[l]);
 				
 				if(args[1].compareToIgnoreCase("all") == 0){
 					for(Player players : Bukkit.getOnlinePlayers())
@@ -138,9 +139,7 @@ public class TrolCommands implements Listener, CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.startsWith(args[args.length - 1]));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

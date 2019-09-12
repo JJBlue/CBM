@@ -1,15 +1,5 @@
 package essentials.main;
 
-import java.io.File;
-import java.time.LocalDateTime;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import essentials.commands.commands.MainCommand;
 import essentials.commands.commands.bookCommand;
 import essentials.commands.post.Post;
@@ -18,12 +8,12 @@ import essentials.commands.trolling.TrolCommands;
 import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
+import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.ColorListener;
 import essentials.modules.Deop;
+import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
-import essentials.modules.ChatVerbesserung.ChatVerbesserung;
-import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.MapPaint.LoadMapPaint;
 import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
@@ -47,6 +37,15 @@ import essentials.modules.world.WorldConfig;
 import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.utilities.inventory.InventoryListener;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.time.LocalDateTime;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -123,11 +122,11 @@ public class Main extends JavaPlugin implements Listener{
 	@Override
 	public void onDisable() {
 		//Used Runnable, because when one crashed the other could work
-		unloadHelper(() -> WarpManager.unload());
-		unloadHelper(() -> Tablist.unload());
-		unloadHelper(() -> CommandOnBlock.unload());
-		unloadHelper(() -> PlayerManager.unload());
-		unloadHelper(() -> WorldConfig.unload());
+		unloadHelper(WarpManager::unload);
+		unloadHelper(Tablist::unload);
+		unloadHelper(CommandOnBlock::unload);
+		unloadHelper(PlayerManager::unload);
+		unloadHelper(WorldConfig::unload);
 		
 		unloadHelper(() -> {
 			if(UpdaterConfig.isInstallOnShutdown())
@@ -136,7 +135,7 @@ public class Main extends JavaPlugin implements Listener{
 			UpdaterServerManager.unload();
 		});
 		
-		unloadHelper(() -> Databases.unload());
+		unloadHelper(Databases::unload);
 		
 		super.onDisable();
 	}

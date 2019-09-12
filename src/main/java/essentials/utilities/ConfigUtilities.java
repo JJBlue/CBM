@@ -130,7 +130,7 @@ public class ConfigUtilities {
 		if(aJson instanceof JSONObject) {
 			JSONObject jsonObject = (JSONObject) aJson;
 			
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<>();
 			String className = null;
 			
 			for(String key : jsonObject.getMap().keySet()) {

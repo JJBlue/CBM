@@ -5,13 +5,13 @@ import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 import essentials.utilities.permissions.PermissionHelper;
-
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,16 +80,16 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				
 				int anzahl = args.length;
 				
-				String argsstring = "";
+				StringBuilder argsstring = new StringBuilder();
 				for(int y = 2; y <= anzahl; y++){
 					int y2 = y - 1;
 					if(y == 2)
-						argsstring = args[y2];
+						argsstring = new StringBuilder(args[y2]);
 					else
-						argsstring = argsstring + " " + args[y2];
+						argsstring.append(" ").append(args[y2]);
 				}
 				
-				CommandOnBlock.addCommand(targetblock.getLocation(), argsstring);
+				CommandOnBlock.addCommand(targetblock.getLocation(), argsstring.toString());
 				
 				p.sendMessage("Auf dem Item sind nun folgende Commands:");
 				for(CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation()))
@@ -103,17 +103,17 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				
 				targetblock = p.getTargetBlock(null,50);
 				
-				argsstring = "";
+				argsstring = new StringBuilder();
 				
 				for(int y = 2; y <= args.length; y++){
 					int y2 = y - 1;
 					if(y == 2)
-						argsstring = args[y2];
+						argsstring = new StringBuilder(args[y2]);
 					else
-						argsstring = argsstring + " " + args[y2];
+						argsstring.append(" ").append(args[y2]);
 				}
 				
-				CommandOnBlock.removeCommand(targetblock.getLocation(), argsstring);
+				CommandOnBlock.removeCommand(targetblock.getLocation(), argsstring.toString());
 				p.sendMessage("§4Command deleted");
 				
 				p.sendMessage("Auf dem Item sind nun folgende Commands:");
@@ -188,9 +188,7 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

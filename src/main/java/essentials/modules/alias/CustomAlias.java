@@ -1,12 +1,11 @@
 package essentials.modules.alias;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
+import essentials.config.ConfigHelper;
+import essentials.config.MainConfig;
+import essentials.language.LanguageConfig;
+import essentials.main.Main;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.placeholder.PlaceholderFormatter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -16,12 +15,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import essentials.config.ConfigHelper;
-import essentials.config.MainConfig;
-import essentials.language.LanguageConfig;
-import essentials.main.Main;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.placeholder.PlaceholderFormatter;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class CustomAlias {
 	static File file;
@@ -74,32 +70,32 @@ public class CustomAlias {
 					final List<?> commands = fileConfiguration.getList(prefixCommands + commandLabel + ".cmds");
 					if(commands.size() == 1) {
 						if(commands.get(0) instanceof String) {
-							String command = (String) commands.get(0);
+							StringBuilder command = new StringBuilder((String) commands.get(0));
 							
-							if(command.startsWith("@c"))
-								command = command.substring(3, command.length());
+							if(command.toString().startsWith("@c"))
+								command = new StringBuilder(command.substring(3, command.length()));
 							
-							boolean dots3 = command.endsWith(" ...");
+							boolean dots3 = command.toString().endsWith(" ...");
 							if(dots3)
-								command = command.substring(0, command.length() - 4);
+								command = new StringBuilder(command.substring(0, command.length() - 4));
 							
-							command = PlaceholderFormatter.parseToString(sender, command);
+							command = new StringBuilder(PlaceholderFormatter.parseToString(sender, command.toString()));
 							
-							if(command.contains("$" + args.length)) {
-								command = command.substring(0, command.indexOf("$" + args.length));
+							if(command.toString().contains("$" + args.length)) {
+								command = new StringBuilder(command.substring(0, command.indexOf("$" + args.length)));
 							} else {
 								for(int i = args.length; i > 0; i--) {
-									if(command.contains("$" + i))
-										command = command.replace("$" + i, args[i - 1]);
+									if(command.toString().contains("$" + i))
+										command = new StringBuilder(command.toString().replace("$" + i, args[i - 1]));
 									else if(dots3)
-										command += " " + args[i - 1];
+										command.append(" ").append(args[i - 1]);
 								}
 							}
 							
-							String[] cAndArgs = command.split(" ");
+							String[] cAndArgs = command.toString().split(" ");
 							String label = cAndArgs[0];
 							
-							if(command.endsWith(" ")) {
+							if(command.toString().endsWith(" ")) {
 								for(int i = 0; i < cAndArgs.length; i++) {
 									if(i == cAndArgs.length - 1)
 										cAndArgs[i] = "";
@@ -137,9 +133,7 @@ public class CustomAlias {
 				
 				returnA.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 				
-				returnA.sort((s1, s2) -> {
-					return s1.compareTo(s2);
-				});
+				returnA.sort(Comparator.naturalOrder());
 				
 				return returnA;
 			}
@@ -167,17 +161,15 @@ public class CustomAlias {
 			
 			if(!(obj instanceof String)) continue;
 			
-			String command = (String) obj;
+			StringBuilder command = new StringBuilder((String) obj);
 			boolean sendOverConsol = false;
 			
-			if(command.startsWith("!delay")) {
-				String[] argsCommand = command.split(" ");
+			if(command.toString().startsWith("!delay")) {
+				String[] argsCommand = command.toString().split(" ");
 				if(argsCommand.length < 2) continue;
 				
 				try {
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> {
-						CustomAlias.execute(sender, commands, args);
-					}, Long.parseLong(argsCommand[1]));
+					Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), () -> CustomAlias.execute(sender, commands, args), Long.parseLong(argsCommand[1]));
 					
 					return;
 				} catch (NumberFormatException e) {
@@ -185,28 +177,28 @@ public class CustomAlias {
 				}
 				
 				continue;
-			} else if(command.startsWith("@c")) {
-				command = command.substring(3, command.length());
+			} else if(command.toString().startsWith("@c")) {
+				command = new StringBuilder(command.substring(3, command.length()));
 				sendOverConsol = true;
 			}
 			
-			boolean dots3 = command.endsWith(" ...");
+			boolean dots3 = command.toString().endsWith(" ...");
 			if(dots3)
-				command = command.substring(0, command.length() - 4);
+				command = new StringBuilder(command.substring(0, command.length() - 4));
 			
-			command = PlaceholderFormatter.parseToString(sender, command);
+			command = new StringBuilder(PlaceholderFormatter.parseToString(sender, command.toString()));
 			
 			for(int i = args.length; i > 0; i--) {
-				if(command.contains("$" + i))
-					command = command.replace("$" + i, args[i - 1]);
+				if(command.toString().contains("$" + i))
+					command = new StringBuilder(command.toString().replace("$" + i, args[i - 1]));
 				else if(dots3)
-					command += " " + args[i - 1];
+					command.append(" ").append(args[i - 1]);
 			}
 			
 			if(sendOverConsol)
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.toString());
 			else
-				Bukkit.dispatchCommand(sender, command);
+				Bukkit.dispatchCommand(sender, command.toString());
 		}
 	}
 	

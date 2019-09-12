@@ -79,7 +79,7 @@ public class JSONValue extends abstractJSON{
 	protected void write(JSONWriter writer, int height, boolean shouldUseSpace) throws IOException {
 		if(value == null)writer.write("null", shouldUseSpace ? height : 0);
 		else if(value instanceof Boolean) {
-			if((Boolean)value == true)writer.write("true", shouldUseSpace ? height : 0);
+			if((Boolean) value)writer.write("true", shouldUseSpace ? height : 0);
 			else writer.write("false", shouldUseSpace ? height : 0);
 		}
 		else if(value instanceof JSONArray)((JSONArray)value).write(writer, height+1, true);
@@ -95,14 +95,14 @@ public class JSONValue extends abstractJSON{
 	protected StringBuffer toJSONString(StringBuffer buffer) {
 		if(value == null)buffer.append("null");
 		else if(value instanceof Boolean) {
-			if((Boolean)value == true)buffer.append("true");
+			if((Boolean) value)buffer.append("true");
 			else buffer.append("false");
 		}
 		else if(value instanceof JSONArray)((JSONArray)value).toJSONString(buffer);
 		else if(value instanceof String) {
-			buffer.append("\"" + escapeString((String) value) + "\"");
+			buffer.append("\"").append(escapeString((String) value)).append("\"");
 		}else if(value instanceof Double || value instanceof Integer || value instanceof Long || value instanceof Float)
-			buffer.append(value + "");
+			buffer.append(value);
 		else if(value instanceof JSONObject)
 			((JSONObject) value).toJSONString(buffer);
 		return buffer;

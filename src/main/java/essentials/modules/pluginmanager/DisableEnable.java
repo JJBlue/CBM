@@ -8,6 +8,7 @@ import org.bukkit.plugin.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -154,9 +155,7 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
     	SimpleCommandMap commandMap = (SimpleCommandMap) SimpleReflection.getObject("commandMap", spmanager);
     	Map<?, ?> knownCommands = (Map<?, ?>) SimpleReflection.getObject("knownCommands", commandMap);
     	
-    	plugin.getDescription().getCommands().forEach((a, b) -> {
-    		knownCommands.remove(a);
-    	});
+    	plugin.getDescription().getCommands().forEach((a, b) -> knownCommands.remove(a));
     	
     	return true;
 	}
@@ -184,9 +183,7 @@ public class DisableEnable implements CommandExecutor, TabCompleter{
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

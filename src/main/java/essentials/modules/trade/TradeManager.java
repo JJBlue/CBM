@@ -5,7 +5,6 @@ import essentials.main.Main;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.permissions.PermissionHelper;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -43,7 +42,7 @@ public class TradeManager {
 			for(String s : delete)
 				tradesRequests.remove(s);
 			delete.clear();
-		}, 0l, 20l);
+		}, 0L, 20L);
 	}
 	
 	public synchronized static void request(Player from, Player to) {

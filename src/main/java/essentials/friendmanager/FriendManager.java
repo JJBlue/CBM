@@ -36,12 +36,8 @@ public class FriendManager {
 			} else
 				help(p);
 		}
-		
-		if (args.length>1) {
-		    return true;
-		}else{
-			return false;
-		}
+
+		return args.length > 1;
 	}
 	
 	public void help(Player p){

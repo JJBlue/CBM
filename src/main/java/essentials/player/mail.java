@@ -68,7 +68,7 @@ public class mail {
 						File file = new File("plugins/Allgemein/Mails", p.getUniqueId().toString() + ".yml");
 						FileConfiguration fileConf = YamlConfiguration.loadConfiguration(file);
 						
-						ArrayList<String> l = new ArrayList<String>();
+						ArrayList<String> l = new ArrayList<>();
 						
 						fileConf.set("mail", l);
 						
@@ -148,7 +148,7 @@ public class mail {
 						File file = new File("plugins/Allgemein/Mails", p.getUniqueId().toString() + ".yml");
 						FileConfiguration fileConf = YamlConfiguration.loadConfiguration(file);
 						
-						ArrayList<String> l = new ArrayList<String>();
+						ArrayList<String> l = new ArrayList<>();
 						int i = 0;
 						
 						if(fileConf.getList("mail") != null){
@@ -178,7 +178,7 @@ public class mail {
 						FileConfiguration fileConf = YamlConfiguration.loadConfiguration(file);
 						
 						int i = 0;
-						ArrayList<String> l = new ArrayList<String>();
+						ArrayList<String> l = new ArrayList<>();
 						if(fileConf.getList("mail") != null){
 							for(String s : (ArrayList<String>) fileConf.getList("mail")){
 								l.add(s);
@@ -214,24 +214,22 @@ public class mail {
 					if(fileConf.getInt("toggle") == 1){
 						int i = args.length - 2;
 						String name = sender.getName();
-						String mail = "[" + name + "]";
+						StringBuilder mail = new StringBuilder("[" + name + "]");
 						
 						for(int y = 1; y <= i; y++){
 							if(mail == null){
-								mail = args[y];
+								mail = new StringBuilder(args[y]);
 							}else{
-								mail = mail + " " + args[y];
+								mail.append(" ").append(args[y]);
 							}
 						}
 						
-						ArrayList<String> l = new ArrayList<String>();
+						ArrayList<String> l = new ArrayList<>();
 						if(fileConf.getList("mail") != null){
-							for(String s : (ArrayList<String>) fileConf.getList("mail")){
-								l.add(s);
-							}
+							l.addAll((ArrayList<String>) fileConf.getList("mail"));
 						}
 						
-						l.add(mail);
+						l.add(mail.toString());
 						
 						fileConf.set("mail", l);
 						
@@ -249,12 +247,8 @@ public class mail {
 				help(sender);
 			}
 		}
-		
-		if (args.length>1) {
-		    return true;
-		}else{
-			return false;
-		}
+
+		return args.length > 1;
 	}
 	
 	private static void help(CommandSender sender){

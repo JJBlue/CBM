@@ -34,34 +34,32 @@ public class SudoPlayerProxy {
 		
 		ClassLoader classLoader = SudoPlayerProxy.class.getClassLoader();
 		final AbstractSudoPlayer abstractSudoPlayer = new AbstractSudoPlayer(usedPlayer, player);
-		
-		Player createdPlayer = (Player) Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
+
+		return (Player) Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
 			HashMap<Method, Method> buffer = new HashMap<>();
-			
+
 			@Override
 			public Object invoke(Object proxy, Method m, Object[] object) throws Throwable {
 				Method bufferMethod = buffer.get(m);
-				
+
 				if(buffer.containsKey(m))
 					m.invoke(player, object);
 				else if(bufferMethod != null)
 					bufferMethod.invoke(abstractSudoPlayer, object);
-				
+
 				try {
 					Method otherMethod = AbstractSudoPlayer.class.getMethod(m.getName(), m.getParameterTypes());
-					
+
 					if(otherMethod != null) {
 						buffer.put(m, otherMethod);
 						return otherMethod.invoke(abstractSudoPlayer, object);
 					}
 				} catch (NoSuchMethodException e) {}
-				
+
 				buffer.put(m, null);
 				return m.invoke(player, object);
 			}
 		});
-		
-		return createdPlayer;
 	}
 
 	public static CommandSender create(CommandSender commandSender) {
@@ -72,33 +70,31 @@ public class SudoPlayerProxy {
 		
 		ClassLoader classLoader = SudoPlayerProxy.class.getClassLoader();
 		final AbstractSudoPlayer abstractSudoPlayer = new AbstractSudoPlayer(commandSender);
-		
-		CommandSender createdPlayer = (CommandSender) Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
+
+		return (CommandSender) Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
 			HashMap<Method, Method> buffer = new HashMap<>();
-			
+
 			@Override
 			public Object invoke(Object proxy, Method m, Object[] object) throws Throwable {
 				Method bufferMethod = buffer.get(m);
-				
+
 				if(buffer.containsKey(m))
 					m.invoke(commandSender, object);
 				else if(bufferMethod != null)
 					bufferMethod.invoke(abstractSudoPlayer, object);
-				
+
 				try {
 					Method otherMethod = AbstractSudoPlayer.class.getMethod(m.getName(), m.getParameterTypes());
-					
+
 					if(otherMethod != null) {
 						buffer.put(m, otherMethod);
 						return otherMethod.invoke(abstractSudoPlayer, object);
 					}
 				} catch (NoSuchMethodException e) {}
-				
+
 				buffer.put(m, null);
 				return m.invoke(commandSender, object);
 			}
 		});
-		
-		return createdPlayer;
 	}
 }

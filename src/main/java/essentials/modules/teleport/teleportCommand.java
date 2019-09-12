@@ -8,10 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class teleportCommand implements CommandExecutor, TabCompleter{
 	
@@ -21,7 +18,7 @@ public class teleportCommand implements CommandExecutor, TabCompleter{
 		teleport = new teleportCommand();
 	}
 	
-	public ArrayList<String> tpa = new ArrayList<String>(); //TODO better
+	public ArrayList<String> tpa = new ArrayList<>(); //TODO better
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
@@ -101,7 +98,7 @@ public class teleportCommand implements CommandExecutor, TabCompleter{
 	    			p1 = null;
 	    			
 	    			for(String pl : tpa){
-	    				String s[] = pl.split(",");
+	    				String[] s = pl.split(",");
 	    				if(s[0].equalsIgnoreCase(p.getUniqueId().toString())){
 	    					p1 = (Player) Bukkit.getPlayer(UUID.fromString(s[1]));
 	    					break;
@@ -146,7 +143,7 @@ public class teleportCommand implements CommandExecutor, TabCompleter{
 	    			p1 = null;
 	    			
 	    			for(String pl : tpa){
-	    				String s[] = pl.split(",");
+	    				String[] s = pl.split(",");
 	    				if(s[0].equalsIgnoreCase(p.getUniqueId().toString())){
 	    					p1 = (Player) Bukkit.getPlayer(UUID.fromString(s[1]));
 	    					break;
@@ -233,9 +230,7 @@ public class teleportCommand implements CommandExecutor, TabCompleter{
 		
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 		
-		returnArguments.sort((s1, s2) -> {
-			return s1.compareTo(s2);
-		});
+		returnArguments.sort(Comparator.naturalOrder());
 		
 		return returnArguments;
 	}

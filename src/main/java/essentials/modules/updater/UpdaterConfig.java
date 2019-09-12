@@ -1,17 +1,16 @@
 package essentials.modules.updater;
 
+import essentials.config.ConfigHelper;
+import essentials.config.MainConfig;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import essentials.config.ConfigHelper;
-import essentials.config.MainConfig;
 
 public class UpdaterConfig {
 	static File configFile;
@@ -39,7 +38,7 @@ public class UpdaterConfig {
 			 * 		  ...
 			 * 
 			 */
-			List<Map<?, ?>> pluginsDefault = new LinkedList<Map<?,?>>();
+			List<Map<?, ?>> pluginsDefault = new LinkedList<>();
 			
 			Map<String, Object> cbm = new HashMap<>();
 			cbm.put("ID", 70992);

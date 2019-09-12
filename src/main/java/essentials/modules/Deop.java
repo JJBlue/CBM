@@ -45,7 +45,7 @@ public class Deop implements Listener, CommandExecutor {
     		if(player != null)
     			builder.append(player.getName());
     		else
-    			builder.append("§4" + uuid);
+    			builder.append("§4").append(uuid);
     	}
     	
     	sender.sendMessage(builder.toString());

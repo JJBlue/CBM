@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class Files {
 	}
 	
 	public static List<File> getFiles(String pfad){
-		List<File> file = new ArrayList<File>();
+		List<File> file = new ArrayList<>();
 		
 		File dir = new File(pfad);
 		File[] files = dir.listFiles();
@@ -107,7 +108,7 @@ public class Files {
 	}
 	
 	public static List<File> getDirecetorys(String pfad){
-		List<File> file = new ArrayList<File>();
+		List<File> file = new ArrayList<>();
 		
 		File dir = new File(pfad);
 		File[] files = dir.listFiles();
@@ -123,12 +124,12 @@ public class Files {
 	}
 	
 	public static List<File> getAllFiles(String pfad){
-		List<File> file = new ArrayList<File>();
+		List<File> file = new ArrayList<>();
 		
 		File dir = new File(pfad);
 		File[] files = dir.listFiles();
 		if(files != null){
-			for(File f : files)file.add(f);
+			file.addAll(Arrays.asList(files));
 		}
 		
 		return file;
@@ -171,15 +172,15 @@ public class Files {
         	String sCurrentLine;
         	br = new BufferedReader(new FileReader(file));
 
-        	String s = null;        	
+        	StringBuilder s = null;
         	while((sCurrentLine = br.readLine()) != null){
         		if(s == null)
-        			s = sCurrentLine;
+        			s = new StringBuilder(sCurrentLine);
         		else
-        			s += "\n" + sCurrentLine;
+        			s.append("\n").append(sCurrentLine);
         	}
 
-        	return s;
+        	return s.toString();
         }catch(Exception e){
         	e.printStackTrace();
         }finally{
@@ -236,8 +237,7 @@ public class Files {
 	
 	public static byte[] readAllBytesFromFile(String pfad) {
 		try {
-			byte[] bytes = java.nio.file.Files.readAllBytes(Paths.get(pfad));
-			return bytes;
+			return java.nio.file.Files.readAllBytes(Paths.get(pfad));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -258,7 +258,7 @@ public class Files {
         			first = false;
         			builder.append(sCurrentLine);
         		}
-        		else builder.append("\n" + sCurrentLine);
+        		else builder.append("\n").append(sCurrentLine);
         	}
 
         	return builder.toString();

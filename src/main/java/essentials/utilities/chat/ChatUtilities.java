@@ -5,6 +5,7 @@ import components.json.JSONObject;
 import essentials.utilitiesvr.chat.ChatUtilitiesReflections;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,9 +43,8 @@ public class ChatUtilities {
 	
 	public static JSONArray createExtra(JSONObject... clickHoverMessage) {
 		List<JSONObject> list = new LinkedList<>();
-		
-		for(JSONObject object : clickHoverMessage)
-			list.add(object);
+
+		list.addAll(Arrays.asList(clickHoverMessage));
 		
 		return new JSONArray(list);
 	}

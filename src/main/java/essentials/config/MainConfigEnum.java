@@ -16,7 +16,7 @@ public enum MainConfigEnum {
 	;
 	
 	public final String value;
-	private MainConfigEnum(String key) {
+	MainConfigEnum(String key) {
 		value = key;
 	}
 	

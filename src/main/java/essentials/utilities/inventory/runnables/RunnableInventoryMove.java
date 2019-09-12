@@ -1,9 +1,8 @@
 package essentials.utilities.inventory.runnables;
 
+import essentials.utilities.inventory.InventoryItem;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 
-import essentials.utilities.inventory.InventoryItem;
-
-public abstract interface RunnableInventoryMove {
-	public abstract void run(InventoryMoveItemEvent event, InventoryItem item);
+public interface RunnableInventoryMove {
+	void run(InventoryMoveItemEvent event, InventoryItem item);
 }

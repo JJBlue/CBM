@@ -1,6 +1,7 @@
 package components.sql;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /*
  * Normalerweise kann man java.sql.PreparedStatement verwenden, aber Android ist die Klasse gesperrt und die Alternative nicht verwendbar
@@ -147,8 +148,7 @@ public class SQLStatement {
 	}
 	
 	public void clearParameters() {
-		for(int i = 0; i < indexes.length; i++)
-			indexes[i] = null;
+		Arrays.fill(indexes, null);
 	}
 
 	public String getSQL() {

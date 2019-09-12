@@ -160,10 +160,8 @@ public class MPRenderer {
 		
 		if(l2.add(0, 0, 1).getBlock().getType().isSolid()) return true;
 		l2.add(0, 0, -1);
-		
-		if(l2.add(0, 0, -1).getBlock().getType().isSolid()) return true;
-		
-		return false;
+
+		return l2.add(0, 0, -1).getBlock().getType().isSolid();
 	}
 	
 	public static boolean couldSpawnInIt(Location location) {
@@ -171,8 +169,7 @@ public class MPRenderer {
 		if(block.isLiquid()) return true;
 		
 		Material material = block.getType();
-		if(material.name().toLowerCase().contains("air")) return true;
-		return false;
+		return material.name().toLowerCase().contains("air");
 	}
 	
 	public static void setRenderer(MapView map) {
