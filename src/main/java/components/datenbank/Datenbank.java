@@ -10,7 +10,7 @@ public class Datenbank {
 	private final String path;
 	private final String ip;
 	private final int port;
-	
+
 	public Datenbank(String benutzer, String password, String path) {
 		this.benutzer = benutzer;
 		this.password = password;
@@ -18,7 +18,7 @@ public class Datenbank {
 		ip = null;
 		this.path = path;
 	}
-	
+
 	public Datenbank(String ip, int port, String benutzer, String password, String path) {
 		this.benutzer = benutzer;
 		this.password = password;
@@ -26,16 +26,16 @@ public class Datenbank {
 		this.port = port;
 		this.path = path;
 	}
-	
+
 	private Datenbanken db;
 	private Connection con;
-	
+
 	public Connection connect(Datenbanken db) {
 		this.db = db;
 		con = null;
-		
+
 		try {
-			switch(db) {
+			switch (db) {
 				case DB2:
 					//Typ2 Treibers
 					//Class.forName("COM.ibm.db2.jdbc.app.DB2Driver").newInstance();
@@ -61,9 +61,9 @@ public class Datenbank {
 					//Festlegen des Systemverzeichnisses fuer die Datenbank
 					System.setProperty("derby.system.home", userHomeDir + "/.addressbook");
 					try {
-					   con = DriverManager.getConnection("jdbc:derby:" + path + ";user=" + benutzer + ";password=" + password + "?autoReconnect=true");
+						con = DriverManager.getConnection("jdbc:derby:" + path + ";user=" + benutzer + ";password=" + password + "?autoReconnect=true");
 					} catch (SQLException sqle) {
-					   sqle.printStackTrace();
+						sqle.printStackTrace();
 					}
 					break;
 				case MySQL:
@@ -88,48 +88,48 @@ public class Datenbank {
 			System.out.println("§4Es ist ein Fehler bei der Verbindung mit der Datenbank aufgetreten");
 			e.printStackTrace();
 		}
-		
+
 		return con;
 	}
-	
+
 	public static void setLogger(Datenbanken db, Level level) {
 		Logger logger = null;
-		
+
 		try {
-			switch(db) {
+			switch (db) {
 				case DB2:
 				case Firebird:
 				case H2:
-                case JavaDB_Derby:
-                case MySQL:
-                case PostgreSQL:
-                case SQLLite:
-                    break;
+				case JavaDB_Derby:
+				case MySQL:
+				case PostgreSQL:
+				case SQLLite:
+					break;
 				case HSQLDB:
 					System.setProperty("hsqldb.reconfig_logging", "false");
 					Class.forName("org.hsqldb.jdbcDriver");
 					logger = Logger.getLogger("hsqldb.db");
 					break;
-            }
-			
-			if(logger != null)logger.setLevel(level);
+			}
+
+			if (logger != null) logger.setLevel(level);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String getAdresse() {
-		if(port >= 0)return ip + ":" + port;
+		if (port >= 0) return ip + ":" + port;
 		else return ip;
 	}
-	
+
 	public synchronized ResultSet getResult(String query) {
 		checkConnection();
 		ResultSet rs;
-		
+
 		Statement st = getStatement();
-		
-		if(st != null) {
+
+		if (st != null) {
 			try {
 				rs = st.executeQuery(query);
 				return rs;
@@ -139,9 +139,9 @@ public class Datenbank {
 		}
 		return null;
 	}
-	
+
 	public static void close(ResultSet result) {
-		if(result != null) {
+		if (result != null) {
 			try {
 				result.close();
 			} catch (SQLException e) {
@@ -149,13 +149,13 @@ public class Datenbank {
 			}
 		}
 	}
-	
+
 	public int setUpdate(String update) {
 		checkConnection();
-		
+
 		Statement st = getStatement();
-		
-		if(st != null) {
+
+		if (st != null) {
 			try {
 				return st.executeUpdate(update);
 			} catch (SQLException e) {
@@ -164,13 +164,13 @@ public class Datenbank {
 		}
 		return -1;
 	}
-	
+
 	public synchronized boolean execute(String update) {
 		checkConnection();
-		
+
 		Statement st = getStatement();
-		
-		if(st != null) {
+
+		if (st != null) {
 			try {
 				return st.execute(update);
 			} catch (SQLException e) {
@@ -179,31 +179,31 @@ public class Datenbank {
 		}
 		return false;
 	}
-	
+
 	public void setPoolable(boolean value) {
 		checkConnection();
-		
+
 		Statement st = getStatement();
-		
+
 		try {
 			st.setPoolable(value);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setEscapeProcessing(boolean value) {
 		checkConnection();
-		
+
 		Statement st = getStatement();
-		
+
 		try {
 			st.setEscapeProcessing(value);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Statement getStatement() {
 		try {
 			Statement st = con.createStatement();
@@ -212,7 +212,7 @@ public class Datenbank {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -224,14 +224,14 @@ public class Datenbank {
 		}
 		return null;
 	}
-	
+
 	public PreparedStatement prepareStatementWE(String sqlExecute) throws SQLException {
 		return con.prepareStatement(sqlExecute);
 	}
-	
+
 	public boolean isClosed() {
 		try {
-			if(con == null || con.isClosed())return true; //st == null || st.isClosed()
+			if (con == null || con.isClosed()) return true; //st == null || st.isClosed()
 		} catch (Exception e) {
 			return true;
 		}
@@ -240,26 +240,26 @@ public class Datenbank {
 
 	public void checkConnection() {
 		try {
-			if(isClosed() || !con.isValid(100))
+			if (isClosed() || !con.isValid(100))
 				reconnect();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			reconnect();
 		}
 	}
-	
+
 	public void close() {
-		if(con == null) return;
-		
+		if (con == null) return;
+
 		try {
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		con = null;
 	}
-	
+
 	public void reconnect() {
 		System.out.println("Try reconnecting to Database");
 		close();

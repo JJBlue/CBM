@@ -15,34 +15,34 @@ public class CoBBlock {
 	private boolean isIDSet = false;
 	private final Location location;
 	public List<CoBCommandInfo> commands;
-	
+
 	public CoBBlock(Location location) {
 		this.location = location;
 	}
-	
+
 	public Location getLocation() {
 		return location;
 	}
-	
-	public synchronized List<CoBCommandInfo> getCommandInfos(){
+
+	public synchronized List<CoBCommandInfo> getCommandInfos() {
 		return commands;
 	}
-	
+
 	public void addCommand(String command) {
 		commands.add(new CoBCommandInfo(CoBAction.EVERYTIME, command));
 	}
-	
+
 	public void addCommand(CoBAction action, String command) {
 		commands.add(new CoBCommandInfo(action, command));
 	}
-	
+
 	public void removeCommand(String command) {
 		synchronized (commands) {
 			Iterator<CoBCommandInfo> iterator = commands.iterator();
-			while(iterator.hasNext()) {
+			while (iterator.hasNext()) {
 				CoBCommandInfo ci = iterator.next();
-				
-				if(ci.command.equals(command)) {
+
+				if (ci.command.equals(command)) {
 					iterator.remove();
 					removeCommand(ci);
 					break;
@@ -50,14 +50,14 @@ public class CoBBlock {
 			}
 		}
 	}
-	
+
 	public void removeCommand(CoBAction action, String command) {
 		synchronized (commands) {
 			Iterator<CoBCommandInfo> iterator = commands.iterator();
-			while(iterator.hasNext()) {
+			while (iterator.hasNext()) {
 				CoBCommandInfo ci = iterator.next();
-				
-				if(ci.command.equals(command) && ci.action.equals(action)) {
+
+				if (ci.command.equals(command) && ci.action.equals(action)) {
 					iterator.remove();
 					removeCommand(ci);
 					break;
@@ -65,9 +65,9 @@ public class CoBBlock {
 			}
 		}
 	}
-	
+
 	public void removeCommand(CoBCommandInfo ci) {
-		if(isIDSet) {
+		if (isIDSet) {
 			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommand.sql", CoBBlock.class));
 			try {
 				preparedStatement.setInt(1, ID);
@@ -92,13 +92,13 @@ public class CoBBlock {
 			}
 		}
 	}
-	
+
 	public synchronized int save() {
 		int result = 0;
-		
-		if(commands == null || location == null) return result;
-		
-		if(!isIDSet) {
+
+		if (commands == null || location == null) return result;
+
+		if (!isIDSet) {
 			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addBlock.sql", CoBBlock.class));
 			try {
 				preparedStatement.setString(1, location.getWorld().getName());
@@ -113,14 +113,14 @@ public class CoBBlock {
 				return result;
 			}
 		}
-		
+
 		commands.forEach(ci -> {
-			if(ci.saved) return;
-			
+			if (ci.saved) return;
+
 			int index = 1;
 			PreparedStatement preparedStatement;
-			
-			if(!isIDSet) {
+
+			if (!isIDSet) {
 				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommandToBlock.sql", CoBBlock.class));
 				try {
 					preparedStatement.setString(index++, location.getWorld().getName());
@@ -131,7 +131,7 @@ public class CoBBlock {
 					e.printStackTrace();
 					return;
 				}
-				
+
 			} else {
 				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommand.sql", CoBBlock.class));
 				try {
@@ -141,7 +141,7 @@ public class CoBBlock {
 					return;
 				}
 			}
-			
+
 			try {
 				preparedStatement.setString(index++, ci.action.name());
 				preparedStatement.setString(index++, ci.command);
@@ -150,7 +150,7 @@ public class CoBBlock {
 				e.printStackTrace();
 			}
 		});
-		
+
 		return result;
 	}
 
@@ -159,20 +159,20 @@ public class CoBBlock {
 	}
 
 	public void setID(int ID) {
-		if(isIDSet) return;
+		if (isIDSet) return;
 		isIDSet = true;
 		this.ID = ID;
 	}
-	
+
 	public boolean isIDSet() {
 		return isIDSet;
 	}
 
 	public void execute(Player p, CoBAction action) {
-		if(commands == null || commands.isEmpty()) return;
-		
+		if (commands == null || commands.isEmpty()) return;
+
 		commands.forEach(ci -> {
-			if(action.isIn(ci.action))
+			if (action.isIn(ci.action))
 				CommandAusfuehren.Command(p, ci.command);
 		});
 	}

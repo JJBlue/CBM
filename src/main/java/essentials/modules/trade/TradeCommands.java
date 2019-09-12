@@ -11,31 +11,31 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TradeCommands implements CommandExecutor, TabCompleter {
-	
+
 	public final static TradeCommands tradeCommands;
-	
+
 	static {
 		tradeCommands = new TradeCommands();
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1) return true;
-		if(!(sender instanceof Player)) return true;
-		
+		if (args.length < 1) return true;
+		if (!(sender instanceof Player)) return true;
+
 		Player player = Bukkit.getPlayer(args[0]);
-		if(player == null) return true;
+		if (player == null) return true;
 		TradeManager.request((Player) sender, player);
-		
+
 		return true;
 	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> list = new LinkedList<>();
-		for(Player player : Bukkit.getOnlinePlayers())
+		for (Player player : Bukkit.getOnlinePlayers())
 			list.add(player.getName());
 		return list;
 	}
-	
+
 }

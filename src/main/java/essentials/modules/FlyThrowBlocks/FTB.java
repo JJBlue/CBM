@@ -12,49 +12,49 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class FTB implements Listener{
+public class FTB implements Listener {
 	public static boolean toogle(Player player) {
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
-		
+
 		boolean newValue = !playerConfig.getBoolean(PlayerConfigKey.tWallGhost);
 		playerConfig.set(PlayerConfigKey.tWallGhost, newValue);
-		
+
 		return newValue;
 	}
-	
+
 	@EventHandler
-	public void Move(PlayerMoveEvent e){
+	public void Move(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
-		if(!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)) return;
-		
+		if (!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)) return;
+
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		if(!playerConfig.getBoolean(PlayerConfigKey.tWallGhost)) return;
-		
+		if (!playerConfig.getBoolean(PlayerConfigKey.tWallGhost)) return;
+
 		double x = p.getLocation().getX();
 		double y = p.getLocation().getY();
 		double z = p.getLocation().getZ();
 		World w = p.getWorld();
-		
-		
-		if(		cantWalk(new Location(w, x + 0.8, y, z)) && cantWalk(new Location(w, x + 0.8, y + 1, z)) ||
+
+
+		if (cantWalk(new Location(w, x + 0.8, y, z)) && cantWalk(new Location(w, x + 0.8, y + 1, z)) ||
 				cantWalk(new Location(w, x - 0.8, y, z)) && cantWalk(new Location(w, x - 0.8, y + 1, z)) ||
 				cantWalk(new Location(w, x, y, z + 0.8)) && cantWalk(new Location(w, x, y + 1, z + 0.8)) ||
 				cantWalk(new Location(w, x, y, z - 0.8)) && cantWalk(new Location(w, x, y + 1, z - 0.8)) ||
 				cantWalk(new Location(w, x, y + 1.9, z)) ||
 				cantWalk(new Location(w, x, y - 0.8, z)) && p.isSneaking() ||
-				cantWalk(p.getLocation()) && cantWalk(new Location(w, x, y + 1, z))){
-				
-			if(p.getGameMode().equals(GameMode.CREATIVE))
+				cantWalk(p.getLocation()) && cantWalk(new Location(w, x, y + 1, z))) {
+
+			if (p.getGameMode().equals(GameMode.CREATIVE))
 				p.setGameMode(GameMode.SPECTATOR);
-		} else if(p.getGameMode().equals(GameMode.SPECTATOR))
+		} else if (p.getGameMode().equals(GameMode.SPECTATOR))
 			p.setGameMode(GameMode.CREATIVE);
 	}
-	
-	private boolean cantWalk(Location l){
+
+	private boolean cantWalk(Location l) {
 		Block block = l.getBlock();
-		
+
 		return !(block.isLiquid() || block.isPassable() || block.isEmpty());
-		
+
 //		String material = l.getBlock().getType().toString().toLowerCase();
 //		
 //		if(material.contains("air")) return false;

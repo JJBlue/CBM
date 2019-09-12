@@ -6,7 +6,6 @@ import essentials.database.Databases;
 import essentials.player.PlayerSQLHelper;
 import essentials.utilities.ConfigUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,32 +16,32 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class WarpManager {
-	
+
 	private static Map<String, Warp> warps = Collections.synchronizedMap(new HashMap<>());
-	
+
 	public static void load() {
 		Datenbank database = Databases.getWorldDatabase();
-		
-		for(String s : SQLParser.getResources("sql/create.sql", WarpManager.class))
+
+		for (String s : SQLParser.getResources("sql/create.sql", WarpManager.class))
 			database.execute(s);
 	}
-	
+
 	public synchronized static void unload() {
 		save();
 		warps.clear();
 	}
-	
+
 	public static void save() {
 		synchronized (warps) {
-			for(Warp warp : warps.values())
+			for (Warp warp : warps.values())
 				warp.save();
 		}
 	}
-	
+
 	public synchronized static void addWarp(Warp warp) {
-		if(warp == null || warp.name == null || warp.location == null) return;
+		if (warp == null || warp.name == null || warp.location == null) return;
 		warps.put(warp.name, warp);
-		
+
 		try {
 			Datenbank database = Databases.getWorldDatabase();
 			PreparedStatement preparedStatement = database.prepareStatement("INSERT OR IGNORE INTO warps (name, location) VALUES (?, ?)");
@@ -52,13 +51,13 @@ public class WarpManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		warp.save();
 	}
-	
+
 	public synchronized static void deleteWarp(String warp) {
 		Datenbank database = Databases.getWorldDatabase();
-		
+
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("DELETE FROM warps WHERE name = ?");
 			preparedStatement.setString(1, warp);
@@ -66,21 +65,21 @@ public class WarpManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		warps.remove(warp);
 	}
-	
+
 	public synchronized static void loadWarp(String warpName) {
-		if(warps.containsKey(warpName)) return;
-		
+		if (warps.containsKey(warpName)) return;
+
 		Datenbank database = Databases.getWorldDatabase();
-		
+
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("SELECT * FROM warps WHERE name = ?");
 			preparedStatement.setString(1, warpName);
 			ResultSet result = preparedStatement.executeQuery();
-			
-			if(result.next()) {
+
+			if (result.next()) {
 				Warp warp = new Warp(warpName);
 				warp.autoLore = result.getBoolean("autoLore");
 				warp.hasPermission = result.getBoolean("tPermission");
@@ -90,54 +89,54 @@ public class WarpManager {
 				warp.showWithoutPermission = result.getBoolean("showWithoutPermission");
 				warp.pos = result.getInt("pos");
 				warp.saved = true;
-				
+
 				warps.put(warpName, warp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static List<Warp> getWarps(int start, int length) {
 		List<Warp> list = new LinkedList<>();
-		
+
 		Datenbank database = Databases.getWorldDatabase();
-		
+
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("SELECT name FROM warps ORDER BY pos ASC LIMIT " + length + " OFFSET " + start);
 			ResultSet result = preparedStatement.executeQuery();
-			
-			while(result.next()) {
+
+			while (result.next()) {
 				Warp warp = getWarp(result.getString("name"));
 				list.add(warp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
 	}
-	
+
 	public static Warp getWarp(String warp) {
 		loadWarp(warp);
 		return warps.get(warp);
 	}
-	
+
 	public static void teleport(Player player, String warp) {
-		if(player == null) return;
+		if (player == null) return;
 		loadWarp(warp);
 		teleport(player, warps.get(warp));
 	}
-	
+
 	public static void teleport(Entity entity, Warp warp) {
-		if(entity == null || warp == null) return;
+		if (entity == null || warp == null) return;
 		//TODO cost
-		if(warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
+		if (warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
 		entity.teleport(warp.location);
 	}
-	
+
 	public static void openInventory(Player player) {
-		if(player == null) return;
+		if (player == null) return;
 		WarpInventory.openNewInventory(player);
 	}
 }

@@ -9,35 +9,36 @@ import java.lang.reflect.Method;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ConnectionEventManager {
-	private ConnectionEventManager() {}
-	
+	private ConnectionEventManager() {
+	}
+
 	private static CopyOnWriteArrayList<Listener> listeners;
-	
+
 	static {
 		listeners = new CopyOnWriteArrayList<>();
 	}
-	
-	protected static void clearAll(){
-		if(!listeners.isEmpty())
+
+	protected static void clearAll() {
+		if (!listeners.isEmpty())
 			listeners.clear();
 	}
-	
+
 	public static void register(Listener l) {
-		if(!listeners.contains(l)){
+		if (!listeners.contains(l)) {
 			listeners.add(l);
 		}
 	}
-	
+
 	public static void unregister(Listener l) {
-		if(!listeners.isEmpty() && listeners.contains(l)){
+		if (!listeners.isEmpty() && listeners.contains(l)) {
 			listeners.remove(l);
 		}
 	}
-	
+
 	public static void call(ConnectionEvent event) {
 		call(event, EventHandler.class);
 	}
-	
+
 	protected static void call(ConnectionEvent event, Class<? extends Annotation> EH) {
 		// Alle Listener iterieren
 		for (Listener l : listeners) {

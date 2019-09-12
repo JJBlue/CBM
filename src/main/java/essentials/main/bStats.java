@@ -1,8 +1,7 @@
 package essentials.main;
 
-import org.bstats.bukkit.Metrics;
-
 import essentials.language.LanguageConfig;
+import org.bstats.bukkit.Metrics;
 
 public class bStats {
 	public static void enableBStats() {

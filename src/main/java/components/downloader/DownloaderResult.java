@@ -6,11 +6,11 @@ public class DownloaderResult {
 	private File destFile;
 	private String type;
 	private long length;
-	
+
 	public DownloaderResult(File destFile) {
 		this.destFile = destFile;
 	}
-	
+
 	public DownloaderResult(File destFile, String type, long length) {
 		this.destFile = destFile;
 		this.type = type;

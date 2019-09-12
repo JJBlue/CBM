@@ -9,23 +9,23 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class TablistListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		if(!Tablist.onJoin) return;
+		if (!Tablist.onJoin) return;
 		Tablist.update(event.getPlayer());
 	}
-	
+
 	@EventHandler
 	public void onTeleport(PlayerTeleportEvent event) {
-		if(Tablist.onTeleport) {
+		if (Tablist.onTeleport) {
 			Tablist.update(event.getPlayer());
-		} else if(Tablist.onWorldChange) {
-			if(event.getFrom().getWorld() != event.getTo().getWorld())
+		} else if (Tablist.onWorldChange) {
+			if (event.getFrom().getWorld() != event.getTo().getWorld())
 				Tablist.update(event.getPlayer());
 		}
 	}
-	
+
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		if(!Tablist.onDeath) return;
+		if (!Tablist.onDeath) return;
 		Tablist.update(event.getEntity());
 	}
 }

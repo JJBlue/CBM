@@ -17,22 +17,22 @@ public enum DebugStickEntityChanges {
 	SILENT,
 	SWIMMING,
 	FIRE_TRICKS,
-	
+
 	//Ageable
 	AGE_LOCK,
 	CHANGE_AGE,
 	BREED,
-	
+
 	//Tameable
 	TAMED,
-	
+
 	//Sittable
 	SITTABLE,
-	
+
 	//PLAYER
 	FLY_SPEED,
 	WALK_SPEED,
-	
+
 	//EXTRA MOBS
 	ANGER,
 	ANGRY,

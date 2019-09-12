@@ -21,7 +21,7 @@ public enum DebugStickBlockChanges {
 	SNOW,
 	WATERLOGGED,
 	//BlockDataTypes
-	
+
 	ATTACHMENT,
 	BITES,
 	BOTTLE_0,

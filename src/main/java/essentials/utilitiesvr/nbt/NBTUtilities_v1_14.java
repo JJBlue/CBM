@@ -12,34 +12,33 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public static NBTTagCompound getNBTTagCompound(ItemStack itemstack) {
 		return CraftItemStack.asNMSCopy(itemstack).getTag();
 	}
-	
+
 	/**
-	 * 
 	 * @param itemstack
 	 * @param NBTTagCompound nbtTagCompound
 	 */
 	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
-		if(!(nbtTagCompound instanceof NBTTagCompound)) return;
+		if (!(nbtTagCompound instanceof NBTTagCompound)) return;
 		CraftItemStack.asNMSCopy(itemstack).setTag((NBTTagCompound) nbtTagCompound);
 	}
-	
+
 	public static NBTTagCompound createNBTTagCompound() {
 		return new NBTTagCompound();
 	}
-	
+
 	public static NBTTagList createNBTTagList() {
 		return new NBTTagList();
 	}
-	
+
 	private NBTTagCompound nbtTagCompound;
-	
+
 	public NBTUtilities_v1_14(ItemStack itemStack) {
 		nbtTagCompound = getNBTTagCompound(itemStack);
 	}
-	
+
 	@Override
 	public void set(String key, Object value) {
-		if(!(value instanceof NBTBase)) return;
+		if (!(value instanceof NBTBase)) return;
 		nbtTagCompound.set(key, (NBTBase) value);
 	}
 
@@ -47,7 +46,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public boolean getBoolean(String key) {
 		return nbtTagCompound.getBoolean(key);
 	}
-	
+
 	@Override
 	public void setBoolean(String key, boolean value) {
 		nbtTagCompound.setBoolean(key, value);
@@ -57,7 +56,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public byte getByte(String key) {
 		return nbtTagCompound.getByte(key);
 	}
-	
+
 	@Override
 	public void setByte(String key, byte value) {
 		nbtTagCompound.setByte(key, value);
@@ -72,7 +71,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public double getDouble(String key) {
 		return nbtTagCompound.getDouble(key);
 	}
-	
+
 	@Override
 	public void setDouble(String key, double value) {
 		nbtTagCompound.setDouble(key, value);
@@ -82,7 +81,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public float getFloat(String key) {
 		return nbtTagCompound.getFloat(key);
 	}
-	
+
 	@Override
 	public void setFloat(String key, float value) {
 		nbtTagCompound.setFloat(key, value);
@@ -92,7 +91,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public int getInt(String key) {
 		return nbtTagCompound.getInt(key);
 	}
-	
+
 	@Override
 	public void setInt(String key, int value) {
 		nbtTagCompound.setInt(key, value);
@@ -112,7 +111,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public long getLong(String key) {
 		return nbtTagCompound.getLong(key);
 	}
-	
+
 	@Override
 	public void setLong(String key, long value) {
 		nbtTagCompound.setLong(key, value);
@@ -122,7 +121,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public short getShort(String key) {
 		return nbtTagCompound.getShort(key);
 	}
-	
+
 	@Override
 	public void setShort(String key, short value) {
 		nbtTagCompound.setShort(key, value);
@@ -132,7 +131,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public String getString(String key) {
 		return nbtTagCompound.getString(key);
 	}
-	
+
 	@Override
 	public void setString(String key, String value) {
 		nbtTagCompound.setString(key, value);
@@ -147,7 +146,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public byte[] getByteArray(String key) {
 		return nbtTagCompound.getByteArray(key);
 	}
-	
+
 	@Override
 	public void setByteArray(String key, byte[] value) {
 		nbtTagCompound.setByteArray(key, value);
@@ -157,7 +156,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public int[] getIntArray(String key) {
 		return nbtTagCompound.getIntArray(key);
 	}
-	
+
 	@Override
 	public void setIntArray(String key, int[] value) {
 		nbtTagCompound.setIntArray(key, value);
@@ -177,7 +176,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public NBTTagCompound getNBTTagCompound() {
 		return nbtTagCompound;
 	}
-	
+
 //	public void test() {
 //		Player p = (Player) s;
 //		Location loc = p.getTargetBlock((HashSet<Byte>) null, 0).getLocation();

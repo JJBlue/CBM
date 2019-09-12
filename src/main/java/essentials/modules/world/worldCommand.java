@@ -16,62 +16,62 @@ public class worldCommand implements CommandExecutor, TabCompleter {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		Location l = null;
-		if(sender instanceof Player)
+		if (sender instanceof Player)
 			l = ((Player) sender).getLocation();
-		else if(sender instanceof BlockCommandSender)
+		else if (sender instanceof BlockCommandSender)
 			l = ((BlockCommandSender) sender).getBlock().getLocation();
-		
+
 		World world;
-		
-		if(args.length == 1) {
-			if(l == null) return true;
+
+		if (args.length == 1) {
+			if (l == null) return true;
 			world = l.getWorld();
 		} else {
 			world = Bukkit.getWorld(args[1]);
-			if(world == null) return true;
+			if (world == null) return true;
 		}
-		
-		switch(args[0].toLowerCase()) {
+
+		switch (args[0].toLowerCase()) {
 			case "weather":
-				
+
 				weatherCommands.weather.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
-				
+
 			case "time":
-				
+
 				timeCommands.timeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				break;
 		}
-    	
-	    return true;
-    }
+
+		return true;
+	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
-		
-		if(args.length == 1) {
+
+		if (args.length == 1) {
 			returnArguments.add("weather");
 			returnArguments.add("time");
-			
+
 		} else {
 			switch (args[0]) {
 				case "weather":
-					
+
 					weatherCommands.weather.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					break;
-					
+
 				case "time":
-					
+
 					timeCommands.timeCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					break;
 			}
 		}
-		
+
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-		
+
 		returnArguments.sort(Comparator.naturalOrder());
-		
+
 		return returnArguments;
 	}
 }

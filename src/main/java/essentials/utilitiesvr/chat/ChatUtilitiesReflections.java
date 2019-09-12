@@ -23,7 +23,7 @@ public class ChatUtilitiesReflections {
 		JSONObject mainJson = new JSONObject();
 		mainJson.add("text", message);
 		mainJson.add("extra", array);
-		
+
 		try {
 			Object chat = getIChatBaseComponentA(mainJson.toJSONString());
 			Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), chat);
@@ -32,20 +32,20 @@ public class ChatUtilitiesReflections {
 			e.printStackTrace();
 		}
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void sendHotbarMessage(Player player, String message) {
-        try {
-        	Object IChatBaseComponent = getIChatBaseComponentA("{\"text\": \"" + message + "\"}");
-        	Enum ChatMessageType = SimpleReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "GAME_INFO");
-        	Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), IChatBaseComponent, ChatMessageType);
-        	
+		try {
+			Object IChatBaseComponent = getIChatBaseComponentA("{\"text\": \"" + message + "\"}");
+			Enum ChatMessageType = SimpleReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "GAME_INFO");
+			Object packetPlayOutChat = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), IChatBaseComponent, ChatMessageType);
+
 			PlayerUtilitiesReflections.sendPacket(player, packetPlayOutChat);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException | ClassNotFoundException | InstantiationException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Object getIChatBaseComponentA(String text) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Class<?> IChatBaseComponent = ReflectionsUtilities.getMCClass("IChatBaseComponent$ChatSerializer");
 		return SimpleReflection.callStaticMethod(IChatBaseComponent, "a", text);

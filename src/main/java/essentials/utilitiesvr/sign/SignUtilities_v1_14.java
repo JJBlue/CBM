@@ -11,7 +11,7 @@ public class SignUtilities_v1_14 {
 		PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
-	
+
 	public static void openSign(Player player) {
 		PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor();
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);

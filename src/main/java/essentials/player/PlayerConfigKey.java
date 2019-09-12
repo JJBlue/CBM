@@ -15,16 +15,19 @@ public enum PlayerConfigKey {
 	tpLocation,
 	tTp,
 	tWallGhost;
-	
+
 	private String value;
-	PlayerConfigKey() {}
+
+	PlayerConfigKey() {
+	}
+
 	PlayerConfigKey(String value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public String toString() {
-		if(value == null) return this.name();
+		if (value == null) return this.name();
 		return value;
 	}
 }

@@ -11,69 +11,70 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class PlayerManager {
-	private PlayerManager() {}
-	
+	private PlayerManager() {
+	}
+
 	protected static Map<UUID, PlayerConfig> players = Collections.synchronizedMap(new HashMap<>());
-	
+
 	public synchronized static void unload() {
 		unloadAll();
 	}
-	
+
 	public static PlayerConfig getPlayerConfig(Player player) {
 		return getPlayerConfig(player.getUniqueId());
 	}
-	
+
 	public static synchronized PlayerConfig getPlayerConfig(UUID uuid) {
 		return getPlayerConfig(uuid, true);
 	}
-	
+
 	public static synchronized PlayerConfig getPlayerConfig(UUID uuid, boolean buffer) {
 		PlayerConfig playerConfig = players.get(uuid);
-		
-		if(playerConfig != null)
+
+		if (playerConfig != null)
 			return playerConfig;
-		
-		if(buffer) {
+
+		if (buffer) {
 			Datenbank database = Databases.getPlayerDatabase();
 			database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
-			
+
 			Player player = Bukkit.getPlayer(uuid);
-			if(player != null && player.isOnline())
+			if (player != null && player.isOnline())
 				return load(uuid, true);
 		}
-		
+
 		return load(uuid, false);
 	}
-	
+
 	synchronized static PlayerConfig load(UUID uuid, boolean buffer) {
 		PlayerConfig playerConfig = new PlayerConfig(uuid);
-		if(buffer)
+		if (buffer)
 			players.put(uuid, playerConfig);
 		return playerConfig;
 	}
-	
+
 	synchronized static void unload(UUID uuid) {
 		PlayerConfig playerConfig = players.remove(uuid);
 		playerConfig.save();
 	}
-	
+
 	public synchronized static void unloadAll() {
-		for(Player player : Bukkit.getOnlinePlayers())
+		for (Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.quit(player);
-		
-		for(PlayerConfig pcv : players.values())
+
+		for (PlayerConfig pcv : players.values())
 			pcv.save();
-		
+
 		players.clear();
 	}
-	
+
 	static boolean hasColoumn(String coloum, ResultSet resultSet) {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
 			int coloumnCount = metaData.getColumnCount();
-			
-			for(int i = 1; i <= coloumnCount; i++) {
-				if(metaData.getColumnName(i).equalsIgnoreCase(coloum))
+
+			for (int i = 1; i <= coloumnCount; i++) {
+				if (metaData.getColumnName(i).equalsIgnoreCase(coloum))
 					return true;
 			}
 		} catch (SQLException e) {
@@ -81,19 +82,19 @@ public class PlayerManager {
 		}
 		return false;
 	}
-	
+
 	static List<String> getColoumns() {
 		List<String> coloumns = new LinkedList<>();
-		
+
 		Datenbank database = Databases.getPlayerDatabase();
 		ResultSet resultSet = database.getResult("SELECT * FROM players LIMIT 1");
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
 			int coloumnCount = metaData.getColumnCount();
-			
-			for(int i = 1; i <= coloumnCount; i++)
+
+			for (int i = 1; i <= coloumnCount; i++)
 				coloumns.add(metaData.getColumnName(i));
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

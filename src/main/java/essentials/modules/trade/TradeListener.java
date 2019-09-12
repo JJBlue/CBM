@@ -12,14 +12,14 @@ public class TradeListener implements Listener {
 	public void quit(PlayerQuitEvent event) {
 		TradeManager.removePlayer(event.getPlayer());
 	}
-	
+
 	@EventHandler
 	public void interact(PlayerInteractAtEntityEvent event) {
-		if(!(event.getRightClicked() instanceof Player)) return;
-		
+		if (!(event.getRightClicked() instanceof Player)) return;
+
 		Player player = event.getPlayer();
 		Player clickedPlayer = (Player) event.getRightClicked();
-		if(player.isSneaking() && player.getInventory().getItemInMainHand().getType().equals(Material.AIR))
+		if (player.isSneaking() && player.getInventory().getItemInMainHand().getType().equals(Material.AIR))
 			TradeManager.request(player, clickedPlayer);
 	}
 }

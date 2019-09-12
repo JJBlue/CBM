@@ -10,7 +10,6 @@ import java.util.Set;
 
 public class NBTUtilitiesReflections implements NBTTag {
 	/**
-	 * 
 	 * @param itemstack
 	 * @return NBTTagCompound
 	 */
@@ -24,12 +23,12 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 		return null;
 	}
-	
+
 	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
 		try {
 			Class<?> nbtTagCompoundClass = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound");
-			if(!nbtTagCompoundClass.isAssignableFrom(nbtTagCompound.getClass())) return;
-			
+			if (!nbtTagCompoundClass.isAssignableFrom(nbtTagCompound.getClass())) return;
+
 			Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit." + ReflectionsUtilities.getPackageVersionName() + ".inventory.CraftItemStack");
 			Object mcItemStack = SimpleReflection.callStaticMethod(craftItemStack, "asNMSCopy", itemstack);
 			SimpleReflection.callMethod(mcItemStack, "setTag", nbtTagCompound);
@@ -37,7 +36,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Object createNBTTagCompound() {
 		try {
 			Class<?> nbt = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound");
@@ -47,7 +46,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 		return null;
 	}
-	
+
 	public static Object createNBTTagList() {
 		try {
 			Class<?> nbt = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagList");
@@ -57,9 +56,9 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 		return null;
 	}
-	
+
 	private Object nbtTagCompound;
-	
+
 	public NBTUtilitiesReflections(ItemStack itemStack) {
 		nbtTagCompound = getNBTTagCompound(itemStack);
 	}
@@ -68,7 +67,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 	public void set(String key, Object value) {
 		try {
 			Class<?> nbtBase = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTBase");
-			if(!nbtBase.isAssignableFrom(value.getClass())) return;
+			if (!nbtBase.isAssignableFrom(value.getClass())) return;
 			SimpleReflection.callMethod(nbtTagCompound, "set", key, value);
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -325,5 +324,5 @@ public class NBTUtilitiesReflections implements NBTTag {
 	public Object getNBTTagCompound() {
 		return nbtTagCompound;
 	}
-	
+
 }

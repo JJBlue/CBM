@@ -15,24 +15,24 @@ import java.util.List;
 
 public class CommandSpy implements CommandExecutor, TabCompleter {
 	public static final CommandSpy commandSpy;
-	
+
 	static {
 		commandSpy = new CommandSpy();
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if(args.length < 1 || !(sender instanceof Player)) return true;
-		
+		if (args.length < 1 || !(sender instanceof Player)) return true;
+
 		Player player = (Player) sender;
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		
+
 		switch (args[0].toLowerCase()) {
 			case "value":
-				
-				if(args.length < 2) break;
-				
-				if(args[1].toLowerCase().equals("false")) {
+
+				if (args.length < 2) break;
+
+				if (args[1].toLowerCase().equals("false")) {
 					config.set("commandSpy", -1);
 					LanguageConfig.sendMessage(sender, "command-spy.toggled", LanguageConfig.getString("value.false"));
 				} else {
@@ -43,33 +43,33 @@ public class CommandSpy implements CommandExecutor, TabCompleter {
 						LanguageConfig.sendMessage(sender, "error.NumberFormatException");
 					}
 				}
-				
+
 				break;
-	
+
 			case "operator":
-				
+
 				boolean value = !config.getBoolean("commandSpyOperator");
 				config.set("commandSpyOperator", value);
 				LanguageConfig.sendMessage(sender, "command-spy.toggled", value + "");
-				
+
 				break;
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
-		
-		if(args.length == 1) {
+
+		if (args.length == 1) {
 			returnArguments.add("value");
 			returnArguments.add("operator");
-			
+
 		} else {
 			switch (args[0]) {
 				case "value":
-					if(args.length == 2) {
+					if (args.length == 2) {
 						returnArguments.add("0");
 						returnArguments.add("1");
 						returnArguments.add("2");
@@ -84,11 +84,11 @@ public class CommandSpy implements CommandExecutor, TabCompleter {
 					break;
 			}
 		}
-		
+
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-		
+
 		returnArguments.sort(Comparator.naturalOrder());
-		
+
 		return returnArguments;
 	}
 }
