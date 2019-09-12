@@ -1,0 +1,8 @@
+install_on_shutdown: false
+# downloadFolder: value '-' is default location
+downloadFolder: '-'
+UpdatePlugins:
+  # name: Is needed. The downloaded file is renamed to this name
+  # ID: Is needed. ID of the Plugin in Spigot. You can find the ID for example in the Spigot URL
+- name: CBM
+  ID: 70992

@@ -1,7 +1,6 @@
 package essentials.modules.updater;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,6 +10,7 @@ import java.util.Map;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 
 public class UpdaterConfig {
@@ -20,20 +20,9 @@ public class UpdaterConfig {
 	public static void load() {
 		configFile = new File(MainConfig.getDataFolder(), "Updater.yml");
 		
-		{
-			if(!configFile.exists()) {
-				try {
-					configFile.createNewFile();
-					FileWriter writer = new FileWriter(configFile);
-					writer.append("# UpdatePlugins.ID: Is needed. ID of the Plugin in Spigot. You can find the ID for example in the Spigot URL");
-					writer.append("\n# UpdatePlugins.name: Is needed. The downloaded file is renamed to this name");
-					writer.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
+		if(!configFile.exists())
+			ConfigHelper.extractDefaultConfigs("Updater", "Updater.yml");
+			
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		
 		//Load default

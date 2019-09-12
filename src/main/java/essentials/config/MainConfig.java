@@ -1,7 +1,6 @@
 package essentials.config;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,19 +25,8 @@ public class MainConfig {
 		configFile = new File(Main.getPlugin().getDataFolder(), "config.yml");
 		isFirstTime = !configFile.exists();
 		
-		if(isFirstTime) {
-			try {
-				configFile.getParentFile().mkdirs();
-				configFile.createNewFile();
-				FileWriter writer = new FileWriter(configFile);
-				writer.append("# Restart: Commands or scripts to be executed when restarting");
-				writer.append("\n#          !file <File>: Means to execute a file");
-				writer.append("\n#          <Command>: Execute a command");
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		if(isFirstTime)
+			ConfigHelper.extractDefaultConfigs("config", configFile);
 		
 		configuration = YamlConfiguration.loadConfiguration(configFile);
 		configuration.options().copyDefaults(true);

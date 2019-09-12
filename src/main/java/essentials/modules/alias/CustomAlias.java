@@ -1,7 +1,6 @@
 package essentials.modules.alias;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -17,6 +16,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
@@ -32,46 +32,8 @@ public class CustomAlias {
 	public static void load() {
 		file = new File(MainConfig.getDataFolder(), "CustomAlias.yml");
 		
-		if(!file.exists()) {
-			try {
-				file.createNewFile();
-				FileWriter writer = new FileWriter(file);
-				writer.append("# extraPermission: This command has a additional Permission. ExtraPermission: CustomAlias.command.<Command>");
-				writer.append("\n# cmds: All Commands to be executed");
-				writer.append("\n# 	- !delay <Ticks> : Wait x Ticks to continue. 20 Ticks = 1 s");
-				writer.append("\n# 	- @c <Command> : Execute the command over the consol");
-				writer.append("\n# 	- $1 : Replaced by the arguement on this index. index >= 1");
-				writer.append("\n# 	- ... : End of the command. Replaced by all unuesed arguements");
-				writer.append("\n# 	Examples:");
-				writer.append("\n# 	- '@c say $2 is $3 ...'");
-				writer.append("\n# 	- !delay 100");
-				writer.append("\n# 	- say 5s later");
-				writer.append("\n" + prefixCommands.substring(0, prefixCommands.length() - 1) + ":");
-				writer.append("\n  test:");
-				writer.append("\n    enable: false");
-				writer.append("\n    extraPermission: false");
-				writer.append("\n    cmds:");
-				writer.append("\n    - '@c say $2 is $3 ...'");
-				writer.append("\n    - '!delay 100'");
-				writer.append("\n    - 'say 5s later'");
-				writer.append("\n    tabComplete:");
-				writer.append("\n      1:");
-				writer.append("\n      - '@p'");
-				writer.append("\n      - 'Meier'");
-				writer.append("\n      2:");
-				writer.append("\n      - a");
-				writer.append("\n      3:");
-				writer.append("\n      - b");
-				writer.append("\n  test2:");
-				writer.append("\n    enable: false");
-				writer.append("\n    extraPermission: false");
-				writer.append("\n    cmds:");
-				writer.append("\n    - 'cbm timer ...'");
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		if(!file.exists())
+			ConfigHelper.extractDefaultConfigs("CustomAlias", "CustomAlias.yml");	
 		
 		fileConfiguration = YamlConfiguration.loadConfiguration(file);
 		

@@ -1,0 +1,13 @@
+#Name of the timer. This Timer is called 'default'
+default:
+  #Position of the Timer. Values are BOSSBAR, CHAT, NOWHERE
+  position: BOSSBAR
+  #Only used for Bossbar. Possible Colors are: BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+  color: BLUE
+  #Title of Bossbar or Chat Message
+  title: Counddown $1
+  maxValue: 60
+  #Count Up or Down. Values are: UP, DOWN
+  countUpOrDown: DOWN
+  finished:
+  - say Counddown completed

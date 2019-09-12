@@ -1,0 +1,30 @@
+Commands:
+  test:
+    enable: false
+    # extraPermission: This command has a additional Permission. ExtraPermission: CustomAlias.command.<Command>
+    extraPermission: false
+    # cmds: All Commands to be executed
+    # 	- !delay <Ticks> : Wait x Ticks to continue. 20 Ticks = 1 s
+    # 	- @c <Command> : Execute the command over the consol
+    # 	- $1 : Replaced by the arguement on this index. index >= 1
+    # 	- ... : End of the command. Replaced by all unuesed arguements
+    # 	Examples:
+    # 	- '@c say $2 is $3 ...'
+    # 	- !delay 100
+    # 	- say 5s later
+    cmds:
+    - '@c say $2 is $3 ...'
+    - '!delay 100'
+    - say 5s later
+    # @p will be replaced to player, who execute (tabComplete) this command
+    tabComplete:
+      '1':
+      - '@p'
+      - Meier
+      '2':
+      - a
+  test2:
+    enable: false
+    extraPermission: false
+    cmds:
+    - cbm timer ...

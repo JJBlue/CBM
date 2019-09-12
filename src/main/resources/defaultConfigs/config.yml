@@ -1,0 +1,21 @@
+bStats:
+  # Disable/Enable BStats. bStats is on the first start of the server disabled to generate this file
+  enable: false
+server:
+  # Restart: Commands or scripts to be executed when restarting
+  restart:
+  - stop
+  # PlayerAmount showen in Main Screen.
+  # -1 = disable
+  # if the current online Players > showPlayerAmount the players, who tried to join, will be kicked
+  # In this case only operators or players in joinPlayersWhenFull can join on the server
+  showPlayerAmount: -1
+  # Kick Message if the server is full
+  fullMessage: §4The Server is full
+  # See showPlayerAmount
+  joinPlayersWhenFull:
+  - UUID
+  # Only these players could be operators. If a none-player get op and tried to use command, the op state will be removed.
+  couldOperator:
+  - UUID
+  motd: §3I'm a Server. Not a Virus

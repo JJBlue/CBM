@@ -15,7 +15,7 @@ import essentials.main.Main;
 public class TimeWorldManager {
 	private static int taskID = -1;
 	
-	private static TimeWorldValues defaultTWV; //TODO
+	static TimeWorldValues defaultTWV; //TODO
 	private static Map<World, TimeWorldValues> map = new HashMap<>();
 	private static ReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
 	

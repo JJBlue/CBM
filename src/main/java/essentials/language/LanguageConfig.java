@@ -1,16 +1,14 @@
 package essentials.language;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import essentials.config.ConfigLoader;
+import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 
 public class LanguageConfig {
@@ -22,35 +20,14 @@ public class LanguageConfig {
 	private static FileConfiguration fallback;
 	
 	static {
-		File f = new File(MainConfig.getDataFolder(), "language/example.yml");
-		f.getParentFile().mkdirs();
-		
-		InputStream inputStream = LanguageConfig.class.getResourceAsStream("en.yml");
-		FileOutputStream outputStream = null;
-		
-		try {
-			outputStream = new FileOutputStream(f);
-			while(inputStream.available() > 0)
-				outputStream.write(inputStream.read());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				inputStream.close();
-			} catch (IOException e) {}
-			
-			try {
-				if(outputStream != null)
-					outputStream.close();
-			} catch (Exception e2) {}
-		}
+		ConfigHelper.extractFile(LanguageConfig.class.getResourceAsStream("en.yml"), new File(MainConfig.getDataFolder(), "language/example.yml"));
 	}
 	
-	public static void load() {		
+	public static void load() {
 		File l = new File(MainConfig.getDataFolder(), "language/" + getLanguage() + ".yml");
 		if(l.exists()) {
 			try {
-				configuration = ConfigLoader.loadConfig(l, "UTF-8");
+				configuration = ConfigHelper.loadConfig(l, "UTF-8");
 				file = l;
 			} catch (InvalidConfigurationException | IOException e) {
 				e.printStackTrace();
@@ -59,7 +36,7 @@ public class LanguageConfig {
 		}
 		
 		try {
-			fallback = ConfigLoader.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
+			fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
 		} catch (InvalidConfigurationException | IOException e) {
 			e.printStackTrace();
 		}
