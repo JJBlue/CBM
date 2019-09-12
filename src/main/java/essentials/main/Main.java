@@ -43,6 +43,7 @@ import essentials.modules.trade.TradeListener;
 import essentials.modules.updater.UpdaterConfig;
 import essentials.modules.updater.UpdaterServerManager;
 import essentials.modules.warpmanager.WarpManager;
+import essentials.modules.world.WorldConfig;
 import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.utilities.inventory.InventoryListener;
@@ -126,6 +127,7 @@ public class Main extends JavaPlugin implements Listener{
 		unloadHelper(() -> Tablist.unload());
 		unloadHelper(() -> CommandOnBlock.unload());
 		unloadHelper(() -> PlayerManager.unload());
+		unloadHelper(() -> WorldConfig.unload());
 		
 		unloadHelper(() -> {
 			if(UpdaterConfig.isInstallOnShutdown())
@@ -158,8 +160,9 @@ public class Main extends JavaPlugin implements Listener{
 	}
 	
 	public static void reload() {
-		UpdaterServerManager.load();
 		CustomAlias.load();
+		UpdaterServerManager.load();
+		WorldConfig.load();
 		LanguageConfig.load();
 		Tablist.load();
 		LoadMapPaint.load();

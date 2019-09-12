@@ -36,7 +36,7 @@ public class TimeWorldManager {
 	
 	public static void addSlepSpeed(World world, double factor, int minPlayer) {
 		TimeWorldValues twv = new TimeWorldValues();
-		twv.setStartMinPlayerSleeping(minPlayer);
+		twv.setMinPlayerSleepingPercent(minPlayer > 100 || minPlayer < 0 ? 0 : minPlayer);
 		twv.setSpeedFactor(factor);
 		
 		addWorld(world, twv);
@@ -96,6 +96,12 @@ public class TimeWorldManager {
 		readWriteLock.writeLock().unlock();
 	}
 	
+	public static void clear() {
+		readWriteLock.writeLock().lock();
+		map.clear();
+		readWriteLock.writeLock().unlock();
+	}
+	
 	public synchronized static void startTimer() {
 		if(taskID != -1) return;
 		
@@ -129,6 +135,8 @@ public class TimeWorldManager {
 							if(player.isSleeping())
 								c++;
 						}
+						
+						if((100 / g) * c < twv.getMinPlayerSleepingPercent()) continue;
 						
 						long playerFactor = g != 0 ? 1 * (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
 						worldTime += playerFactor;

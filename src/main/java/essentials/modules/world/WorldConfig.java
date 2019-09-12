@@ -25,6 +25,8 @@ public class WorldConfig {
 	}
 	
 	public static void unload() {
+		TimeWorldConfig.unload();
+		
 		configuration = null;
 		file = null;
 	}

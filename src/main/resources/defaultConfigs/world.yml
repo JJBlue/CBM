@@ -1,13 +1,20 @@
+# Default value for all worlds
 time:
-  # Default value of all worlds
-  default:
     # Speed of night and day time cycle
     day-speed: 1
     night-speed: 1
     # sleep-speed is divided to all online-players
     sleep-speed: 1
-    # Min Player Sleeping to speed the night-time
-    min-player-sleeping: 0
+    # Min Player Sleeping to speed the night-time. Min value 0, max value 100
+    min-player-percent-sleeping: 0
     # The world time is set to real-time
     use-real-time: false
-  worlds:
+# Worlds extra Configuration
+worlds:
+  # Your world name here
+  world:
+    # Time if disabled or not exist the default one is used
+    time:
+      enable: false
+      sleep-speed: 100
+      min-player-sleeping: 1

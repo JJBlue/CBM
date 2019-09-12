@@ -3,7 +3,7 @@ package essentials.modules.world.time;
 public class TimeWorldValues {
 	private boolean useRealTime;
 	
-	private int startMinPlayerSleeping;
+	private int minPlayerSleepingPercent;
 	private double sleepSpeedFactor = 1;
 	
 	private double nightSpeedFactor = 1;
@@ -12,14 +12,6 @@ public class TimeWorldValues {
 	private boolean useBossBar;
 	
 	public TimeWorldValues() {}
-
-	public int getStartMinPlayerSleeping() {
-		return startMinPlayerSleeping;
-	}
-
-	public void setStartMinPlayerSleeping(int startMinPlayerSleeping) {
-		this.startMinPlayerSleeping = startMinPlayerSleeping;
-	}
 
 	public boolean isUseBossBar() {
 		return useBossBar;
@@ -64,5 +56,13 @@ public class TimeWorldValues {
 
 	public void setUseRealTime(boolean useRealTime) {
 		this.useRealTime = useRealTime;
+	}
+
+	public int getMinPlayerSleepingPercent() {
+		return minPlayerSleepingPercent;
+	}
+
+	public void setMinPlayerSleepingPercent(int minPlayerSleepingPercent) {
+		this.minPlayerSleepingPercent = minPlayerSleepingPercent;
 	}
 }
