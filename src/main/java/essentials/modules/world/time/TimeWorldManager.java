@@ -40,7 +40,6 @@ public class TimeWorldManager {
 		twv.setSpeedFactor(factor);
 		
 		addWorld(world, twv);
-		startTimer();
 	}
 
 	public static void addRealTime(World world) {
@@ -54,7 +53,6 @@ public class TimeWorldManager {
 		TimeWorldValues twv = new TimeWorldValues();
 		twv.setSpeedFactor(factor);
 		addWorld(world, twv);
-		startTimer();
 	}
 	
 	public static void setRealTime(World world) {
@@ -94,12 +92,14 @@ public class TimeWorldManager {
 		readWriteLock.writeLock().lock();
 		map.put(world, timeWorldValues);
 		readWriteLock.writeLock().unlock();
+		startTimer();
 	}
 	
 	public static void clear() {
 		readWriteLock.writeLock().lock();
 		map.clear();
 		readWriteLock.writeLock().unlock();
+		stopTimer();
 	}
 	
 	public synchronized static void startTimer() {
@@ -136,7 +136,7 @@ public class TimeWorldManager {
 								c++;
 						}
 						
-						if((100 / g) * c < twv.getMinPlayerSleepingPercent()) continue;
+						if((100d / g) * c < twv.getMinPlayerSleepingPercent()) continue;
 						
 						long playerFactor = g != 0 ? 1 * (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
 						worldTime += playerFactor;

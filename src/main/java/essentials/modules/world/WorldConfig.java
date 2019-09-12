@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.modules.world.time.TimeWorldConfig;
 
@@ -18,7 +19,11 @@ public class WorldConfig {
 	static FileConfiguration configuration;
 	
 	public static void load() {
-		file = new File(MainConfig.getDataFolder());
+		file = new File(MainConfig.getDataFolder(), "worlds.yml");
+		
+		if(!file.exists())
+			ConfigHelper.extractDefaultConfigs("worlds", "worlds.yml");
+		
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
 		TimeWorldConfig.load();

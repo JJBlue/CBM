@@ -34,8 +34,6 @@ public class MainConfig {
 			e.printStackTrace();
 		}
 		
-		System.out.println(configuration.get(MainConfigEnum.Motd.value));
-		
 		//Plugin
 		configuration.addDefault(MainConfigEnum.DataFolder.value, "-");
 		configuration.addDefault(MainConfigEnum.Language.value, "en");
