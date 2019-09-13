@@ -69,21 +69,21 @@ public class LanguageConfig {
 	}
 
 	public static String getString(String key, String... args) {
-		StringBuilder m = new StringBuilder(getString(key));
+		String m = getString(key);
 
 		if (m == null) {
 			addMissingStringToExample(key);
 
-			m = new StringBuilder("§4Message is missing! Paramters: ");
+			m = "§4Message is missing! Paramters: ";
 
 			for (int i = 1; i <= args.length; i++)
-				m.append("$").append(i).append(" ");
+				m += "$" + i + " ";
 		}
 
 		for (int i = args.length; i > 0; i--)
-			m = new StringBuilder(m.toString().replace("$" + i, args[i - 1] == null ? "" : args[i - 1]));
+			m = m.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
 
-		m = new StringBuilder(m.toString().replaceAll("(?<!\\\\)\\\\n", "\n"));
+		m = m.replaceAll("(?<!\\\\)\\\\n", "\n");
 
 		return m.toString();
 	}
