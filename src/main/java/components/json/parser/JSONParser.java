@@ -53,7 +53,7 @@ public class JSONParser {
 		if (me.equals("{}")) return new JSONObject();
 		if (me.startsWith("\"") && me.endsWith("\"")) return new JSONValue(me.substring(1, me.length() - 1));
 		if (!me.contains("{") && !me.contains("[")) {
-			if (me.contains("}")) throw new IllegalArgumentException("Brackets missing -1");
+			if (me.contains("}") || me.contains("]")) throw new IllegalArgumentException("Brackets missing -1");
 
 			if (me.equalsIgnoreCase("null")) return new JSONValue(null);
 			if (me.equalsIgnoreCase("true")) return new JSONValue(true);
