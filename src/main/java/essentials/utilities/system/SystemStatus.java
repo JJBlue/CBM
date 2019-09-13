@@ -3,6 +3,8 @@ package essentials.utilities.system;
 import com.sun.management.OperatingSystemMXBean;
 import components.reflections.SimpleReflection;
 import essentials.main.Main;
+import essentials.utilities.MathUtilities;
+
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -112,20 +114,10 @@ public class SystemStatus {
 	}
 
 	public static double BytestoGB(long bytes, int amount) {
-		return round(bytes / 1000000000d, amount);
+		return MathUtilities.round(bytes / 1000000000d, amount);
 	}
 
 	private static File myFile() {
 		return new File(".");
-	}
-
-	public static double round(double value, int amount) {
-		long roundV = (long) Math.pow(10, amount);
-		long tmp = (long) (value * roundV);
-		return (double) tmp / (double) roundV;
-	}
-
-	public static double toProzent(double ganzes, double anteil) {
-		return anteil / ganzes;
 	}
 }

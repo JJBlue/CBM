@@ -626,21 +626,21 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				sender.sendMessage("§e--------------------------------------------------");
 
 				sender.sendMessage("§e Platform: §6" + SystemStatus.getPlatform() + "§e(§6" + SystemStatus.getArchitecture() + "§e)" + " §eRunning threads: §6" + SystemStatus.getRunningThreads());
-				sender.sendMessage("§e System CPU usage: §6" + SystemStatus.round(SystemStatus.getSystemCPUUsage(), 2) + " % §e(§6" + SystemStatus.getCores() + " cores§e)");
-				sender.sendMessage("§e Process CPU usage: §6" + SystemStatus.round(SystemStatus.getCPUUsage(), 2));
+				sender.sendMessage("§e System CPU usage: §6" + MathUtilities.round(SystemStatus.getSystemCPUUsage(), 2) + " % §e(§6" + SystemStatus.getCores() + " cores§e)");
+				sender.sendMessage("§e Process CPU usage: §6" + MathUtilities.round(SystemStatus.getCPUUsage(), 2));
 				sender.sendMessage("§e Uptime: " + SystemStatus.getOnlineSince());
 
 				try {
 					double[] tps = SystemStatus.getRecentTPS();
 					if (tps != null)
-						sender.sendMessage("§e TPS: §6" + SystemStatus.round(((tps[0] + tps[1] + tps[2]) / 3), 2) + " §e(§6" + SystemStatus.round(tps[0], 2) + " " + SystemStatus.round(tps[1], 2) + " " + SystemStatus.round(tps[2], 2) + "§e)");
+						sender.sendMessage("§e TPS: §6" + MathUtilities.round(((tps[0] + tps[1] + tps[2]) / 3), 2) + " §e(§6" + MathUtilities.round(tps[0], 2) + " " + MathUtilities.round(tps[1], 2) + " " + MathUtilities.round(tps[2], 2) + "§e)");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
-				sender.sendMessage("§e Memory usage: §6" + SystemStatus.round((SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) / SystemStatus.BytestoMB(SystemStatus.getMaxMemory())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + " §e/§6 " + (int) SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) + " MB§e)");
+				sender.sendMessage("§e Memory usage: §6" + MathUtilities.round((SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) / SystemStatus.BytestoMB(SystemStatus.getMaxMemory())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + " §e/§6 " + (int) SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) + " MB§e)");
 				sender.sendMessage("§e Java version: " + SystemStatus.getJavaVersion());
-				sender.sendMessage("§e Disk usage: " + SystemStatus.round((SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) / SystemStatus.BytestoGB(SystemStatus.getMaxDisk())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + " §e/§6 " + (int) SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB§e)");
+				sender.sendMessage("§e Disk usage: " + MathUtilities.round((SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) / SystemStatus.BytestoGB(SystemStatus.getMaxDisk())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + " §e/§6 " + (int) SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB§e)");
 
 				sender.sendMessage("§e--------------------------------------------------");
 
@@ -765,6 +765,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("reload");
 			returnArguments.add("savewarp");
 			returnArguments.add("setwarp");
+			returnArguments.add("seen");
 			returnArguments.add("silent");
 			returnArguments.add("sit");
 			returnArguments.add("sign");

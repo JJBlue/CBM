@@ -2,6 +2,8 @@ error:
   IllegalArgumentException: §4Error. Wrong Arguements are uesed
   NumberFormatException: §4Error. Number could not be parsed
   default: §4Error
+text:
+  speed: Speed
 value:
   true: 'True'
   false: 'False'
