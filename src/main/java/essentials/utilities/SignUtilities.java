@@ -13,32 +13,33 @@ public class SignUtilities {
 	public static void editSign(Player player, Sign sign) throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException, InvocationTargetException {
 		SignUtilitiesReflections.editSign(player, sign);
 	}
-	
+
 	public static void openSign(Player player, Location location) {
-		if(!location.getBlock().getType().name().toLowerCase().contains("sign")) return; //Ansonsten stuerzt Minecraft beim Spieler ab
+		if (!location.getBlock().getType().name().toLowerCase().contains("sign"))
+			return; //Ansonsten stuerzt Minecraft beim Spieler ab
 		openSignWithoutCheck(player, location);
 	}
-	
+
 	public static void openSignWithoutCheck(Player player, Location location) {
 		SignUtilitiesReflections.openSignWithoutCheck(player, location);
 	}
-	
+
 	public static void openFakeSign(Player player, Material material, Location location, String[] lines) {
 		setFakeSign(player, material, location, lines);
-	    openSignWithoutCheck(player, location);
+		openSignWithoutCheck(player, location);
 	}
-	
+
 	public static void setFakeSign(Player player, Material material, Location location, String[] lines) {
-		if(!material.name().toLowerCase().contains("sign")) return;
-	    
-	    player.sendBlockChange(location, material.createBlockData());
-	    player.sendSignChange(location, lines);
+		if (!material.name().toLowerCase().contains("sign")) return;
+
+		player.sendBlockChange(location, material.createBlockData());
+		player.sendSignChange(location, lines);
 	}
-	
+
 	public static void openSign(Player player) {
 		SignUtilitiesReflections.openSign(player);
 	}
-	
+
 	public static Sign getSign(Block block) {
 		return (Sign) block.getState();
 	}

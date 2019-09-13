@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 
 public class TablistUtilities {
 	public static void sendHeaderFooter(String header, String footer) {
-		for(Player onlinePlayer : Bukkit.getOnlinePlayers())
+		for (Player onlinePlayer : Bukkit.getOnlinePlayers())
 			onlinePlayer.setPlayerListHeaderFooter(header, footer);
 	}
-	
+
 	public static void sendHeaderFooter(Player player, String header, String footer) {
 		player.setPlayerListHeaderFooter(header, footer);
 	}

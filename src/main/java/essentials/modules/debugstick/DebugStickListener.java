@@ -9,7 +9,6 @@ import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,129 +24,130 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.List;
 
 public class DebugStickListener implements Listener {
-	
+
 	/*
 	 * PlayerInteractEvent send sometimes doppel, because Object is clickable -> Redstonewire etc...
 	 */
-	@EventHandler (priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void interact(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		
-		if(player.getGameMode().equals(GameMode.CREATIVE) && player.isOp()) return; //He could use the normal Debug_Stick
-		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
-		
+
+		if (player.getGameMode().equals(GameMode.CREATIVE) && player.isOp())
+			return; //He could use the normal Debug_Stick
+		if (!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
+		if (!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
+
 		event.setCancelled(true);
-		
+
 		Block block = event.getClickedBlock();
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		
+
 		switch (event.getAction()) {
 			case LEFT_CLICK_BLOCK:
-				if(player.isSneaking()) {
+				if (player.isSneaking()) {
 					DebugStickBlocks.openBlockStateEditor(player, block);
 					return;
 				}
-				
+
 				List<DebugStickBlockChanges> list = DebugStickBlocks.getPossibleBlockStateChanges(block);
-				if(list.isEmpty()) break;
+				if (list.isEmpty()) break;
 				DebugStickBlockChanges debugStickBlockChanges = (DebugStickBlockChanges) config.get("DebugStickBlockChangesCurrent");
-				
-				if(debugStickBlockChanges == null)
+
+				if (debugStickBlockChanges == null)
 					debugStickBlockChanges = list.get(0);
 				else {
 					int i = list.indexOf(debugStickBlockChanges);
-					
-					if(i < 0 || i == list.size() - 1)
+
+					if (i < 0 || i == list.size() - 1)
 						debugStickBlockChanges = list.get(0);
 					else
 						debugStickBlockChanges = list.get(++i);
 				}
-				
+
 				config.setTmp("DebugStickBlockChangesCurrent", debugStickBlockChanges);
 				ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
-				
+
 				break;
 			case RIGHT_CLICK_BLOCK:
 				debugStickBlockChanges = (DebugStickBlockChanges) config.get("DebugStickBlockChangesCurrent");
-				if(debugStickBlockChanges == null) break;
-				
+				if (debugStickBlockChanges == null) break;
+
 				DebugStickBlocks.setNextBlockState(block, debugStickBlockChanges, !player.isSneaking());
 				ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickBlocks.getBlockDataValue(block, debugStickBlockChanges));
-				
+
 				break;
 			case LEFT_CLICK_AIR:
-				if(!player.isSneaking())
+				if (!player.isSneaking())
 					DebugStickEntityInventory.openInventory(player, player);
 				break;
 			default:
 				break;
 		}
 	}
-	
-	@EventHandler (priority = EventPriority.HIGHEST)
+
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void interactEntity(PlayerInteractAtEntityEvent event) {
 		Player player = event.getPlayer();
-		
-		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
-		
+
+		if (!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
+		if (!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
+
 		event.setCancelled(true);
-		
+
 		Entity entity = event.getRightClicked();
-		if(player.isSneaking() && entity.isInvulnerable()) {
+		if (player.isSneaking() && entity.isInvulnerable()) {
 			entity.setInvulnerable(false);
 			ChatUtilities.sendHotbarMessage(player, "Invulnerable is toggled off");
 			return;
 		}
-		
+
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		
+
 		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
-		if(debugStickBlockChanges == null) return;
-		if(System.currentTimeMillis() - (long) config.getLong("DebugStickEntityChangesTimeout") < 500) return;
-		
+		if (debugStickBlockChanges == null) return;
+		if (System.currentTimeMillis() - (long) config.getLong("DebugStickEntityChangesTimeout") < 500) return;
+
 		config.setTmp("DebugStickEntityChangesTimeout", System.currentTimeMillis());
-		
+
 		DebugStickEntities.setNextEntityState(entity, debugStickBlockChanges, !player.isSneaking());
 		ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges));
 	}
-	
-	@EventHandler (priority = EventPriority.HIGHEST)
+
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void damage(EntityDamageByEntityEvent event) {
-		if(!(event.getDamager() instanceof Player)) return;
-		
+		if (!(event.getDamager() instanceof Player)) return;
+
 		Player player = (Player) event.getDamager();
-		
-		if(!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
-		if(!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
-		
+
+		if (!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
+		if (!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
+
 		event.setCancelled(true);
-		
+
 		Entity entity = event.getEntity();
-		
-		if(player.isSneaking()) {
+
+		if (player.isSneaking()) {
 			DebugStickEntities.openEntityStateEditor(player, entity);
 			return;
 		}
-		
+
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		
+
 		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);
-		if(list.isEmpty()) return;
+		if (list.isEmpty()) return;
 		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
-		
-		if(debugStickBlockChanges == null)
+
+		if (debugStickBlockChanges == null)
 			debugStickBlockChanges = list.get(0);
 		else {
 			int i = list.indexOf(debugStickBlockChanges);
-			
-			if(i < 0 || i == list.size() - 1)
+
+			if (i < 0 || i == list.size() - 1)
 				debugStickBlockChanges = list.get(0);
 			else
 				debugStickBlockChanges = list.get(++i);
 		}
-		
+
 		config.setTmp("DebugStickEntityChangesCurrent", debugStickBlockChanges);
 		ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
 	}

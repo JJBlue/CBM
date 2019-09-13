@@ -12,14 +12,14 @@ public class ChunkListener implements Listener {
 	public void load(ChunkLoadEvent event) {
 		System.out.println("#Loading");
 	}
-	
+
 	@EventHandler
 	public void unload(ChunkUnloadEvent event) {
-		
+
 	}
-	
+
 	@EventHandler
 	public void populate(ChunkPopulateEvent event) {
-		
+
 	}
 }

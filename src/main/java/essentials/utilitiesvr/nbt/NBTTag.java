@@ -10,74 +10,71 @@ public interface NBTTag {
 	 * @param key
 	 * @param value instanceof NBTBase
 	 */
-	public void set(String key, Object value);
-	
-	public boolean getBoolean(String key);
-	
-	public void setBoolean(String key, boolean value);
-	
-	public byte getByte(String key);
-	
-	public void setByte(String key, byte value);
-	
+	void set(String key, Object value);
+
+	boolean getBoolean(String key);
+
+	void setBoolean(String key, boolean value);
+
+	byte getByte(String key);
+
+	void setByte(String key, byte value);
+
 	/**
-	 * 
 	 * @param key
 	 * @return NBTTagCompound
 	 */
-	public Object getCompound(String key);
-	
-	public double getDouble(String key);
-	
-	public void setDouble(String key, double value);
-	
-	public float getFloat(String key);
-	
-	public void setFloat(String key, float value);
-	
-	public int getInt(String key);
-	
-	public void setInt(String key, int value);
-	
-	public Set<String> getKeys();
-	
+	Object getCompound(String key);
+
+	double getDouble(String key);
+
+	void setDouble(String key, double value);
+
+	float getFloat(String key);
+
+	void setFloat(String key, float value);
+
+	int getInt(String key);
+
+	void setInt(String key, int value);
+
+	Set<String> getKeys();
+
 	/**
-	 * 
 	 * @param key
 	 * @param number
 	 * @return NBTTagList
 	 */
-	public List<?> getList(String key, int number);
-	
-	public long getLong(String key);
-	
-	public void setLong(String key, long value);
-	
-	public short getShort(String key);
-	
-	public void setShort(String key, short value);
-	
-	public String getString(String key);
-	
-	public void setString(String key, String value);
-	
-	public byte getTypeID(String key);
-	
-	public byte[] getByteArray(String key);
-	
-	public void setByteArray(String key, byte[] value);
-	
-	public int[] getIntArray(String key);
-	
-	public void setIntArray(String key, int[] value);
-	
-	public long[] getLongArray(String key);
-	
-	public void setToItemStack(ItemStack itemStack);
-	
+	List<?> getList(String key, int number);
+
+	long getLong(String key);
+
+	void setLong(String key, long value);
+
+	short getShort(String key);
+
+	void setShort(String key, short value);
+
+	String getString(String key);
+
+	void setString(String key, String value);
+
+	byte getTypeID(String key);
+
+	byte[] getByteArray(String key);
+
+	void setByteArray(String key, byte[] value);
+
+	int[] getIntArray(String key);
+
+	void setIntArray(String key, int[] value);
+
+	long[] getLongArray(String key);
+
+	void setToItemStack(ItemStack itemStack);
+
 	/**
-	 * 
 	 * @return NBTTagCompound
 	 */
-	public Object getNBTTagCompound();
+	Object getNBTTagCompound();
 }

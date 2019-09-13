@@ -1,15 +1,15 @@
 package essentials.utilitiesvr.bukkit;
 
-import java.lang.reflect.InvocationTargetException;
-
+import components.reflections.SimpleReflection;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.SimpleCommandMap;
 
-import components.reflections.SimpleReflection;
+import java.lang.reflect.InvocationTargetException;
 
 public class BukkitUtilitiesReflection {
-	private BukkitUtilitiesReflection() {}
+	private BukkitUtilitiesReflection() {
+	}
 
 	public static SimpleCommandMap getSimpleCommandMap() {
 		try {
@@ -19,7 +19,7 @@ public class BukkitUtilitiesReflection {
 		}
 		return null;
 	}
-	
+
 	public static Server getCraftServer() {
 		return Bukkit.getServer();
 	}

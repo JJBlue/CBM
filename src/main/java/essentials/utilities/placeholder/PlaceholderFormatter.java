@@ -19,100 +19,100 @@ import java.util.TimeZone;
 
 public class PlaceholderFormatter {
 	public static String parseToString(CommandSender commandSender, String text) {
-		if(text == null) return "";
-		
+		if (text == null) return "";
+
 		StringBuilder finialize = new StringBuilder();
 		StringBuilder parser = null;
 		String preCommand = null;
-		
+
 		boolean inParser = false;
 		boolean backSlash = false;
-		
+
 		boolean couldUseArgs = false;
 		boolean argsEnabled = false;
-		
-		for(char c : text.toCharArray()) {
+
+		for (char c : text.toCharArray()) {
 			switch (c) {
 				case '\\':
-					
-					if(!argsEnabled && preCommand != null) {
+
+					if (!argsEnabled && preCommand != null) {
 						finialize.append(objectToString(commandSender, preCommand, null));
 						preCommand = null;
 					}
 					couldUseArgs = false;
-					
+
 					backSlash = !backSlash;
-					
-					if(!backSlash) {
-						if(inParser)
+
+					if (!backSlash) {
+						if (inParser)
 							parser.append(c);
 						else
 							finialize.append(c);
 					}
-						
+
 					break;
 				case '[':
-					if(!couldUseArgs) {
-						if(inParser)
+					if (!couldUseArgs) {
+						if (inParser)
 							parser.append(c);
 						else
 							finialize.append(c);
 						break;
 					}
-					
+
 					argsEnabled = true;
 					inParser = true;
 					couldUseArgs = false;
 					parser = new StringBuilder();
-					
+
 					break;
 				case ']':
-					
-					if(!argsEnabled && preCommand != null) {
+
+					if (!argsEnabled && preCommand != null) {
 						finialize.append(objectToString(commandSender, preCommand, null));
 						preCommand = null;
 					}
 					couldUseArgs = false;
-					
-					if(!argsEnabled) {
-						if(inParser)
+
+					if (!argsEnabled) {
+						if (inParser)
 							parser.append(c);
 						else
 							finialize.append(c);
 						break;
 					}
-					
+
 					argsEnabled = false;
 					inParser = false;
-					
+
 					finialize.append(objectToString(commandSender, preCommand, parser.toString()));
 					parser = null;
 					preCommand = null;
-					
+
 					break;
 				case '%':
-					
-					if(!argsEnabled && preCommand != null) {
+
+					if (!argsEnabled && preCommand != null) {
 						finialize.append(objectToString(commandSender, preCommand, null));
 						preCommand = null;
 					}
 					couldUseArgs = false;
-					
-					if(backSlash || argsEnabled) {
+
+					if (backSlash || argsEnabled) {
 						backSlash = false;
-						
-						if(inParser)
+
+						if (inParser)
 							parser.append(c);
 						else
 							finialize.append(c);
-						
+
 						break;
 					}
-					
+
 					inParser = !inParser;
-					
-					if(inParser) {
-						if(parser == null)
+
+					if (inParser) {
+						if (parser == null)
 							parser = new StringBuilder();
 						parser.append(c);
 					} else {
@@ -121,97 +121,97 @@ public class PlaceholderFormatter {
 						parser = null;
 						couldUseArgs = true;
 					}
-					
+
 					break;
 
 				default:
-					if(!argsEnabled && preCommand != null) {
+					if (!argsEnabled && preCommand != null) {
 						finialize.append(objectToString(commandSender, preCommand, null));
 						preCommand = null;
 					}
-					
+
 					couldUseArgs = false;
-					
-					if(!inParser)
+
+					if (!inParser)
 						finialize.append(c);
 					else
 						parser.append(c);
 			}
 		}
-		
-		if(preCommand != null)
+
+		if (preCommand != null)
 			finialize.append(objectToString(commandSender, preCommand, parser != null ? parser.toString() : null));
-		
+
 		return finialize.toString();
 	}
-	
+
 	/*
 	 * args:
-	 * 
+	 *
 	 * format = Uppercase, Lowercase, firstUp
 	 * boolean = text, number
 	 * time = HH:mm:ss
 	 */
 	public static String objectToString(CommandSender commandSender, String text, String args) {
 		Object value = parser(commandSender, text);
-		
+
 		HashMap<String, String> argsMap = new HashMap<>();
-		
+
 		{
-			if(args != null) {
-				for(String keyValue : args.split(",")) {
+			if (args != null) {
+				for (String keyValue : args.split(",")) {
 					String[] keyAndValue = keyValue.split("=");
-					if(keyAndValue.length < 2) continue;
-					
+					if (keyAndValue.length < 2) continue;
+
 					keyAndValue[0] = keyAndValue[0].trim().toLowerCase();
 					keyAndValue[1] = keyAndValue[1].trim().toLowerCase();
-					
+
 					argsMap.put(keyAndValue[0], keyAndValue[1]);
 				}
 			}
 		}
-		
+
 		String endString = null;
-		
-		if(value instanceof String)
+
+		if (value instanceof String)
 			endString = (String) value;
-		else if(value instanceof Boolean) {
+		else if (value instanceof Boolean) {
 			Boolean bool = (Boolean) value;
-			
+
 			switch (argsMap.get("boolean")) {
 				case "number":
-					
-					if(bool) endString = "1";
+
+					if (bool) endString = "1";
 					else endString = "0";
-					
+
 					break;
 
 				default:
-					if(bool) endString = "True";
+					if (bool) endString = "True";
 					else endString = "False";
-					
+
 					break;
 			}
-		} else if(value instanceof CountTime) {
-			
+		} else if (value instanceof CountTime) {
+
 			CountTime countTime = (CountTime) value;
-			
-			if(argsMap.containsKey("time"))
+
+			if (argsMap.containsKey("time"))
 				endString = countTime.format(argsMap.get("time"));
 			else
 				endString = countTime.format("dd:HH");
-			
-		} else if(value instanceof LocalDateTime) {
-			
-			if(argsMap.containsKey("time"))
+
+		} else if (value instanceof LocalDateTime) {
+
+			if (argsMap.containsKey("time"))
 				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(argsMap.get("time")));
 			else
 				endString = ((LocalDateTime) value).format(DateTimeFormatter.ofPattern("HH:mm"));
-			
+
 		} else
 			endString = value.toString();
-		
-		if(argsMap.containsKey("format")) {
+
+		if (argsMap.containsKey("format")) {
 			switch (argsMap.get("format")) {
 				case "uppercase":
 					endString = endString.toUpperCase();
@@ -220,23 +220,23 @@ public class PlaceholderFormatter {
 					endString = endString.toLowerCase();
 					break;
 				case "firstUp":
-					if(endString.length() <= 0) break;
-					else if(endString.length() == 1) endString.toUpperCase();
+					if (endString.length() <= 0) break;
+					else if (endString.length() == 1) endString.toUpperCase();
 					else
 						endString = Character.toUpperCase(endString.charAt(0)) + endString.substring(1, endString.length()).toLowerCase();
 					break;
 			}
 		}
-		
+
 		return endString;
 	}
-	
+
 
 	/*
 	 * @p
 	 * @e
 	 * @r
-	 * 
+	 *
 
 user_charges_left
 user_charges_max
@@ -316,154 +316,154 @@ jail_reason_[jailName]_[cellId]
 */
 	public static Object parser(CommandSender commandSender, String ersetzen) {
 		Player player = null;
-		if(commandSender instanceof Player)
+		if (commandSender instanceof Player)
 			player = (Player) commandSender;
-		
+
 		PlayerConfig config = null;
-		if(player != null)
+		if (player != null)
 			config = PlayerManager.getPlayerConfig(player);
-		
+
 		Entity entity = null;
-		if(commandSender instanceof Entity)
+		if (commandSender instanceof Entity)
 			entity = (Entity) commandSender;
-		
+
 		BlockCommandSender blockCommandSender = null;
-		if(commandSender instanceof BlockCommandSender)
+		if (commandSender instanceof BlockCommandSender)
 			blockCommandSender = (BlockCommandSender) commandSender;
-		
+
 		Location location = null;
-		if(entity != null)
+		if (entity != null)
 			location = entity.getLocation();
-		else if(blockCommandSender != null)
+		else if (blockCommandSender != null)
 			location = blockCommandSender.getBlock().getLocation();
-		
-		
-		if(ersetzen.startsWith("%"))
+
+
+		if (ersetzen.startsWith("%"))
 			ersetzen = ersetzen.substring(1, ersetzen.length());
-		if(ersetzen.endsWith("%"))
+		if (ersetzen.endsWith("%"))
 			ersetzen = ersetzen.substring(0, ersetzen.length() - 1);
-		
-		switch(ersetzen) {
+
+		switch (ersetzen) {
 			case "custom_name":
-				if(entity != null)
+				if (entity != null)
 					return entity.getCustomName();
 				break;
 			case "display_name":
-				if(player != null)
+				if (player != null)
 					return player.getDisplayName();
 				break;
 			case "gamemode":
-				if(player != null)
+				if (player != null)
 					return player.getGameMode();
 				break;
-				
+
 			case "iteminhand_displayname":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
 				break;
 			case "iteminhand_name":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName();
 				break;
 			case "iteminhand_type":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInMainHand().getType();
 				break;
 			case "iteminhand_amount":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInMainHand().getAmount();
 				break;
-				
+
 			case "iteminoffhand_displayname":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInOffHand().getItemMeta().getDisplayName();
 				break;
 			case "iteminoffhand_name":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInOffHand().getItemMeta().getLocalizedName();
 				break;
 			case "iteminoffhand_type":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInOffHand().getType();
 				break;
 			case "iteminoffhand_amount":
-				if(player != null)
+				if (player != null)
 					return player.getInventory().getItemInOffHand().getAmount();
 				break;
-				
+
 			case "name":
 				return commandSender.getName();
 			case "op":
 				return commandSender.isOp();
-				
+
 			case "playertime": //TODO check if it is currect
-				if(player != null)
+				if (player != null)
 					return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getPlayerTime()), TimeZone.getDefault().toZoneId());
 				break;
 			case "playtime":
-				if(player != null) {
+				if (player != null) {
 					CountTime countTime = new CountTime(config.getString(PlayerConfigKey.playTime));
-					
-					if(player.isOnline())
+
+					if (player.isOnline())
 						countTime.add(config.getLocalDateTime(PlayerConfigKey.loginTime), LocalDateTime.now());
-					
+
 					return countTime;
 				}
 				break;
-				
+
 			case "location_world":
-				if(location != null)
+				if (location != null)
 					return location.getWorld();
 				break;
 			case "location_worldname":
-				if(location != null)
+				if (location != null)
 					return location.getWorld().getName();
 				break;
 			case "location_x":
-				if(location != null)
+				if (location != null)
 					return location.getX();
 				break;
 			case "location_blockx":
-				if(location != null)
+				if (location != null)
 					return location.getBlockX();
 				break;
 			case "location_y":
-				if(location != null)
+				if (location != null)
 					return location.getY();
 				break;
 			case "location_blocky":
-				if(location != null)
+				if (location != null)
 					return location.getBlockY();
 				break;
 			case "location_z":
-				if(location != null)
+				if (location != null)
 					return location.getZ();
 				break;
 			case "location_blockz":
-				if(location != null)
+				if (location != null)
 					return location.getBlockZ();
 				break;
 			case "location_biome_name":
-				if(location != null)
+				if (location != null)
 					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY()).name();
 				break;
-				
+
 			case "server_online":
 				return Bukkit.getOnlinePlayers().size();
 			case "server_max_players":
 				return Bukkit.getMaxPlayers();
 			case "real_time":
 				return LocalDateTime.now();
-				
+
 			case "user_fly":
-				if(player != null)
+				if (player != null)
 					return player.isFlying();
 				break;
-				
+
 			case "worldtime":
 				return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getWorld().getTime()), TimeZone.getDefault().toZoneId());
 		}
-		
+
 		return ersetzen;
 	}
 }

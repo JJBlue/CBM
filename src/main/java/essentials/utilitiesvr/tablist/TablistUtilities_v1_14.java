@@ -15,11 +15,11 @@ public class TablistUtilities_v1_14 {
 		PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
 		IChatBaseComponent tabTitle = ChatSerializer.a("{\"text\": \"" + header + "\"}");
 		IChatBaseComponent tabFoot = ChatSerializer.a("{\"text\": \"" + footer + "\"}");
-		
+
 		PacketPlayOutPlayerListHeaderFooter headerPacket = new PacketPlayOutPlayerListHeaderFooter();
 		headerPacket.footer = tabTitle;
 		headerPacket.header = tabFoot;
-		
+
 		playerConnection.sendPacket(headerPacket);
 	}
 }

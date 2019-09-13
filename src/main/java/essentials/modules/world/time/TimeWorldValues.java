@@ -2,16 +2,17 @@ package essentials.modules.world.time;
 
 public class TimeWorldValues {
 	private boolean useRealTime;
-	
+
 	private int minPlayerSleepingPercent;
 	private double sleepSpeedFactor = 1;
-	
+
 	private double nightSpeedFactor = 1;
 	private double daySpeedFactor = 1;
-	
+
 	private boolean useBossBar;
-	
-	public TimeWorldValues() {}
+
+	public TimeWorldValues() {
+	}
 
 	public boolean isUseBossBar() {
 		return useBossBar;

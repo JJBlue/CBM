@@ -7,28 +7,27 @@ import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
 import org.bukkit.inventory.ItemStack;
 
 public class NBTUtilities {
-	private NBTUtilities() {}
-	
+	private NBTUtilities() {
+	}
+
 	/**
-	 * 
 	 * @param itemstack
 	 * @return NBTTagCompound
 	 */
 	public static Object getNBTTagCompound(ItemStack itemstack) {
-		if(ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
+		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
 			return NBTUtilities_v1_14.getNBTTagCompound(itemstack);
 		return NBTUtilitiesReflections.getNBTTagCompound(itemstack);
 	}
-	
+
 	public static NBTTag getNBTTag(ItemStack itemstack) {
-		if(ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
+		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
 			return new NBTUtilities_v1_14(itemstack);
 		return new NBTUtilitiesReflections(itemstack);
 	}
-	
+
 	/**
-	 * 
-	 * @param ItemStack itemstack
+	 * @param ItemStack      itemstack
 	 * @param NBTTagCompound nbtTagCompound
 	 */
 	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
@@ -39,7 +38,7 @@ public class NBTUtilities {
 		}
 		NBTUtilitiesReflections.getNBTTagCompound(itemstack);
 	}
-	
+
 	/**
 	 * NBTTagCompound
 	 */
@@ -50,9 +49,8 @@ public class NBTUtilities {
 		}
 		return NBTUtilitiesReflections.createNBTTagCompound();
 	}
-	
+
 	/**
-	 * 
 	 * @return NBTTagList
 	 */
 	public static Object createNBTTagList() {

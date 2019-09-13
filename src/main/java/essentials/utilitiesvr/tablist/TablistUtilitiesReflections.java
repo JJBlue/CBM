@@ -17,11 +17,11 @@ public class TablistUtilitiesReflections {
 		try {
 			Object tabTitle = ChatUtilitiesReflections.getIChatBaseComponentA("{\"text\": \"" + header + "\"}");
 			Object tabFoot = ChatUtilitiesReflections.getIChatBaseComponentA("{\"text\": \"" + header + "\"}");
-			
+
 			Object PacketPlayOutPlayerListHeaderFooter = SimpleReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutPlayerListHeaderFooter"));
 			Field footerField = SimpleReflection.getField("footer", PacketPlayOutPlayerListHeaderFooter);
 			Field headerField = SimpleReflection.getField("header", PacketPlayOutPlayerListHeaderFooter);
-			
+
 			footerField.set(PacketPlayOutPlayerListHeaderFooter, tabTitle);
 			headerField.set(PacketPlayOutPlayerListHeaderFooter, tabFoot);
 			PlayerUtilitiesReflections.sendPacket(player, PacketPlayOutPlayerListHeaderFooter);

@@ -11,21 +11,21 @@ import org.bukkit.map.MapView;
 
 public class MPListener implements Listener {
 	@EventHandler
-	public void onMap(MapInitializeEvent e){
+	public void onMap(MapInitializeEvent e) {
 		MapView map = e.getMap();
 		MPRenderer.setRenderer(map);
 	}
-	
+
 	@EventHandler
 	public void Interact(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
-		
+
 		PlayerConfig config = PlayerManager.getPlayerConfig(p);
-		if(!config.containsLoadedKey("mapPaintImage")) return;
-		
+		if (!config.containsLoadedKey("mapPaintImage")) return;
+
 		String filename = config.getString("mapPaintImage");
 		config.removeBuffer("mapPaintImage");
-		
+
 		MPRenderer.paint(p, filename, event.getClickedBlock(), event.getBlockFace());
 	}
 }

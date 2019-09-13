@@ -1,5 +1,5 @@
 package essentials.player.sudoplayer;
 
 public interface SudoPlayerInterface {
-	public abstract SudoPlayerInterface setSilentOutputMessage(boolean silent);
+	SudoPlayerInterface setSilentOutputMessage(boolean silent);
 }

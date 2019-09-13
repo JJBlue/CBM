@@ -14,15 +14,15 @@ public class ChatUtilities_v1_14 {
 		JSONObject mainJson = new JSONObject();
 		mainJson.add("text", message);
 		mainJson.add("extra", array);
-		
+
 		IChatBaseComponent chat = ChatSerializer.a(mainJson.toJSONString());
 		PacketPlayOutChat packet = new PacketPlayOutChat(chat);
-		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
-	
+
 	public static void sendHotbarMessage(Player player, String message) {
-		IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a((String)("{\"text\": \"" + message + "\"}"));
-        PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, ChatMessageType.GAME_INFO);
-        ((CraftPlayer)player).getHandle().playerConnection.sendPacket(ppoc);
+		IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a((String) ("{\"text\": \"" + message + "\"}"));
+		PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, ChatMessageType.GAME_INFO);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(ppoc);
 	}
 }

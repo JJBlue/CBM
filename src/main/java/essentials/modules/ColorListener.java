@@ -7,7 +7,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ColorListener implements Listener {
 	@EventHandler
-	private void Chat(AsyncPlayerChatEvent e){
+	private void Chat(AsyncPlayerChatEvent e) {
 		e.setMessage(ChatUtilities.convertToColor(e.getMessage()));
 	}
 }

@@ -10,14 +10,15 @@ public class PlayerUtilities {
 	public static OfflinePlayer getOfflinePlayer(String name) {
 		return Bukkit.getOfflinePlayer(name);
 	}
-	
+
 	public static OfflinePlayer getOfflinePlayerFromUUID(String uuidString) {
 		UUID uuid = null;
 		try {
 			uuid = UUID.fromString(uuidString);
-		} catch (IllegalArgumentException e) {}
-		
-		if(uuid == null) return null;
+		} catch (IllegalArgumentException e) {
+		}
+
+		if (uuid == null) return null;
 		return Bukkit.getOfflinePlayer(uuid);
 	}
 }

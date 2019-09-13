@@ -7,7 +7,6 @@ import essentials.utilities.inventory.InventoryItem;
 import essentials.utilities.inventory.InventoryPage;
 import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
 import essentials.utilities.inventory.itemtypes.InventoryObjectField;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -19,70 +18,48 @@ import java.util.List;
 
 public class ArmorstandInventory {
 	private final ArmorStand armorstand;
-	
+
 	public ArmorstandInventory(final ArmorStand armorstand) {
 		this.armorstand = armorstand;
 	}
-	
+
 	public void openInventory(Player player) {
 		InventoryFactory factory = new InventoryFactory(Bukkit.createInventory(null, 54));
 		InventoryPage page = factory.createFirstPage();
-		
+
 		InventoryObjectField<Boolean> visibleField = InventoryItemTypes.createCheckField("Visible", armorstand.isVisible());
-		visibleField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setVisible(neu);
-		});
-		
+		visibleField.setOnChangeValue((old, neu, item) -> armorstand.setVisible(neu));
+
 		InventoryObjectField<Boolean> smallField = InventoryItemTypes.createCheckField("Small", armorstand.isSmall());
-		smallField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setSmall(neu);
-		});
-		
+		smallField.setOnChangeValue((old, neu, item) -> armorstand.setSmall(neu));
+
 		InventoryObjectField<Boolean> invulnerableField = InventoryItemTypes.createCheckField("Invulnerable", armorstand.isInvulnerable());
-		invulnerableField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setInvulnerable(neu);
-		});
-		
+		invulnerableField.setOnChangeValue((old, neu, item) -> armorstand.setInvulnerable(neu));
+
 		InventoryObjectField<Boolean> armsField = InventoryItemTypes.createCheckField("Arms", armorstand.hasArms());
-		armsField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setArms(neu);
-		});
-		
+		armsField.setOnChangeValue((old, neu, item) -> armorstand.setArms(neu));
+
 		InventoryObjectField<Boolean> basePlateField = InventoryItemTypes.createCheckField("Base Plate", armorstand.hasBasePlate());
-		basePlateField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setBasePlate(neu);
-		});
-		
+		basePlateField.setOnChangeValue((old, neu, item) -> armorstand.setBasePlate(neu));
+
 		InventoryObjectField<Boolean> collidableField = InventoryItemTypes.createCheckField("Collidable", armorstand.isCollidable());
-		collidableField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setCollidable(neu);
-		});
-		
+		collidableField.setOnChangeValue((old, neu, item) -> armorstand.setCollidable(neu));
+
 		InventoryObjectField<Boolean> glowingField = InventoryItemTypes.createCheckField("Glowing", armorstand.isGlowing());
-		glowingField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setGlowing(neu);
-		});
-		
+		glowingField.setOnChangeValue((old, neu, item) -> armorstand.setGlowing(neu));
+
 		InventoryObjectField<Boolean> gravityField = InventoryItemTypes.createCheckField("Gravity", armorstand.hasGravity());
-		gravityField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setGravity(neu);
-		});
-		
+		gravityField.setOnChangeValue((old, neu, item) -> armorstand.setGravity(neu));
+
 		InventoryObjectField<Boolean> glidingField = InventoryItemTypes.createCheckField("Gliding", armorstand.isGliding());
-		glidingField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setGliding(neu);
-		});
-		
+		glidingField.setOnChangeValue((old, neu, item) -> armorstand.setGliding(neu));
+
 		InventoryObjectField<Boolean> customNameVisible = InventoryItemTypes.createCheckField("Custom Name Visible", armorstand.isCustomNameVisible());
-		customNameVisible.setOnChangeValue((old, neu, item) -> {
-			armorstand.setCustomNameVisible(neu);
-		});
-		
+		customNameVisible.setOnChangeValue((old, neu, item) -> armorstand.setCustomNameVisible(neu));
+
 		InventoryObjectField<Boolean> markerField = InventoryItemTypes.createCheckField("Marker | Interactable", armorstand.isMarker());
-		markerField.setOnChangeValue((old, neu, item) -> {
-			armorstand.setMarker(neu);
-		});
-		
+		markerField.setOnChangeValue((old, neu, item) -> armorstand.setMarker(neu));
+
 		InventoryItem reset = new InventoryItem(Material.GRAY_WOOL);
 		reset.setDisplayName("Reset Gesture");
 		reset.setOnClick((event, item) -> {
@@ -94,7 +71,7 @@ public class ArmorstandInventory {
 			armorstand.setRightLegPose(new EulerAngle(0.017453292519943295, 0, 0.017453292519943295));
 			event.setCancelled(true);
 		});
-		
+
 		List<String> usage = new LinkedList<>();
 		usage.add("<Cause> <Selected Slot>: <Result>");
 		usage.add("Hit 0: x - 1");
@@ -106,7 +83,7 @@ public class ArmorstandInventory {
 		usage.add("Place <Slot>: [x,y,z] + <see above>");
 		usage.add("Drop: Exit");
 		usage.add("§4Warning this deaktivate Marker");
-		
+
 		InventoryItem head = new InventoryItem(Material.PLAYER_HEAD);
 		head.setDisplayName("Move Head");
 		head.setLore(usage);
@@ -118,7 +95,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem body = new InventoryItem(Material.CHAINMAIL_CHESTPLATE);
 		body.setDisplayName("Move Body");
 		body.setLore(usage);
@@ -130,7 +107,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem leftArm = new InventoryItem(Material.STICK);
 		leftArm.setDisplayName("Move Left Arm");
 		leftArm.setLore(usage);
@@ -142,7 +119,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem rightArm = new InventoryItem(Material.STICK);
 		rightArm.setDisplayName("Move Right Arm");
 		rightArm.setLore(usage);
@@ -154,7 +131,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem leftLeg = new InventoryItem(Material.DIAMOND_BOOTS);
 		leftLeg.setDisplayName("Move Left Leg");
 		leftLeg.setLore(usage);
@@ -166,7 +143,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem rightLeg = new InventoryItem(Material.DIAMOND_BOOTS);
 		rightLeg.setDisplayName("Move Right Leg");
 		rightLeg.setLore(usage);
@@ -178,7 +155,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem position = new InventoryItem(Material.ARMOR_STAND);
 		position.setDisplayName("Move Position");
 		position.setLore(usage);
@@ -190,7 +167,7 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem rotation = new InventoryItem(Material.ARROW);
 		rotation.setDisplayName("Rotation");
 		usage.clear();
@@ -209,10 +186,10 @@ public class ArmorstandInventory {
 			player.closeInventory();
 			event.setCancelled(true);
 		});
-		
+
 		InventoryItem nothing = new InventoryItem(Material.GRAY_STAINED_GLASS_PANE);
 		nothing.setOnClick((event, item) -> event.setCancelled(true));
-		
+
 		// 0 1 2 | 3 | 4 5 6 7 8
 		page.addItem(0, nothing);
 		page.addItem(1, armorstand.getHelmet());
@@ -223,7 +200,7 @@ public class ArmorstandInventory {
 		page.addItem(6, visibleField);
 		page.addItem(7, gravityField);
 		page.addItem(8, armsField);
-		
+
 		// 9 10 11 | 12 | 13 14 15 16 17
 		page.addItem(9, armorstand.getEquipment().getItemInMainHand());
 		page.addItem(10, armorstand.getChestplate());
@@ -234,7 +211,7 @@ public class ArmorstandInventory {
 		page.addItem(15, invulnerableField);
 		page.addItem(16, markerField);
 		page.addItem(17, glidingField);
-		
+
 		// 18 19 20 | 21 | 22 23 24 25 26
 		page.addItem(18, nothing);
 		page.addItem(19, armorstand.getLeggings());
@@ -245,7 +222,7 @@ public class ArmorstandInventory {
 		page.addItem(24, nothing);
 		page.addItem(25, collidableField);
 		page.addItem(26, reset);
-		
+
 		// 27 28 29 | 30 | 31 32 33 34 35
 		page.addItem(27, nothing);
 		page.addItem(28, armorstand.getBoots());
@@ -256,7 +233,7 @@ public class ArmorstandInventory {
 		page.addItem(33, nothing);
 		page.addItem(34, nothing);
 		page.addItem(35, nothing);
-		
+
 		// 36 37 38 | 39 40 41 42 43 44
 		page.addItem(36, nothing);
 		page.addItem(37, nothing);
@@ -267,7 +244,7 @@ public class ArmorstandInventory {
 		page.addItem(42, leftArm);
 		page.addItem(43, rightArm);
 		page.addItem(44, nothing);
-		
+
 		// 45 46 47 48 49 50 51 52 53
 		page.addItem(45, nothing);
 		page.addItem(46, nothing);
@@ -278,11 +255,11 @@ public class ArmorstandInventory {
 		page.addItem(51, position);
 		page.addItem(52, rotation);
 		page.addItem(53, nothing);
-		
+
 		factory.setOnClick((event, item) -> {
 			int slot = event.getSlot();
-			
-			switch(slot) {
+
+			switch (slot) {
 				case 1:
 					armorstand.setHelmet(event.getCursor());
 					break;
@@ -303,7 +280,7 @@ public class ArmorstandInventory {
 					break;
 			}
 		});
-		
+
 		factory.refreshPage();
 		factory.openInventory(player);
 	}
