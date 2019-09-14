@@ -23,6 +23,7 @@ import essentials.modules.commandonobject.CommandListener;
 import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commandspy.CommandSpyListener;
 import essentials.modules.debugstick.DebugStickListener;
+import essentials.modules.display.DisplayListener;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.tablist.Tablist;
@@ -85,6 +86,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
 		Bukkit.getPluginManager().registerEvents(new DebugStickListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TimerListener(), this);
+		Bukkit.getPluginManager().registerEvents(new DisplayListener(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();
