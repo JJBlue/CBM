@@ -11,6 +11,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import essentials.language.LanguageConfig;
+import essentials.player.PlayersYMLConfig;
 import essentials.utilities.MathUtilities;
 import essentials.utilities.chat.ChatUtilities;
 
@@ -32,6 +34,9 @@ public class DisplayListener implements Listener {
 	public void damge(EntityDamageByEntityEvent event) {
 		if(!(event.getDamager() instanceof Player)) return;
 		if(!(event.getDamager() instanceof LivingEntity)) return;
+		
+		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
+		if(display == null || !display.getBoolean("showDamageOnEntity")) return;
 		
 		//Show heal and Damage of Entity
 		Player player = (Player) event.getDamager();
@@ -65,6 +70,9 @@ public class DisplayListener implements Listener {
 		Player player = event.getPlayer();
 		if(!player.isGliding()) return;
 		
+		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
+		if(display == null || !display.getBoolean("showElytraSpeed")) return;
+		
 		if(counts.containsKey(player))
 			counts.put(player, 0);
 		else {
@@ -75,7 +83,6 @@ public class DisplayListener implements Listener {
 			} else
 				counts.put(player, 0);
 		}
-			
 		
 		ChatUtilities.sendHotbarMessage(player, "§e" + LanguageConfig.getString("text.speed") + ": §6" + MathUtilities.round(player.getVelocity().length() * 100 * 3.6, 2) + "§e km/h");
 	}

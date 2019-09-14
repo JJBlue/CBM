@@ -26,8 +26,6 @@ public class PlayerConfig {
 
 	public PlayerConfig(String uuidS) {
 		uuid = UUID.fromString(uuidS);
-
-
 	}
 
 	public boolean containsLoadedKey(String key) {
