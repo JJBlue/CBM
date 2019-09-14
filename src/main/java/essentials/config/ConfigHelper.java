@@ -58,14 +58,12 @@ public class ConfigHelper {
 		} finally {
 			try {
 				inputStream.close();
-			} catch (IOException e) {
-			}
+			} catch (IOException e) {}
 
 			try {
 				if (outputStream != null)
 					outputStream.close();
-			} catch (Exception e2) {
-			}
+			} catch (Exception e2) {}
 		}
 	}
 }

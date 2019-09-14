@@ -18,7 +18,7 @@ public class PlayersYMLConfig {
 		file = new File(MainConfig.getDataFolder(), "players.yml");
 		
 		if(!file.exists())
-			ConfigHelper.extractDefaultConfigs("players.yml", file);
+			ConfigHelper.extractDefaultConfigs("players", file);
 		
 		configuration = YamlConfiguration.loadConfiguration(file);
 	}

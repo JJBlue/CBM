@@ -73,7 +73,7 @@ public class DisplayListener implements Listener {
 		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
 		if(display == null || !display.getBoolean("showElytraSpeed")) return;
 		
-		if(counts.containsKey(player))
+		if(!counts.containsKey(player))
 			counts.put(player, 0);
 		else {
 			int i = counts.get(player) + 1;
