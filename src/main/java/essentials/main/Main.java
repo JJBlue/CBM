@@ -37,6 +37,7 @@ import essentials.modules.warpmanager.WarpManager;
 import essentials.modules.world.WorldConfig;
 import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
+import essentials.player.PlayersYMLConfig;
 import essentials.utilities.inventory.InventoryListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -129,6 +130,7 @@ public class Main extends JavaPlugin implements Listener {
 		unloadHelper(CommandOnBlock::unload);
 		unloadHelper(PlayerManager::unload);
 		unloadHelper(WorldConfig::unload);
+		unloadHelper(PlayersYMLConfig::unload);
 
 		unloadHelper(() -> {
 			if (UpdaterConfig.isInstallOnShutdown())
@@ -164,6 +166,7 @@ public class Main extends JavaPlugin implements Listener {
 		CustomAlias.load();
 		UpdaterServerManager.load();
 		WorldConfig.load();
+		PlayersYMLConfig.load();
 		LanguageConfig.load();
 		Tablist.load();
 		LoadMapPaint.load();
