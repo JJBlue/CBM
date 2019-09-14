@@ -26,6 +26,7 @@ import essentials.utilities.chat.ChatUtilities;
 
 public class DisplayListener implements Listener {
 	private Map<Player, BossBar> damgeBossbar = Collections.synchronizedMap(new HashMap<>());
+	private Map<Player, Integer> counts = Collections.synchronizedMap(new HashMap<>());
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void damge(EntityDamageByEntityEvent event) {
@@ -64,6 +65,18 @@ public class DisplayListener implements Listener {
 		Player player = event.getPlayer();
 		if(!player.isGliding()) return;
 		
+		if(counts.containsKey(player))
+			counts.put(player, 0);
+		else {
+			int i = counts.get(player) + 1;
+			if(i != 10) {
+				counts.put(player, i);
+				return;
+			} else
+				counts.put(player, 0);
+		}
+			
+		
 		ChatUtilities.sendHotbarMessage(player, "§e" + LanguageConfig.getString("text.speed") + ": §6" + MathUtilities.round(player.getVelocity().length() * 100 * 3.6, 2) + "§e km/h");
 	}
 	
@@ -71,5 +84,6 @@ public class DisplayListener implements Listener {
 	public void quit(PlayerQuitEvent event) {
 		BossBar bossBar = damgeBossbar.remove(event.getPlayer());
 		DisplayBossBarTimer.map.remove(bossBar);
+		counts.remove(event.getPlayer());
 	}
 }
