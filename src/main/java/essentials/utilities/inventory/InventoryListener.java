@@ -70,19 +70,6 @@ public class InventoryListener implements Listener {
 				if (InventoryManager.hasInventory(clickedInventory) || InventoryManager.hasInventory(event.getWhoClicked().getInventory()))
 					event.setCancelled(true);
 
-//				clickedStack = event.getCurrentItem();
-//				Inventory playerInv = event.getWhoClicked().getInventory();
-//				Inventory dest = event.getClickedInventory() == playerInv ? event.getInventory() : playerInv;
-//				
-//				if(dest == null) continue;
-//				if(!InventoryManager.hasInventory(inv)) continue;
-//				
-//				InventoryPage page = InventoryManager.getInventoryPage(inv);
-//				if(page == null) continue;
-//				
-//				InventoryItem item = page.getInventoryItemEqualsFirst(clickedStack);
-//				RunnableInventoryClick runnable = item.getOnClick();
-//				if(runnable != null) runnable.run(event, item);
 				//TODO
 				return;
 			case NUMBER_KEY:

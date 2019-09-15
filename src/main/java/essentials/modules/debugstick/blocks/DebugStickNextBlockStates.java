@@ -484,7 +484,7 @@ public class DebugStickNextBlockStates {
 			case TYPE:
 				if (blockData instanceof TechnicalPiston) {
 					TechnicalPiston technicalPiston = (TechnicalPiston) blockData;
-					technicalPiston.setType(nextPosition(technicalPiston.getType(), next, TechnicalPiston.Type.values())); //TODO
+					technicalPiston.setType(nextPosition(technicalPiston.getType(), next, TechnicalPiston.Type.values()));
 				} else if (blockData instanceof Chest) {
 					Chest chest = (Chest) blockData;
 					chest.setType(nextPosition(chest.getType(), next, Chest.Type.values()));

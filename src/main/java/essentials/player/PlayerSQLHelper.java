@@ -118,17 +118,18 @@ public class PlayerSQLHelper {
 		else if (obj instanceof LocalDateTime || obj instanceof java.sql.Timestamp)
 			return "TIMESTAMP";
 		else {
-			int length = 0;
-
-			if (obj == null)
-				length = 100;
-			else if (obj instanceof String) {
-				String s = (String) obj;
-				length = Math.max(s.length(), 100);
-			} else
-				length = Math.max(obj.toString().length(), 100);
-
-			return "VARCHAR(" + length + ")";  // TODO VARCHAR(size) -> TEXT
+//			int length = 0;
+//
+//			if (obj == null)
+//				length = 100;
+//			else if (obj instanceof String) {
+//				String s = (String) obj;
+//				length = Math.max(s.length(), 100);
+//			} else
+//				length = Math.max(obj.toString().length(), 100);
+//
+//			return "VARCHAR(" + length + ")";  // VARCHAR(size) -> TEXT
+			return "TEXT";
 		}
 	}
 }

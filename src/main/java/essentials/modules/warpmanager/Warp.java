@@ -24,7 +24,7 @@ public class Warp {
 	boolean autoLore;
 	boolean hasPermission;
 	boolean showWithoutPermission;
-	int cost; //TODO Not work currently
+	int cost;
 	int pos;
 
 	boolean saved = false;
