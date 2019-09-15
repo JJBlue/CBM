@@ -31,6 +31,7 @@ target/
 
 # Eclipse
 org.eclipse.*
+dependency-reduced-pom.xml
 
 #IntelliJ
 *.iml
