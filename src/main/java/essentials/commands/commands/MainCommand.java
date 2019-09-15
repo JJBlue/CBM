@@ -468,6 +468,52 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				return MPCommand.mpcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+			case "playertime":
+				
+				//playertime [add/remove/set] <ticks> (<fixed> <Player>)
+			{
+				if(args.length < 3) break;
+				
+				Player currentPlayer;
+				if(args.length <= 4)
+					currentPlayer = p;
+				else
+					currentPlayer = Bukkit.getPlayer(args[4]);
+				
+				if(currentPlayer == null) break;
+				
+				long ticks;
+				try {
+					ticks = Long.parseLong(args[2]);
+				} catch (NumberFormatException e) {
+					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+					break;
+				}
+				
+				boolean fixed = true;
+				try {
+					if(args.length >= 4)
+						fixed = Boolean.parseBoolean(args[3]);
+				} catch (IllegalArgumentException e) {
+					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
+					break;
+				}
+				
+				switch (args[1].toLowerCase()) {
+					case "add":
+						currentPlayer.setPlayerTime(currentPlayer.getPlayerTime() + ticks, fixed);
+						break;
+					case "remove":
+						currentPlayer.setPlayerTime(currentPlayer.getPlayerTime() - ticks, fixed);
+						break;
+					case "set":
+						currentPlayer.setPlayerTime(ticks, fixed);
+						break;
+				}
+			}
+				
+				break;
+				
 			case "pluginmanager":
 
 				return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
