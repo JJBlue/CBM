@@ -9,8 +9,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ConnectionEventManager {
-	private ConnectionEventManager() {
-	}
+	private ConnectionEventManager() {}
 
 	private static CopyOnWriteArrayList<Listener> listeners;
 

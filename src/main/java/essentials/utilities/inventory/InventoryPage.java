@@ -10,8 +10,7 @@ public class InventoryPage {
 
 	protected Map<Integer, ItemStack> inv = Collections.synchronizedMap(new HashMap<>());
 
-	public InventoryPage() {
-	}
+	public InventoryPage() {}
 
 	public InventoryPage(Inventory inventory) {
 		fillPage(inventory);

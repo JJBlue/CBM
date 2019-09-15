@@ -1,8 +1,7 @@
 package components.datenbank;
 
 public class DatenbankenControl {
-	private DatenbankenControl() {
-	}
+	private DatenbankenControl() {}
 	
 	/*
 	  	LIKE				(Vorname LIKE O%)

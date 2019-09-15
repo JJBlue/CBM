@@ -13,8 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class WarpEditor {
-	private WarpEditor() {
-	}
+	private WarpEditor() {}
 
 	public static void openEditor(Player player, final Warp warp) {
 		if (player == null || warp == null) return;

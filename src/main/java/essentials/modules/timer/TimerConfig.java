@@ -12,8 +12,7 @@ import java.io.File;
 import java.util.List;
 
 public class TimerConfig {
-	private TimerConfig() {
-	}
+	private TimerConfig() {}
 
 	private static File file;
 	private static FileConfiguration configuration;

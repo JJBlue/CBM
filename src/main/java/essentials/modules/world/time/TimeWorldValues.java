@@ -11,8 +11,7 @@ public class TimeWorldValues {
 
 	private boolean useBossBar;
 
-	public TimeWorldValues() {
-	}
+	public TimeWorldValues() {}
 
 	public boolean isUseBossBar() {
 		return useBossBar;

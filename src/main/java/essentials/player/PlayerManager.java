@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class PlayerManager {
-	private PlayerManager() {
-	}
+	private PlayerManager() {}
 
 	protected static Map<UUID, PlayerConfig> players = Collections.synchronizedMap(new HashMap<>());
 

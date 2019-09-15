@@ -3,8 +3,7 @@ package essentials.utilities.permissions;
 import org.bukkit.command.CommandSender;
 
 public class PermissionHelper {
-	private PermissionHelper() {
-	}
+	private PermissionHelper() {}
 
 	public static String getPermissionCommand(String permission) {
 		return getPermission("command." + permission);

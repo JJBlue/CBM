@@ -10,8 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class ConfigHelper {
-	private ConfigHelper() {
-	}
+	private ConfigHelper() {}
 
 	public static FileConfiguration loadConfig(InputStream inputstream) {
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(inputstream));

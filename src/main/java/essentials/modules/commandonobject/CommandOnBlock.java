@@ -13,8 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class CommandOnBlock {
-	private CommandOnBlock() {
-	}
+	private CommandOnBlock() {}
 
 	private static Map<Chunk, Map<Location, CoBBlock>> chunkBuffer = Collections.synchronizedMap(new HashMap<>());
 

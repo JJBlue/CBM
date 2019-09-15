@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class SystemStatus {
-	private SystemStatus() {
-	}
+	private SystemStatus() {}
 
 	public static String getPlatform() {
 		return System.getProperty("os.name");

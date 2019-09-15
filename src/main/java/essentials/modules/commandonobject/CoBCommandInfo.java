@@ -5,8 +5,7 @@ public class CoBCommandInfo {
 	public CoBAction action;
 	public String command;
 
-	public CoBCommandInfo() {
-	}
+	public CoBCommandInfo() {}
 
 	public CoBCommandInfo(CoBAction action, String command) {
 		saved = false;

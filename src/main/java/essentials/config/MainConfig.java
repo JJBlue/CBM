@@ -11,8 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MainConfig {
-	private MainConfig() {
-	}
+	private MainConfig() {}
 
 	private static File configFile;
 	private static FileConfiguration configuration;

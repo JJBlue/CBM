@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryManager {
-	private InventoryManager() {
-	}
+	private InventoryManager() {}
 
 	static Map<Inventory, InventoryFactory> factories = Collections.synchronizedMap(new HashMap<>());
 

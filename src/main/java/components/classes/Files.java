@@ -9,8 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Files {
-	private Files() {
-	}
+	private Files() {}
 
 	public static void rename(File file, File destFile) {
 		if (!file.exists())

@@ -5,8 +5,7 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 
 public class ChunkFunctions {
-	private ChunkFunctions() {
-	}
+	private ChunkFunctions() {}
 	//TODO
 
 	/*

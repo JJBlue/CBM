@@ -12,8 +12,7 @@ import java.util.*;
 
 public class TradeManager {
 
-	private TradeManager() {
-	}
+	private TradeManager() {}
 
 	private static int timeoutPerSecond = 30;
 	private static Map<String, TradeInformation> tradesRequests = Collections.synchronizedMap(new HashMap<>());

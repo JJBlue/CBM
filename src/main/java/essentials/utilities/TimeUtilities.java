@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class TimeUtilities {
-	private TimeUtilities() {
-	}
+	private TimeUtilities() {}
 
 	public static String timeToString(LocalDateTime from, LocalDateTime until) {
 		StringBuilder builder = new StringBuilder();

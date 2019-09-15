@@ -6,8 +6,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class TimeWorldConfig {
-	private TimeWorldConfig() {
-	}
+	private TimeWorldConfig() {}
 
 	public static void load() {
 		ConfigurationSection defaultSection = WorldConfig.getConfigurationSection("time");

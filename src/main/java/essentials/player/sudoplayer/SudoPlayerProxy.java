@@ -12,8 +12,7 @@ import java.util.HashMap;
 
 public class SudoPlayerProxy {
 
-	private SudoPlayerProxy() {
-	}
+	private SudoPlayerProxy() {}
 
 	private static Class<?> craftPlayer;
 	private static Class<?>[] interfaces;

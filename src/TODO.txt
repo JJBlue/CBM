@@ -1,7 +1,6 @@
 Futures:
 
 	- Login System
-	- Auto-Updater
 
 	- Make a plugin silent for BroadcastMassages
 	- set Loot to an entity
@@ -12,7 +11,6 @@ Futures:
 	- homes
 	- kids
 	- mail
-	- sleeping time -> Speed Time faster when more sleep
 	- Noteblock Editor
 	- Oneline Player Tab -> Design
 	
@@ -25,8 +23,7 @@ Futures:
 	- get NBT
 	- spawners
 	- clearchat
-	- playtime
-	- world player time | weather
+	- world player time
 	- better speed command -> fly, walk, swim
 	- giveall
 	- glow player color

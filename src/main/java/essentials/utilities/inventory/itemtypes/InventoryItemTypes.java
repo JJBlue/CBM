@@ -3,8 +3,7 @@ package essentials.utilities.inventory.itemtypes;
 import org.bukkit.Material;
 
 public class InventoryItemTypes {
-	private InventoryItemTypes() {
-	}
+	private InventoryItemTypes() {}
 
 	public static InventoryObjectField<Boolean> createCheckField(String displayName, boolean value) {
 		InventoryObjectField<Boolean> item = new InventoryObjectField<Boolean>(Material.BLACK_WOOL) {

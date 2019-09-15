@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Tablist {
-	private Tablist() {
-	}
+	private Tablist() {}
 
 	static File file;
 	static FileConfiguration configuration;

@@ -8,8 +8,7 @@ import org.bukkit.command.SimpleCommandMap;
 import java.lang.reflect.InvocationTargetException;
 
 public class BukkitUtilitiesReflection {
-	private BukkitUtilitiesReflection() {
-	}
+	private BukkitUtilitiesReflection() {}
 
 	public static SimpleCommandMap getSimpleCommandMap() {
 		try {

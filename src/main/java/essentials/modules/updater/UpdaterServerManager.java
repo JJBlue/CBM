@@ -10,8 +10,7 @@ import java.io.File;
 import java.util.*;
 
 public class UpdaterServerManager {
-	private UpdaterServerManager() {
-	}
+	private UpdaterServerManager() {}
 
 	static Map<Integer, SpigotPluginUpdater> plugins = Collections.synchronizedMap(new HashMap<>());
 	static File downloadFolder;

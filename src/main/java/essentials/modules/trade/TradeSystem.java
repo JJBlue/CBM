@@ -12,8 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 public class TradeSystem {
-	private TradeSystem() {
-	}
+	private TradeSystem() {}
 
 	private int task = -1;
 	private boolean canceld = false;

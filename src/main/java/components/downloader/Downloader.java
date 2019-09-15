@@ -11,8 +11,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class Downloader {
-	private Downloader() {
-	}
+	private Downloader() {}
 
 	public static void delete(File file) {
 		if (file == null || !file.exists()) return;

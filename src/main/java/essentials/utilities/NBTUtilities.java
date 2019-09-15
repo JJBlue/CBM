@@ -7,8 +7,7 @@ import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
 import org.bukkit.inventory.ItemStack;
 
 public class NBTUtilities {
-	private NBTUtilities() {
-	}
+	private NBTUtilities() {}
 
 	/**
 	 * @param itemstack

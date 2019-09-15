@@ -48,6 +48,7 @@ import essentials.modules.trade.TradeCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.updater.UpdaterCommand;
 import essentials.modules.warpmanager.warpCommands;
+import essentials.money.MoneyCommands;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
@@ -392,6 +393,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				LanguageConfig.sendMessage(sender, "language.change", args[1]);
 				break;
+				
+			case "money":
+				
+				return MoneyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "more":
 
@@ -821,6 +826,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return CommandSpy.commandSpy.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "money":
+					
+					return MoneyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
 				case "silent":
 
 					returnArguments = BukkitUtilities.getAvailableCommands(sender);

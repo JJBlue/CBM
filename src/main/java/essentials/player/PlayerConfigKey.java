@@ -14,12 +14,12 @@ public enum PlayerConfigKey {
 	logoutLocation,
 	tpLocation,
 	tTp,
-	tWallGhost;
+	tWallGhost,
+	balance;
 
 	private String value;
 
-	PlayerConfigKey() {
-	}
+	PlayerConfigKey() {}
 
 	PlayerConfigKey(String value) {
 		this.value = value;

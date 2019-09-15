@@ -188,6 +188,5 @@ public class DisableEnable implements CommandExecutor, TabCompleter {
 		return returnArguments;
 	}
 
-	public void nothing() {
-	}
+	public void nothing() {}
 }

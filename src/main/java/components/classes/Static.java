@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class Static {
-	private Static() {
-	}
+	private Static() {}
 
 	public static String getJarPath() {
 		final CodeSource source = Static.class.getProtectionDomain().getCodeSource();

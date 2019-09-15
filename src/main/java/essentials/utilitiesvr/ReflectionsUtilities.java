@@ -3,8 +3,7 @@ package essentials.utilitiesvr;
 import essentials.main.Main;
 
 public class ReflectionsUtilities {
-	private ReflectionsUtilities() {
-	}
+	private ReflectionsUtilities() {}
 
 	private static String versionPackageName;
 

@@ -11,8 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class LanguageConfig {
-	private LanguageConfig() {
-	}
+	private LanguageConfig() {}
 
 	private static File file;
 	private static FileConfiguration configuration;

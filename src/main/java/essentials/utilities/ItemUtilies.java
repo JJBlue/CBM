@@ -5,8 +5,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemUtilies {
-	private ItemUtilies() {
-	}
+	private ItemUtilies() {}
 
 	public static Damageable getDamageAble(ItemStack itemStack) {
 		if (itemStack == null) return null;

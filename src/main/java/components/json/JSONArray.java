@@ -7,8 +7,7 @@ import java.util.List;
 public class JSONArray extends abstractJSON {
 	private List<?> array;
 
-	public JSONArray() {
-	}
+	public JSONArray() {}
 
 	public JSONArray(List<?> array) {
 		this.array = array;

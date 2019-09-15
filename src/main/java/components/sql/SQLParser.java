@@ -6,8 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class SQLParser {
-	private SQLParser() {
-	}
+	private SQLParser() {}
 
 	public static String getResource(InputStream inputStream) {
 		StringBuilder builder = new StringBuilder();
