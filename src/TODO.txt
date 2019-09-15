@@ -23,7 +23,6 @@ Futures:
 	- get NBT
 	- spawners
 	- clearchat
-	- world player time
 	- better speed command -> fly, walk, swim
 	- giveall
 	- glow player color
