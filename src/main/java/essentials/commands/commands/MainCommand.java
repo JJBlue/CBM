@@ -944,9 +944,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "delwarp":
 				case "editwarp":
 				case "setwarp":
-					warpCommands.commands.onTabComplete(sender, cmd, cmdLabel, args);
-
-					break;
+					return warpCommands.commands.onTabComplete(sender, cmd, cmdLabel, args);
 			}
 		}
 

@@ -104,6 +104,8 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 					break;
 
 				case "setwarp":
+					System.out.println("test");
+					
 					switch (args.length) {
 						case 2:
 							returnArguments.add("<Name>");
@@ -115,22 +117,22 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 							returnArguments.add("False");
 							break;
 						default:
-							returnArguments.add(args[args.length] + "0");
-							returnArguments.add(args[args.length] + "1");
-							returnArguments.add(args[args.length] + "2");
-							returnArguments.add(args[args.length] + "3");
-							returnArguments.add(args[args.length] + "4");
-							returnArguments.add(args[args.length] + "5");
-							returnArguments.add(args[args.length] + "6");
-							returnArguments.add(args[args.length] + "7");
-							returnArguments.add(args[args.length] + "8");
-							returnArguments.add(args[args.length] + "9");
+							returnArguments.add(args[args.length - 1] + "0");
+							returnArguments.add(args[args.length - 1] + "1");
+							returnArguments.add(args[args.length - 1] + "2");
+							returnArguments.add(args[args.length - 1] + "3");
+							returnArguments.add(args[args.length - 1] + "4");
+							returnArguments.add(args[args.length - 1] + "5");
+							returnArguments.add(args[args.length - 1] + "6");
+							returnArguments.add(args[args.length - 1] + "7");
+							returnArguments.add(args[args.length - 1] + "8");
+							returnArguments.add(args[args.length - 1] + "9");
 					}
 			}
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-
+		
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;

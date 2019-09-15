@@ -158,7 +158,6 @@ public class MainConfig {
 	}
 
 	public static void restart() {
-		//TODO
 		List<String> restartList = configuration.getStringList(MainConfigEnum.Restart.value);
 
 		for (String element : restartList) {
