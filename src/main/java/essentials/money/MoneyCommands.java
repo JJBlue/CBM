@@ -32,7 +32,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 				if(args.length < 2) break;
 				
 				try {
-					long value = Long.parseLong(args[1]);
+					double value = Double.parseDouble(args[1]);
 					
 					Player player = null;
 					if(args.length == 2) {
@@ -60,7 +60,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 				if(args.length < 2) break;
 				
 				try {
-					long value = Long.parseLong(args[1]);
+					double value = Double.parseDouble(args[1]);
 					
 					Player fromPlayer = null;
 					Player toPlayer = null;
@@ -98,7 +98,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 				if(args.length < 2) break;
 				
 				try {
-					long value = Long.parseLong(args[1]);
+					double value = Double.parseDouble(args[1]);
 					
 					Player player = null;
 					if(args.length == 2) {
@@ -125,7 +125,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 				if(args.length < 2) break;
 				
 				try {
-					long value = Long.parseLong(args[1]);
+					double value = Double.parseDouble(args[1]);
 					
 					Player player = null;
 					if(args.length == 2) {

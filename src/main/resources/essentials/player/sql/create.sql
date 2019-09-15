@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS players(
 	tWallGhost BOOLEAN,
 	tMute BOOLEAN,
 	playTime TEXT,
+	balance DOUBLE,
 	
 	PRIMARY KEY (uuid)
 );

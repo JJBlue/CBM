@@ -11,17 +11,15 @@ import essentials.player.PlayerManager;
 
 public class MoneyManager {
 	
-	//TODO add Vault API (can be changed in players.yml)
-
-	public synchronized static void addMoney(UUID uuid, long money) {
+	public synchronized static void addMoney(UUID uuid, double money) {
 		setMoney(uuid, getMoney(uuid) + money);
 	}
 
-	public synchronized static void removeMoney(UUID uuid, long money) {
+	public synchronized static void removeMoney(UUID uuid, double money) {
 		setMoney(uuid, getMoney(uuid) - money);
 	}
 	
-	public synchronized static boolean removeMoney(UUID uuid, long money, boolean check) {
+	public synchronized static boolean removeMoney(UUID uuid, double money, boolean check) {
 		if(!check) {
 			removeMoney(uuid, money);
 			return true;
@@ -35,7 +33,7 @@ public class MoneyManager {
 		return false;
 	}
 
-	public synchronized static void setMoney(UUID uuid, long money) {
+	public synchronized static void setMoney(UUID uuid, double money) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
 		config.set(PlayerConfigKey.balance.toString(), money);
 		
@@ -44,12 +42,12 @@ public class MoneyManager {
 			config.save();
 	}
 
-	public synchronized static long getMoney(UUID uuid) {
+	public synchronized static double getMoney(UUID uuid) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
 		return config.getLong(PlayerConfigKey.balance.toString());
 	}
 
-	public synchronized static boolean hasMoney(UUID player, long money) {
+	public synchronized static boolean hasMoney(UUID player, double money) {
 		return getMoney(player) >= money;
 	}
 }
