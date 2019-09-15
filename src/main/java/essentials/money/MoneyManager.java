@@ -44,7 +44,7 @@ public class MoneyManager {
 
 	public synchronized static double getMoney(UUID uuid) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
-		return config.getLong(PlayerConfigKey.balance.toString());
+		return config.getDouble(PlayerConfigKey.balance.toString());
 	}
 
 	public synchronized static boolean hasMoney(UUID player, double money) {
