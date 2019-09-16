@@ -394,7 +394,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				LanguageConfig.sendMessage(sender, "language.change", args[1]);
 				break;
 				
-			case "money":
+			case "economy":
 				
 				return EconomyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
@@ -584,6 +584,18 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				MainConfig.restart();
 
 				break;
+				
+			case "shakeifoff": {
+				
+				if(p == null) break;
+				
+				synchronized (p.getPassengers()) {
+					for(Entity entity : p.getPassengers())
+						entity.eject();
+				}
+				
+				break;
+			}
 
 			case "seen": {
 				try {
@@ -798,6 +810,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("commandspy");
 			returnArguments.add("chestplate");
 			returnArguments.add("delwarp");
+			returnArguments.add("economy");
 			returnArguments.add("editwarp");
 			returnArguments.add("fly");
 			returnArguments.add("feed");
@@ -821,6 +834,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("random");
 			returnArguments.add("repair");
 			returnArguments.add("reload");
+			returnArguments.add("shakeifoff");
 			returnArguments.add("savewarp");
 			returnArguments.add("setwarp");
 			returnArguments.add("seen");
@@ -872,7 +886,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return CommandSpy.commandSpy.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
-				case "money":
+				case "economy":
 					
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					

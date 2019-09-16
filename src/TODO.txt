@@ -17,7 +17,6 @@ Futures:
 	Commands:
 	- alert player
 	- attachcommand to items (NBT ?)
-	- money
 	- ban
 	- jail
 	- get NBT
@@ -29,7 +28,6 @@ Futures:
 	- clear ground
 	- kick
 	- scan for items in containers
-	- shakeitoff -> remove all entities riding on you
 	- skin
 	- nickname
 	- itemStack add org.bukkit.attribute.Attribute
