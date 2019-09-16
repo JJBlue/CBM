@@ -10,9 +10,6 @@ commands:
      trol:
           description: Trol Plugin
           permission: trol.all
-     cv:
-          description: ChatVerbesserung
-          permission: ChatV.use
      post:
           description: Post/Chest open
           permission: post.use
