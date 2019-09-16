@@ -38,10 +38,12 @@ public class MainConfig {
 		configuration.addDefault(MainConfigEnum.Language.value, "en");
 		lastVerstionRun = configuration.getString(MainConfigEnum.lastVersionRun.value);
 		configuration.set(MainConfigEnum.lastVersionRun.value, Main.getPlugin().getDescription().getVersion());
+		configuration.set(MainConfigEnum.useVaultEconomy.value, false);
 
 		//Server
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
 		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll");
+		configuration.addDefault(MainConfigEnum.enableOperators.value, false);
 
 		List<String> list = new LinkedList<>();
 		list.add("#UUID (could join when onlinePlayers < showPlayerAmount)");

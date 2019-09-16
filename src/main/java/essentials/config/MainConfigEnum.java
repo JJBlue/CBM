@@ -4,6 +4,7 @@ public enum MainConfigEnum {
 	FullMessage("server.fullMessage"),
 	FullSize("server.showPlayerAmount"),
 	JoinPlayersWhenFull("server.joinPlayersWhenFull"),
+	enableOperators("server.enableOperator"),
 	CouldOperators("server.couldOperator"),
 	Motd("server.motd"),
 	Restart("server.restart"),
@@ -11,6 +12,7 @@ public enum MainConfigEnum {
 	Language("plugin.language"),
 	DataFolder("plugin.dataFolder"),
 	lastVersionRun("plugin.lastVersionRun"),
+	useVaultEconomy("plugin.useVaultEconomy"),
 
 	bStatsEnable("bStats.enable"),
 	;

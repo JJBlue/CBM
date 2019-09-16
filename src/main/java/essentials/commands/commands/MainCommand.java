@@ -29,6 +29,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import essentials.commands.NameTag.nt;
 import essentials.config.MainConfig;
+import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.modules.Deop;
@@ -48,7 +49,6 @@ import essentials.modules.trade.TradeCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.updater.UpdaterCommand;
 import essentials.modules.warpmanager.warpCommands;
-import essentials.money.MoneyCommands;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
@@ -396,7 +396,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 			case "money":
 				
-				return MoneyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				return EconomyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "more":
 
@@ -874,7 +874,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				case "money":
 					
-					return MoneyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "silent":
 

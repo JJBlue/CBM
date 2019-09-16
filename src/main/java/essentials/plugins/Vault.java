@@ -14,7 +14,7 @@ public class Vault {
 	private static Chat chat;
 	private static Permission permission;
 	
-	public static boolean setupEconomey() {
+	public static boolean setupEconomy() {
 		if(economy != null) return true;
 		
 		Server server = Main.getPlugin().getServer();

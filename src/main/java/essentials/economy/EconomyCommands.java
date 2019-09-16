@@ -1,4 +1,4 @@
-package essentials.money;
+package essentials.economy;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -13,12 +13,12 @@ import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
 
-public class MoneyCommands implements CommandExecutor, TabCompleter {
+public class EconomyCommands implements CommandExecutor, TabCompleter {
 	
-	public final static MoneyCommands moneyCommands;
+	public final static EconomyCommands moneyCommands;
 	
 	static {
-		moneyCommands = new MoneyCommands();
+		moneyCommands = new EconomyCommands();
 	}
 	
 	@Override
@@ -45,8 +45,8 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 						break;
 					}
 					
-					MoneyManager.addMoney(player.getUniqueId(), value);
-					LanguageConfig.sendMessage(sender, "money.addMoney", player.getName(), value + "", MoneyManager.getMoney(player.getUniqueId()) + "");
+					EconomyManager.addMoney(player.getUniqueId(), value);
+					LanguageConfig.sendMessage(sender, "money.addMoney", player.getName(), value + "", EconomyManager.getMoney(player.getUniqueId()) + "");
 					
 				} catch (NumberFormatException e) {
 					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
@@ -80,8 +80,8 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 						break;
 					}
 					
-					if(MoneyManager.removeMoney(fromPlayer.getUniqueId(), value, true)) {
-						MoneyManager.setMoney(toPlayer.getUniqueId(), value);
+					if(EconomyManager.removeMoney(fromPlayer.getUniqueId(), value, true)) {
+						EconomyManager.setMoney(toPlayer.getUniqueId(), value);
 						LanguageConfig.sendMessage(sender, "money.addMoney", fromPlayer.getName(), toPlayer.getName(), value + "");
 					}
 					
@@ -111,7 +111,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 						break;
 					}
 					
-					MoneyManager.setMoney(player.getUniqueId(), value);
+					EconomyManager.setMoney(player.getUniqueId(), value);
 					LanguageConfig.sendMessage(sender, "money.setMoney", player.getName(), value + "");
 					
 				} catch (NumberFormatException e) {
@@ -138,8 +138,8 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 						break;
 					}
 					
-					MoneyManager.removeMoney(player.getUniqueId(), value);
-					LanguageConfig.sendMessage(sender, "money.removeMoney", player.getName(), value + "", MoneyManager.getMoney(player.getUniqueId()) + "");
+					EconomyManager.removeMoney(player.getUniqueId(), value);
+					LanguageConfig.sendMessage(sender, "money.removeMoney", player.getName(), value + "", EconomyManager.getMoney(player.getUniqueId()) + "");
 					
 				} catch (NumberFormatException e) {
 					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
@@ -151,7 +151,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 				
 				if(args.length == 1) {
 					if(sender instanceof Player)
-						LanguageConfig.sendMessage(sender, "money.balance", ((Player) sender).getName(), MoneyManager.getMoney(((Player) sender).getUniqueId()) + "");
+						LanguageConfig.sendMessage(sender, "money.balance", ((Player) sender).getName(), EconomyManager.getMoney(((Player) sender).getUniqueId()) + "");
 				} else {
 					Player player = Bukkit.getPlayer(args[1]);
 					
@@ -160,7 +160,7 @@ public class MoneyCommands implements CommandExecutor, TabCompleter {
 						break;
 					}
 					
-					LanguageConfig.sendMessage(sender, "money.balance", player.getName(), MoneyManager.getMoney(player.getUniqueId()) + "");
+					LanguageConfig.sendMessage(sender, "money.balance", player.getName(), EconomyManager.getMoney(player.getUniqueId()) + "");
 				}
 				
 				break;

@@ -1,16 +1,16 @@
-package essentials.money;
+package essentials.economy;
 
 import org.bukkit.OfflinePlayer;
 
 import essentials.plugins.Vault;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-public class MoneyVault {
+public class EconomyVault {
 	
-	private MoneyVault() {}
+	private EconomyVault() {}
 	
 	public static void load() {
-		Vault.setupEconomey();
+		Vault.setupEconomy();
 	}
 	
 	public static boolean addMoney(OfflinePlayer offlinePlayer, double amount) {

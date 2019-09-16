@@ -1,7 +1,7 @@
 package essentials.modules;
 
-import essentials.config.MainConfig;
-import essentials.utilities.PlayerUtilities;
+import java.util.List;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,13 +11,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import java.util.List;
+import essentials.config.MainConfig;
+import essentials.config.MainConfigEnum;
+import essentials.utilities.PlayerUtilities;
 
 public class Deop implements Listener, CommandExecutor {
 	@EventHandler
 	public void command(PlayerCommandPreprocessEvent e) {
+		if(!MainConfig.getConfiguration().getBoolean(MainConfigEnum.enableOperators.value)) return;
+		
 		Player player = e.getPlayer();
-
+		
 		if (player.isOp() && !MainConfig.getOperators().contains(player.getUniqueId().toString()))
 			player.setOp(false);
 	}

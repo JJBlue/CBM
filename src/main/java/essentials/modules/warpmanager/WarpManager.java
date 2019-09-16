@@ -3,7 +3,7 @@ package essentials.modules.warpmanager;
 import components.datenbank.Datenbank;
 import components.sql.SQLParser;
 import essentials.database.Databases;
-import essentials.money.MoneyManager;
+import essentials.economy.EconomyManager;
 import essentials.player.PlayerSQLHelper;
 import essentials.utilities.ConfigUtilities;
 import essentials.utilities.permissions.PermissionHelper;
@@ -131,7 +131,7 @@ public class WarpManager {
 
 	public static void teleport(Entity entity, Warp warp) {
 		if (entity == null || warp == null) return;
-		if (warp.cost != 0 && !MoneyManager.removeMoney(entity.getUniqueId(), warp.cost, true)) return;
+		if (warp.cost != 0 && !EconomyManager.removeMoney(entity.getUniqueId(), warp.cost, true)) return;
 		if (warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
 		entity.teleport(warp.location);
 	}
