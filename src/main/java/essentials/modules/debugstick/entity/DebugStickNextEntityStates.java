@@ -158,6 +158,26 @@ public class DebugStickNextEntityStates {
 
 		//##########################################################################
 		switch (type) {
+			case LOCATION_X:
+				entity.getLocation().setX(entity.getLocation().getX() + (next ? 0.5 : -0.5));
+				break;
+				
+			case LOCATION_Y:
+				entity.getLocation().setY(entity.getLocation().getY() + (next ? 0.5 : -0.5));
+				break;
+				
+			case LOCATION_Z:
+				entity.getLocation().setZ(entity.getLocation().getZ() + (next ? 0.5 : -0.5));
+				break;
+		
+			case PITCH:
+				entity.getLocation().setPitch((float) nextInt((int) entity.getLocation().getPitch(), -90, 90, next));
+				break;
+				
+			case YAW:
+				entity.getLocation().setYaw((float) nextInt((int) entity.getLocation().getYaw(), 0, 360, next));
+				break;
+				
 			case ANGER:
 				if (!(entity instanceof PigZombie)) break;
 				PigZombie pigZombie = (PigZombie) entity;

@@ -32,6 +32,13 @@ public enum DebugStickEntityChanges {
 	//PLAYER
 	FLY_SPEED,
 	WALK_SPEED,
+	
+	//Entity
+	LOCATION_X,
+	LOCATION_Y,
+	LOCATION_Z,
+	PITCH,
+	YAW,
 
 	//EXTRA MOBS
 	ANGER,

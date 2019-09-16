@@ -229,6 +229,12 @@ public class DebugStickListEntityStates {
 
 		if (entity instanceof Parrot)
 			list.add(DebugStickEntityChanges.VARIANT);
+		
+		list.add(DebugStickEntityChanges.LOCATION_X);
+		list.add(DebugStickEntityChanges.LOCATION_Y);
+		list.add(DebugStickEntityChanges.LOCATION_Z);
+		list.add(DebugStickEntityChanges.PITCH);
+		list.add(DebugStickEntityChanges.YAW);
 
 		return list;
 	}

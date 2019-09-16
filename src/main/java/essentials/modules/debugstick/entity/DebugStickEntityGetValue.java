@@ -113,6 +113,21 @@ public class DebugStickEntityGetValue {
 
 		//############################################################################
 		switch (type) {
+			case LOCATION_X:
+				return entity.getLocation().getX();
+				
+			case LOCATION_Y:
+				return entity.getLocation().getY();
+				
+			case LOCATION_Z:
+				return entity.getLocation().getZ();
+		
+			case PITCH:
+				return entity.getLocation().getPitch();
+				
+			case YAW:
+				return entity.getLocation().getYaw();
+		
 			case ANGER:
 				if (!(entity instanceof PigZombie)) break;
 				PigZombie pigZombie = (PigZombie) entity;
