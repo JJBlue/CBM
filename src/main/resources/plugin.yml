@@ -7,6 +7,3 @@ api-version: 1.13
 commands:
      cbm:
           description: allgemein
-     trol:
-          description: Trol Plugin
-          permission: trol.all
