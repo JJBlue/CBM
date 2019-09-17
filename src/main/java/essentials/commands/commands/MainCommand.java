@@ -591,7 +591,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 				
-			case "shakeifoff": {
+			case "shakeoff": {
 				
 				if(p == null) break;
 				
@@ -846,7 +846,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("random");
 			returnArguments.add("repair");
 			returnArguments.add("reload");
-			returnArguments.add("shakeifoff");
+			returnArguments.add("shakeoff");
 			returnArguments.add("savewarp");
 			returnArguments.add("setwarp");
 			returnArguments.add("seen");
