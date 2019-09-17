@@ -12,14 +12,17 @@ import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import essentials.language.LanguageConfig;
 import essentials.player.PlayersYMLConfig;
@@ -32,14 +35,15 @@ public class DisplayListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void damge(EntityDamageByEntityEvent event) {
-		if(!(event.getDamager() instanceof Player)) return;
 		if(!(event.getDamager() instanceof LivingEntity)) return;
 		
 		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
 		if(display == null || !display.getBoolean("showDamageOnEntity")) return;
 		
 		//Show heal and Damage of Entity
-		Player player = (Player) event.getDamager();
+		Player player = getPlayer(event.getDamager());
+		if(player == null) return;
+		
 		LivingEntity entity = (LivingEntity) event.getEntity();
 		
 		BossBar bossBar = damgeBossbar.get(player);
@@ -62,6 +66,18 @@ public class DisplayListener implements Listener {
 			
 			DisplayBossBarTimer.addBossbar(bossBar, 5, () -> damgeBossbar.remove(player));
 		}
+	}
+	
+	private static Player getPlayer(Entity entity) {
+		if(entity instanceof Player)
+			return (Player) entity;
+		else if(entity instanceof Projectile) {
+			ProjectileSource source = ((Projectile) entity).getShooter();
+			if(source instanceof Player)
+				return (Player) source;
+		}
+		
+		return null;
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
