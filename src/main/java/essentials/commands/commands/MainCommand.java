@@ -915,9 +915,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 						returnArguments.add("set");
 					} else if(args.length == 3)
 						returnArguments.add("<ticks>");
-					else if(args.length == 4)
-						returnArguments.add("<fixed, default true>");
-					else if(args.length == 5) {
+					else if(args.length == 4) {
+						returnArguments.add("True");
+						returnArguments.add("False");
+					} else if(args.length == 5) {
 						for (Player player : Bukkit.getOnlinePlayers())
 							returnArguments.add(player.getName());
 					}
