@@ -16,8 +16,14 @@ import essentials.language.LanguageConfig;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 
-public class trollCommands implements CommandExecutor, TabCompleter {
+public class TrollCommands implements CommandExecutor, TabCompleter {
 
+	public final static TrollCommands trollCommands;
+	
+	static {
+		trollCommands = new TrollCommands();
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length < 1) return true;

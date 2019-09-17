@@ -47,6 +47,7 @@ import essentials.modules.skull.SkullInventory;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
+import essentials.modules.troll.TrollCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.updater.UpdaterCommand;
 import essentials.modules.warpmanager.warpCommands;
@@ -740,6 +741,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+			case "troll":
+				
+				return TrollCommands.trollCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				
 			case "updater":
 
 				return UpdaterCommand.updaterCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -855,6 +860,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("teleport");
 			returnArguments.add("timer");
 			returnArguments.add("trade");
+			returnArguments.add("troll");
 			returnArguments.add("updater");
 			returnArguments.add("uuid");
 			returnArguments.add("version");
@@ -957,6 +963,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return teleportCommand.teleport.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "troll":
+					
+					return TrollCommands.trollCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
 				case "info":
 
 					for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
