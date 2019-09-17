@@ -37,10 +37,13 @@ public class PlayersYMLConfig {
 	}
 	
 	public static ConfigurationSection getConfigurationSection(String name) {
+		if(configuration == null) return null;
 		return configuration.getConfigurationSection(name);
 	}
 	
 	public static void save() {
+		if(configuration == null) return;
+		
 		try {
 			configuration.save(file);
 		} catch (IOException e) {}

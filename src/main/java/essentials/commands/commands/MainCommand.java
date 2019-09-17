@@ -841,6 +841,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("nametag");
 			returnArguments.add("near");
 			returnArguments.add("paint");
+			returnArguments.add("playertime");
 			returnArguments.add("pluginmanager");
 			returnArguments.add("random");
 			returnArguments.add("repair");
@@ -905,6 +906,23 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "economy":
 					
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "playertime":
+					
+					if(args.length == 2) {
+						returnArguments.add("add");
+						returnArguments.add("remove");
+						returnArguments.add("set");
+					} else if(args.length == 3)
+						returnArguments.add("<ticks>");
+					else if(args.length == 4)
+						returnArguments.add("<fixed, default true>");
+					else if(args.length == 5) {
+						for (Player player : Bukkit.getOnlinePlayers())
+							returnArguments.add(player.getName());
+					}
+					
+					break;
 					
 				case "silent":
 

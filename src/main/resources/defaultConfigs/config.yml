@@ -17,6 +17,8 @@ server:
   # See showPlayerAmount
   joinPlayersWhenFull:
   - UUID
+  # This can disable/enable couldOperator
+  enableOperator: false
   # Only these players could be operators. If a none-player get op and tried to use command, the op state will be removed.
   couldOperator:
   - UUID

@@ -2,10 +2,61 @@ package essentials.modules.debugstick.entity;
 
 import org.bukkit.Art;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.TreeSpecies;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.AbstractHorse;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.AnimalTamer;
+import org.bukkit.entity.Bat;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Cat;
+import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.EnderSignal;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Fox;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Husk;
+import org.bukkit.entity.IronGolem;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Llama;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.MushroomCow;
+import org.bukkit.entity.Painting;
+import org.bukkit.entity.Panda;
+import org.bukkit.entity.Parrot;
+import org.bukkit.entity.Phantom;
+import org.bukkit.entity.Pig;
+import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.PufferFish;
+import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Raider;
+import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Sittable;
+import org.bukkit.entity.Slime;
+import org.bukkit.entity.Snowman;
+import org.bukkit.entity.SpectralArrow;
+import org.bukkit.entity.Spellcaster;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.Tameable;
+import org.bukkit.entity.TropicalFish;
+import org.bukkit.entity.Vex;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.WitherSkull;
+import org.bukkit.entity.Wolf;
+import org.bukkit.entity.Zombie;
 
 public class DebugStickNextEntityStates {
 	/*
@@ -159,23 +210,33 @@ public class DebugStickNextEntityStates {
 		//##########################################################################
 		switch (type) {
 			case LOCATION_X:
-				entity.getLocation().setX(entity.getLocation().getX() + (next ? 0.5 : -0.5));
+				Location location = entity.getLocation().clone();
+				location.setX(location.getX() + (next ? 0.5 : -0.5));
+				entity.teleport(location);
 				break;
 				
 			case LOCATION_Y:
-				entity.getLocation().setY(entity.getLocation().getY() + (next ? 0.5 : -0.5));
+				location = entity.getLocation().clone();
+				location.setY(location.getY() + (next ? 0.5 : -0.5));
+				entity.teleport(location);
 				break;
 				
 			case LOCATION_Z:
-				entity.getLocation().setZ(entity.getLocation().getZ() + (next ? 0.5 : -0.5));
+				location = entity.getLocation().clone();
+				location.setZ(location.getZ() + (next ? 0.5 : -0.5));
+				entity.teleport(location);
 				break;
 		
 			case PITCH:
-				entity.getLocation().setPitch((float) nextInt((int) entity.getLocation().getPitch(), -90, 90, next));
+				location = entity.getLocation().clone();
+				location.setPitch((float) nextInt((int) location.getPitch(), -90, 90, next));
+				entity.teleport(location);
 				break;
 				
 			case YAW:
-				entity.getLocation().setYaw((float) nextInt((int) entity.getLocation().getYaw(), 0, 360, next));
+				location = entity.getLocation().clone();
+				location.setYaw((float) nextInt((int) location.getYaw(), 0, 360, next));
+				entity.teleport(location);
 				break;
 				
 			case ANGER:

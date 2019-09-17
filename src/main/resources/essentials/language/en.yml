@@ -27,6 +27,13 @@ command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
 command-spy:
   toggled: §eCommand spy toggled to §6$1
+economy:
+  addMoney: '§6$2 §ewere be added to $1 balance.\nCurrent balance: §6$3'
+  removeMoney: '§6$2 §ewere be removed from $1 balance.\nCurrent balance: §6$3'
+  setMoney: '§eSet $1 balance to §6$2'
+  transferMoney: '§6$3 §ewere be transfered from $1 balance to $2 balance.'
+  couldNotBeTransfered: '§4Error money could not be transfered'
+  balance: '§e$1 balance is §6$2'
 feed:
   feed-Player: §6$1 §ewere fed
   feed: §eYou were fed
@@ -45,13 +52,6 @@ info:
   info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAuthors: §6$6\n§eWebsite: §6$7\n§eDescription: §6$8\n§eDepend: §6$9\n§eSoftDepend: §6$10'
 language:
   change: §eLanguage changed to §6$1
-money:
-  addMoney: '§6$2 §ewere be added to $1 balance. Current balance: $3'
-  removeMoney: '§6$2 §ewere be removed from $1 balance. Current balance: $3'
-  setMoney: '§eSet $1 balance to §6$2'
-  transferMoney: '§6$3 §ewere be transfered from $1 balance to $2 balance.'
-  couldNotBeTransfered: '§4Error money could not be transfered'
-  balance: '§e$1 balance is §6$2'
 mute:
   enabled-Command: §6$1 §eis now muted
   disabled-Command: §6$1 is no longer muted
