@@ -460,4 +460,13 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 		return null;
 	}
+
+	@Override
+	public void remove(String key) {
+		try {
+			SimpleReflection.callMethod(nbtTagCompound, "remove", key);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
 }

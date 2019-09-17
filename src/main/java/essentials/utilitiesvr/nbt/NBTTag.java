@@ -83,4 +83,6 @@ public interface NBTTag {
 	Object get(String key);
 
 	Object getValue(String key);
+
+	void remove(String key);
 }

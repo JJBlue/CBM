@@ -294,4 +294,9 @@ public class NBTUtilities_v1_14 implements NBTTag {
 			return getString(key);
 		return null;
 	}
+	
+	@Override
+	public void remove(String key) {
+		nbtTagCompound.remove(key);
+	}
 }

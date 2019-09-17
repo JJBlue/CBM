@@ -11,7 +11,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import essentials.language.LanguageConfig;
 import essentials.utilities.NBTUtilities;
+import essentials.utilities.StringUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
 
 public class NBTCommands implements CommandExecutor, TabCompleter {
@@ -36,10 +38,8 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 				
 				break;
 			}
-			case "add": { //TODO
-				if(args.length < 2) break;
-				
-				if(!(sender instanceof Player)) break;
+			case "add": { //add [byte|short|int|long|double|float|intarray|longarray|doublearray|floatarray|String] <key> <value>
+				if(args.length < 4 || !(sender instanceof Player)) break;
 				
 				Player player = (Player) sender;
 				ItemStack itemstack = player.getInventory().getItemInMainHand();
@@ -47,21 +47,103 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 				NBTTag tag = NBTUtilities.getNBTTag(itemstack);
 				String key = args[2];
 				
-				switch(args[1].toLowerCase()) {
-					case "int":
-						
-						try {
-							tag.set(key, NBTUtilities.createNBTBase(Integer.parseInt(args[3])));
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						}
-						
+				try {
+					Object value = null;
+					
+					switch(args[1].toLowerCase()) {
+						case "byte":
+							value = Byte.parseByte(args[3]);
+							break;
+						case "short":
+							value = Short.parseShort(args[3]);
+							break;
+						case "int":
+							value = Integer.parseInt(args[3]);
+							break;
+						case "double":
+							value = Double.parseDouble(args[3]);
+							break;
+						case "float":
+							value = Float.parseFloat(args[3]);
+							break;
+						case "long":
+							value = Long.parseLong(args[3]);
+							break;
+						case "intarray":
+							
+							int[] ia = new int[args.length - 4];
+							
+							for(int i = 4; i < args.length; i++)
+								ia[i - 4] = Integer.parseInt(args[i]);
+							
+							value = ia;
+							
+							break;
+							
+						case "longarray":
+							
+							long[] la = new long[args.length - 4];
+							
+							for(int i = 4; i < args.length; i++)
+								la[i - 4] = Long.parseLong(args[i]);
+							
+							value = la;
+							
+							break;
+							
+						case "doublearray":
+							
+							double[] da = new double[args.length - 4];
+							
+							for(int i = 4; i < args.length; i++)
+								da[i - 4] = Double.parseDouble(args[i]);
+							
+							value = da;
+							
+							break;
+							
+						case "floatarray":
+							
+							float[] fa = new float[args.length - 4];
+							
+							for(int i = 4; i < args.length; i++)
+								fa[i - 4] = Float.parseFloat(args[i]);
+							
+							value = fa;
+							
+							break;
+							
+						case "String":
+							
+							value = StringUtilities.arrayToStringRange(args, 4, args.length);
+							
+							break;
+					}
+					
+					if(value != null) {
+						tag.set(key, NBTUtilities.createNBTBase(value));
 						NBTUtilities.setNBTTagCompound(itemstack, tag.getNBTTagCompound());
-						//TODO ausgabe
-						
-						break;
+					}
+					
+					//TODO ausgabe
+				} catch (IllegalArgumentException e) {
+					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
 			}
+			
+			case "remove": //remove <Key>
+				
+				if(args.length < 2 || !(sender instanceof Player)) break;
+				
+				Player player = (Player) sender;
+				ItemStack itemstack = player.getInventory().getItemInMainHand();
+				
+				NBTTag tag = NBTUtilities.getNBTTag(itemstack);
+				tag.remove(args[1]);
+				NBTUtilities.setNBTTagCompound(itemstack, tag.getNBTTagCompound());
+				//TODO ausgabe
+				
+				break;
 		}
 		
 		
@@ -74,10 +156,43 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 
 		if (args.length == 1) {
 			returnArguments.add("info");
+			returnArguments.add("add");
+			returnArguments.add("remove");
 
 		} else {
 			switch (args[0]) {
-			
+				case "add":
+					
+					if(args.length == 2) {
+						returnArguments.add("byte");
+						returnArguments.add("short");
+						returnArguments.add("int");
+						returnArguments.add("long");
+						returnArguments.add("double");
+						returnArguments.add("float");
+						returnArguments.add("intarray");
+						returnArguments.add("longarray");
+						returnArguments.add("doublearray");
+						returnArguments.add("floatarray");
+						returnArguments.add("bytStringe");
+					} else if(args.length == 3)
+						returnArguments.add("<Key>");
+					else if(args.length == 4)
+						returnArguments.add("<Value>");
+					
+					break;
+					
+				case "remove":
+					if(!(sender instanceof Player)) break;
+					
+					Player player = (Player) sender;
+					ItemStack itemstack = player.getInventory().getItemInMainHand();
+					NBTTag tag = NBTUtilities.getNBTTag(itemstack);
+					
+					for(String s : tag.getKeys())
+						returnArguments.add(s);
+					
+					break;
 			}
 		}
 
