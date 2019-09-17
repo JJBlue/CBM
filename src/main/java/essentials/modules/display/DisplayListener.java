@@ -35,7 +35,7 @@ public class DisplayListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void damge(EntityDamageByEntityEvent event) {
-		if(!(event.getDamager() instanceof LivingEntity)) return;
+		if(!(event.getEntity() instanceof LivingEntity)) return;
 		
 		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
 		if(display == null || !display.getBoolean("showDamageOnEntity")) return;
@@ -73,6 +73,7 @@ public class DisplayListener implements Listener {
 			return (Player) entity;
 		else if(entity instanceof Projectile) {
 			ProjectileSource source = ((Projectile) entity).getShooter();
+			
 			if(source instanceof Player)
 				return (Player) source;
 		}
