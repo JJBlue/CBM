@@ -1,19 +1,26 @@
 package essentials.main;
 
+import java.io.File;
+import java.time.LocalDateTime;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import essentials.commands.commands.MainCommand;
 import essentials.commands.commands.bookCommand;
-import essentials.commands.post.Post;
-import essentials.commands.trolling.BlockClick;
-import essentials.commands.trolling.TrolCommands;
 import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
-import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.ColorListener;
 import essentials.modules.Deop;
-import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
+import essentials.modules.ChatVerbesserung.ChatVerbesserung;
+import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.MapPaint.LoadMapPaint;
 import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
@@ -31,6 +38,7 @@ import essentials.modules.teleport.TeleportListener;
 import essentials.modules.timer.TimerConfig;
 import essentials.modules.timer.TimerListener;
 import essentials.modules.trade.TradeListener;
+import essentials.modules.troll.TrollListener;
 import essentials.modules.updater.UpdaterConfig;
 import essentials.modules.updater.UpdaterServerManager;
 import essentials.modules.warpmanager.WarpManager;
@@ -39,15 +47,6 @@ import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.player.PlayersYMLConfig;
 import essentials.utilities.inventory.InventoryListener;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.time.LocalDateTime;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -73,10 +72,8 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new MPListener(), this);
 		Bukkit.getPluginManager().registerEvents(new chair(), this);
 		Bukkit.getPluginManager().registerEvents(new Join(), this);
-		Bukkit.getPluginManager().registerEvents(new Post(), this);
 		Bukkit.getPluginManager().registerEvents(new CommandListener(), this);
-		Bukkit.getPluginManager().registerEvents(new TrolCommands(), this);
-		Bukkit.getPluginManager().registerEvents(new BlockClick(), this);
+		Bukkit.getPluginManager().registerEvents(new TrollListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ChatVerbesserung(), this);
 		Bukkit.getPluginManager().registerEvents(new SkullInventory(), this);
 		Bukkit.getPluginManager().registerEvents(new TeleportListener(), this);
@@ -93,16 +90,6 @@ public class Main extends JavaPlugin implements Listener {
 			MainCommand mainCommand = new MainCommand();
 			this.getCommand("cbm").setExecutor(mainCommand);
 			this.getCommand("cbm").setTabCompleter(mainCommand);
-		}
-
-		{ //TODO move under cbm command
-			this.getCommand("post").setExecutor(Post.post);
-			this.getCommand("post").setTabCompleter(Post.post);
-		}
-
-		{ //TODO move under cbm command
-			this.getCommand("trol").setExecutor(TrolCommands.commands);
-			this.getCommand("trol").setTabCompleter(TrolCommands.commands);
 		}
 
 		this.getServer().getPluginManager().registerEvents(this, this);
@@ -171,7 +158,6 @@ public class Main extends JavaPlugin implements Listener {
 		Tablist.load();
 		LoadMapPaint.load();
 //		ChatVerbesserung.Load();
-		Post.Load();
 		TimerConfig.load();
 	}
 

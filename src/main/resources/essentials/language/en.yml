@@ -5,6 +5,7 @@ error:
   default: §4Error
 text:
   speed: Speed
+  commandExecuted: §eCommand was executed
 value:
   true: 'True'
   false: 'False'

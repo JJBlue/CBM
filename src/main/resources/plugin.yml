@@ -10,6 +10,3 @@ commands:
      trol:
           description: Trol Plugin
           permission: trol.all
-     post:
-          description: Post/Chest open
-          permission: post.use
