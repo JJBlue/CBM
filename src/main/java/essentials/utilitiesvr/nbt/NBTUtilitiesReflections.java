@@ -1,12 +1,13 @@
 package essentials.utilitiesvr.nbt;
 
-import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
-import org.bukkit.inventory.ItemStack;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
+
+import org.bukkit.inventory.ItemStack;
+
+import components.reflections.SimpleReflection;
+import essentials.utilitiesvr.ReflectionsUtilities;
 
 public class NBTUtilitiesReflections implements NBTTag {
 	/**
@@ -56,11 +57,96 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @return NBTBase
+	 */
+	public static Object createNBTBase(Object value) {
+		try {
+			if(value instanceof Byte)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByte"), value);
+			else if(value instanceof byte[])
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByteArray"), value);
+			else if(value instanceof Double)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagDouble"), value);
+			else if(value instanceof Float)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagFloat"), value);
+			else if(value instanceof Integer)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagInt"), value);
+			else if(value instanceof int[])
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagIntArray"), value);
+			else if(value instanceof Long)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLong"), value);
+			else if(value instanceof long[])
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLongArray"), value);
+			else if(value instanceof Short)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagShort"), value);
+			else if(value instanceof String)
+				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagString"), value);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	public static Object getValue(Object nbtbase) {
+		Class<?> nbtBaseClass = nbtbase.getClass();
+		
+		try {
+			if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByte").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asByte");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound").isAssignableFrom(nbtBaseClass))
+				return new NBTUtilitiesReflections(nbtbase);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagList").isAssignableFrom(nbtBaseClass))
+				return (List<?>) nbtbase;
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByteArray").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "getBytes");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagDouble").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asDouble");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagFloat").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asFloat");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagInt").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asInt");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagIntArray").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "getInts");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLong").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asLong");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLongArray").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "getLongs");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagShort").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asShort");
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagString").isAssignableFrom(nbtBaseClass))
+				return SimpleReflection.callMethod(nbtbase, "asString");
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	private Object nbtTagCompound;
 
 	public NBTUtilitiesReflections(ItemStack itemStack) {
 		nbtTagCompound = getNBTTagCompound(itemStack);
+	}
+	
+	public boolean hasNBT() {
+		return nbtTagCompound != null;
+	}
+	
+	public NBTUtilitiesReflections(Object nbtTagCompound) {
+		try {
+			Class<?> nbtBase = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound");
+			if (!nbtBase.isAssignableFrom(nbtTagCompound.getClass()))
+				throw new IllegalArgumentException();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		this.nbtTagCompound = nbtTagCompound;
 	}
 
 	@Override
@@ -325,4 +411,49 @@ public class NBTUtilitiesReflections implements NBTTag {
 		return nbtTagCompound;
 	}
 
+	@Override
+	public Object get(String key) {
+		try {
+			return SimpleReflection.callMethod(nbtTagCompound, "get", key);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public Object getValue(String key) {
+		Object nbtbase = get(key);
+		Class<?> nbtBaseClass = nbtbase.getClass();
+		
+		try {
+			if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByte").isAssignableFrom(nbtBaseClass))
+				return getByte(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound").isAssignableFrom(nbtBaseClass))
+				return new NBTUtilitiesReflections(nbtbase);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagList").isAssignableFrom(nbtBaseClass))
+				return (List<?>) nbtbase;
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByteArray").isAssignableFrom(nbtBaseClass))
+				return getByteArray(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagDouble").isAssignableFrom(nbtBaseClass))
+				return getDouble(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagFloat").isAssignableFrom(nbtBaseClass))
+				return getFloat(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagInt").isAssignableFrom(nbtBaseClass))
+				return getInt(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagIntArray").isAssignableFrom(nbtBaseClass))
+				return getIntArray(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLong").isAssignableFrom(nbtBaseClass))
+				return getLong(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLongArray").isAssignableFrom(nbtBaseClass))
+				return getLongArray(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagShort").isAssignableFrom(nbtBaseClass))
+				return getShort(key);
+			else if(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagString").isAssignableFrom(nbtBaseClass))
+				return getString(key);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

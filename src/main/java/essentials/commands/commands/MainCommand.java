@@ -42,6 +42,7 @@ import essentials.modules.chair.chair;
 import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
+import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.teleport.teleportCommand;
@@ -453,6 +454,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 
+			case "nbt":
+				
+				return NBTCommands.nbtCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				
 			case "near":
 
 				if (p == null) return true;
@@ -839,6 +844,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("more");
 			returnArguments.add("mute");
 			returnArguments.add("nametag");
+			returnArguments.add("nbt");
 			returnArguments.add("near");
 			returnArguments.add("paint");
 			returnArguments.add("playertime");
@@ -906,6 +912,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "economy":
 					
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "nbt":
+					
+					return NBTCommands.nbtCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "playertime":
 					

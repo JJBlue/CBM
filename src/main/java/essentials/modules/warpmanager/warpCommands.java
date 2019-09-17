@@ -104,7 +104,6 @@ public class warpCommands implements CommandExecutor, TabCompleter {
 					break;
 
 				case "setwarp":
-					System.out.println("test");
 					
 					switch (args.length) {
 						case 2:

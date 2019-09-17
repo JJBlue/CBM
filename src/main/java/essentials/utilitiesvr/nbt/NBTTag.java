@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface NBTTag {
+	boolean hasNBT();
+	
 	/**
 	 * @param key
 	 * @param value instanceof NBTBase
@@ -77,4 +79,8 @@ public interface NBTTag {
 	 * @return NBTTagCompound
 	 */
 	Object getNBTTagCompound();
+	
+	Object get(String key);
+
+	Object getValue(String key);
 }

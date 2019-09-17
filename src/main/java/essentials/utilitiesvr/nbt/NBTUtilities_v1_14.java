@@ -1,18 +1,31 @@
 package essentials.utilitiesvr.nbt;
 
-import net.minecraft.server.v1_14_R1.NBTBase;
-import net.minecraft.server.v1_14_R1.NBTTagCompound;
-import net.minecraft.server.v1_14_R1.NBTTagList;
+import java.util.List;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Set;
+import net.minecraft.server.v1_14_R1.NBTBase;
+import net.minecraft.server.v1_14_R1.NBTTagByte;
+import net.minecraft.server.v1_14_R1.NBTTagByteArray;
+import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import net.minecraft.server.v1_14_R1.NBTTagDouble;
+import net.minecraft.server.v1_14_R1.NBTTagFloat;
+import net.minecraft.server.v1_14_R1.NBTTagInt;
+import net.minecraft.server.v1_14_R1.NBTTagIntArray;
+import net.minecraft.server.v1_14_R1.NBTTagList;
+import net.minecraft.server.v1_14_R1.NBTTagLong;
+import net.minecraft.server.v1_14_R1.NBTTagLongArray;
+import net.minecraft.server.v1_14_R1.NBTTagShort;
+import net.minecraft.server.v1_14_R1.NBTTagString;
 
 public class NBTUtilities_v1_14 implements NBTTag {
 	public static NBTTagCompound getNBTTagCompound(ItemStack itemstack) {
 		return CraftItemStack.asNMSCopy(itemstack).getTag();
 	}
-
+	
 	/**
 	 * @param itemstack
 	 * @param NBTTagCompound nbtTagCompound
@@ -29,11 +42,76 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public static NBTTagList createNBTTagList() {
 		return new NBTTagList();
 	}
+	
+	public static NBTBase createNBTBase(Object value) {
+		if(value instanceof Byte)
+			return new NBTTagByte((byte) value);
+		else if(value instanceof byte[])
+			return new NBTTagByteArray((byte[]) value);
+		else if(value instanceof Double)
+			return new NBTTagDouble((double) value);
+		else if(value instanceof Float)
+			return new NBTTagFloat((float) value);
+		else if(value instanceof Integer)
+			return new NBTTagInt((int) value);
+		else if(value instanceof int[])
+			return new NBTTagIntArray((int[]) value);
+		else if(value instanceof Long)
+			return new NBTTagLong((long) value);
+		else if(value instanceof long[])
+			return new NBTTagLongArray((long[]) value);
+		else if(value instanceof Short)
+			return new NBTTagShort((short) value);
+		else if(value instanceof String)
+			return new NBTTagString((String) value);
+		return null;
+	}
+	
+	public static Object getValue(Object base) {
+		if(base instanceof NBTTagByte)
+			return ((NBTTagByte) base).asByte();
+		else if(base instanceof NBTTagCompound)
+			return new NBTUtilities_v1_14(base);
+		else if(base instanceof NBTTagList)
+			return (List<?>) base;
+		else if(base instanceof NBTTagByteArray)
+			return ((NBTTagByteArray) base).getBytes();
+		else if(base instanceof NBTTagDouble)
+			return ((NBTTagDouble) base).asDouble();
+		else if(base instanceof NBTTagFloat)
+			return ((NBTTagFloat) base).asFloat();
+		else if(base instanceof NBTTagInt)
+			return ((NBTTagInt) base).asInt();
+		else if(base instanceof NBTTagIntArray)
+			return ((NBTTagIntArray) base).getInts();
+		else if(base instanceof NBTTagLong)
+			return ((NBTTagLong) base).asLong();
+		else if(base instanceof NBTTagLongArray)
+			return ((NBTTagLongArray) base).getLongs();
+		else if(base instanceof NBTTagShort)
+			return ((NBTTagShort) base).asShort();
+		else if(base instanceof NBTTagString)
+			return ((NBTTagString) base).asString();
+		return null;
+	}
+	
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	private NBTTagCompound nbtTagCompound;
 
 	public NBTUtilities_v1_14(ItemStack itemStack) {
 		nbtTagCompound = getNBTTagCompound(itemStack);
+	}
+	
+	public NBTUtilities_v1_14(Object nbtTagCompound) {
+		if(!(nbtTagCompound instanceof NBTTagCompound))
+			throw new IllegalArgumentException();
+		
+		this.nbtTagCompound = (NBTTagCompound) nbtTagCompound;
+	}
+	
+	public boolean hasNBT() {
+		return nbtTagCompound != null;
 	}
 
 	@Override
@@ -176,28 +254,43 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public NBTTagCompound getNBTTagCompound() {
 		return nbtTagCompound;
 	}
-
-//	public void test() {
-//		Player p = (Player) s;
-//		Location loc = p.getTargetBlock((HashSet<Byte>) null, 0).getLocation();
-//		Location loc2 = p.getLocation();
-//		Block b = p.getWorld().getBlockAt(loc);
-//		
-//		Block b2 = p.getWorld().getBlockAt(p.getLocation());
-//		b2.setType(b.getType());
-//		
-//		CraftWorld cw = (CraftWorld) p.getWorld();
-//		TileEntity tileEntity = cw.getTileEntityAt(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
-//		TileEntity tileEntity2 = cw.getTileEntityAt(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
-//		
-//		NBTTagCompound ntc = new NBTTagCompound();
-//		NBTTagCompound ntc2 = new NBTTagCompound();
-//		tileEntity.b(ntc);
-//		ntc2 = (NBTTagCompound) ntc.clone();
-//		ntc2.setInt("x", loc2.getBlockX());
-//		ntc2.setInt("y", loc2.getBlockY());
-//		ntc2.setInt("z", loc2.getBlockZ());
-//		tileEntity2.a(ntc2);
-//		tileEntity2.update();
-//	}
+	
+	@Override
+	public NBTBase get(String key) {
+		return nbtTagCompound.get(key);
+	}
+	
+	@Override
+	public Object getValue(String key) {
+		NBTBase base = get(key);
+		
+		if(base instanceof NBTTagCompound)
+			Bukkit.broadcastMessage("test");
+		
+		if(base instanceof NBTTagByte)
+			return getByte(key);
+		else if(base instanceof NBTTagCompound)
+			return new NBTUtilities_v1_14(base);
+		else if(base instanceof NBTTagList)
+			return (List<?>) base;
+		else if(base instanceof NBTTagByteArray)
+			return getByteArray(key);
+		else if(base instanceof NBTTagDouble)
+			return getDouble(key);
+		else if(base instanceof NBTTagFloat)
+			return getFloat(key);
+		else if(base instanceof NBTTagInt)
+			return getInt(key);
+		else if(base instanceof NBTTagIntArray)
+			return getIntArray(key);
+		else if(base instanceof NBTTagLong)
+			return getLong(key);
+		else if(base instanceof NBTTagLongArray)
+			return getLongArray(key);
+		else if(base instanceof NBTTagShort)
+			return getShort(key);
+		else if(base instanceof NBTTagString)
+			return getString(key);
+		return null;
+	}
 }

@@ -59,4 +59,25 @@ public class NBTUtilities {
 		}
 		return NBTUtilitiesReflections.createNBTTagList();
 	}
+	
+	public static Object createNBTBase(Object value) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return NBTUtilities_v1_14.createNBTBase(value);
+		}
+		return NBTUtilitiesReflections.createNBTBase(value);
+	}
+	
+	/**
+	 * 
+	 * @param nbtbase instanceof NBTBase
+	 * @return
+	 */
+	public static Object getValue(Object nbtbase) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return NBTUtilities_v1_14.getValue(nbtbase);
+		}
+		return NBTUtilitiesReflections.getValue(nbtbase);
+	}
 }
