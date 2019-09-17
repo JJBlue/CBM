@@ -3,7 +3,6 @@ package essentials.utilitiesvr.nbt;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,8 +30,12 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	 * @param NBTTagCompound nbtTagCompound
 	 */
 	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
-		if (!(nbtTagCompound instanceof NBTTagCompound)) return;
-		CraftItemStack.asNMSCopy(itemstack).setTag((NBTTagCompound) nbtTagCompound);
+		if (!(nbtTagCompound instanceof NBTTagCompound)) 
+			throw new IllegalArgumentException();
+		
+		net.minecraft.server.v1_14_R1.ItemStack is = CraftItemStack.asNMSCopy(itemstack);
+		is.setTag((NBTTagCompound) nbtTagCompound);
+		itemstack.setItemMeta(CraftItemStack.getItemMeta(is));
 	}
 
 	public static NBTTagCompound createNBTTagCompound() {
@@ -116,7 +119,8 @@ public class NBTUtilities_v1_14 implements NBTTag {
 
 	@Override
 	public void set(String key, Object value) {
-		if (!(value instanceof NBTBase)) return;
+		if (!(value instanceof NBTBase))
+			throw new IllegalArgumentException();
 		nbtTagCompound.set(key, (NBTBase) value);
 	}
 
@@ -263,9 +267,6 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	@Override
 	public Object getValue(String key) {
 		NBTBase base = get(key);
-		
-		if(base instanceof NBTTagCompound)
-			Bukkit.broadcastMessage("test");
 		
 		if(base instanceof NBTTagByte)
 			return getByte(key);

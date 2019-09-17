@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import components.reflections.SimpleReflection;
 import essentials.utilitiesvr.ReflectionsUtilities;
@@ -28,11 +29,13 @@ public class NBTUtilitiesReflections implements NBTTag {
 	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
 		try {
 			Class<?> nbtTagCompoundClass = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound");
-			if (!nbtTagCompoundClass.isAssignableFrom(nbtTagCompound.getClass())) return;
+			if (!nbtTagCompoundClass.isAssignableFrom(nbtTagCompound.getClass())) 
+				throw new IllegalArgumentException();
 
 			Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit." + ReflectionsUtilities.getPackageVersionName() + ".inventory.CraftItemStack");
 			Object mcItemStack = SimpleReflection.callStaticMethod(craftItemStack, "asNMSCopy", itemstack);
 			SimpleReflection.callMethod(mcItemStack, "setTag", nbtTagCompound);
+			itemstack.setItemMeta((ItemMeta) SimpleReflection.callStaticMethod(craftItemStack, "getItemMeta", mcItemStack));
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -153,7 +156,8 @@ public class NBTUtilitiesReflections implements NBTTag {
 	public void set(String key, Object value) {
 		try {
 			Class<?> nbtBase = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTBase");
-			if (!nbtBase.isAssignableFrom(value.getClass())) return;
+			if (!nbtBase.isAssignableFrom(value.getClass()))
+				throw new IllegalArgumentException();
 			SimpleReflection.callMethod(nbtTagCompound, "set", key, value);
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
