@@ -10,10 +10,38 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 public class ClaimRegion {
 	
-	public static void claim(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
+	public synchronized static void claim(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
+		RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+		RegionManager manager = container.get(BukkitAdapter.adapt(world));
 		
+		String id;
+		int number = 1;
+		
+		do {
+			id = "plot_" + player.getName() + "_" + number;
+		} while(manager.hasRegion(id));
+		
+		ProtectedCuboidRegion region = new ProtectedCuboidRegion(
+			id,
+			BukkitAdapter.asBlockVector(new Location(world, minX, 0, minZ)),
+			BukkitAdapter.asBlockVector(new Location(world, maxX, 255, maxZ))
+		);
+		
+		DefaultDomain owners = region.getOwners();
+		owners.addPlayer(player.getUniqueId());
+		
+		manager.addRegion(region);
+		
+		createFence(world, minX, minZ, maxX, maxZ);
 	}
 	
 	public static void createFence(World world, int minX, int minZ, int maxX, int maxZ) {
@@ -31,7 +59,6 @@ public class ClaimRegion {
 			
 			fence = fences.get(new Random().nextInt(fences.size()));
 		}
-		
 		
 		for(int i = minX; i <= maxX; i++) {
 			place(fence, world, i, minZ);
