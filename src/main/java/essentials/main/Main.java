@@ -54,17 +54,19 @@ public class Main extends JavaPlugin implements Listener {
 	private static LocalDateTime online;
 
 	public void onEnable() {
+		System.out.println("[CBM] is starting");
 		plugin = this;
 		online = LocalDateTime.now();
-		System.out.println("[CBM] wurde gestartet");
 
 		File file = new File(getDataFolder().getParentFile(), "Allgemein");
 		file.renameTo(getDataFolder());
 
+		System.out.println("[CBM] loading important configs");
 		MainConfig.reload();
 		LanguageConfig.load();
 		Databases.load();
 
+		System.out.println("[CBM] loading Listeners");
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
 		Bukkit.getPluginManager().registerEvents(new Deop(), this);
 		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
@@ -92,8 +94,7 @@ public class Main extends JavaPlugin implements Listener {
 			this.getCommand("cbm").setTabCompleter(mainCommand);
 		}
 
-		this.getServer().getPluginManager().registerEvents(this, this);
-
+		System.out.println("[CBM] loading configs");
 		WarpManager.load();
 		bookCommand.saveDefaultBook();
 		CommandOnBlock.load();
@@ -107,6 +108,7 @@ public class Main extends JavaPlugin implements Listener {
 			bStats.enableBStats();
 
 		reload();
+		System.out.println("[CBM] start complete");
 	}
 
 	@Override
@@ -157,7 +159,6 @@ public class Main extends JavaPlugin implements Listener {
 		LanguageConfig.load();
 		Tablist.load();
 		LoadMapPaint.load();
-//		ChatVerbesserung.Load();
 		TimerConfig.load();
 	}
 

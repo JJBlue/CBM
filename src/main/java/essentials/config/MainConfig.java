@@ -53,6 +53,7 @@ public class MainConfig {
 		list.add("#UUID");
 		configuration.addDefault(MainConfigEnum.CouldOperators.value, list);
 
+		configuration.addDefault(MainConfigEnum.MotdEnable.value, false);
 		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing");
 
 		List<String> stringsTmp = new LinkedList<>();
@@ -121,6 +122,7 @@ public class MainConfig {
 	}
 
 	public static void setMotd(String message) {
+		configuration.set(MainConfigEnum.MotdEnable.value, true);
 		configuration.set(MainConfigEnum.Motd.value, message);
 		save();
 	}

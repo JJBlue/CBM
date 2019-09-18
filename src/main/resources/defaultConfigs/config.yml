@@ -22,4 +22,8 @@ server:
   # Only these players could be operators. If a none-player get op and tried to use command, the op state will be removed.
   couldOperator:
   - UUID
-  motd: §3I'm a Server. Not a Virus
+  # False: Use the standart motd of the server. True: use this motd in this config.
+  # If you use the command
+  motd-enable: false
+  # Set the motd Text of the Server
+  motd: §4Error 404 Message is missing

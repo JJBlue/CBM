@@ -63,6 +63,7 @@ import essentials.utilities.MathUtilities;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.TimeUtilities;
+import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.system.SystemStatus;
 
@@ -452,6 +453,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				else if (args[1].equalsIgnoreCase("false"))
 					nt.setNameTag(false);
 
+				break;
+				
+			case "motd":
+				
+				MainConfig.setMotd(ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 1, args.length)));
 				break;
 
 			case "nbt":
@@ -844,6 +850,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("more");
 			returnArguments.add("mute");
 			returnArguments.add("nametag");
+			returnArguments.add("motd");
 			returnArguments.add("nbt");
 			returnArguments.add("near");
 			returnArguments.add("paint");
@@ -912,6 +919,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "economy":
 					
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "motd":
+					
+					returnArguments.add("<Text>");
+					break;
 					
 				case "nbt":
 					

@@ -1,6 +1,7 @@
 package essentials.modules;
 
 import essentials.config.MainConfig;
+import essentials.config.MainConfigEnum;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import org.bukkit.Bukkit;
@@ -40,7 +41,8 @@ public class Join implements Listener {
 	private void Slots(ServerListPingEvent e) {
 		if (MainConfig.getFullSize() != -1)
 			e.setMaxPlayers(MainConfig.getFullSize());
-		e.setMotd(MainConfig.getMotd());
+		if(MainConfig.getConfiguration().getBoolean(MainConfigEnum.MotdEnable.value))
+			e.setMotd(MainConfig.getMotd());
 	}
 
 	//TODO update
