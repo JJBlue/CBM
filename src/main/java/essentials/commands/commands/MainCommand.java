@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -185,18 +186,23 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					p1 = Bukkit.getPlayer(args[1]);
 					if (p1 == null) return true;
 
+					p1.setSaturation(p1.getSaturation() > 20 ? p1.getSaturation() : 20);
+					
 					if (args.length == 2)
 						p1.setFoodLevel(20);
 					else
 						try {
 							p1.setFoodLevel(Integer.parseInt(args[2]));
-						} catch (NumberFormatException nfe) {}
+						} catch (NumberFormatException nfe) {
+							LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+						}
 
 					LanguageConfig.sendMessage(sender, "feed.feed-Player", args[1]);
 				} else {
 					if (p == null) return true;
 
 					p.setFoodLevel(20);
+					p.setSaturation(p.getSaturation() > 20 ? p.getSaturation() : 20);
 					LanguageConfig.sendMessage(sender, "feed.feed");
 				}
 
@@ -259,17 +265,19 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					if (p1 == null) return true;
 
 					if (args.length == 2)
-						p1.setHealth(p1.getHealthScale());
+						p1.setHealth(p1.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					else
 						try {
 							p1.setHealth(Integer.parseInt(args[2]));
-						} catch (NumberFormatException nfe) {}
+						} catch (NumberFormatException nfe) {
+							LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+						}
 
 					LanguageConfig.sendMessage(sender, "heal.heal-Player", args[1]);
 				} else {
 					if (p == null) return true;
 
-					p.setHealth(p.getHealthScale());
+					p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					LanguageConfig.sendMessage(sender, "heal.heal");
 				}
 
