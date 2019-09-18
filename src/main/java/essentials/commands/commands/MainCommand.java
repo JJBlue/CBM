@@ -190,8 +190,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					else
 						try {
 							p1.setFoodLevel(Integer.parseInt(args[2]));
-						} catch (NumberFormatException nfe) {
-						}
+						} catch (NumberFormatException nfe) {}
 
 					LanguageConfig.sendMessage(sender, "feed.feed-Player", args[1]);
 				} else {
@@ -206,7 +205,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			case "fly": {
 				Player p1 = null;
 
-				if (args.length >= 1) p1 = Bukkit.getPlayer(args[1]);
+				if (args.length >= 2) p1 = Bukkit.getPlayer(args[1]);
 				else p1 = p;
 
 				if (p1 == null) return true;
@@ -217,7 +216,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			case "god": {
 				Player p1 = null;
 
-				if (args.length >= 1) p1 = Bukkit.getPlayer(args[1]);
+				if (args.length >= 2) p1 = Bukkit.getPlayer(args[1]);
 				else p1 = p;
 
 				if (p1 == null) break;
@@ -226,7 +225,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				boolean nV = !config.getBoolean(PlayerConfigKey.tGod);
 				config.set(PlayerConfigKey.tGod, nV);
 
-				if (args.length >= 1) {
+				if (args.length >= 2) {
 					if (nV) {
 						LanguageConfig.sendMessage(sender, "god.enabled-Player", p1.getName());
 						LanguageConfig.sendMessage(p1, "god.enabled");
@@ -264,8 +263,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					else
 						try {
 							p1.setHealth(Integer.parseInt(args[2]));
-						} catch (NumberFormatException nfe) {
-						}
+						} catch (NumberFormatException nfe) {}
 
 					LanguageConfig.sendMessage(sender, "heal.heal-Player", args[1]);
 				} else {
