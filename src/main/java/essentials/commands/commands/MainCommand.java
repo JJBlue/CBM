@@ -604,10 +604,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 				if(p == null) break;
 				
-				synchronized (p.getPassengers()) {
-					for(Entity entity : p.getPassengers())
-						entity.eject();
-				}
+				for(Entity entity : new LinkedList<>(p.getPassengers()))
+					entity.eject();
 				
 				break;
 			}
