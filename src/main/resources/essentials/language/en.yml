@@ -61,7 +61,7 @@ language:
 mute:
   enabled-Command: §6$1 §eis now muted
   disabled-Command: §6$1 is no longer muted
-  enabled-Player: §eYou were mu ted
+  enabled-Player: §eYou were muted
   disabled-Player: §eYou were unmuted
 seen:
   loginSince: §ePlayer $1 is online since $2
