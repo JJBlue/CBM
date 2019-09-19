@@ -1,0 +1,100 @@
+error:
+  IllegalArgumentException: §4Error. Falsche Arguemente wurden verwendet
+  NumberFormatException: §4Error. Text konnte nicht zur Zahl umgewandelt werden.
+  playerIsMissing: §4Error. Spieler existiert nicht oder sie haben keinen eingegeben
+  default: §4Error
+text:
+  speed: Geschwindigkeit
+  commandExecuted: §eBefehl wurde ausgeführt
+value:
+  true: 'Richtig'
+  false: 'Falsch'
+time:
+  years: Jahre
+  months: Monate
+  days: Tage
+  day-short: d
+  hours: Stunden
+  hour-short: h
+  minutes: Minuten
+  minute-short: m
+  seconds: Sekunden
+  second-short: s
+afk:
+  isNowAfk: §e$1 ist jetzt §6abwesend
+  noLongerAfk: §e$1 ist nicht mehr §6abwesend
+coi:
+  add: §eBefehl ($1) wurde auf ihr Gegenstand hinzugefügt
+  remove: §eBefehl ($1) wurde auf ihr Gegenstand entfernt
+  clear: §eAlle Befehle wurden von ihrem Gegenstand entfernt
+  clear-type: §eAlle Befehle von Typ $1 wurden von ihrem Gegenstand entfernt
+  list: '§eAufzählung aller Befehle auf ihrem Gegenstand:'
+command:
+  TypingError: "§4Text wurde zum Befehl umgewandelt.\\nWenn sie das nicht möchten, geben sie ein \"\\7 <Message>\""
+command-spy:
+  toggled: §eBefehl spionieren wurde gewechselt zu §6$1
+economy:
+  addMoney: '§6$2 §ewurden von den Guthaben von $1 hinzugefügt.\nAktulles Guthaben: §6$3'
+  removeMoney: '§6$2 §ewurden von den Guthaben von $1 entfernt.\nAktulles Guthaben: §6$3'
+  setMoney: '§eSetze $1 Guthaben auf §6$2'
+  transferMoney: '§6$3 §ewurden von $1 zu $2 transferiert.'
+  couldNotBeTransfered: '§4Error Geld konnte nicht übertragen werden'
+  balance: '§e$1 Guthaben ist §6$2'
+feed:
+  feed-Player: §6$1 §ewurde gefüttert
+  feed: §eDu wurdest gefüttert
+heal:
+  heal-Player: §6$1 §ewurde geheilt
+  heal: §eDu wurdest geheilt
+hide:
+  invisible-Player: §6$1 §eist unsichtbar
+  visible-Player: §6$1 §eist sichtbar
+god:
+  enabled: §eGod Modus ist jetzt aktiviert
+  disabled: §eGod Modus ist jetzt deaktiviert
+  enabled-Player: §eGod Modus ist aktiviert für $6$1
+  disabled-Player: §eGod Modus ist deaktiviert für $6$1
+info:
+  info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAutoren: §6$6\n§eWebseite: §6$7\n§eBeschreibung: §6$8\n§eAbhängige Software: §6$9\n§eOptionale Abängigkeiten: §6$10'
+language:
+  change: §eSprache geändert zu §6$1
+mute:
+  enabled-Command: §6$1 §eist nun stumm
+  disabled-Command: §6$1 ist nicht mehr stumm
+  enabled-Player: §eDu bist jetzt stumm
+  disabled-Player: §eDu bist nicht mehr stumm
+seen:
+  loginSince: §eSpieler $1 ist online seit $2
+  logoutSince: §eSpieler $1 ist offline seit $2
+timer:
+  cancelTimer: §eTimer mit der ID §6$1§e wurde gestoppt
+  startTimer: §eTimer mit der ID §6$1§e wurde gestarted
+trade:
+  accept: "§3[Akzeptieren]"
+  sendTrade: $1 schickt ihnen eine Tauschanfrage
+  gotTrade: Du hast eine Tauschanfrage von $1
+  expired: Tauschanfrage von $1 ist abgelaufen
+updater:
+  no-new-versions: §eKeine Updates verfügbar
+  new-versions: '§eUpdates verfügbar: §6$1'
+  install-need-confirm: §4Warnung!§e Server muss nach der Installation neugestarted. Bitte geben sie "/cbm updater update confirm" ein
+  install-confirm: §eBeginne Updates zu installieren
+  download: §eBeginne Updates herunterzuladen
+  download-complete: §eHerunterladen von Updates ist abgeschlossen
+  download-plugin: §eHerunterladen des Plugin $1
+  install-complete: §eInstallation ist fertig
+  install-plugin: §eInstallation des Plugins $1
+version:
+  current-version: §eAktuelle Version ist §6$1
+  new-version: §eEin Update ist verfügbar. Neuere Version ist §6$1
+wallghost:
+  add-Player: '§eWallGhost, Spieler <§6$1§e> hinzugefügt'
+  remove-Player: '§eWallGhost, Spieler <§6$1§e> entfernt'
+weather:
+  changeTo-sun: Wetter von der Welt $1 wurde auf sonnig gewechselt
+  changeTo-rain: Wetter von der Welt $1 wurde auf regnerisch gewechselt
+  changeTo-thunder: Wetter von der Welt $1 wurde auf Gewitter gewechselt
+warp:
+  setWarp: '§eWarp §6$1 §ewurde hinzugefügt'
+  setWarp2: '§eWarp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4) wurde hinzugefügt'
+  delWarp: '§eWarp §6$1 §ewurde entfernt'
