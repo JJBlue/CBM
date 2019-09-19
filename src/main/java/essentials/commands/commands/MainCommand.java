@@ -40,6 +40,7 @@ import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;
+import essentials.modules.commandonitemstack.CoIAction;
 import essentials.modules.commandonitemstack.CoIManager;
 import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commandspy.CommandSpy;
@@ -87,15 +88,15 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 		switch (args[0]) {
 			case "test1": {
-				CoIManager.addCommand(p.getInventory().getItemInMainHand(), "say hi");
+				CoIManager.addCommand(p.getInventory().getItemInMainHand(), CoIAction.HIT, "say hi");
 				break;
 			}
 			case "test2": {
-				CoIManager.removeCommand(p.getInventory().getItemInMainHand(), "say hi");
+				CoIManager.removeCommand(p.getInventory().getItemInMainHand(), CoIAction.HIT, "say hi");
 				break;
 			}
 			case "test3": {
-				CoIManager.clearCommands(p.getInventory().getItemInMainHand());
+				CoIManager.clearCommands(p.getInventory().getItemInMainHand(), CoIAction.HIT);
 				break;
 			}
 		

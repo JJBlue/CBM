@@ -1,10 +1,11 @@
 package essentials.utilitiesvr.player;
 
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
 import net.minecraft.server.v1_14_R1.EntityPlayer;
 import net.minecraft.server.v1_14_R1.Packet;
 import net.minecraft.server.v1_14_R1.PlayerConnection;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 public class PlayerUtilities_v1_14 {
 	public static void sendPacket(Player player, Packet<?> packet) {

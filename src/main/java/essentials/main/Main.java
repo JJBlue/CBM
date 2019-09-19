@@ -26,6 +26,7 @@ import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
 import essentials.modules.armorstandeditor.ArmorstandListener;
 import essentials.modules.chair.chair;
+import essentials.modules.commandonitemstack.CoIListener;
 import essentials.modules.commandonobject.CommandListener;
 import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commandspy.CommandSpyListener;
@@ -87,6 +88,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new DebugStickListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TimerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new DisplayListener(), this);
+		Bukkit.getPluginManager().registerEvents(new CoIListener(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();

@@ -1,10 +1,11 @@
 package essentials.modules.commandonobject;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class CommandAusfuehren {
-	public static void Command(Player p, String s) {
+	public static void Command(Entity p, String s) {
 		String s3 = s;
 		s3 = s3.replaceAll("@p", p.getName());
 		s3 = s3.replaceAll("@w", p.getWorld().getName());
@@ -21,11 +22,11 @@ public class CommandAusfuehren {
 			commandstart(s3, p);
 	}
 
-	public static void commandstart(String s, Player p) {
+	public static void commandstart(String s, Entity p) {
 		if (s.startsWith("@c ")) {
 			s = s.split("@c ")[1];
 			Bukkit.getConsoleSender().getServer().dispatchCommand(Bukkit.getConsoleSender(), s);
-		} else
-			p.performCommand(s);
+		} else if(p instanceof Player)
+			((Player) p).performCommand(s);
 	}
 }
