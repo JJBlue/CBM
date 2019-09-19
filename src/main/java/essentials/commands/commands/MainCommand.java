@@ -40,8 +40,7 @@ import essentials.modules.FlyThrowBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;
-import essentials.modules.commandonitemstack.CoIAction;
-import essentials.modules.commandonitemstack.CoIManager;
+import essentials.modules.commandonitemstack.CoICommands;
 import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
@@ -87,19 +86,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
-			case "test1": {
-				CoIManager.addCommand(p.getInventory().getItemInMainHand(), CoIAction.HIT, "say hi");
-				break;
-			}
-			case "test2": {
-				CoIManager.removeCommand(p.getInventory().getItemInMainHand(), CoIAction.HIT, "say hi");
-				break;
-			}
-			case "test3": {
-				CoIManager.clearCommands(p.getInventory().getItemInMainHand(), CoIAction.HIT);
-				break;
-			}
-		
 			case "afk": {
 				Player p1 = null;
 
@@ -182,6 +168,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 			}
+			
+			case "coi":
+				
+				return CoICommands.commondsOnItemStack.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+			
 			case "cob":
 
 				return CoBCommands.commandOnBlock.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -848,6 +839,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("burn");
 			returnArguments.add("broadcast");
 			returnArguments.add("cob");
+			returnArguments.add("coi");
 			returnArguments.add("commandspy");
 			returnArguments.add("container");
 			returnArguments.add("chestplate");
@@ -864,6 +856,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("info");
 			returnArguments.add("inventory");
 			returnArguments.add("legging");
+			returnArguments.add("lightning");
 			returnArguments.add("join");
 			returnArguments.add("jump");
 			returnArguments.add("language");
@@ -928,6 +921,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return CoBCommands.commandOnBlock.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "coi":
+					
+					return CoICommands.commondsOnItemStack.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
 				case "commandspy":
 
 					return CommandSpy.commandSpy.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));

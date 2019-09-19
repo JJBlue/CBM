@@ -81,7 +81,6 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;
