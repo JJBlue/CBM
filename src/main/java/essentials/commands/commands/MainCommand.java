@@ -22,7 +22,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -395,12 +394,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					b = p.getTargetBlock((Set<Material>) null, Integer.MAX_VALUE);
 					if (b == null) return true;
 
-					p.getWorld().spawnEntity(b.getLocation(), EntityType.LIGHTNING);
+					p.getWorld().strikeLightningEffect(b.getLocation());
 				} else if (args.length > 1) {
 					Player p1 = Bukkit.getPlayer(args[0]);
 					if (p1 == null) return true;
 
-					p1.getWorld().spawnEntity(p1.getLocation(), EntityType.LIGHTNING);
+					p1.getWorld().strikeLightningEffect(p1.getLocation());
 				}
 
 				break;

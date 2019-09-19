@@ -46,7 +46,7 @@ public class CoICommands implements CommandExecutor, TabCompleter {
 					String commandExecute = StringUtilities.arrayToStringRange(args, 2, args.length);
 					
 					CoIManager.addCommand(player.getInventory().getItemInMainHand(), action, commandExecute);
-					//TODO ausgabe
+					LanguageConfig.sendMessage(sender, "coi.add", commandExecute);
 				} catch (IllegalArgumentException e) {
 					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
@@ -62,7 +62,7 @@ public class CoICommands implements CommandExecutor, TabCompleter {
 					String commandExecute = StringUtilities.arrayToStringRange(args, 2, args.length);
 					
 					CoIManager.removeCommand(player.getInventory().getItemInMainHand(), action, commandExecute);
-					//TODO ausgabe
+					LanguageConfig.sendMessage(sender, "coi.remove", commandExecute);
 				} catch (IllegalArgumentException e) {
 					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
@@ -74,14 +74,14 @@ public class CoICommands implements CommandExecutor, TabCompleter {
 				if(args.length == 1) {
 					for(CoIAction action : CoIAction.values())
 						CoIManager.clearCommands(player.getInventory().getItemInMainHand(), action);
-					//TODO ausgabe
+					LanguageConfig.sendMessage(sender, "coi.clear");
 				} else {
 					if(args.length < 2) break;
 					
 					try {
 						CoIAction action = CoIAction.valueOf(args[1].toUpperCase());
 						CoIManager.clearCommands(player.getInventory().getItemInMainHand(), action);
-						//TODO ausgabe
+						LanguageConfig.sendMessage(sender, "coi.clear-type", action.name());
 					} catch (IllegalArgumentException e) {
 						LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 					}
@@ -95,8 +95,8 @@ public class CoICommands implements CommandExecutor, TabCompleter {
 					
 					if(commands.isEmpty()) continue;
 					
-					//TODO ausgabe
-					player.sendMessage("§e" + action.name() + ":");
+					LanguageConfig.sendMessage(sender, "coi.list");
+					player.sendMessage("§e  " + action.name() + ":");
 					
 					for(String commandS : commands) {
 						ChatUtilities.sendChatMessage(player, "§e  - /" + commandS + " ", ChatUtilities.createExtra(

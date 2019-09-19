@@ -24,9 +24,10 @@ afk:
   isNowAfk: §e$1 is now §6afk
   noLongerAfk: §e$1 is no longer §6afk
 coi:
-  add: §eCommand was added to your tool
-  remove: §eCommand was removed from your tool
+  add: §eCommand ($1) was added to your tool
+  remove: §eCommand ($1) was removed from your tool
   clear: §eAll Commnds was deleted from your tool
+  clear-type: §eAll Commnds of Type $1 was deleted from your tool
   list: '§eList of all Commands on your tool:'
 command:
   TypingError: §4Text was changed to Command.\nDidn't you want this replace. Type "\7 <Message>"
