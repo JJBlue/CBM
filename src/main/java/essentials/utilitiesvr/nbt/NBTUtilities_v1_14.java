@@ -41,6 +41,10 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	public static NBTTagCompound createNBTTagCompound() {
 		return new NBTTagCompound();
 	}
+	
+	public static NBTTag createNBTTag() {
+		return new NBTUtilities_v1_14(new NBTTagCompound());
+	}
 
 	public static NBTTagList createNBTTagList() {
 		return new NBTTagList();
@@ -147,6 +151,11 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	@Override
 	public NBTTagCompound getCompound(String key) {
 		return nbtTagCompound.getCompound(key);
+	}
+	
+	@Override
+	public NBTTag getCompoundAsNBTTag(String key) {
+		return new NBTUtilities_v1_14(getCompound(key));
 	}
 
 	@Override

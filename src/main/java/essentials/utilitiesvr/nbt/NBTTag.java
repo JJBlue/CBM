@@ -28,6 +28,8 @@ public interface NBTTag {
 	 */
 	Object getCompound(String key);
 
+	NBTTag getCompoundAsNBTTag(String key);
+	
 	double getDouble(String key);
 
 	void setDouble(String key, double value);

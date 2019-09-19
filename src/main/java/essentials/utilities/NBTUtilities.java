@@ -4,6 +4,9 @@ import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
 import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
 import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
+
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 
 public class NBTUtilities {
@@ -48,11 +51,19 @@ public class NBTUtilities {
 		}
 		return NBTUtilitiesReflections.createNBTTagCompound();
 	}
+	
+	public static NBTTag createNBTTag() {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return NBTUtilities_v1_14.createNBTTag();
+		}
+		return NBTUtilitiesReflections.createNBTTag();
+	}
 
 	/**
 	 * @return NBTTagList
 	 */
-	public static Object createNBTTagList() {
+	public static List<?> createNBTTagList() {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.createNBTTagList();

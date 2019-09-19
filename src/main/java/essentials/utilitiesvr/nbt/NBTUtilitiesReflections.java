@@ -50,11 +50,15 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 		return null;
 	}
+	
+	public static NBTTag createNBTTag() {
+		return new NBTUtilitiesReflections(createNBTTagCompound());
+	}
 
-	public static Object createNBTTagList() {
+	public static List<?> createNBTTagList() {
 		try {
 			Class<?> nbt = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagList");
-			return SimpleReflection.createObject(nbt);
+			return (List<?>) SimpleReflection.createObject(nbt);
 		} catch (InstantiationException | ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -212,6 +216,11 @@ public class NBTUtilitiesReflections implements NBTTag {
 		return null;
 	}
 
+	@Override
+	public NBTTag getCompoundAsNBTTag(String key) {
+		return new NBTUtilitiesReflections(getCompound(key));
+	}
+	
 	@Override
 	public double getDouble(String key) {
 		try {

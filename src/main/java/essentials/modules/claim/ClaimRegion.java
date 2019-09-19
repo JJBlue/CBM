@@ -45,29 +45,29 @@ public class ClaimRegion {
 	}
 	
 	public static void createFence(World world, int minX, int minZ, int maxX, int maxZ) {
-		Material fence;
+		List<Material> fences = new LinkedList<>();
+		fences.add(Material.ACACIA_FENCE);
+		fences.add(Material.BIRCH_FENCE);
+		fences.add(Material.DARK_OAK_FENCE);
+		fences.add(Material.OAK_FENCE);
+		fences.add(Material.JUNGLE_FENCE);
+		fences.add(Material.OAK_FENCE);
+		fences.add(Material.SPRUCE_FENCE);
 		
-		{
-			List<Material> fences = new LinkedList<>();
-			fences.add(Material.ACACIA_FENCE);
-			fences.add(Material.BIRCH_FENCE);
-			fences.add(Material.DARK_OAK_FENCE);
-			fences.add(Material.OAK_FENCE);
-			fences.add(Material.JUNGLE_FENCE);
-			fences.add(Material.OAK_FENCE);
-			fences.add(Material.SPRUCE_FENCE);
-			
-			fence = fences.get(new Random().nextInt(fences.size()));
-		}
+		Material fence = fences.get(new Random().nextInt(fences.size()));
 		
+		place(fence, world, minX, minZ, maxX, maxZ);
+	}
+	
+	public static void place(Material material, World world, int minX, int minZ, int maxX, int maxZ) {
 		for(int i = minX; i <= maxX; i++) {
-			place(fence, world, i, minZ);
-			place(fence, world, i, maxZ);
+			place(material, world, i, minZ);
+			place(material, world, i, maxZ);
 		}
 		
 		for(int i = minZ + 1; i < maxZ; i++) {
-			place(fence, world, minX, i);
-			place(fence, world, maxX, i);
+			place(material, world, minX, i);
+			place(material, world, maxX, i);
 		}
 	}
 	
