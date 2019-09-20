@@ -19,6 +19,15 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 
 public class ClaimRegion {
 	
+	public synchronized static void claim(World world, int minX, int minZ, int maxX, int maxZ) {
+		claim(null, world, minX, minZ, maxX, maxZ);
+	}
+	
+	public synchronized static void claimWithFences(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
+		claim(player, world, minX, minZ, maxX, maxZ);
+		createFence(world, minX, minZ, maxX, maxZ);
+	}
+	
 	public synchronized static void claim(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
 		RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 		RegionManager manager = container.get(BukkitAdapter.adapt(world));
@@ -27,7 +36,10 @@ public class ClaimRegion {
 		int number = 1;
 		
 		do {
-			id = "plot_" + player.getName() + "_" + number;
+			if(player != null)
+				id = "plot_" + player.getName() + "_" + number;
+			else
+				id = "plot_" + number;
 		} while(manager.hasRegion(id));
 		
 		ProtectedCuboidRegion region = new ProtectedCuboidRegion(
@@ -36,12 +48,12 @@ public class ClaimRegion {
 			BukkitAdapter.asBlockVector(new Location(world, maxX, 255, maxZ))
 		);
 		
-		DefaultDomain owners = region.getOwners();
-		owners.addPlayer(player.getUniqueId());
+		if(player != null) {
+			DefaultDomain owners = region.getOwners();
+			owners.addPlayer(player.getUniqueId());
+		}
 		
 		manager.addRegion(region);
-		
-		createFence(world, minX, minZ, maxX, maxZ);
 	}
 	
 	public static void createFence(World world, int minX, int minZ, int maxX, int maxZ) {
