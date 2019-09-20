@@ -12,7 +12,7 @@ public class CommandListener implements Listener {
 	@EventHandler
 	private void onBlockClick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-
+		
 		if (e.getClickedBlock() == null) return;
 
 		String clickedMaterial = e.getClickedBlock().getType().name().toLowerCase();
@@ -45,7 +45,7 @@ public class CommandListener implements Listener {
 				else
 					action = CoBAction.STAND_LEFT_CLICK;
 		}
-
+		
 		CommandOnBlock.executeBlock(p, action, e.getClickedBlock().getLocation());
 	}
 

@@ -1,19 +1,26 @@
 package essentials.modules.commandonobject;
 
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.chat.ChatUtilities;
-import essentials.utilities.chat.ClickAction;
-import essentials.utilities.chat.HoverAction;
-import essentials.utilities.permissions.PermissionHelper;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.command.*;
-import org.bukkit.entity.Player;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
+
+import essentials.language.LanguageConfig;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.StringUtilities;
+import essentials.utilities.chat.ChatUtilities;
+import essentials.utilities.chat.ClickAction;
+import essentials.utilities.chat.HoverAction;
+import essentials.utilities.permissions.PermissionHelper;
 
 public class CoBCommands implements CommandExecutor, TabCompleter {
 	public final static CoBCommands commandOnBlock;
@@ -33,34 +40,32 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 		if (args.length < 1) return false;
 
 		switch (args[0].toLowerCase()) {
-			case "help":
-				sender.sendMessage("§4@c <command> = Command over the consol,@a = All players,  @p = Player, @w = World");
-				sender.sendMessage("/cos add <command>");
-				sender.sendMessage("/cos remove <command>");
-				sender.sendMessage("/cos clear");
-				sender.sendMessage("/cos list");
-
-				break;
-
 			case "list":
 
+				if(p == null) break;
+				
 				Block targetblock = p.getTargetBlock(null, 50);
 				if (targetblock == null) break;
 
+				CoBBlock cobblock = CommandOnBlock.getCommandOnBlock(targetblock.getLocation());
+				if(cobblock == null) break;
 
-				List<CoBCommandInfo> commandInfos = CommandOnBlock.getCommandInfos(targetblock.getLocation());
-				if (commandInfos == null || commandInfos.isEmpty()) {
-					sender.sendMessage("No Commands on this block");
-					break;
-				}
-
-				sender.sendMessage("These Commands are on this block:");
-				for (CoBCommandInfo commandInfo : commandInfos) {
-					ChatUtilities.sendChatMessage(p, "  /" + commandInfo.command + " ",
-							ChatUtilities.createExtra(
-									ChatUtilities.createClickHoverMessage("§4[-]", HoverAction.SHOW_Text, "Remove Command", ClickAction.RUN_COMMAND, "/" + PermissionHelper.getPluginDefaultCommand() + " cob remove " + commandInfo.command)
+				LanguageConfig.sendMessage(p, "cob.list");
+				
+				for(CoBAction action : CoBAction.values()) {
+					List<String> commands = cobblock.getCommands(action);
+					if(commands.isEmpty()) continue;
+					
+					p.sendMessage("§e  " + action.name() + ":");
+					
+					for(String commandS : commands) {
+						ChatUtilities.sendChatMessage(p, "§e  - /" + commandS + " ", ChatUtilities.createExtra(
+							ChatUtilities.createClickHoverMessage(
+								"§4[-]", HoverAction.SHOW_Text, "Remove", ClickAction.RUN_COMMAND,
+								"/" + PermissionHelper.getPluginDefaultCommand() + " cob remove " + action.name() + " " + commandS
 							)
-					);
+						));
+					}
 				}
 
 				break;
@@ -69,6 +74,7 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 
 				targetblock = p.getTargetBlock(null, 50);
 				CommandOnBlock.clear(targetblock.getLocation());
+				LanguageConfig.sendMessage(sender, "cob.clear");
 
 				break;
 
@@ -77,23 +83,17 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				if (args.length < 2) break;
 
 				targetblock = p.getTargetBlock(null, 50);
-
-				int anzahl = args.length;
-
-				StringBuilder argsstring = new StringBuilder();
-				for (int y = 2; y <= anzahl; y++) {
-					int y2 = y - 1;
-					if (y == 2)
-						argsstring = new StringBuilder(args[y2]);
-					else
-						argsstring.append(" ").append(args[y2]);
+				if(targetblock == null) break;
+				
+				try {
+					CoBAction action = CoBAction.valueOf(args[1]);
+					String command = StringUtilities.arrayToStringRange(args, 2, args.length);
+					
+					CommandOnBlock.addCommand(targetblock.getLocation(), action, command);
+					LanguageConfig.sendMessage(sender, "cob.add", action.name(), command);
+				} catch (IllegalArgumentException e) {
+					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
-
-				CommandOnBlock.addCommand(targetblock.getLocation(), argsstring.toString());
-
-				p.sendMessage("Auf dem Item sind nun folgende Commands:");
-				for (CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation()))
-					p.sendMessage("/" + commandInfo.command);
 
 				break;
 
@@ -102,31 +102,24 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				if (args.length < 2) break;
 
 				targetblock = p.getTargetBlock(null, 50);
+				if(targetblock == null) break;
 
-				argsstring = new StringBuilder();
-
-				for (int y = 2; y <= args.length; y++) {
-					int y2 = y - 1;
-					if (y == 2)
-						argsstring = new StringBuilder(args[y2]);
-					else
-						argsstring.append(" ").append(args[y2]);
+				try {
+					CoBAction action = CoBAction.valueOf(args[1]);
+					String command = StringUtilities.arrayToStringRange(args, 2, args.length);
+					
+					CommandOnBlock.removeCommand(targetblock.getLocation(), action, command);
+					LanguageConfig.sendMessage(sender, "cob.remove", action.name(), command);
+				} catch (IllegalArgumentException e) {
+					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
-
-				CommandOnBlock.removeCommand(targetblock.getLocation(), argsstring.toString());
-				p.sendMessage("§4Command deleted");
-
-				p.sendMessage("Auf dem Item sind nun folgende Commands:");
-
-				for (CoBCommandInfo commandInfo : CommandOnBlock.getCommandInfos(targetblock.getLocation()))
-					p.sendMessage("/" + commandInfo.command);
-
+				
 				break;
 
 			case "save":
 
 				CommandOnBlock.save();
-				p.sendMessage("Saved");
+				LanguageConfig.sendMessage(sender, "text.save-complete", args);
 				break;
 
 			default:
@@ -160,13 +153,20 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				case "remove":
 					switch (args.length) {
 						case 2:
+							
+							for(CoBAction action : CoBAction.values())
+								returnArguments.add(action.name());
+							
+							break;
+					
+						case 3:
 
 							returnArguments = BukkitUtilities.getAvailableCommands(sender);
 							returnArguments.add("@c");
 
 							break;
 
-						case 3:
+						case 4:
 
 							if (args[1].toLowerCase().equalsIgnoreCase("@c"))
 								return BukkitUtilities.getAvailableCommands(sender);
@@ -175,11 +175,11 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 
 							boolean sendServer = args[1].toLowerCase().equalsIgnoreCase("@c");
 
-							PluginCommand command = Bukkit.getPluginCommand(sendServer ? args[2] : args[1]);
+							PluginCommand command = Bukkit.getPluginCommand(sendServer ? args[3] : args[2]);
 							if (command == null) break;
 							TabCompleter tabCompleter = command.getTabCompleter();
 							if (tabCompleter == null) break;
-							return tabCompleter.onTabComplete(sender, command, sendServer ? args[2] : args[1], Arrays.copyOfRange(args, sendServer ? 3 : 2, args.length));
+							return tabCompleter.onTabComplete(sender, command, sendServer ? args[3] : args[2], Arrays.copyOfRange(args, sendServer ? 4 : 3, args.length));
 					}
 
 					break;

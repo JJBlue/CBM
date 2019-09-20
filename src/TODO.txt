@@ -19,7 +19,6 @@ Futures:
 	- attachcommand to items (NBT ?)
 	- ban
 	- jail
-	- get NBT
 	- spawners
 	- clearchat
 	- better speed command -> fly, walk, swim

@@ -4,6 +4,7 @@ error:
   playerIsMissing: §4Error. Player didn't exist or you forgot to enter a player
   default: §4Error
 text:
+  save-complete: Save complete
   speed: Speed
   commandExecuted: §eCommand was executed
 value:
@@ -23,6 +24,11 @@ time:
 afk:
   isNowAfk: §e$1 is now §6afk
   noLongerAfk: §e$1 is no longer §6afk
+cob:
+  add: §eCommand ($2) was added to the block
+  remove: §eCommand ($2) was removed from this block
+  clear: $eAll Commands were been removed from this block
+  list: '§eList of all Commands on this block:'
 coi:
   add: §eCommand ($1) was added to your tool
   remove: §eCommand ($1) was removed from your tool

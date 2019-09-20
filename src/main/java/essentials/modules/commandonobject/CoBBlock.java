@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CoBBlock {
@@ -26,6 +27,17 @@ public class CoBBlock {
 
 	public synchronized List<CoBCommandInfo> getCommandInfos() {
 		return commands;
+	}
+	
+	public synchronized List<String> getCommands(CoBAction action) {
+		List<String> list = new LinkedList<>();
+		
+		commands.forEach(coi -> {
+			if(coi.action.equals(action))
+				list.add(coi.command);
+		});
+		
+		return list;
 	}
 
 	public void addCommand(String command) {

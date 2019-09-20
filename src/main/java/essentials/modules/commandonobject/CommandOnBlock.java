@@ -156,18 +156,18 @@ public class CommandOnBlock {
 		}
 	}
 
-	public static void addCommand(Location location, String command) {
+	public static void addCommand(Location location, CoBAction action, String command) {
 		if (command == null) return;
 
 		CoBBlock commandOnBlock = getOrCreateCommandOnBlock(location);
-		commandOnBlock.addCommand(command);
+		commandOnBlock.addCommand(action, command);
 	}
 
-	public static void removeCommand(Location location, String command) {
+	public static void removeCommand(Location location, CoBAction action, String command) {
 		if (command == null) return;
 
 		CoBBlock commandOnBlock = getCommandOnBlock(location);
 		if (commandOnBlock == null) return;
-		commandOnBlock.removeCommand(command);
+		commandOnBlock.removeCommand(action, command);
 	}
 }
