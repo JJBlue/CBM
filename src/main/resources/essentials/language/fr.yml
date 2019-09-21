@@ -1,0 +1,106 @@
+error:
+  IllegalArgumentException: "§4Erreur, les arguments ne sont pas valides"
+  NumberFormatException: "§4Erreur, ces nombres n'ont pas pu être appliqués"
+  playerIsMissing: "§4Erreur, le joueur est introuvable."
+  default: §4Erreur
+text:
+  save-complete: Sauvegarde terminée
+  speed: Vitesse
+  commandExecuted: §eLa commande a été exécutée
+value:
+  true: 'Vrai'
+  false: 'Faux'
+time:
+  years: années
+  months: mois
+  days: jours
+  day-short: j
+  hours: heures
+  hour-short: h
+  minutes: minutes
+  minute-short: m
+  seconds: secondes
+  second-short: s
+afk:
+  isNowAfk: §e$1 est désormais §6absent
+  noLongerAfk: §e$1 n'est plus §6absent
+cob:
+  add: §eLa commande ($2) a été ajoutée au bloc
+  remove: §eLa commande ($2) a été enlevée de ce bloc
+  clear: §eToutes les commandes ont été enlevées de ce bloc
+  list: '§eListe des commandes associées au bloc:'
+coi:
+  add: §eLa commande ($1) a été ajoutée à votre outil
+  remove: §eLa commande ($1) a été enlevée de votre outil
+  clear: §eToutes les commandes ont été enlevées de votre outil
+  clear-type: §eToutes les commandes du type $1 ont été enlevées de votre outil
+  list: '§eListe des commandes sur votre outil:'
+command:
+  TypingError: §4Le texte à été changé en commande.\nSi vous ne vouliez pas de ce changement tapez "\7 <Message>"
+command-spy:
+  toggled: §eEspionnage de commande réglé sur §6$1
+economy:
+  addMoney: '§6$2 §eont été ajoutés au solde de $1.\nSolde actuel: §6$3'
+  removeMoney: '§6$2 §eont été retirés du solde de $1.\nSolde actuel: §6$3'
+  setMoney: '§eVous avez changé le solde de $1 à §6$2'
+  transferMoney: '§6$3 §eont été transférés du solde de $1 à $2.'
+  couldNotBeTransfered: '§4Erreur, l''argent n''a pas pu être transféré'
+  balance: '§eLe solde de $1 est de §6$2'
+feed:
+  feed-Player: §6$1 §eont été nourris
+  feed: §eVous avez été nourri
+heal:
+  heal-Player: §6$1 §ea été soigné
+  heal: §eVous avez été soigné
+hide:
+  invisible-Player: §6$1 §esont invisibles
+  visible-Player: §6$1 §esont visibles
+god:
+  enabled: §eMode dieu actif
+  disabled: §eMode dieu non actif
+  enabled-Player: §eMode dieu activé pour $6$1
+  disabled-Player: §eMode dieu désactivé pour $6$1
+info:
+  info-Plugin: 'Nom: §6$1 §e(§6$2§e, Préfixe: §6$3§e)\n§eVersion: §6$4\n§eVersion de l''API: §6$5\n§eAuteurs: §6$6\n§eSite: §6$7\n§eDescription: §6$8\n§eDepend de: §6$9\n§eSoftDepend: §6$10'
+language:
+  change: §eLa langue a été changée sur §6$1
+mute:
+  enabled-Command: §6$1 §eest désormais muet
+  disabled-Command: §6$1 n'est plus muet
+  enabled-Player: §eVous avez été mis en sourdine
+  disabled-Player: §eVous n'êtes plus mis en sourdine
+seen:
+  loginSince: §eLe joueur $1 est en ligne depuis $2
+  logoutSince: §eLe joueur $1 est hors-ligne depuis $2
+timer:
+  cancelTimer: §eLe timer avec l'ID §6$1§e a été arreté
+  startTimer: §eLe timer avec l'ID §6$1§e a été mis en route
+trade:
+  accept: "§3[Accepter]"
+  sendTrade: $1 vous a envoyé une demande d'échange
+  gotTrade: Vous avez une demande d'échange de $1
+  expired: La demande d'échange de $1 a expiré
+updater:
+  no-new-versions: §ePas de mise à jour disponible
+  new-versions: '§eMise à jour disponible: §6$1'
+  install-need-confirm: §4Attention!§e Le serveur doit être redémarré avant l'installation. Tapez /cbm updater update confirm
+  install-confirm: §eCommencement de l'installation
+  download: §eTéléchargement de la mise à jour
+  download-complete: §eTéléchargement terminé
+  download-plugin: §eTéléchargement de $1
+  install-complete: §eInstallation terminée
+  install-plugin: §eInstallation de $1
+version:
+  current-version: §eLa version actuelle est §6$1
+  new-version: "§eMise à jour disponible! Nouvelle version: §6$1"
+wallghost:
+  add-Player: '§eWallGhost a ajouté le joueur <§6$1§e>'
+  remove-Player: '§eWallGhost a enlevé le joueur <§6$1§e>a'
+weather:
+  changeTo-sun: La météo dans le monde $1 a été réglée sur le paramètre §6ensoleillé
+  changeTo-rain: La météo dans le monde $1 a été réglée sur le paramètre §6pluvieux
+  changeTo-thunder: La météo dans le monde $1 a été réglée sur le paramètre §6orageux
+warp:
+  setWarp: '§eAjout du warp §6$1'
+  setWarp2: '§eAjout du warp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4)'
+  delWarp: '§eSuppresion du warp §6$1'
