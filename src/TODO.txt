@@ -16,7 +16,6 @@ Futures:
 	
 	Commands:
 	- alert player
-	- attachcommand to items (NBT ?)
 	- ban
 	- jail
 	- spawners
@@ -25,7 +24,6 @@ Futures:
 	- giveall
 	- glow player color
 	- clear ground
-	- kick
 	- scan for items in containers
 	- skin
 	- nickname

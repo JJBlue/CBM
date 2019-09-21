@@ -1,5 +1,5 @@
 error:
-  IllegalArgumentException: §4Error. Wrong Arguements are uesed
+  IllegalArgumentException: §4Error. Wrong Arguements are used
   NumberFormatException: §4Error. Number could not be parsed
   playerIsMissing: §4Error. Player didn't exist or you forgot to enter a player
   default: §4Error

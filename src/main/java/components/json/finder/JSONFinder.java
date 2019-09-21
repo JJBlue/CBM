@@ -6,6 +6,7 @@ import components.json.JSONValue;
 import components.json.abstractJSON;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class JSONFinder {
 
@@ -91,6 +92,13 @@ public class JSONFinder {
 		return key.toString();
 	}
 
+	public static List<?> getList(String key, abstractJSON ajson) {
+		Object o = getObject(key, ajson);
+		if (o == null) return null;
+		if (o instanceof JSONArray) return ((JSONArray) o).getList();
+		return null;
+	}
+	
 	public static String getString(String key, abstractJSON ajson) {
 		Object o = getObject(key, ajson);
 		if (o == null) return null;
@@ -105,21 +113,70 @@ public class JSONFinder {
 		return false;
 	}
 
-	public static int getInt(String key, abstractJSON ajson) {
+	public static byte getByte(String key, abstractJSON ajson) {
 		Object o = getObject(key, ajson);
 		if (o == null) return 0;
 
-		if (o instanceof Integer) return (int) o;
-		if (o instanceof Long) return (int) ((long) o);
+		if (o instanceof Byte) return (byte) o;
+		if (o instanceof Short) return (byte) (short) o;
+		if (o instanceof Integer) return (byte) (int) o;
+		if (o instanceof Long) return (byte) (long) o;
 
 		try {
-			return Integer.parseInt(o.toString());
-		} catch (Exception e) {
-		}
+			return Byte.parseByte(o.toString());
+		} catch (Exception e) {}
 
 		return 0;
 	}
 
+	public static short getShort(String key, abstractJSON ajson) {
+		Object o = getObject(key, ajson);
+		if (o == null) return 0;
+
+		if (o instanceof Byte) return (short) (byte) o;
+		if (o instanceof Short) return (short) o;
+		if (o instanceof Integer) return (short) (int) o;
+		if (o instanceof Long) return (short) (long) o;
+
+		try {
+			return Short.parseShort(o.toString());
+		} catch (Exception e) {}
+
+		return 0;
+	}
+	
+	public static int getInt(String key, abstractJSON ajson) {
+		Object o = getObject(key, ajson);
+		if (o == null) return 0;
+
+		if (o instanceof Byte) return (byte) o;
+		if (o instanceof Short) return (short) o;
+		if (o instanceof Integer) return (int) o;
+		if (o instanceof Long) return (int) (long) o;
+
+		try {
+			return Integer.parseInt(o.toString());
+		} catch (Exception e) {}
+
+		return 0;
+	}
+
+	public static long getLong(String key, abstractJSON ajson) {
+		Object o = getObject(key, ajson);
+		if (o == null) return 0;
+
+		if (o instanceof Byte) return (byte) o;
+		if (o instanceof Short) return (short) o;
+		if (o instanceof Integer) return (long) o;
+		if (o instanceof Long) return (long) o;
+
+		try {
+			return Long.parseLong(o.toString());
+		} catch (Exception e) {}
+
+		return 0;
+	}
+	
 	public static double getDouble(String key, abstractJSON ajson) {
 		Object o = getObject(key, ajson);
 		if (o == null) return 0;
@@ -135,6 +192,19 @@ public class JSONFinder {
 		return 0;
 	}
 
+	public static float getFloat(String key, abstractJSON ajson) {
+		Object o = getObject(key, ajson);
+		if (o == null) return 0;
+
+		if (o instanceof Float) return (float) o;
+
+		try {
+			return Float.parseFloat(o.toString());
+		} catch (Exception e) {}
+
+		return 0;
+	}
+	
 	public static LocalDateTime getLocalDateTime(String key, abstractJSON ajson) {
 		Object o = getObject(key, ajson);
 		if (o == null) return null;
