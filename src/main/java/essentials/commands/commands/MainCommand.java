@@ -1,5 +1,6 @@
 package essentials.commands.commands;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
+import components.classes.Files;
 import essentials.commands.NameTag.nt;
 import essentials.config.MainConfig;
 import essentials.economy.EconomyCommands;
@@ -1040,7 +1042,15 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				case "language":
 
-					returnArguments.add("<Language>");
+					returnArguments.add("en");
+					returnArguments.add("de_DE");
+					returnArguments.add("fr");
+					
+					for(File file : Files.getFiles(MainConfig.getDataFolder() + "language/example.yml")) {
+						if(!file.getName().toLowerCase().contains("example"));
+							returnArguments.add(file.getName().substring(0, file.getName().lastIndexOf(".")));
+					}
+					
 					break;
 
 				case "nametag":
