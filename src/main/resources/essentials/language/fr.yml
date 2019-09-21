@@ -94,8 +94,8 @@ version:
   current-version: §eLa version actuelle est §6$1
   new-version: "§eMise à jour disponible! Nouvelle version: §6$1"
 wallghost:
-  add-Player: '§eWallGhost a ajouté le joueur <§6$1§e>'
-  remove-Player: '§eWallGhost a enlevé le joueur <§6$1§e>a'
+  add-Player: '§eNoclip activé pour le joueur <§6$1§e>'
+  remove-Player: '§eNoclip désactivé pour le joueur <§6$1§e>'
 weather:
   changeTo-sun: La météo dans le monde $1 a été réglée sur le paramètre §6ensoleillé
   changeTo-rain: La météo dans le monde $1 a été réglée sur le paramètre §6pluvieux
