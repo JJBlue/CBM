@@ -1,37 +1,54 @@
 package essentials.config;
 
-import com.google.common.io.Files;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
 public class ConfigHelper {
 	private ConfigHelper() {}
 
-	public static FileConfiguration loadConfig(InputStream inputstream) {
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(inputstream));
-	}
-
-	public static FileConfiguration loadConfigFileToString(File file, String charsetName) throws InvalidConfigurationException, IOException {
-		FileConfiguration fileConfiguration = new YamlConfiguration();
-		fileConfiguration.loadFromString(Files.toString(file, Charset.forName(charsetName)));
-		return fileConfiguration;
-	}
-
 	public static FileConfiguration loadConfig(InputStream inputStream, String charsetName) throws InvalidConfigurationException, IOException {
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(inputStream, Charset.forName(charsetName)));
+		if(inputStream == null || charsetName == null) return null;
+		return loadConfig(new InputStreamReader(inputStream, Charset.forName(charsetName)));
 	}
 
 	public static FileConfiguration loadUTF8(File file) throws InvalidConfigurationException, IOException {
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+		if(file == null) return null;
+		return loadConfig(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 	}
 
 	public static FileConfiguration loadConfig(File file, String charsetName) throws InvalidConfigurationException, IOException {
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Charset.forName(charsetName)));
+		if(file == null || charsetName == null) return null;
+		return loadConfig(new InputStreamReader(new FileInputStream(file), Charset.forName(charsetName)));
+	}
+	
+	public static FileConfiguration loadConfig(InputStream inputStream) {
+		if(inputStream == null) return null;
+		try {
+			if(inputStream == null || inputStream.available() == 0) return null;
+		} catch (IOException e) {
+			return null;
+		}
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(inputStream));
+	}
+	
+	public static FileConfiguration loadConfig(InputStreamReader reader) {
+		if(reader == null) return null;
+		try {
+			if(!reader.ready()) return null;
+		} catch (IOException e) {
+			return null;
+		}
+		return YamlConfiguration.loadConfiguration(reader);
 	}
 
 	public static void extractDefaultConfigs(String name, String to) {

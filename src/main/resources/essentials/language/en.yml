@@ -94,8 +94,8 @@ version:
   current-version: §eCurrent Version is §6$1
   new-version: §eAn Update is available. Newer Version is §6$1
 wallghost:
-  add-Player: '§eWallGhost added Player <§6$1§e>'
-  remove-Player: '§eWallGhost removed Player <§6$1§e>'
+  add-Player: '§ePlayer <§6$1§e> can now fly through blocks'
+  remove-Player: '§ePlayer <§6$1§e> can no longer fly through blocks'
 weather:
   changeTo-sun: World $1 changed weather to sunny weather
   changeTo-rain: World $1 changed wather to rainy weather

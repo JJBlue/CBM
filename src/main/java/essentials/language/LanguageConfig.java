@@ -31,13 +31,30 @@ public class LanguageConfig {
 			} catch (InvalidConfigurationException | IOException e) {
 				e.printStackTrace();
 			}
+			
+			//fallback for specific language
+			try {
+				fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream(getLanguage() + ".yml"), "UTF-8");
+			} catch (InvalidConfigurationException | IOException e1) {
+				fallback = null;
+			}
+			
 			return;
+		} else {
+			try {
+				configuration = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream(getLanguage() + ".yml"), "UTF-8");
+			} catch (InvalidConfigurationException | IOException e1) {
+				configuration = null;
+			}
 		}
 
-		try {
-			fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
-		} catch (InvalidConfigurationException | IOException e) {
-			e.printStackTrace();
+		// No fallback to specific lanuage? When use en.yml
+		if(fallback == null) {
+			try {
+				fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
+			} catch (InvalidConfigurationException | IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
