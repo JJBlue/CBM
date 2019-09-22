@@ -6,6 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
+import essentials.modules.display.DisplayManager;
+import essentials.modules.teleport.TeleportManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +23,22 @@ public class PlayersYMLConfig {
 			ConfigHelper.extractDefaultConfigs("players", file);
 		
 		configuration = YamlConfiguration.loadConfiguration(file);
+		
+		// Load subclasses
+		DisplayManager.load();
+		TeleportManager.load();
+		
+		configuration.options().copyDefaults(true);
+		try {
+			configuration.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void unload() {
+		TeleportManager.unload();
+		
 		configuration = null;
 		file = null;
 	}

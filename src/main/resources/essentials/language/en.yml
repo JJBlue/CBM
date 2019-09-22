@@ -10,6 +10,9 @@ text:
 value:
   true: 'True'
   false: 'False'
+teleport:
+  cooldown: '§eYou can''t teleport yet. Wait: $1 seconds'
+  standStill: '§ePlease stand still for $1 seconds'
 time:
   years: years
   months: months

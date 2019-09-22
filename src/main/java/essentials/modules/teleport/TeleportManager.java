@@ -1,0 +1,162 @@
+package essentials.modules.teleport;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
+
+import essentials.language.LanguageConfig;
+import essentials.main.Main;
+import essentials.modules.particles.ParticleEffectsManager;
+import essentials.modules.particles.ParticlePosInfoDummy;
+import essentials.player.PlayersYMLConfig;
+
+public class TeleportManager {
+	private TeleportManager() {}
+	
+	private static ConfigurationSection configuration;
+	private static Map<Entity, Integer> standStill = Collections.synchronizedMap(new HashMap<>()); //in seconds
+	private static Map<Entity, Integer> cooldowns = Collections.synchronizedMap(new HashMap<>()); //in seconds
+	private static int taskID;
+	
+	public static void load() {
+		configuration = PlayersYMLConfig.getConfigurationSection("teleport");
+		if(configuration == null)
+			configuration = PlayersYMLConfig.getConfiguration().createSection("teleport");
+		
+		configuration.addDefault("timeStandStillWhileTeleporting", 0);
+		configuration.addDefault("cooldown", 0);
+		configuration.addDefault("useParticles", false);
+	}
+	
+	public static void unload() {
+		configuration = null;
+		standStill.clear();
+		cooldowns.clear();
+	}
+	
+	public static void teleport(Entity entity, Location location) {
+		if(hasCooldown(entity)) {
+			Bukkit.broadcastMessage("has cooldown");
+			LanguageConfig.sendMessage(entity, "teleport.cooldown", getCooldown(entity) + "");
+			return;
+		}
+		if(mustStandStillWhileTeleporting() && !isStandStillWhileTeleporting(entity)) {
+			Bukkit.broadcastMessage("must cooldown");
+			standStill.put(entity, getTimeStandStillWhileTeleporting());
+			startTimer();
+			LanguageConfig.sendMessage(entity, "teleport.standStill", getTimeStandStillWhileTeleporting(entity) + "");
+			return;
+		}
+		
+		entity.teleport(location);
+		if(hasCooldown()) {
+			Bukkit.broadcastMessage("add cooldown");
+			cooldowns.put(entity, getCooldown());
+			startTimer();
+		}
+	}
+	
+	public static int getTimeStandStillWhileTeleporting() {
+		return configuration.getInt("timeStandStillWhileTeleporting");
+	}
+	
+	public static int getTimeStandStillWhileTeleporting(Entity entity) {
+		synchronized (standStill) {
+			if(standStill.containsKey(entity))
+				return standStill.get(entity);
+		}
+		
+		return getTimeStandStillWhileTeleporting();
+	}
+	
+	public static void setTimeStandStillWhileTeleporting(Entity entity, int value) {
+		standStill.put(entity, value);
+	}
+	
+	public static boolean mustStandStillWhileTeleporting() {
+		return getTimeStandStillWhileTeleporting() > 0;
+	}
+	
+	public static boolean isStandStillWhileTeleporting(Entity entity) {
+		return getTimeStandStillWhileTeleporting(entity) <= 0;
+	}
+	
+	public static int getCooldown() {
+		return configuration.getInt("cooldown");
+	}
+	
+	public static int getCooldown(Entity entity) {
+		synchronized (cooldowns) {
+			if(cooldowns.containsKey(entity)) {
+				int value = cooldowns.get(entity);
+				if(value <= 0)
+					cooldowns.remove(entity);
+				return value;
+			}
+		}
+		return 0;
+	}
+	
+	public static void setCooldown(Entity entity, int value) {
+		cooldowns.put(entity, value);
+	}
+	
+	public static boolean hasCooldown() {
+		return getCooldown() > 0;
+	}
+	
+	public static boolean hasCooldown(Entity entity) {
+		return hasCooldown() && getCooldown(entity) > 0;
+	}
+	
+	public synchronized static void startTimer() {
+		if(taskID > 0) return;
+		
+		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), () -> {
+			if(cooldowns.isEmpty() && standStill.isEmpty()) stopTimer();
+			
+			synchronized (cooldowns) {
+				cooldowns.entrySet().removeIf(e -> e.getValue() <= 1);
+				
+				cooldowns.forEach((entity, value) -> {
+					cooldowns.put(entity, value - 1);
+				});
+			}
+			
+			synchronized (standStill) {
+				standStill.forEach((entity, value) -> {
+					if(value <= 1) {
+						//TODO teleport
+						
+					} else {
+						standStill.put(entity, value - 1);
+						
+						//TODO possible effects - not complete yets
+						if(configuration.getBoolean("useParticles")) {
+							ParticlePosInfoDummy dummy = new ParticlePosInfoDummy(entity.getWorld());
+							Bukkit.broadcastMessage(entity.getLocation().getY() + 2 * (getTimeStandStillWhileTeleporting(entity) / getTimeStandStillWhileTeleporting()) + "");
+							ParticleEffectsManager.spawnSpiralHelper(dummy, Particle.REDSTONE, entity.getLocation(), entity.getLocation().getY() + 2 * (getTimeStandStillWhileTeleporting(entity) / getTimeStandStillWhileTeleporting()), 1, (getTimeStandStillWhileTeleporting(entity) / getTimeStandStillWhileTeleporting()), 1, Color.WHITE, 1);
+							ParticleEffectsManager.spawnCircle(dummy, Particle.REDSTONE, entity.getLocation(), 1, 120, 1, Color.WHITE, 1);
+						}
+					}
+				});
+				
+				standStill.entrySet().removeIf(e -> e.getValue() <= 1);
+			}
+		}, 0L, 20L);
+	}
+	
+	public synchronized static void stopTimer() {
+		if(taskID <= 0) return;
+		
+		Bukkit.getScheduler().cancelTask(taskID);
+		taskID = -1;
+	}
+}

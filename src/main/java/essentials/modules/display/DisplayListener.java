@@ -25,7 +25,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import essentials.language.LanguageConfig;
-import essentials.player.PlayersYMLConfig;
 import essentials.utilities.MathUtilities;
 import essentials.utilities.chat.ChatUtilities;
 
@@ -37,7 +36,7 @@ public class DisplayListener implements Listener {
 	public void damge(EntityDamageByEntityEvent event) {
 		if(!(event.getEntity() instanceof LivingEntity)) return;
 		
-		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
+		ConfigurationSection display = DisplayManager.getConfigurationSection();
 		if(display == null || !display.getBoolean("showDamageOnEntity")) return;
 		
 		//Show heal and Damage of Entity
@@ -87,7 +86,7 @@ public class DisplayListener implements Listener {
 		Player player = event.getPlayer();
 		if(!player.isGliding()) return;
 		
-		ConfigurationSection display = PlayersYMLConfig.getConfigurationSection("display");
+		ConfigurationSection display = DisplayManager.getConfigurationSection();
 		if(display == null || !display.getBoolean("showElytraSpeed")) return;
 		
 		if(!counts.containsKey(player))

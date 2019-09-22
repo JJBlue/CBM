@@ -16,6 +16,7 @@ public class LanguageConfig {
 	private static File file;
 	private static FileConfiguration configuration;
 
+	private static FileConfiguration fallbackOne; //Fallback of the same language
 	private static FileConfiguration fallback;
 
 	static {
@@ -34,9 +35,9 @@ public class LanguageConfig {
 			
 			//fallback for specific language
 			try {
-				fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream(getLanguage() + ".yml"), "UTF-8");
+				fallbackOne = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream(getLanguage() + ".yml"), "UTF-8");
 			} catch (InvalidConfigurationException | IOException e1) {
-				fallback = null;
+				fallbackOne = null;
 			}
 			
 			return;
@@ -49,12 +50,10 @@ public class LanguageConfig {
 		}
 
 		// No fallback to specific lanuage? When use en.yml
-		if(fallback == null) {
-			try {
-				fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
-			} catch (InvalidConfigurationException | IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			fallback = ConfigHelper.loadConfig(LanguageConfig.class.getResourceAsStream("en.yml"), "UTF-8");
+		} catch (InvalidConfigurationException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -79,6 +78,11 @@ public class LanguageConfig {
 		if (configuration != null) {
 			String r = configuration.getString(key);
 			if (r != null)
+				return r;
+		}
+		if(fallbackOne != null) {
+			String r = fallbackOne.getString(key);
+			if(r != null)
 				return r;
 		}
 		return fallback.getString(key);
@@ -110,8 +114,7 @@ public class LanguageConfig {
 			FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(f);
 			fileConfiguration.set(key, "§4Message is missing Paramters: ");
 			fileConfiguration.save(f);
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 	}
 
 	public static void sendMessage(CommandSender sender, String key, String... args) {

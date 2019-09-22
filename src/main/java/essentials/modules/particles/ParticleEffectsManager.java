@@ -40,8 +40,7 @@ public class ParticleEffectsManager {
 	
 	/**
 	 * 
-	 * @param center
-	 * @param distance
+	 * @param dummy
 	 * @param particle
 	 * @param loc
 	 * @param height max Height of the Particles
@@ -62,10 +61,37 @@ public class ParticleEffectsManager {
 			
 			curRadius += addRadiusPerParticle;
 			
-			double dX = Math.sin(curRadius) * radius;
-			double dZ = Math.cos(curRadius) * radius;
+			spawnSpiralHelper(dummy, particle, loc, y, radius, curRadius, count, color, size);
+//			double dX = Math.sin(curRadius) * radius;
+//			double dZ = Math.cos(curRadius) * radius;
+//			
+//			spawnParticle(dummy, particle, loc.getX() + dX, y, loc.getZ() + dZ, count, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
+		}
+	}
+	
+	public static void spawnSpiralHelper(ParticlePosInfoDummy dummy, Particle particle, Location loc, double currentHeight, double radius, double currentRadius, int count, Color color, float size) {
+		Location center = (dummy.isPlayer() ? dummy.getPlayer().getLocation() : null);
+		
+		if(center != null && abs(center.getY() - currentHeight) > dummy.distance)
+			return;
+		
+		double dX = Math.sin(currentRadius) * radius;
+		double dZ = Math.cos(currentRadius) * radius;
+		
+		spawnParticle(dummy, particle, loc.getX() + dX, currentHeight, loc.getZ() + dZ, count, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
+	}
+	
+	public static void spawnCircle(ParticlePosInfoDummy dummy, Particle particle, Location loc, double radius, int countCircle, int count, Color color, float size) {
+		Location center = (dummy.isPlayer() ? dummy.getPlayer().getLocation() : null);
+		
+		if(center != null && radius > dummy.distance)
+			return;
+		
+		for(int i = 0; i < 360; i += (360/countCircle)) {
+			double dX = Math.sin(i) * radius;
+			double dZ = Math.cos(i) * radius;
 			
-			spawnParticle(dummy, particle, loc.getX() + dX, y, loc.getZ() + dZ, count, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
+			spawnParticle(dummy, particle, loc.getX() + dX, loc.getY(), loc.getZ() + dZ, countCircle, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
 		}
 	}
 	
