@@ -21,7 +21,7 @@ public class TeleportManager {
 	private TeleportManager() {}
 	
 	private static ConfigurationSection configuration;
-	private static Map<Entity, Integer> standStill = Collections.synchronizedMap(new HashMap<>()); //in seconds
+	private static Map<Entity, TeleportInformation> standStill = Collections.synchronizedMap(new HashMap<>()); //in seconds
 	private static Map<Entity, Integer> cooldowns = Collections.synchronizedMap(new HashMap<>()); //in seconds
 	private static int taskID;
 	
@@ -42,6 +42,8 @@ public class TeleportManager {
 	}
 	
 	public static void teleport(Entity entity, Location location) {
+		if(entity == null || location == null) return;
+		
 		if(hasCooldown(entity)) {
 			Bukkit.broadcastMessage("has cooldown");
 			LanguageConfig.sendMessage(entity, "teleport.cooldown", getCooldown(entity) + "");
@@ -49,7 +51,7 @@ public class TeleportManager {
 		}
 		if(mustStandStillWhileTeleporting() && !isStandStillWhileTeleporting(entity)) {
 			Bukkit.broadcastMessage("must cooldown");
-			standStill.put(entity, getTimeStandStillWhileTeleporting());
+			standStill.put(entity, new TeleportInformation(location, getTimeStandStillWhileTeleporting()));
 			startTimer();
 			LanguageConfig.sendMessage(entity, "teleport.standStill", getTimeStandStillWhileTeleporting(entity) + "");
 			return;
@@ -70,14 +72,17 @@ public class TeleportManager {
 	public static int getTimeStandStillWhileTeleporting(Entity entity) {
 		synchronized (standStill) {
 			if(standStill.containsKey(entity))
-				return standStill.get(entity);
+				return standStill.get(entity).getCooldown();
 		}
 		
 		return getTimeStandStillWhileTeleporting();
 	}
 	
 	public static void setTimeStandStillWhileTeleporting(Entity entity, int value) {
-		standStill.put(entity, value);
+		synchronized (standStill) {
+			if(standStill.containsKey(entity))
+				standStill.get(entity).setCooldown(value);
+		}
 	}
 	
 	public static boolean mustStandStillWhileTeleporting() {
@@ -131,24 +136,47 @@ public class TeleportManager {
 			}
 			
 			synchronized (standStill) {
-				standStill.forEach((entity, value) -> {
-					if(value <= 1) {
-						//TODO teleport
-						
+				standStill.forEach((entity, info) -> {
+					if(info.getCooldown() <= 1) {
+						entity.teleport(info.getLocation());
 					} else {
-						standStill.put(entity, value - 1);
+						info.setCooldown(info.getCooldown() - 1);
 						
 						//TODO possible effects - not complete yets
 						if(configuration.getBoolean("useParticles")) {
 							ParticlePosInfoDummy dummy = new ParticlePosInfoDummy(entity.getWorld());
-							Bukkit.broadcastMessage(entity.getLocation().getY() + 2 * (getTimeStandStillWhileTeleporting(entity) / getTimeStandStillWhileTeleporting()) + "");
-							ParticleEffectsManager.spawnSpiralHelper(dummy, Particle.REDSTONE, entity.getLocation(), entity.getLocation().getY() + 2 * (getTimeStandStillWhileTeleporting(entity) / getTimeStandStillWhileTeleporting()), 1, (getTimeStandStillWhileTeleporting(entity) / getTimeStandStillWhileTeleporting()), 1, Color.WHITE, 1);
-							ParticleEffectsManager.spawnCircle(dummy, Particle.REDSTONE, entity.getLocation(), 1, 120, 1, Color.WHITE, 1);
+							
+//							ParticleEffectsManager.spawnSpiralHelper(
+//								dummy,
+//								Particle.REDSTONE,
+//								entity.getLocation(),
+//								entity.getLocation().getY() + 2 - 2d * ((double) getTimeStandStillWhileTeleporting(entity) / (double) getTimeStandStillWhileTeleporting()),
+//								1,
+//								((double) getTimeStandStillWhileTeleporting(entity) / (double) getTimeStandStillWhileTeleporting()),
+//								1,
+//								Color.RED,
+//								1
+//							);
+							ParticleEffectsManager.spawnSpiral(
+									dummy,
+									Particle.REDSTONE,
+									entity.getLocation(),
+									2,
+									0.1,
+									1,
+									360d/180d,
+									1,
+									Color.RED,
+									1
+								);
+							ParticleEffectsManager.spawnCircle(
+								dummy, Particle.REDSTONE, entity.getLocation(), 1, 60, 1, Color.WHITE, 1
+							);
 						}
 					}
 				});
 				
-				standStill.entrySet().removeIf(e -> e.getValue() <= 1);
+				standStill.entrySet().removeIf(e -> e.getValue().getCooldown() <= 1);
 			}
 		}, 0L, 20L);
 	}

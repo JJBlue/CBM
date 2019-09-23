@@ -48,6 +48,7 @@ import essentials.modules.container.ContainerCommands;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
+import essentials.modules.teleport.TeleportManager;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
@@ -87,6 +88,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
+			case "test":
+				
+				TeleportManager.teleport(p, new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ()));
+				
+				break;
+		
 			case "afk": {
 				Player p1 = null;
 

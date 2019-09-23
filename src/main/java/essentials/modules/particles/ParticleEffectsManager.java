@@ -46,13 +46,17 @@ public class ParticleEffectsManager {
 	 * @param height max Height of the Particles
 	 * @param addHeightPerParticle default 0.05
 	 * @param addRadiusPerParticle default 1
-	 * @param radius
+	 * @param radius: Player distance from Particle
 	 * @param count
 	 * @param color
 	 * @param size
 	 */
 	public static void spawnSpiral(ParticlePosInfoDummy dummy, Particle particle, Location loc, int height, double addHeightPerParticle, double radius, double addRadiusPerParticle, int count, Color color, float size) {
 		Location center = (dummy.isPlayer() ? dummy.getPlayer().getLocation() : null);
+		
+		if(center != null && radius > dummy.distance)
+			return;
+		
 		double curRadius = 0;
 		
 		for(double y = loc.getY(); abs(loc.getY() - y) <= height; y += addHeightPerParticle) {
@@ -62,10 +66,6 @@ public class ParticleEffectsManager {
 			curRadius += addRadiusPerParticle;
 			
 			spawnSpiralHelper(dummy, particle, loc, y, radius, curRadius, count, color, size);
-//			double dX = Math.sin(curRadius) * radius;
-//			double dZ = Math.cos(curRadius) * radius;
-//			
-//			spawnParticle(dummy, particle, loc.getX() + dX, y, loc.getZ() + dZ, count, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
 		}
 	}
 	
@@ -87,11 +87,11 @@ public class ParticleEffectsManager {
 		if(center != null && radius > dummy.distance)
 			return;
 		
-		for(int i = 0; i < 360; i += (360/countCircle)) {
-			double dX = Math.sin(i) * radius;
-			double dZ = Math.cos(i) * radius;
+		for(double i = 0; i < 360; i += (360d/(double) countCircle)) {
+			double dX = Math.sin(i) * (double) radius;
+			double dZ = Math.cos(i) * (double) radius;
 			
-			spawnParticle(dummy, particle, loc.getX() + dX, loc.getY(), loc.getZ() + dZ, countCircle, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
+			spawnParticle(dummy, particle, loc.getX() + dX, loc.getY(), loc.getZ() + dZ, count, 0, 0, 0, 0, new Particle.DustOptions(color, size), false);
 		}
 	}
 	
