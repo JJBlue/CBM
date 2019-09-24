@@ -28,8 +28,7 @@ public class SQLParser {
 
 		try {
 			reader.close();
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 
 		return builder.toString();
 	}

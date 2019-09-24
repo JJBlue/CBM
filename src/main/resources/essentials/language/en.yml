@@ -75,6 +75,10 @@ mute:
 seen:
   loginSince: §ePlayer $1 is online since $2
   logoutSince: §ePlayer $1 is offline since $2
+spawn:
+  teleport: '§eTeleport to Spawn'
+  set-spawn: '§eSet Spawn'
+  del-spawn: '§eDelete Spawn'
 timer:
   cancelTimer: §eTimer with ID §6$1§e was stopped
   startTimer: §eTimer with ID §6$1§e was started

@@ -22,22 +22,36 @@ import essentials.utilities.permissions.PermissionHelper;
 public class SpawnManager {
 	private SpawnManager() {}
 	
-	private static Map<Integer, Location> spawns = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String, Location> spawns = Collections.synchronizedMap(new HashMap<>());
+	
+	static {
+		load();
+	}
+	
+	public static void load() {
+		Datenbank database = Databases.getWorldDatabase();
+		
+		for(String s : SQLParser.getResources("sql/create.sql", SpawnManager.class))
+			database.execute(s);
+	}
 	
 	public static void teleportToSpawn(Entity entity) {
 		TeleportManager.teleport(entity, getSpawnLocation(getSpawnName(entity)));
 	}
 	
-	public synchronized static Location getSpawnLocation(int id) {
+	public static void teleportToSpawn(Entity entity, String id) {
+		TeleportManager.teleport(entity, getSpawnLocation(id));
+	}
+	
+	public synchronized static Location getSpawnLocation(String id) {
 		if(spawns.containsKey(id))
 			return spawns.get(id);
 		
 		Datenbank database = Databases.getWorldDatabase();
 		
-		//TODO create.sql
-		PreparedStatement preparedStatement = database.prepareStatement(SQLParser.getResource("sql/create.sql", SpawnManager.class));
+		PreparedStatement preparedStatement = database.prepareStatement(SQLParser.getResource("sql/getLocation.sql", SpawnManager.class));
 		try {
-			preparedStatement.setString(1, id + "");
+			preparedStatement.setString(1, id);
 			ResultSet result = preparedStatement.executeQuery();
 			if(result.next()) {
 				Location location = PlayerSQLHelper.StringToLocation(result.getString("location"));
@@ -51,8 +65,8 @@ public class SpawnManager {
 		return null;
 	}
 	
-	public static int getSpawnName(Entity entity) {
-		if(!(entity instanceof Player)) return 0;
+	public static String getSpawnName(Entity entity) {
+		if(!(entity instanceof Player)) return "default";
 		
 		Player player = (Player) entity;
 		int spawn_id = 0;
@@ -69,6 +83,14 @@ public class SpawnManager {
 			} catch (NumberFormatException e) {}
 		}
 		
-		return spawn_id;
+		return spawn_id + "";
+	}
+
+	public static void setSpawn(int id, Location location) {
+		
+	}
+	
+	public static void deleteSpawn(int id) {
+		
 	}
 }

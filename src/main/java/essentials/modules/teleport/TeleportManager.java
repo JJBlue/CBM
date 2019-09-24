@@ -58,6 +58,7 @@ public class TeleportManager {
 		}
 		
 		entity.teleport(location);
+		LanguageConfig.sendMessage(entity, "spawn.teleport");
 		if(hasCooldown()) {
 			Bukkit.broadcastMessage("add cooldown");
 			cooldowns.put(entity, getCooldown());

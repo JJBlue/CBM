@@ -92,9 +92,9 @@ public class SpigotPluginUpdater {
 	/**
 	 * You need a name to download a file.
 	 */
-	public synchronized void download() {
-		if (!hasNewerVersion() || (lastDownloadedFile != null && lastDownloadedFile.exists())) return;
-		if (name == null) return;
+	public synchronized boolean download() {
+		if (!hasNewerVersion() || (lastDownloadedFile != null && lastDownloadedFile.exists())) return false;
+		if (name == null) return false;
 
 		try {
 			UpdaterServerManager.getDownloadFolder().mkdirs();
@@ -106,21 +106,26 @@ public class SpigotPluginUpdater {
 					-1,
 					null
 			);
+			
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	/*
 	 * WARNING! Maybe you need to restart the Server
 	 */
-	public synchronized void install() {
-		if (lastDownloadedFile == null || !lastDownloadedFile.exists()) return;
+	public synchronized boolean install() {
+		if (lastDownloadedFile == null || !lastDownloadedFile.exists()) return false;
 
 		try {
 			Files.move(lastDownloadedFile, new File(Main.getPlugin().getDataFolder().getParentFile() + "/" + lastDownloadedFile.getName()));
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 

@@ -1,13 +1,17 @@
 package essentials.modules.updater;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import components.classes.Files;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-
-import java.io.File;
-import java.util.*;
 
 public class UpdaterServerManager {
 	private UpdaterServerManager() {}
@@ -68,8 +72,8 @@ public class UpdaterServerManager {
 	public static void update() {
 		synchronized (plugins) {
 			for (SpigotPluginUpdater plugin : plugins.values()) {
-				plugin.download();
-				BukkitUtilities.broadcast(LanguageConfig.getString("updater.download-plugin", plugin.getName()), PermissionHelper.getPermission("updater.seeBroadcast"));
+				if(plugin.download())
+					BukkitUtilities.broadcast(LanguageConfig.getString("updater.download-plugin", plugin.getName()), PermissionHelper.getPermission("updater.seeBroadcast"));
 			}
 		}
 
@@ -79,8 +83,8 @@ public class UpdaterServerManager {
 	public static void install() {
 		synchronized (plugins) {
 			for (SpigotPluginUpdater plugin : plugins.values()) {
-				plugin.install();
-				BukkitUtilities.broadcast(LanguageConfig.getString("updater.install-plugin", plugin.getName()), PermissionHelper.getPermission("updater.seeBroadcast"));
+				if(plugin.install())
+					BukkitUtilities.broadcast(LanguageConfig.getString("updater.install-plugin", plugin.getName()), PermissionHelper.getPermission("updater.seeBroadcast"));
 			}
 		}
 
