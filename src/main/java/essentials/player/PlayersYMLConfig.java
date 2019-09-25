@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.modules.display.DisplayManager;
+import essentials.modules.spawn.SpawnConfiguration;
 import essentials.modules.teleport.TeleportManager;
 
 import java.io.File;
@@ -27,6 +28,7 @@ public class PlayersYMLConfig {
 		// Load subclasses
 		DisplayManager.load();
 		TeleportManager.load();
+		SpawnConfiguration.load();
 		
 		configuration.options().copyDefaults(true);
 		try {
@@ -38,6 +40,7 @@ public class PlayersYMLConfig {
 	
 	public static void unload() {
 		TeleportManager.unload();
+		SpawnConfiguration.unload();
 		
 		configuration = null;
 		file = null;

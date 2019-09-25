@@ -1,3 +1,28 @@
 display:
+  # Show Elytra Fly Speed
   showElytraSpeed: true
+  # Show Health & Damage of a beaten living entity
   showDamageOnEntity: true
+teleport:
+  # Currently works with: spawn
+
+  # Time the player must be stand still on a block, if he will teleport to another location
+  # Time in seconds
+  timeStandStillWhileTeleporting: 0
+  # Player must wait bevor he can teleport again.
+  # Time in seconds
+  cooldown: 0
+  # Should spawn Particles around the player. See timeStandStillWhileTeleporting
+  useParticles: false
+spawn:
+  # Permission for a spawn: spawn.id.<ID>
+  # Teleport a player to his ID or to a lower existing ID
+  # ID 0 is default Spawn
+
+  # Teleport player to spawn after he died, if bed location is null or invalid
+  TeleportOnDeath: false
+  # Teleport player to spawn after he died
+  TeleportAlwaysOnDeath: false
+  # If a player is new on a server. He will be teleported to a seperate spawn.
+  # Name must be called "firstJoin". ID of the firstjoin is '-1' automatically.
+  useFirstJoin: false

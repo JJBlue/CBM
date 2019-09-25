@@ -40,6 +40,16 @@ public class SpawnManager {
 		TeleportManager.teleport(entity, getSpawnLocation(getSpawnID(entity)));
 	}
 	
+	public static void teleportToSpawn(Entity entity, boolean delay) {
+		if(delay)
+			teleportToSpawn(entity);
+		else {
+			Location location = getSpawnLocation(getSpawnID(entity));
+			if(location == null) return;
+			entity.teleport(location);
+		}
+	}
+	
 	public static void teleportToSpawn(Entity entity, String name) {
 		if(isNumber(name)) {
 			teleportToSpawn(entity, Integer.parseInt(name));
@@ -100,9 +110,11 @@ public class SpawnManager {
 		int spawn_id = 0;
 		
 		for(PermissionAttachmentInfo pai : player.getEffectivePermissions()) {
-			if(!pai.getPermission().contains(PermissionHelper.getPermission("spawn.id"))) continue;
+			String permission = PermissionHelper.getPermission("spawn.id.");
 			
-			String id_name = pai.getPermission().substring("spawn.id".length(), pai.getPermission().length());
+			if(!pai.getPermission().contains(permission)) continue;
+			
+			String id_name = pai.getPermission().substring(permission.length(), pai.getPermission().length());
 			
 			try {
 				int id = Integer.parseInt(id_name);
@@ -115,7 +127,11 @@ public class SpawnManager {
 	}
 
 	public static boolean setSpawn(int id, String name, Location location) {
-		if(id < 0) return false;
+		if(name.equalsIgnoreCase("firstjoin") || id == -1) {
+			name = "firstjoin";
+			id = -1;
+		} else if(id < 0) return false;
+		
 		if(isNumber(name)) return false;
 		
 		PreparedStatement preparedStatement = getPreparedStatement(SQLParser.getResource("sql/setSpawn.sql", SpawnManager.class));
