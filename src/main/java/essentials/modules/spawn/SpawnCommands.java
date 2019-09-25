@@ -59,7 +59,7 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 					
 					boolean value = SpawnManager.setSpawn(0, args[1], ((Player) sender).getLocation());
 					if(value)
-						LanguageConfig.sendMessage(sender, "spawn.set-spawn");
+						LanguageConfig.sendMessage(sender, "spawn.set-spawn", 0 + "", args[2]);
 					else
 						LanguageConfig.sendMessage(sender, "text.problem-detected");
 					
@@ -67,7 +67,7 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 					try {
 						boolean value = SpawnManager.setSpawn(Integer.parseInt(args[1]), args[2], ((Player) sender).getLocation());
 						if(value)
-							LanguageConfig.sendMessage(sender, "spawn.set-spawn");
+							LanguageConfig.sendMessage(sender, "spawn.set-spawn", args[1], args[2]);
 						else
 							LanguageConfig.sendMessage(sender, "text.problem-detected");
 					} catch (NumberFormatException e) {
@@ -83,7 +83,7 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 				
 				boolean value = SpawnManager.deleteSpawn(args[1]);
 				if(value)
-					LanguageConfig.sendMessage(sender, "spawn.del-spawn");
+					LanguageConfig.sendMessage(sender, "spawn.del-spawn", args[1]);
 				else
 					LanguageConfig.sendMessage(sender, "text.problem-detected");
 				

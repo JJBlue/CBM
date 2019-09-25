@@ -79,8 +79,8 @@ seen:
 spawn:
   teleport: '§eTeleport to Spawn'
   teleport-to: '§eTeleport to Spawn <§6$1§e>'
-  set-spawn: '§eSet Spawn'
-  del-spawn: '§eDelete Spawn'
+  set-spawn: '§eSet Spawn <ID: §6$1§e, Name: §6$2§e>'
+  del-spawn: '§eDelete Spawn <§6$1§e>'
 timer:
   cancelTimer: §eTimer with ID §6$1§e was stopped
   startTimer: §eTimer with ID §6$1§e was started
