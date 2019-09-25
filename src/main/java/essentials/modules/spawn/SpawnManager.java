@@ -37,12 +37,12 @@ public class SpawnManager {
 	}
 	
 	public static void teleportToSpawn(Entity entity) {
-		TeleportManager.teleport(entity, getSpawnLocation(getSpawnID(entity)));
+		teleportToSpawn(entity, true);
 	}
 	
 	public static void teleportToSpawn(Entity entity, boolean delay) {
 		if(delay)
-			teleportToSpawn(entity);
+			TeleportManager.teleport(entity, getSpawnLocation(getSpawnID(entity)));
 		else {
 			Location location = getSpawnLocation(getSpawnID(entity));
 			if(location == null) return;
@@ -51,11 +51,32 @@ public class SpawnManager {
 	}
 	
 	public static void teleportToSpawn(Entity entity, String name) {
-		if(isNumber(name)) {
-			teleportToSpawn(entity, Integer.parseInt(name));
-			return;
+		teleportToSpawn(entity, name, true);
+	}
+	
+	public static void teleportToSpawn(Entity entity, String name, boolean delay) {
+		if(delay) {
+			if(isNumber(name)) {
+				teleportToSpawn(entity, Integer.parseInt(name));
+				return;
+			}
+			TeleportManager.teleport(entity, getSpawnLocation(name));
+			
+		} else {
+			Location location = getSpawnLocation(name);
+			if(location == null) return;
+			entity.teleport(location);
 		}
-		TeleportManager.teleport(entity, getSpawnLocation(name));
+	}
+	
+	public static void teleportToSpawn(Entity entity, int id, boolean delay) {
+		if(delay) {
+			teleportToSpawn(entity, id);
+		} else {
+			Location location = getSpawnLocation(id);
+			if(location == null) return;
+			entity.teleport(location);
+		}
 	}
 	
 	public static void teleportToSpawn(Entity entity, int id) {
@@ -109,18 +130,22 @@ public class SpawnManager {
 		Player player = (Player) entity;
 		int spawn_id = 0;
 		
-		for(PermissionAttachmentInfo pai : player.getEffectivePermissions()) {
-			String permission = PermissionHelper.getPermission("spawn.id.");
-			
-			if(!pai.getPermission().contains(permission)) continue;
-			
-			String id_name = pai.getPermission().substring(permission.length(), pai.getPermission().length());
-			
-			try {
-				int id = Integer.parseInt(id_name);
-				if(spawn_id < id)
-					spawn_id = id;
-			} catch (NumberFormatException e) {}
+		if(entity.isOp() || entity.hasPermission("*"))
+			spawn_id = Integer.MAX_VALUE;
+		else {
+			for(PermissionAttachmentInfo pai : player.getEffectivePermissions()) {
+				String permission = PermissionHelper.getPermission("spawn.id.");
+				
+				if(!pai.getPermission().contains(permission)) continue;
+				
+				String id_name = pai.getPermission().substring(permission.length(), pai.getPermission().length());
+				
+				try {
+					int id = Integer.parseInt(id_name);
+					if(spawn_id < id)
+						spawn_id = id;
+				} catch (NumberFormatException e) {}
+			}
 		}
 		
 		return spawn_id;

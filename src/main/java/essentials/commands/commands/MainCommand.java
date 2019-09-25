@@ -901,6 +901,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("version");
 			returnArguments.add("wallGhost");
 			returnArguments.add("warp");
+			
+			returnArguments.addAll(SpawnCommands.spawnCommands.onTabComplete(sender, cmd, cmdLabel, args));
 
 			returnArguments.removeIf(s -> !sender.hasPermission(PermissionHelper.getPermissionCommand(s)));
 

@@ -28,22 +28,25 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 		switch (args[0].toLowerCase()) {
 			case "spawn":
 				
-				if(args.length == 2) {
+				if(args.length == 1) {
 					if(!(sender instanceof Player)) break;
 					
 					SpawnManager.teleportToSpawn((Player) sender);
 					LanguageConfig.sendMessage(sender, "spawn.teleport");
 					
-				} else if(args.length == 3) {
+				} else if(args.length == 2) {
 					Player player = Bukkit.getPlayer(args[1]);
 					if(player == null) break;
 					
 					SpawnManager.teleportToSpawn(player);
-				} else {
+					LanguageConfig.sendMessage(sender, "spawn.teleport");
+					
+				} else if(args.length >= 3) {
 					Player player = Bukkit.getPlayer(args[1]);
 					if(player == null) break;
 					
 					SpawnManager.teleportToSpawn(player, args[2]);
+					LanguageConfig.sendMessage(sender, "spawn.teleport-to", args[2]);
 				}
 				
 				break;
@@ -75,6 +78,8 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 				break;
 				
 			case "delspawn":
+				
+				if(args.length < 2) break;
 				
 				boolean value = SpawnManager.deleteSpawn(args[1]);
 				if(value)

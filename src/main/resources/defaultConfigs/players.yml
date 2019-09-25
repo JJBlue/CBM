@@ -15,7 +15,7 @@ teleport:
   # Should spawn Particles around the player. See timeStandStillWhileTeleporting
   useParticles: false
 spawn:
-  # Permission for a spawn: spawn.id.<ID>
+  # Permission for a spawn: cbm.spawn.id.<ID>
   # Teleport a player to his ID or to a lower existing ID
   # ID 0 is default Spawn
 

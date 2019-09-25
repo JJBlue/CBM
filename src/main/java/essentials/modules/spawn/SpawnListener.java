@@ -11,7 +11,7 @@ public class SpawnListener implements Listener {
 	@EventHandler
 	public void join(PlayerJoinEvent event) {
 		if(!event.getPlayer().hasPlayedBefore() && SpawnConfiguration.getConfiguration().getBoolean("useFirstJoin"))
-			SpawnManager.teleportToSpawn(event.getPlayer(), "firstJoin");
+			SpawnManager.teleportToSpawn(event.getPlayer(), -1, false);
 	}
 	
 	@EventHandler

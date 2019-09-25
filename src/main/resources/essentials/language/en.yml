@@ -78,6 +78,7 @@ seen:
   logoutSince: §ePlayer $1 is offline since $2
 spawn:
   teleport: '§eTeleport to Spawn'
+  teleport-to: '§eTeleport to Spawn <§6$1§e>'
   set-spawn: '§eSet Spawn'
   del-spawn: '§eDelete Spawn'
 timer:
