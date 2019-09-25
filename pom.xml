@@ -35,6 +35,11 @@
 	        <id>sk89q-repo</id>
 	        <url>https://maven.enginehub.org/repo/</url>
 	    </repository>
+	    <!-- PlaceHolderAPI -->
+	    <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
         <repository>
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
@@ -80,6 +85,13 @@
 	        <version>7.0.1-SNAPSHOT</version>
 	        <scope>provided</scope>
 	    </dependency>
+	    <!-- PlaceHolderAPI -->
+	    <dependency>
+        	<groupId>me.clip</groupId>
+         	<artifactId>placeholderapi</artifactId>
+         	<version>2.10.4</version>
+        	<scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
