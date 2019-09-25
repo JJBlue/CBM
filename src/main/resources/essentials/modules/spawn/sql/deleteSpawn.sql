@@ -1,0 +1,2 @@
+DELETE FROM spawn
+WHERE ID = ?

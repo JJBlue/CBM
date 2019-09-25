@@ -1,3 +1,3 @@
 SELECT *
 FROM spawn
-WHERE ID = ?
+WHERE name = ?

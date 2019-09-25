@@ -34,6 +34,7 @@ import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
+import essentials.modules.spawn.SpawnListener;
 import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.TeleportListener;
 import essentials.modules.timer.TimerConfig;
@@ -89,6 +90,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new TimerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new DisplayListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CoIListener(), this);
+		Bukkit.getPluginManager().registerEvents(new SpawnListener(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();

@@ -4,9 +4,10 @@ error:
   playerIsMissing: §4Error. Player didn't exist or you forgot to enter a player
   default: §4Error
 text:
-  save-complete: Save complete
-  speed: Speed
   commandExecuted: §eCommand was executed
+  save-complete: Save complete
+  problem-detected: §eSorry, but a problem was been detected.
+  speed: Speed
 value:
   true: 'True'
   false: 'False'

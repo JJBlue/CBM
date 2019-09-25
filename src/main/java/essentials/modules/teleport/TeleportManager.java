@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
@@ -45,12 +46,10 @@ public class TeleportManager {
 		if(entity == null || location == null) return;
 		
 		if(hasCooldown(entity)) {
-			Bukkit.broadcastMessage("has cooldown");
 			LanguageConfig.sendMessage(entity, "teleport.cooldown", getCooldown(entity) + "");
 			return;
 		}
 		if(mustStandStillWhileTeleporting() && !isStandStillWhileTeleporting(entity)) {
-			Bukkit.broadcastMessage("must cooldown");
 			standStill.put(entity, new TeleportInformation(location, getTimeStandStillWhileTeleporting()));
 			startTimer();
 			LanguageConfig.sendMessage(entity, "teleport.standStill", getTimeStandStillWhileTeleporting(entity) + "");
@@ -60,7 +59,6 @@ public class TeleportManager {
 		entity.teleport(location);
 		LanguageConfig.sendMessage(entity, "spawn.teleport");
 		if(hasCooldown()) {
-			Bukkit.broadcastMessage("add cooldown");
 			cooldowns.put(entity, getCooldown());
 			startTimer();
 		}
@@ -122,6 +120,10 @@ public class TeleportManager {
 		return hasCooldown() && getCooldown(entity) > 0;
 	}
 	
+	public static void removeEntity(Player player) {
+		standStill.remove(player);
+	}
+	
 	public synchronized static void startTimer() {
 		if(taskID > 0) return;
 		
@@ -137,27 +139,19 @@ public class TeleportManager {
 			}
 			
 			synchronized (standStill) {
+				
+				
 				standStill.forEach((entity, info) -> {
-					if(info.getCooldown() <= 1) {
+					if(info.getCooldown() <= 0) {
 						entity.teleport(info.getLocation());
+						info.setCooldown(-1);
 					} else {
 						info.setCooldown(info.getCooldown() - 1);
 						
-						//TODO possible effects - not complete yets
+						//TODO better particles
 						if(configuration.getBoolean("useParticles")) {
 							ParticlePosInfoDummy dummy = new ParticlePosInfoDummy(entity.getWorld());
 							
-//							ParticleEffectsManager.spawnSpiralHelper(
-//								dummy,
-//								Particle.REDSTONE,
-//								entity.getLocation(),
-//								entity.getLocation().getY() + 2 - 2d * ((double) getTimeStandStillWhileTeleporting(entity) / (double) getTimeStandStillWhileTeleporting()),
-//								1,
-//								((double) getTimeStandStillWhileTeleporting(entity) / (double) getTimeStandStillWhileTeleporting()),
-//								1,
-//								Color.RED,
-//								1
-//							);
 							ParticleEffectsManager.spawnSpiral(
 									dummy,
 									Particle.REDSTONE,
@@ -177,7 +171,7 @@ public class TeleportManager {
 					}
 				});
 				
-				standStill.entrySet().removeIf(e -> e.getValue().getCooldown() <= 1);
+				standStill.entrySet().removeIf(e -> e.getValue().getCooldown() < 0);
 			}
 		}, 0L, 20L);
 	}

@@ -48,6 +48,7 @@ import essentials.modules.container.ContainerCommands;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
+import essentials.modules.spawn.SpawnCommands;
 import essentials.modules.teleport.TeleportManager;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
@@ -683,6 +684,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				return SignCommands.signCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+			case "spawn":
+			case "setspawn":
+			case "delspawn":
+				
+				return SpawnCommands.spawnCommands.onCommand(sender, cmd, cmdLabel, args);
+				
 			case "speed": {
 				if (args.length == 2) {
 					if (p == null) return true;
@@ -1074,6 +1081,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return DisableEnable.disableEnable.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "spawn":
+				case "setspawn":
+				case "delspawn":
+					
+					return SpawnCommands.spawnCommands.onTabComplete(sender, cmd, cmdLabel, args);
+					
 				case "timer":
 
 					return TimerCommand.timerCommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));

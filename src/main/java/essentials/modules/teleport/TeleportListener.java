@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -52,6 +53,17 @@ public class TeleportListener implements Listener {
 				event.setCancelled(true);
 				executer.sendMessage("Sorry, er hat leider tptoggle aktiv");
 			}
+		}
+	}
+	
+	@EventHandler
+	public void move(PlayerMoveEvent event) {
+		if(
+			event.getFrom().getBlockX() != event.getTo().getBlockX() ||
+			event.getFrom().getBlockY() != event.getTo().getBlockY() ||
+			event.getFrom().getBlockZ() != event.getTo().getBlockZ()
+		) {
+			TeleportManager.removeEntity(event.getPlayer());
 		}
 	}
 }
