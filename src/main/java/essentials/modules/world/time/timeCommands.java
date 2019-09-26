@@ -6,6 +6,8 @@ import org.bukkit.World;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class timeCommands implements CommandExecutor, TabCompleter {
@@ -24,7 +26,7 @@ public class timeCommands implements CommandExecutor, TabCompleter {
 		else if (sender instanceof BlockCommandSender)
 			l = ((BlockCommandSender) sender).getBlock().getLocation();
 
-		World world; //TODO
+		World world;
 
 		if (args.length == 1) {
 			if (l == null) return true;
@@ -52,8 +54,7 @@ public class timeCommands implements CommandExecutor, TabCompleter {
 				if (args.length < 2) break;
 				try {
 					world.setTime(world.getTime() + Integer.parseInt(args[1]));
-				} catch (NumberFormatException e) {
-				}
+				} catch (NumberFormatException e) {}
 
 				break;
 
@@ -61,8 +62,7 @@ public class timeCommands implements CommandExecutor, TabCompleter {
 
 				try {
 					world.setTime(world.getTime() - Integer.parseInt(args[1]));
-				} catch (NumberFormatException e) {
-				}
+				} catch (NumberFormatException e) {}
 
 				break;
 
@@ -70,8 +70,7 @@ public class timeCommands implements CommandExecutor, TabCompleter {
 
 				try {
 					world.setTime(Integer.parseInt(args[1]));
-				} catch (NumberFormatException e) {
-				}
+				} catch (NumberFormatException e) {}
 
 				break;
 		}
@@ -80,8 +79,21 @@ public class timeCommands implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		List<String> returnArguments = new LinkedList<>();
+
+		if (args.length == 1) {
+			returnArguments.add("day");
+			returnArguments.add("night");
+			returnArguments.add("add");
+			returnArguments.add("remove");
+			returnArguments.add("set");
+
+		}
+
+		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
+		returnArguments.sort(Comparator.naturalOrder());
+
+		return returnArguments;
 	}
 }

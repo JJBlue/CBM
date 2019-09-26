@@ -18,6 +18,14 @@ import java.util.HashMap;
 import java.util.TimeZone;
 
 public class PlaceholderFormatter {
+	public static String setPlaceholders(CommandSender sender, String text) {
+		return parseToString(sender, text);
+	}
+	
+	public static boolean containsPlaceholderAPI() {
+		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+	}
+	
 	public static String parseToString(CommandSender commandSender, String text) {
 		if (text == null) return "";
 
@@ -151,10 +159,9 @@ public class PlaceholderFormatter {
 	 * format = Uppercase, Lowercase, firstUp
 	 * boolean = text, number
 	 * time = HH:mm:ss
+	 * api = placeholderapi, cbm  # Use plugin for this item. Use if this alias exist for multiple plugins
 	 */
 	public static String objectToString(CommandSender commandSender, String text, String args) {
-		Object value = parser(commandSender, text);
-
 		HashMap<String, String> argsMap = new HashMap<>();
 
 		{
@@ -170,6 +177,26 @@ public class PlaceholderFormatter {
 				}
 			}
 		}
+		
+		Object value = null;
+		
+		//Parse at first
+		if(argsMap.containsKey("api")) {
+			String api = argsMap.get("api");
+			if(api != null) {
+				switch (api) {
+					case "placeholderapi":
+						if(containsPlaceholderAPI() && commandSender instanceof Player)
+							value = PlaceholderAPIUtilities.set(((Player) commandSender), text);
+						break;
+				}
+			}
+		}
+		
+		if(value == null)
+			value = parser(commandSender, text);
+		if(value == null)
+			value = PlaceholderAPIUtilities.set(((Player) commandSender), text);
 
 		String endString = null;
 
@@ -230,7 +257,6 @@ public class PlaceholderFormatter {
 
 		return endString;
 	}
-
 
 	/*
 	 * @p
@@ -315,6 +341,8 @@ jail_username_[jailName]_[cellId]
 jail_reason_[jailName]_[cellId]
 */
 	public static Object parser(CommandSender commandSender, String ersetzen) {
+		if(ersetzen == null) return null;
+		
 		Player player = null;
 		if (commandSender instanceof Player)
 			player = (Player) commandSender;
@@ -464,6 +492,6 @@ jail_reason_[jailName]_[cellId]
 				return LocalDateTime.ofInstant(Instant.ofEpochMilli(player.getWorld().getTime()), TimeZone.getDefault().toZoneId());
 		}
 
-		return ersetzen;
+		return null;
 	}
 }

@@ -81,8 +81,6 @@ public class MainListener implements Listener {
 
 //		if(fileConf.getBoolean("jail")) {
 //			//to jail TODO
-//		} else if(!p.hasPlayedBefore()) {
-//			//Spawn TODO
 //		}
 
 		for (Player ps : hide)

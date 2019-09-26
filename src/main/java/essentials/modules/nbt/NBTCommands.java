@@ -71,10 +71,10 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 							break;
 						case "intarray":
 							
-							int[] ia = new int[args.length - 4];
+							int[] ia = new int[args.length - 3];
 							
-							for(int i = 4; i < args.length; i++)
-								ia[i - 4] = Integer.parseInt(args[i]);
+							for(int i = 3; i < args.length; i++)
+								ia[i - 3] = Integer.parseInt(args[i]);
 							
 							value = ia;
 							
@@ -82,10 +82,10 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 							
 						case "longarray":
 							
-							long[] la = new long[args.length - 4];
+							long[] la = new long[args.length - 3];
 							
-							for(int i = 4; i < args.length; i++)
-								la[i - 4] = Long.parseLong(args[i]);
+							for(int i = 3; i < args.length; i++)
+								la[i - 3] = Long.parseLong(args[i]);
 							
 							value = la;
 							
@@ -93,10 +93,10 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 							
 						case "doublearray":
 							
-							double[] da = new double[args.length - 4];
+							double[] da = new double[args.length - 3];
 							
-							for(int i = 4; i < args.length; i++)
-								da[i - 4] = Double.parseDouble(args[i]);
+							for(int i = 3; i < args.length; i++)
+								da[i - 3] = Double.parseDouble(args[i]);
 							
 							value = da;
 							
@@ -104,10 +104,10 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 							
 						case "floatarray":
 							
-							float[] fa = new float[args.length - 4];
+							float[] fa = new float[args.length - 3];
 							
-							for(int i = 4; i < args.length; i++)
-								fa[i - 4] = Float.parseFloat(args[i]);
+							for(int i = 3; i < args.length; i++)
+								fa[i - 3] = Float.parseFloat(args[i]);
 							
 							value = fa;
 							
@@ -115,7 +115,7 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 							
 						case "String":
 							
-							value = StringUtilities.arrayToStringRange(args, 4, args.length);
+							value = StringUtilities.arrayToStringRange(args, 3, args.length);
 							
 							break;
 					}
@@ -125,7 +125,7 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 						NBTUtilities.setNBTTagCompound(itemstack, tag.getNBTTagCompound());
 					}
 					
-					//TODO ausgabe
+					LanguageConfig.sendMessage(sender, "nbt.add", args[1], args[2], StringUtilities.arrayToStringRange(args, 3, args.length));
 				} catch (IllegalArgumentException e) {
 					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
@@ -141,7 +141,7 @@ public class NBTCommands implements CommandExecutor, TabCompleter {
 				NBTTag tag = NBTUtilities.getNBTTag(itemstack);
 				tag.remove(args[1]);
 				NBTUtilities.setNBTTagCompound(itemstack, tag.getNBTTagCompound());
-				//TODO ausgabe
+				LanguageConfig.sendMessage(sender, "nbt.remove", args[1]);
 				
 				break;
 		}

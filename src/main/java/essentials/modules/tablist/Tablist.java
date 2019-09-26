@@ -2,6 +2,8 @@ package essentials.modules.tablist;
 
 import essentials.config.MainConfig;
 import essentials.main.Main;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
 import essentials.utilities.TablistUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
@@ -48,7 +50,7 @@ public class Tablist {
 		configuration.addDefault("GroupEnabled", false);
 
 		configuration.addDefault("Update.AutoInterval", 60);
-		configuration.addDefault("Update.onAfk", false); //TODO
+		configuration.addDefault("Update.onAfk", false);
 		configuration.addDefault("Update.onJoin", true);
 		configuration.addDefault("Update.onDeath", false);
 		configuration.addDefault("Update.onTeleport", false);
@@ -107,6 +109,11 @@ public class Tablist {
 	public static void update(Player player) {
 		if (!enabled) return;
 		if (!groupEnabled && !defaultEnabled) return;
+		
+		if(!configuration.getBoolean("Update.onAfk")) {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			if(config.containsLoadedKey("afk")) return;
+		}
 
 		if (!groupEnabled) {
 			sendTablist(player, -1);
