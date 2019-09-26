@@ -25,6 +25,9 @@ public class PlayersYMLConfig {
 		
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
+		configuration.addDefault("join.silent", false);
+		configuration.addDefault("death.silent", false);
+		
 		// Load subclasses
 		DisplayManager.load();
 		TeleportManager.load();

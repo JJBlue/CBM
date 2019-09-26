@@ -1,9 +1,8 @@
 package essentials.modules;
 
-import essentials.config.MainConfig;
-import essentials.config.MainConfigEnum;
-import essentials.utilities.PlayerUtilities;
-import essentials.utilities.permissions.PermissionHelper;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -11,30 +10,40 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import essentials.config.MainConfig;
+import essentials.config.MainConfigEnum;
+import essentials.player.PlayersYMLConfig;
+import essentials.utilities.PlayerUtilities;
+import essentials.utilities.permissions.PermissionHelper;
 
 public class Join implements Listener {
 	private static ArrayList<String> tempPlayer = new ArrayList<>();
 
 	@EventHandler
-	private void J(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
-
+	private void J(PlayerJoinEvent event) {
+		fullServer(event);
+		
+		if(PlayersYMLConfig.getConfiguration().getBoolean("join.silent"))
+			event.setJoinMessage(null);
+	}
+	
+	private void fullServer(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
 		if (player.isOp()) return;
 		if (MainConfig.getFullSize() == -1 || Bukkit.getOnlinePlayers().size() < MainConfig.getFullSize()) return;
 		if (MainConfig.getJoinable().contains(player.getUniqueId().toString())) return;
-		if (tempPlayer.contains(e.getPlayer().getName())) {
-			tempPlayer.remove(e.getPlayer().getName());
+		if (tempPlayer.contains(event.getPlayer().getName())) {
+			tempPlayer.remove(event.getPlayer().getName());
 			return;
 		}
 
-		System.out.println("Spieler mit der UUID: " + e.getPlayer().getUniqueId() + " versuchte zu joinen!");
-		e.getPlayer().kickPlayer(MainConfig.getFullMessage());
-		e.setJoinMessage(null);
+		System.out.println("Spieler mit der UUID: " + event.getPlayer().getUniqueId() + " versuchte zu joinen!");
+		event.getPlayer().kickPlayer(MainConfig.getFullMessage());
+		event.setJoinMessage(null);
 	}
 
 	@EventHandler
@@ -43,6 +52,12 @@ public class Join implements Listener {
 			e.setMaxPlayers(MainConfig.getFullSize());
 		if(MainConfig.getConfiguration().getBoolean(MainConfigEnum.MotdEnable.value))
 			e.setMotd(MainConfig.getMotd());
+	}
+	
+	@EventHandler
+	private void onDeath(PlayerDeathEvent event) {
+		if(PlayersYMLConfig.getConfiguration().getBoolean("death.silent"))
+			event.setDeathMessage(null);
 	}
 
 	//TODO update
