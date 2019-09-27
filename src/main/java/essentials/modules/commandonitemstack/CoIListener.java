@@ -51,7 +51,7 @@ public class CoIListener implements Listener {
 			if(projectileSource instanceof Player)
 				itemStack = ((Player) projectileSource).getInventory().getItemInMainHand();
 			else if(projectileSource instanceof LivingEntity)
-				itemStack = ((LivingEntity) entity).getEquipment().getItemInMainHand();
+				itemStack = ((LivingEntity) projectileSource).getEquipment().getItemInMainHand();
 			
 		} else if(event.getDamager() instanceof LivingEntity)
 			itemStack = ((LivingEntity) entity).getEquipment().getItemInMainHand();
