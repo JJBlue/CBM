@@ -60,6 +60,8 @@ public class PlaceholderFormatter {
 
 					break;
 				case '[':
+					backSlash = false;
+					
 					if (!couldUseArgs) {
 						if (inParser)
 							parser.append(c);
@@ -76,6 +78,8 @@ public class PlaceholderFormatter {
 					break;
 				case ']':
 
+					backSlash = false;
+					
 					if (!argsEnabled && preCommand != null) {
 						finialize.append(objectToString(commandSender, preCommand, null));
 						preCommand = null;
@@ -195,8 +199,10 @@ public class PlaceholderFormatter {
 		
 		if(value == null)
 			value = parser(commandSender, text);
-		if(value == null)
+		if(containsPlaceholderAPI() && value == null)
 			value = PlaceholderAPIUtilities.set(((Player) commandSender), text);
+		else
+			value = "";
 
 		String endString = null;
 

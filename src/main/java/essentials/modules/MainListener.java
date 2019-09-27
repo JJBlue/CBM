@@ -53,13 +53,31 @@ public class MainListener implements Listener {
 		if(!section.getBoolean("enable") && !PermissionHelper.hasPermission(player, "chat.write")) {
 			event.setCancelled(true);
 			event.setMessage(null);
-		} else if(section.getBoolean("timestamp")) {
-			String format = section.getString("timestamp-format");
-			if(format == null)
-				format = "HH:mm";
+		} else if(section.getBoolean("prefix-enable") || section.getBoolean("format-enable") || section.getBoolean("suffix-enable")) {
+			StringBuilder builder = new StringBuilder();
 			
-			String time = PlaceholderFormatter.setPlaceholders(player, "%real_time%[" + format + "]");
-			event.setFormat("[" + time + "] " + event.getFormat());
+			if(section.getBoolean("prefix-enable")) {
+				String prefix = PlaceholderFormatter.setPlaceholders(player, section.getString("prefix"));
+				if(prefix != null)
+					builder.append(prefix);
+			}
+			
+			if(section.getBoolean("format-enable")) {
+				String format = PlaceholderFormatter.setPlaceholders(player, section.getString("format"));
+				
+				if(format != null)
+					builder.append(format);
+			} else
+				builder.append(event.getFormat());
+			
+			if(section.getBoolean("suffix-enable")) {
+				String suffix = PlaceholderFormatter.setPlaceholders(player, section.getString("suffix"));
+				if(suffix != null)
+					builder.append(suffix);
+			}
+			
+			Bukkit.broadcastMessage(builder.toString());
+			event.setFormat(builder.toString());
 		}
 	}
 	

@@ -36,8 +36,13 @@ public class PlayersYMLConfig {
 		{
 			ConfigurationSection section = getConfigurationSectionOrCreate("chat");
 			section.addDefault("enable", true);
-			section.addDefault("timestamp", false);
-			section.addDefault("timestamp-format", "HH:mm");
+			
+			section.addDefault("prefix-enable", true);
+			section.addDefault("prefix", "\\[%real_time%[time=HH:mm]\\] ");
+			section.addDefault("format-enable", true);
+			section.addDefault("format", "<%s> %s");
+			section.addDefault("suffix-enable", true);
+			section.addDefault("suffix", ".");
 		}
 		
 		{

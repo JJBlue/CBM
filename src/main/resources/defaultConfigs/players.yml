@@ -7,9 +7,13 @@ command:
 chat:
   # Enable or disable the chat. On disable, only players with permission cbm.chat.write could write
   enable: true
-  # Write timestamp for the player name [HH:mm]
-  timestamp: false
-  timestamp-format: "HH:mm"
+  prefix-enable: false
+  prefix: '\[%real_time%[time=HH:mm]\] '
+  # %s is bukkit default syntax: 1. \%s = Spielername, 2. \%s = message
+  format-enable: false
+  format: '<\%s> \%s'
+  suffix-enable: false
+  suffix: '.'
 death:
   # No Death-Message
   silent: false
