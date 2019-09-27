@@ -227,6 +227,17 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 			}
+			case "for": {
+				if(args.length < 3) break;
+				
+				try {
+					int amount = Integer.parseInt(args[1]);
+					for(int i = 0; i < amount; i++)
+						Bukkit.dispatchCommand(sender, StringUtilities.arrayToStringRange(args, 2, args.length));
+				} catch (NumberFormatException e) {
+					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+				}
+			}
 			case "god": {
 				Player p1 = null;
 
@@ -946,6 +957,40 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "economy":
 					
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "for":
+					
+					switch (args.length) {
+						case 2:
+	
+							returnArguments.add(args[1] + "0");
+							returnArguments.add(args[1] + "1");
+							returnArguments.add(args[1] + "2");
+							returnArguments.add(args[1] + "3");
+							returnArguments.add(args[1] + "4");
+							returnArguments.add(args[1] + "5");
+							returnArguments.add(args[1] + "6");
+							returnArguments.add(args[1] + "7");
+							returnArguments.add(args[1] + "8");
+							returnArguments.add(args[1] + "9");
+	
+							break;
+	
+						case 3:
+	
+							returnArguments = BukkitUtilities.getAvailableCommands(sender);
+							break;
+	
+						default:
+	
+							PluginCommand command = Bukkit.getPluginCommand(args[2]);
+							if (command == null) break;
+							TabCompleter tabCompleter = command.getTabCompleter();
+							if (tabCompleter == null) break;
+							return tabCompleter.onTabComplete(sender, command, args[2], Arrays.copyOfRange(args, 3, args.length));
+					}
+					
+					break;
 					
 				case "motd":
 					
