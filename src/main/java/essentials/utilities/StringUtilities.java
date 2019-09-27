@@ -52,4 +52,10 @@ public class StringUtilities {
 
 		return builder.toString();
 	}
+	
+	public static String setArgs(String text, String... args) {
+		for (int i = args.length; i > 0; i--)
+			text = text.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
+		return text;
+	}
 }

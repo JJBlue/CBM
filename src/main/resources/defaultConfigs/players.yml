@@ -1,3 +1,26 @@
+command:
+  # "7say hi" will be converted to -> "/say hi"
+  # disable convert in game type "\7say hi" -> "7 say hi". "\\7 say hi" -> "\7 say hi"...
+  convert: true
+  # Permission: cbm.command.convert
+  convert-use-permission: true
+chat:
+  # Enable or disable the chat. On disable, only players with permission cbm.chat.write could write
+  enable: true
+  # Write timestamp for the player name [HH:mm]
+  timestamp: false
+  timestamp-format: "HH:mm"
+death:
+  # No Death-Message
+  silent: false
+  messages-enable: false
+  # Write a text in the list or link to language file (!language <key>).
+  # $1 = player_name
+  # Placeholder works here
+  messages:
+  - '$1 dead'
+  - '$1 had not survived'
+  - '$1 did not want to live anymore'
 display:
   # Show Elytra Fly Speed
   showElytraSpeed: true
@@ -6,9 +29,29 @@ display:
 join:
   # No Join-Message
   silent: false
-death:
-  # No Death-Message
+  # Set the join message to special messages. Because he is new on the server
+  first-time-messages-enable: false
+  # See death.messages
+  first-time-messages:
+  - 'Is it a bird? Is it an airplane? No it is $1'
+  - '$1 joined the first time on the server'
+  - 'Welcome $1. Stay here for a while'
+  - '$1 search for new friends'
+  messages-enable: false
+  messages:
+  - '$1 joined on the server'
+  - '$1 want to play with us'
+  - '$1 is back'
+  - '$1 appeared'
+leave:
+  # No Leave Message
   silent: false
+  messages-enable: false
+  # see death.messages
+  messages:
+  - '$1 left the server'
+  - '$1 disappeared'
+  - '$1 left us'
 spawn:
   # Permission for a spawn: cbm.spawn.id.<ID>
   # Teleport a player to his ID or to a lower existing ID

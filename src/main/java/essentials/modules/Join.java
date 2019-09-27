@@ -2,33 +2,69 @@ package essentials.modules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
+import essentials.language.LanguageConfig;
 import essentials.player.PlayersYMLConfig;
 import essentials.utilities.PlayerUtilities;
+import essentials.utilities.StringUtilities;
 import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilities.placeholder.PlaceholderFormatter;
 
 public class Join implements Listener {
 	private static ArrayList<String> tempPlayer = new ArrayList<>();
 
 	@EventHandler
 	private void J(PlayerJoinEvent event) {
-		fullServer(event);
+		ConfigurationSection section = PlayersYMLConfig.getConfigurationSection("join");
+		if(section == null) return;
 		
-		if(PlayersYMLConfig.getConfiguration().getBoolean("join.silent"))
+		Player player = event.getPlayer();
+		
+		if(section.getBoolean("silent"))
 			event.setJoinMessage(null);
+		else if(!event.getPlayer().hasPlayedBefore() && section.getBoolean("first-time-messages-enable")) {
+			List<String> messages = section.getStringList("first-time-messages");
+			
+			if(!messages.isEmpty()) {
+				String message = messages.get(new Random().nextInt(messages.size()));
+				if(message.startsWith("!language"))
+					message = LanguageConfig.getString(message.substring("!language ".length()));
+				
+				message = StringUtilities.setArgs(message, player.getDisplayName());
+				message = PlaceholderFormatter.setPlaceholders(player, message);
+				
+				event.setJoinMessage(message);
+			}
+		} else if(section.getBoolean("messages-enable")) {
+			List<String> messages = section.getStringList("messages");
+			
+			if(!messages.isEmpty()) {
+				String message = messages.get(new Random().nextInt(messages.size()));
+				if(message.startsWith("!language"))
+					message = LanguageConfig.getString(message.substring("!language ".length()));
+				
+				message = StringUtilities.setArgs(message, player.getDisplayName());
+				message = PlaceholderFormatter.setPlaceholders(player, message);
+				
+				event.setJoinMessage(message);
+			}
+		}
+			
+		fullServer(event);
 	}
 	
 	private void fullServer(PlayerJoinEvent event) {
@@ -52,12 +88,6 @@ public class Join implements Listener {
 			e.setMaxPlayers(MainConfig.getFullSize());
 		if(MainConfig.getConfiguration().getBoolean(MainConfigEnum.MotdEnable.value))
 			e.setMotd(MainConfig.getMotd());
-	}
-	
-	@EventHandler
-	private void onDeath(PlayerDeathEvent event) {
-		if(PlayersYMLConfig.getConfiguration().getBoolean("death.silent"))
-			event.setDeathMessage(null);
 	}
 
 	//TODO update

@@ -2,6 +2,8 @@ package essentials.language;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
+import essentials.utilities.StringUtilities;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -100,8 +102,7 @@ public class LanguageConfig {
 				m += "$" + i + " ";
 		}
 
-		for (int i = args.length; i > 0; i--)
-			m = m.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
+		StringUtilities.setArgs(m, args);
 
 		m = m.replaceAll("(?<!\\\\)\\\\n", "\n");
 
