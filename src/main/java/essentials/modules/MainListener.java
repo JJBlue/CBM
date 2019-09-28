@@ -76,7 +76,6 @@ public class MainListener implements Listener {
 					builder.append(suffix);
 			}
 			
-			Bukkit.broadcastMessage(builder.toString());
 			event.setFormat(builder.toString());
 		}
 	}
@@ -87,6 +86,7 @@ public class MainListener implements Listener {
 
 		Player player = event.getPlayer();
 		String text = event.getMessage();
+		if(text == null) return;
 		
 		if (section.getBoolean("convert") && (!section.getBoolean("convert-use-permission") || PermissionHelper.hasPermission(player, "command.convert"))) {
 			if (text.startsWith("\\7")) {

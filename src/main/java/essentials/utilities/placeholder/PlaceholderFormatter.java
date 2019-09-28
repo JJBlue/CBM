@@ -23,7 +23,8 @@ public class PlaceholderFormatter {
 	}
 	
 	public static boolean containsPlaceholderAPI() {
-		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+//		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+		return false;
 	}
 	
 	public static String parseToString(CommandSender commandSender, String text) {
@@ -201,7 +202,7 @@ public class PlaceholderFormatter {
 			value = parser(commandSender, text);
 		if(containsPlaceholderAPI() && value == null)
 			value = PlaceholderAPIUtilities.set(((Player) commandSender), text);
-		else
+		if(value == null)
 			value = "";
 
 		String endString = null;

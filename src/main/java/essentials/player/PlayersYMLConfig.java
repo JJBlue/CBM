@@ -38,9 +38,9 @@ public class PlayersYMLConfig {
 			section.addDefault("enable", true);
 			
 			section.addDefault("prefix-enable", true);
-			section.addDefault("prefix", "\\[%real_time%[time=HH:mm]\\] ");
+			section.addDefault("prefix", "[%real_time%[time=HH:mm]] ");
 			section.addDefault("format-enable", true);
-			section.addDefault("format", "<%s> %s");
+			section.addDefault("format", "<\\%s> \\%s");
 			section.addDefault("suffix-enable", true);
 			section.addDefault("suffix", ".");
 		}
