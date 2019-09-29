@@ -1,8 +1,5 @@
 package essentials.modules.commandspy;
 
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerManager;
-import essentials.utilities.permissions.PermissionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
+
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+import essentials.utilities.permissions.PermissionHelper;
 
 public class CommandSpyListener implements Listener {
 	@EventHandler
@@ -52,8 +53,7 @@ public class CommandSpyListener implements Listener {
 					int tmp = Integer.parseInt(per);
 					if (tmp > value)
 						value = tmp;
-				} catch (NumberFormatException e) {
-				}
+				} catch (NumberFormatException e) {}
 			}
 		}
 

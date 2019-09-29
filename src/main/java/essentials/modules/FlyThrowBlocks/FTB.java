@@ -25,16 +25,24 @@ public class FTB implements Listener {
 	@EventHandler
 	public void Move(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
+		
+		//Check to use fly through block
 		if (!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)) return;
-
+		if(e.getFrom().getX() == e.getTo().getX() && e.getFrom().getY() == e.getTo().getY() && e.getFrom().getZ() == e.getTo().getZ()) return;
+		
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
 		if (!playerConfig.getBoolean(PlayerConfigKey.tWallGhost)) return;
+		
+		double xRand = e.getTo().getX() - e.getTo().getBlockX();
+		if(xRand > 0.8 && xRand < 0.2) return;
+		
+		double yRand = e.getTo().getZ() - e.getTo().getBlockY();
+		if(yRand > 0.8 && yRand < 0.2) return;
 
 		double x = p.getLocation().getX();
 		double y = p.getLocation().getY();
 		double z = p.getLocation().getZ();
 		World w = p.getWorld();
-
 
 		if (cantWalk(new Location(w, x + 0.8, y, z)) && cantWalk(new Location(w, x + 0.8, y + 1, z)) ||
 				cantWalk(new Location(w, x - 0.8, y, z)) && cantWalk(new Location(w, x - 0.8, y + 1, z)) ||
@@ -54,34 +62,5 @@ public class FTB implements Listener {
 		Block block = l.getBlock();
 
 		return !(block.isLiquid() || block.isPassable() || block.isEmpty());
-
-//		String material = l.getBlock().getType().toString().toLowerCase();
-//		
-//		if(material.contains("air")) return false;
-//		else if(material.contains("banner")) return false;
-//		else if(material.contains("carpet")) return false;
-//		else if(material.contains("plate")) return false;
-//		else if(material.contains("torch")) return false;
-//		else if(material.contains("button")) return false;
-//		else if(material.contains("void")) return false;
-//		else if(material.contains("sugar")) return false;
-//		else if(material.contains("fan")) return false;
-//		else if(material.contains("water")) return false;
-//		else if(material.contains("sapling")) return false;
-//		else if(material.contains("tripwire")) return false;
-//		else if(material.contains("potted")) return false;
-//		else if(material.contains("rail")) return false;
-//		else if(material.contains("redstone")) return false;
-//		else if(material.contains("wheat")) return false;
-//		else if(material.contains("beetroot")) return false;
-//		else if(material.contains("seed")) return false;
-//		else if(material.contains("item")) return false;
-//		else if(material.contains("fire")) return false;
-//		
-//		Material material = l.getBlock().getType();
-//		if(material.toString().contains("SIGN"))
-//			return false;
-//		
-//		return true;
 	}
 }
