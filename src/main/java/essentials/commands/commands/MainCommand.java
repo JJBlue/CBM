@@ -61,6 +61,7 @@ import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
+import essentials.skin.Skin;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.MathUtilities;
@@ -740,6 +741,23 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 			}
+			
+			case "skin": {
+				
+				if(args.length < 2) break;
+				
+				if(args.length == 2) {
+					if(p == null) break;
+					
+					Skin.changeSkin(p, args[1]);
+					LanguageConfig.sendMessage(sender, "skin.change", args[1]);
+				} else {
+					Player p2 = Bukkit.getPlayer(args[2]);
+					Skin.changeSkin(p2, args[1]);
+					LanguageConfig.sendMessage(p2, "skin.change", args[1]);
+				}
+				
+			}
 			case "skull":
 
 				SkullInventory.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -922,6 +940,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("silent");
 			returnArguments.add("sit");
 			returnArguments.add("sign");
+			returnArguments.add("skin");
 			returnArguments.add("skull");
 			returnArguments.add("status");
 			returnArguments.add("sudo");
@@ -1063,6 +1082,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return SignCommands.signCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "skin":
+					
+					//TODO
+					
+					break;
+					
 				case "speed":
 
 					for (Player player : Bukkit.getOnlinePlayers())

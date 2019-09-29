@@ -79,6 +79,9 @@ nbt:
 seen:
   loginSince: §ePlayer $1 is online since $2
   logoutSince: §ePlayer $1 is offline since $2
+skin:
+  error-load: §eSkin could not be loaded
+  change: §eSkin changed to §6$1
 spawn:
   teleport: '§eTeleport to Spawn'
   teleport-to: '§eTeleport to Spawn <§6$1§e>'

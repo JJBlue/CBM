@@ -13,8 +13,10 @@ import essentials.language.LanguageConfig;
 import essentials.utilities.PlayerUtilities;
 
 public class Skin {
+	
+	private Skin() {}
 
-    public void changeSkin(Player p, String name) {
+    public static void changeSkin(Player p, String name) {
         GameProfile skingp;
         CraftPlayer cp = (CraftPlayer) p;
 
