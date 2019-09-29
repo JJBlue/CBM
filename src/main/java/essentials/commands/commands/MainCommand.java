@@ -431,6 +431,28 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 				return EconomyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+			case "nick":
+				
+				if(args.length < 2) break;
+				
+				if(args.length == 2) {
+					String name = args[1];
+					
+					p.setPlayerListName(name);
+					p.setDisplayName(name);
+					p.setCustomName(name);
+				} else if(args.length >= 3) {
+					Player p2 = Bukkit.getPlayer(args[2]);
+					if(p2 == null) break;
+					String name = args[1];
+					
+					p2.setPlayerListName(name);
+					p2.setDisplayName(name);
+					p2.setCustomName(name);
+				}
+				
+				break;
+				
 			case "more":
 
 				if (p == null) return true;
@@ -885,6 +907,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("nametag");
 			returnArguments.add("motd");
 			returnArguments.add("nbt");
+			returnArguments.add("nick");
 			returnArguments.add("near");
 			returnArguments.add("paint");
 			returnArguments.add("playertime");
@@ -1001,6 +1024,17 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "nbt":
 					
 					return NBTCommands.nbtCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
+				case "nick":
+					
+					if(args.length == 2)
+						returnArguments.add("<Name>");
+					else if(args.length == 3) {
+						for(Player player : Bukkit.getOnlinePlayers())
+							returnArguments.add(player.getName());
+					}
+					
+					break;
 					
 				case "playertime":
 					
