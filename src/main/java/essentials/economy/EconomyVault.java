@@ -2,7 +2,7 @@ package essentials.economy;
 
 import org.bukkit.OfflinePlayer;
 
-import essentials.plugins.Vault;
+import essentials.depend.vault.Vault;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 public class EconomyVault {

@@ -19,6 +19,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import essentials.depend.Depend;
+import essentials.depend.vault.Vault;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
@@ -57,9 +59,14 @@ public class MainListener implements Listener {
 			StringBuilder builder = new StringBuilder();
 			
 			if(section.getBoolean("prefix-enable")) {
-				String prefix = PlaceholderFormatter.setPlaceholders(player, section.getString("prefix"));
-				if(prefix != null)
-					builder.append(prefix);
+				StringBuilder prefix = new StringBuilder();
+				
+				prefix.append(PlaceholderFormatter.setPlaceholders(player, section.getString("prefix")));
+				
+				if(Depend.existVault())
+					prefix.append(Vault.getPrefix(player));
+				
+				builder.append(prefix.toString());
 			}
 			
 			if(section.getBoolean("format-enable")) {
@@ -71,9 +78,14 @@ public class MainListener implements Listener {
 				builder.append(event.getFormat());
 			
 			if(section.getBoolean("suffix-enable")) {
-				String suffix = PlaceholderFormatter.setPlaceholders(player, section.getString("suffix"));
-				if(suffix != null)
-					builder.append(suffix);
+				StringBuilder suffix = new StringBuilder();
+				
+				suffix.append(PlaceholderFormatter.setPlaceholders(player, section.getString("suffix")));
+				
+				if(Depend.existVault())
+					suffix.append(Vault.getSuffix(player));
+				
+				builder.append(suffix.toString());
 			}
 			
 			event.setFormat(builder.toString());

@@ -1,6 +1,7 @@
-package essentials.plugins;
+package essentials.depend.vault;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 
@@ -36,6 +37,14 @@ public class Vault {
 		RegisteredServiceProvider<Chat> rsp = getServicesManager().getRegistration(Chat.class);
 		chat = rsp.getProvider();
 		return chat != null;
+	}
+	
+	public static String getPrefix(Player player) {
+		return chat.getPlayerPrefix(player);
+	}
+	
+	public static String getSuffix(Player player) {
+		return chat.getPlayerSuffix(player);
 	}
 	
 	public static boolean setupPermissions() {
