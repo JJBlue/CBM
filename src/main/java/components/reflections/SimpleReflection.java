@@ -1,6 +1,12 @@
 package components.reflections;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,18 +26,19 @@ public class SimpleReflection {
 
 		throw new NoSuchFieldException();
 	}
-
+	
 	public static Field getField(String attribute, Object obj) throws SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
-		Class<?> classy = obj.getClass();
+		return getField(attribute, obj.getClass());
+	}
 
+	public static Field getField(String attribute, Class<?> classy) throws SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
 		do {
 			try {
 				Field field = classy.getDeclaredField(attribute);
 				if (field == null) continue;
 				field.trySetAccessible();
 				return field;
-			} catch (NoSuchFieldException e) {
-			}
+			} catch (NoSuchFieldException e) {}
 		} while ((classy = classy.getSuperclass()) != null);
 
 		throw new NoSuchFieldException();
@@ -44,17 +51,35 @@ public class SimpleReflection {
 	public static Object createObject(Class<?> classy, Object... objects) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		List<Constructor<?>> constructors = new LinkedList<>();
 		for (Constructor<?> c : classy.getConstructors()) {
-			if (c.getParameterCount() != objects.length) continue;
+			if (c.getParameterCount() != objects.length && (c.getParameterCount() == 0 || !c.getParameters()[c.getParameterCount() - 1].isVarArgs())) continue;
 			constructors.add(c);
 			if (objects.length == 0) break;
 		}
-
+		
 		if (constructors.isEmpty())
 			return null;
 		else if (constructors.size() == 1) {
 			Constructor<?> constructor = constructors.get(0);
 			constructor.trySetAccessible();
-			return constructor.newInstance(objects);
+			
+			Object[] args = null;
+			int startPos = constructor.getParameterCount() - 1;
+			if(constructor.getParameterCount() > 0 && constructor.getParameters()[startPos].isVarArgs()
+				&& !(constructor.getParameterCount() == objects.length && objects[objects.length - 1].getClass() == constructor.getParameters()[startPos].getType())
+			) {
+				Class<?> type = constructor.getParameters()[startPos].getType().getComponentType();
+				
+				Object varargs = Array.newInstance(type, objects.length - startPos);
+				for(int i = startPos; i < objects.length; i++)
+					Array.set(varargs, i - startPos, objects[i]);
+				
+				args = new Object[startPos + 1];
+				for(int i = 0; i < startPos; i++)
+					args[i] = objects[i];
+				args[startPos] = varargs;
+			}
+			
+			return constructor.newInstance(args != null ? args : objects);
 		}
 
 		Constructor<?> bestFound = null;
@@ -112,7 +137,7 @@ public class SimpleReflection {
 		List<Method> methods = new LinkedList<>();
 		for (Method m : classy.getMethods()) {
 			if (!m.getName().equals(name)) continue;
-			if (m.getParameterCount() != objects.length) continue;
+			if (m.getParameterCount() != objects.length && (m.getParameterCount() == 0 || !m.getParameters()[m.getParameterCount() - 1].isVarArgs())) continue;
 			if (isStatic != Modifier.isStatic(m.getModifiers())) continue;
 			methods.add(m);
 			if (objects.length == 0) break;
@@ -123,9 +148,27 @@ public class SimpleReflection {
 		else if (methods.size() == 1) {
 			Method method = methods.get(0);
 			method.trySetAccessible();
+			
+			Object[] args = null;
+			int startPos = method.getParameterCount() - 1;
+			if(method.getParameterCount() > 0 && method.getParameters()[startPos].isVarArgs()
+				&& !(method.getParameterCount() == objects.length && objects[objects.length - 1].getClass() == method.getParameters()[startPos].getType())	
+			) {
+				Class<?> type = method.getParameters()[startPos].getType().getComponentType();
+				
+				Object varargs = Array.newInstance(type, objects.length - startPos);
+				for(int i = startPos; i < objects.length; i++)
+					Array.set(varargs, i - startPos, objects[i]);
+				
+				args = new Object[startPos + 1];
+				for(int i = 0; i < startPos; i++)
+					args[i] = objects[i];
+				args[startPos] = varargs;
+			}
+			
 			if (isStatic)
-				return method.invoke(classy, objects);
-			return method.invoke(obj, objects);
+				return method.invoke(classy, args != null ? args : objects);
+			return method.invoke(obj, args != null ? args : objects);
 		}
 
 		Method bestFound = null;

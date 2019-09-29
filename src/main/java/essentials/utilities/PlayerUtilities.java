@@ -1,9 +1,14 @@
 package essentials.utilities;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
+import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
 
 public class PlayerUtilities {
 	@SuppressWarnings("deprecation")
@@ -15,10 +20,18 @@ public class PlayerUtilities {
 		UUID uuid = null;
 		try {
 			uuid = UUID.fromString(uuidString);
-		} catch (IllegalArgumentException e) {
-		}
+		} catch (IllegalArgumentException e) {}
 
 		if (uuid == null) return null;
 		return Bukkit.getOfflinePlayer(uuid);
+	}
+	
+	public static void updatePlayer(Player p) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				PlayerUtilities_v1_14.updatePlayer(p);
+				return;
+		}
+		PlayerUtilitiesReflections.updatePlayer(p);
 	}
 }
