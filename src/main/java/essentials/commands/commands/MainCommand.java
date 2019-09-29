@@ -870,7 +870,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					if (FTB.toogle(p2))
 						LanguageConfig.sendMessage(sender, "wallghost.add-Player", args[1]);
 					else
-						LanguageConfig.sendMessage(sender, "wallghost.add-Player", args[1]);
+						LanguageConfig.sendMessage(sender, "wallghost.remove-Player", args[1]);
 				}
 
 				break;
