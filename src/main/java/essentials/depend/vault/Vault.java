@@ -40,10 +40,16 @@ public class Vault {
 	}
 	
 	public static String getPrefix(Player player) {
+		if(chat == null)
+			setupChat();
+		
 		return chat.getPlayerPrefix(player);
 	}
 	
 	public static String getSuffix(Player player) {
+		if(chat == null)
+			setupChat();
+		
 		return chat.getPlayerSuffix(player);
 	}
 	

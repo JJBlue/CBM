@@ -28,6 +28,7 @@ import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.PlayersYMLConfig;
 import essentials.utilities.StringUtilities;
+import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
 
@@ -64,7 +65,7 @@ public class MainListener implements Listener {
 				prefix.append(PlaceholderFormatter.setPlaceholders(player, section.getString("prefix")));
 				
 				if(Depend.existVault())
-					prefix.append(Vault.getPrefix(player));
+					prefix.append(ChatUtilities.convertToColor(Vault.getPrefix(player)));
 				
 				builder.append(prefix.toString());
 			}
@@ -83,7 +84,7 @@ public class MainListener implements Listener {
 				suffix.append(PlaceholderFormatter.setPlaceholders(player, section.getString("suffix")));
 				
 				if(Depend.existVault())
-					suffix.append(Vault.getSuffix(player));
+					suffix.append(ChatUtilities.convertToColor(Vault.getSuffix(player)));
 				
 				builder.append(suffix.toString());
 			}
