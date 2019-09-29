@@ -139,8 +139,6 @@ public class TeleportManager {
 			}
 			
 			synchronized (standStill) {
-				
-				
 				standStill.forEach((entity, info) -> {
 					if(info.getCooldown() <= 0) {
 						entity.teleport(info.getLocation());

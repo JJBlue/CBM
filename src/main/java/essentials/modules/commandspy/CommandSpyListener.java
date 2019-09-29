@@ -43,11 +43,12 @@ public class CommandSpyListener implements Listener {
 
 	public static int getCommandSpyValue(Player player) {
 		int value = -1;
+		String command = PermissionHelper.getPermission("commandspy");
 
 		for (PermissionAttachmentInfo pai : player.getEffectivePermissions()) {
-			if (pai.getPermission().startsWith(PermissionHelper.getPermission("commandspy"))) {
+			if (pai.getPermission().startsWith(command)) {
 				String per = pai.getPermission();
-				per = per.substring(PermissionHelper.getPermission("commandspy").length(), per.length());
+				per = per.substring(command.length(), per.length());
 
 				try {
 					int tmp = Integer.parseInt(per);
