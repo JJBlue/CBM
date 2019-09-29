@@ -102,7 +102,7 @@ public class LanguageConfig {
 				m += "$" + i + " ";
 		}
 
-		StringUtilities.setArgs(m, args);
+		m = StringUtilities.setArgs(m, args);
 
 		m = m.replaceAll("(?<!\\\\)\\\\n", "\n");
 
