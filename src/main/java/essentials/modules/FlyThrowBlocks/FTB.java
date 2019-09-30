@@ -27,7 +27,7 @@ public class FTB implements Listener {
 		Player p = e.getPlayer();
 		
 		//Check to use fly through block
-		if (!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)) return;
+		if (p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR) return;
 		if(e.getFrom().getX() == e.getTo().getX() && e.getFrom().getY() == e.getTo().getY() && e.getFrom().getZ() == e.getTo().getZ()) return;
 		
 		PlayerConfig config = PlayerManager.getPlayerConfig(p);

@@ -94,8 +94,7 @@ public class PlayerConfig {
 
 			if (resultSet != null && resultSet.next())
 				return resultSet.getBoolean(key);
-		} catch (SQLException e) {
-		}
+		} catch (SQLException e) {}
 
 		return false;
 	}
