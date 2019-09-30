@@ -138,8 +138,7 @@ public class PlayerConfig {
 			ResultSet resultSet = getPlayerInformation(key);
 			if (resultSet != null && resultSet.next())
 				return resultSet.getInt(key);
-		} catch (SQLException e) {
-		}
+		} catch (SQLException e) {}
 
 		return 0;
 	}

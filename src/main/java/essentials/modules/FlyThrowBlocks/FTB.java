@@ -43,13 +43,14 @@ public class FTB implements Listener {
 		double y = p.getLocation().getY();
 		double z = p.getLocation().getZ();
 		World w = p.getWorld();
+		double distance = 0.2;
 
-		if (cantWalk(new Location(w, x + 0.8, y, z)) && cantWalk(new Location(w, x + 0.8, y + 1, z)) ||
-				cantWalk(new Location(w, x - 0.8, y, z)) && cantWalk(new Location(w, x - 0.8, y + 1, z)) ||
-				cantWalk(new Location(w, x, y, z + 0.8)) && cantWalk(new Location(w, x, y + 1, z + 0.8)) ||
-				cantWalk(new Location(w, x, y, z - 0.8)) && cantWalk(new Location(w, x, y + 1, z - 0.8)) ||
-				cantWalk(new Location(w, x, y + 1.9, z)) ||
-				cantWalk(new Location(w, x, y - 0.8, z)) && p.isSneaking() ||
+		if (cantWalk(new Location(w, x + distance, y, z)) && cantWalk(new Location(w, x + distance, y + 1, z)) ||
+				cantWalk(new Location(w, x - distance, y, z)) && cantWalk(new Location(w, x - distance, y + 1, z)) ||
+				cantWalk(new Location(w, x, y, z + distance)) && cantWalk(new Location(w, x, y + 1, z + distance)) ||
+				cantWalk(new Location(w, x, y, z - distance)) && cantWalk(new Location(w, x, y + 1, z - distance)) ||
+				cantWalk(new Location(w, x, y + 2 + distance, z)) ||
+				cantWalk(new Location(w, x, y - distance, z)) && p.isSneaking() ||
 				cantWalk(p.getLocation()) && cantWalk(new Location(w, x, y + 1, z))) {
 
 			if (p.getGameMode().equals(GameMode.CREATIVE))

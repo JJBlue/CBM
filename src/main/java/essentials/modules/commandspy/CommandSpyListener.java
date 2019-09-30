@@ -30,13 +30,13 @@ public class CommandSpyListener implements Listener {
 			}
 
 			int commandSpyValue = config.getInt("commandSpy");
-			if (commandSpyValue == -1)
+			if (commandSpyValue <= 0)
 				continue;
 
 			if (!searched)
 				val = getCommandSpyValue(player);
 
-			if (commandSpyValue >= val && commandSpyValue != 0)
+			if (commandSpyValue >= val)
 				onlinePlayer.sendMessage("§oCSpy: §6§o[" + player.getName() + "]: " + event.getMessage());
 		}
 	}
