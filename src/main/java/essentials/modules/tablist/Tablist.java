@@ -50,6 +50,7 @@ public class Tablist {
 		configuration.addDefault("Enabled", false);
 		configuration.addDefault("DefaultEnabled", true);
 		configuration.addDefault("GroupEnabled", false);
+		configuration.addDefault("useVaultPrefix", true);
 
 		configuration.addDefault("Update.AutoInterval", 60);
 		configuration.addDefault("Update.onAfk", false);
@@ -164,7 +165,7 @@ public class Tablist {
 			if (configuration.getBoolean("DefaultTablist.Footer.Enabled"))
 				footer = ListToString(configuration.getList("DefaultTablist.Footer." + page));
 			
-			if(Depend.existVault())
+			if(configuration.getBoolean("useVaultPrefix") && Depend.existVault())
 				playerName = Vault.getPrefix(player);
 			
 			playerName += configuration.getString("DefaultTablist.PlayerName");
@@ -180,7 +181,7 @@ public class Tablist {
 			if (configuration.getBoolean("GroupTablist." + number + ".Footer.Enabled"))
 				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
 			
-			if(Depend.existVault())
+			if(configuration.getBoolean("useVaultPrefix") && Depend.existVault())
 				playerName = Vault.getPrefix(player);
 			
 			playerName += configuration.getString("GroupTablist." + number + ".PlayerName");
