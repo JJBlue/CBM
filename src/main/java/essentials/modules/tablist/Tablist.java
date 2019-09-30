@@ -1,6 +1,8 @@
 package essentials.modules.tablist;
 
 import essentials.config.MainConfig;
+import essentials.depend.Depend;
+import essentials.depend.vault.Vault;
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
@@ -58,14 +60,14 @@ public class Tablist {
 
 		List<String> headerFooter = new LinkedList<>();
 		headerFooter.add("Default text");
-		configuration.addDefault("DefaultTablist.PlayerName", "§2[%name%]");
+		configuration.addDefault("DefaultTablist.PlayerName", "§f%name%");
 		configuration.addDefault("DefaultTablist.Header.1", new LinkedList<>(headerFooter));
 		configuration.addDefault("DefaultTablist.Header.Enabled", true);
 		configuration.addDefault("DefaultTablist.Footer.1", new LinkedList<>(headerFooter));
 		configuration.addDefault("DefaultTablist.Footer.Enabled", true);
 
 		if (!file.exists()) {
-			configuration.addDefault("GroupTablist.1.PlayerName", "§4[%name%]");
+			configuration.addDefault("GroupTablist.1.PlayerName", "§4%name%");
 			configuration.addDefault("GroupTablist.1.Header.1", new LinkedList<>(headerFooter));
 			configuration.addDefault("GroupTablist.1.Header.Enabled", true);
 			configuration.addDefault("GroupTablist.1.Footer.1", new LinkedList<>(headerFooter));
@@ -135,8 +137,7 @@ public class Tablist {
 				int number = Integer.parseInt(permission.substring(prefix.length(), permission.length()));
 				if (number > biggestNumber)
 					biggestNumber = number;
-			} catch (NumberFormatException e) {
-			}
+			} catch (NumberFormatException e) {}
 		}
 
 		sendTablist(player, biggestNumber);
@@ -149,7 +150,7 @@ public class Tablist {
 	public static void sendTablist(Player player, int number) {
 		String header = null;
 		String footer = null;
-		String playerName;
+		String playerName = "";
 
 		if (number == -1) {
 
@@ -162,7 +163,11 @@ public class Tablist {
 				header = ListToString(configuration.getList("DefaultTablist.Header." + page));
 			if (configuration.getBoolean("DefaultTablist.Footer.Enabled"))
 				footer = ListToString(configuration.getList("DefaultTablist.Footer." + page));
-			playerName = configuration.getString("DefaultTablist.PlayerName");
+			
+			if(Depend.existVault())
+				playerName = Vault.getPrefix(player);
+			
+			playerName += configuration.getString("DefaultTablist.PlayerName");
 		} else {
 
 			if (!counterPageCurrent.containsKey("GroupTablist." + number))
@@ -174,16 +179,21 @@ public class Tablist {
 				header = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
 			if (configuration.getBoolean("GroupTablist." + number + ".Footer.Enabled"))
 				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
-			playerName = configuration.getString("GroupTablist." + number + ".PlayerName");
+			
+			if(Depend.existVault())
+				playerName = Vault.getPrefix(player);
+			
+			playerName += configuration.getString("GroupTablist." + number + ".PlayerName");
 		}
 
-		if (header != null)
+		if (header != null && !header.isEmpty())
 			header = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, header));
-		if (footer != null)
+		if (footer != null && !footer.isEmpty())
 			footer = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, footer));
-		playerName = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, playerName));
+		if(player != null && !playerName.isEmpty())
+			playerName = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, playerName));
 
-		TablistUtilities.sendHeaderFooter(player, header, footer);
+		TablistUtilities.sendPlayerNameHeaderFooter(player, playerName, header, footer);
 	}
 
 	public static void nextTablist() {
