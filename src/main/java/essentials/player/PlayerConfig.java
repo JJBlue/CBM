@@ -1,16 +1,22 @@
 package essentials.player;
 
-import components.datenbank.DatabaseSyntax;
-import essentials.database.Databases;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+
+import components.datenbank.DatabaseSyntax;
+import essentials.database.Databases;
 
 public class PlayerConfig {
 
@@ -68,8 +74,9 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
+			if (resultSet != null && resultSet.next()) {
 				return resultSet.getObject(key);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -92,8 +99,11 @@ public class PlayerConfig {
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
 
-			if (resultSet != null && resultSet.next())
-				return resultSet.getBoolean(key);
+			if (resultSet != null && resultSet.next()) {
+				boolean v = resultSet.getBoolean(key);
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
 		} catch (SQLException e) {}
 
 		return false;
@@ -113,10 +123,12 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
-				return resultSet.getDouble(key);
-		} catch (SQLException e) {
-		}
+			if (resultSet != null && resultSet.next()) {
+				Double v = resultSet.getDouble(key);
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
+		} catch (SQLException e) {}
 
 		return 0;
 	}
@@ -135,8 +147,11 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
-				return resultSet.getInt(key);
+			if (resultSet != null && resultSet.next()) {
+				int v = resultSet.getInt(key);
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
 		} catch (SQLException e) {}
 
 		return 0;
@@ -156,10 +171,12 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
-				return resultSet.getLong(key);
-		} catch (SQLException e) {
-		}
+			if (resultSet != null && resultSet.next()) {
+				Long v = resultSet.getLong(key);
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
+		} catch (SQLException e) {}
 
 		return 0;
 	}
@@ -178,10 +195,12 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
-				return resultSet.getString(key);
-		} catch (SQLException e) {
-		}
+			if (resultSet != null && resultSet.next()) {
+				String v = resultSet.getString(key);
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
+		} catch (SQLException e) {}
 
 		return null;
 	}
@@ -200,10 +219,12 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
-				return PlayerSQLHelper.StringToLocation(resultSet.getString(key));
-		} catch (SQLException e) {
-		}
+			if (resultSet != null && resultSet.next()) {
+				Location v = PlayerSQLHelper.StringToLocation(resultSet.getString(key));
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
+		} catch (SQLException e) {}
 
 		return null;
 	}
@@ -222,8 +243,11 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next())
-				return resultSet.getTimestamp(key).toLocalDateTime();
+			if (resultSet != null && resultSet.next()) {
+				LocalDateTime v = resultSet.getTimestamp(key).toLocalDateTime();
+				buffer.put(key, new PlayerConfigValue(v, true));
+				return v;
+			}
 		} catch (SQLException e) {
 		}
 		return null;
@@ -233,8 +257,7 @@ public class PlayerConfig {
 		PreparedStatement statement = null;
 		try {
 			statement = Databases.getPlayerDatabase().prepareStatementWE(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
-		} catch (SQLException e1) {
-		} //No Such Coloum Exception
+		} catch (SQLException e1) {} //No Such Coloum Exception
 		if (statement == null) return null;
 
 		try {
