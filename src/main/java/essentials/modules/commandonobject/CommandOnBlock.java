@@ -1,16 +1,22 @@
 package essentials.modules.commandonobject;
 
-import components.datenbank.Datenbank;
-import components.sql.SQLParser;
-import essentials.database.Databases;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import components.datenbank.Datenbank;
+import components.datenbank.async.AsyncDatabase;
+import components.sql.SQLParser;
+import essentials.database.Databases;
 
 public class CommandOnBlock {
 	private CommandOnBlock() {}
@@ -140,22 +146,24 @@ public class CommandOnBlock {
 		return commandOnBlock.getCommandInfos();
 	}
 
-	public synchronized static void clear(Location location) {
+	public synchronized static void clear(final Location location) {
 		if(!chunkBuffer.containsKey(location.getChunk())) return;
 		
 		Map<Location, ?> map = chunkBuffer.get(location.getChunk());
 		
 		if(map.remove(location) != null) {
-			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deleteBlock.sql", CommandOnBlock.class));
-			try {
-				preparedStatement.setString(1, location.getWorld().getName());
-				preparedStatement.setInt(2, location.getBlockX());
-				preparedStatement.setInt(3, location.getBlockY());
-				preparedStatement.setInt(4, location.getBlockZ());
-				preparedStatement.execute();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			AsyncDatabase.add(() -> {
+				PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deleteBlock.sql", CommandOnBlock.class));
+				try {
+					preparedStatement.setString(1, location.getWorld().getName());
+					preparedStatement.setInt(2, location.getBlockX());
+					preparedStatement.setInt(3, location.getBlockY());
+					preparedStatement.setInt(4, location.getBlockZ());
+					preparedStatement.execute();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 

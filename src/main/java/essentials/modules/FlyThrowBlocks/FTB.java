@@ -39,10 +39,15 @@ public class FTB implements Listener {
 		
 		if ((xRand > 0.7 || xRand < 0.3 || (xRand < 0.6 && xRand > 0.4)) && (yRand > 0.7 || yRand < 0.3 || (yRand < 0.6 && yRand > 0.4)))
 			return;
+		
+		String locPos = e.getTo().getBlockX() + "-" + e.getTo().getBlockY() + "-" + e.getTo().getBlockZ();
+		if(config.containsLoadedKey("ftbLastPosition") && config.getString("ftbLastPosition").equals(locPos))
+			return;
+		config.setTmp("ftbLastPosition", locPos);
 
-		int x = p.getLocation().getBlockX();
-		int y = p.getLocation().getBlockY();
-		int z = p.getLocation().getBlockZ();
+		int x = e.getTo().getBlockX();
+		int y = e.getTo().getBlockY();
+		int z = e.getTo().getBlockZ();
 		World w = p.getWorld();
 
 		if (cantWalk(p.getLocation()) && cantWalk(new Location(w, x, y + 1, z)) ||
