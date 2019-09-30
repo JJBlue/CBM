@@ -6,6 +6,7 @@ import essentials.depend.vault.Vault;
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
+import essentials.utilities.PlayerUtilities;
 import essentials.utilities.TablistUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
@@ -165,8 +166,13 @@ public class Tablist {
 			if (configuration.getBoolean("DefaultTablist.Footer.Enabled"))
 				footer = ListToString(configuration.getList("DefaultTablist.Footer." + page));
 			
-			if(configuration.getBoolean("useVaultPrefix") && Depend.existVault())
-				playerName = Vault.getPrefix(player);
+			if(configuration.getBoolean("useVaultPrefix") && Depend.existVault()) {
+				Player player2 = Bukkit.getPlayer(PlayerUtilities.getName(player));
+				if(player2 != null)
+					playerName = Vault.getPrefix(player2);
+				else
+					playerName = Vault.getPrefix(player);
+			}
 			
 			playerName += configuration.getString("DefaultTablist.PlayerName");
 		} else {
@@ -181,8 +187,13 @@ public class Tablist {
 			if (configuration.getBoolean("GroupTablist." + number + ".Footer.Enabled"))
 				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
 			
-			if(configuration.getBoolean("useVaultPrefix") && Depend.existVault())
-				playerName = Vault.getPrefix(player);
+			if(configuration.getBoolean("useVaultPrefix") && Depend.existVault()) {
+				Player player2 = Bukkit.getPlayer(PlayerUtilities.getName(player));
+				if(player2 != null)
+					playerName = Vault.getPrefix(player2);
+				else
+					playerName = Vault.getPrefix(player);
+			}
 			
 			playerName += configuration.getString("GroupTablist." + number + ".PlayerName");
 		}

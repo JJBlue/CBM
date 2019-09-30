@@ -30,28 +30,29 @@ public class FTB implements Listener {
 		if (!p.getGameMode().equals(GameMode.CREATIVE) && !p.getGameMode().equals(GameMode.SPECTATOR)) return;
 		if(e.getFrom().getX() == e.getTo().getX() && e.getFrom().getY() == e.getTo().getY() && e.getFrom().getZ() == e.getTo().getZ()) return;
 		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		if (!playerConfig.getBoolean(PlayerConfigKey.tWallGhost)) return;
+		PlayerConfig config = PlayerManager.getPlayerConfig(p);
+		if (!config.getBoolean(PlayerConfigKey.tWallGhost))
+			return;
 		
 		double xRand = e.getTo().getX() - e.getTo().getBlockX();
-		if(xRand > 0.8 && xRand < 0.2) return;
-		
 		double yRand = e.getTo().getZ() - e.getTo().getBlockY();
-		if(yRand > 0.8 && yRand < 0.2) return;
+		
+		if ((xRand > 0.7 || xRand < 0.3 || (xRand < 0.6 && xRand > 0.4)) && (yRand > 0.7 || yRand < 0.3 || (yRand < 0.6 && yRand > 0.4)))
+			return;
 
-		double x = p.getLocation().getX();
-		double y = p.getLocation().getY();
-		double z = p.getLocation().getZ();
+		int x = p.getLocation().getBlockX();
+		int y = p.getLocation().getBlockY();
+		int z = p.getLocation().getBlockZ();
 		World w = p.getWorld();
-		double distance = 0.2;
 
-		if (cantWalk(new Location(w, x + distance, y, z)) && cantWalk(new Location(w, x + distance, y + 1, z)) ||
-				cantWalk(new Location(w, x - distance, y, z)) && cantWalk(new Location(w, x - distance, y + 1, z)) ||
-				cantWalk(new Location(w, x, y, z + distance)) && cantWalk(new Location(w, x, y + 1, z + distance)) ||
-				cantWalk(new Location(w, x, y, z - distance)) && cantWalk(new Location(w, x, y + 1, z - distance)) ||
-				cantWalk(new Location(w, x, y + 2 + distance, z)) ||
-				cantWalk(new Location(w, x, y - distance, z)) && p.isSneaking() ||
-				cantWalk(p.getLocation()) && cantWalk(new Location(w, x, y + 1, z))) {
+		if (cantWalk(p.getLocation()) && cantWalk(new Location(w, x, y + 1, z)) ||
+				cantWalk(new Location(w, x + 1, y, z)) && cantWalk(new Location(w, x + 1, y + 1, z)) ||
+				cantWalk(new Location(w, x - 1, y, z)) && cantWalk(new Location(w, x - 1, y + 1, z)) ||
+				cantWalk(new Location(w, x, y, z + 1)) && cantWalk(new Location(w, x, y + 1, z + 1)) ||
+				cantWalk(new Location(w, x, y, z - 1)) && cantWalk(new Location(w, x, y + 1, z - 1)) ||
+				cantWalk(new Location(w, x, y + 2, z)) ||
+				cantWalk(new Location(w, x, y - 1, z)) && p.isSneaking()
+		) {
 
 			if (p.getGameMode().equals(GameMode.CREATIVE))
 				p.setGameMode(GameMode.SPECTATOR);

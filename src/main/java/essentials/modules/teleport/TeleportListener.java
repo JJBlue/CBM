@@ -35,7 +35,8 @@ public class TeleportListener implements Listener {
 		if (!message.startsWith("tp") && !message.startsWith("teleport")) return;
 
 		String[] args = message.split(" ");
-
+		
+		if(args.length < 2) return;
 		Player p1 = Bukkit.getPlayer(args[1]);
 
 		if (p1 != null && p1 != executer) {

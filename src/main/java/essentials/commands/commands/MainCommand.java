@@ -442,6 +442,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					p.setPlayerListName(name);
 					p.setDisplayName(name);
 					p.setCustomName(name);
+					
+					PlayerConfig config = PlayerManager.getPlayerConfig(p);
+					config.setTmp("nick", name);
+					
 				} else if(args.length >= 3) {
 					Player p2 = Bukkit.getPlayer(args[2]);
 					if(p2 == null) break;
@@ -450,6 +454,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					p2.setPlayerListName(name);
 					p2.setDisplayName(name);
 					p2.setCustomName(name);
+					
+					PlayerConfig config = PlayerManager.getPlayerConfig(p2);
+					if(config != null)
+						config.setTmp("nick", name);
 				}
 				
 				break;
@@ -779,35 +787,64 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 
-			case "status":
+			case "status": {
+				
+				boolean serverInfo = false;
+				boolean worldInfo = false;
+				
+				if(args.length < 2) {
+					serverInfo = true;
+				} else {
+					switch(args[1].toLowerCase()) {
+						case "serverinfo":
+						case "s":
+							serverInfo = true;
+							break;
+						case "world":
+						case "w":
+						case "worldinfo":
+							worldInfo = true;
+							break;
+						case "all":
+						case "a":
+							worldInfo = true;
+							serverInfo = true;
+							break;
+					}
+				}
+				
+				if(serverInfo) {	
+					sender.sendMessage("§e--------------------------------------------------");
+	
+					sender.sendMessage("§e Platform: §6" + SystemStatus.getPlatform() + "§e(§6" + SystemStatus.getArchitecture() + "§e)" + " §eRunning threads: §6" + SystemStatus.getRunningThreads());
+					sender.sendMessage("§e System CPU usage: §6" + MathUtilities.round(SystemStatus.getSystemCPUUsage(), 2) + " % §e(§6" + SystemStatus.getCores() + " cores§e)");
+					sender.sendMessage("§e Process CPU usage: §6" + MathUtilities.round(SystemStatus.getCPUUsage(), 2));
+					sender.sendMessage("§e Uptime: " + SystemStatus.getOnlineSince());
+	
+					try {
+						double[] tps = SystemStatus.getRecentTPS();
+						if (tps != null)
+							sender.sendMessage("§e TPS: §6" + MathUtilities.round(((tps[0] + tps[1] + tps[2]) / 3), 2) + " §e(§6" + MathUtilities.round(tps[0], 2) + " " + MathUtilities.round(tps[1], 2) + " " + MathUtilities.round(tps[2], 2) + "§e)");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+	
+					sender.sendMessage("§e Memory usage: §6" + MathUtilities.round((SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) / SystemStatus.BytestoMB(SystemStatus.getMaxMemory())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + " §e/§6 " + (int) SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) + " MB§e)");
+					sender.sendMessage("§e Java version: " + SystemStatus.getJavaVersion());
+					sender.sendMessage("§e Disk usage: " + MathUtilities.round((SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) / SystemStatus.BytestoGB(SystemStatus.getMaxDisk())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + " §e/§6 " + (int) SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB§e)");
+				}
+				
 				sender.sendMessage("§e--------------------------------------------------");
 
-				sender.sendMessage("§e Platform: §6" + SystemStatus.getPlatform() + "§e(§6" + SystemStatus.getArchitecture() + "§e)" + " §eRunning threads: §6" + SystemStatus.getRunningThreads());
-				sender.sendMessage("§e System CPU usage: §6" + MathUtilities.round(SystemStatus.getSystemCPUUsage(), 2) + " % §e(§6" + SystemStatus.getCores() + " cores§e)");
-				sender.sendMessage("§e Process CPU usage: §6" + MathUtilities.round(SystemStatus.getCPUUsage(), 2));
-				sender.sendMessage("§e Uptime: " + SystemStatus.getOnlineSince());
-
-				try {
-					double[] tps = SystemStatus.getRecentTPS();
-					if (tps != null)
-						sender.sendMessage("§e TPS: §6" + MathUtilities.round(((tps[0] + tps[1] + tps[2]) / 3), 2) + " §e(§6" + MathUtilities.round(tps[0], 2) + " " + MathUtilities.round(tps[1], 2) + " " + MathUtilities.round(tps[2], 2) + "§e)");
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(worldInfo) {
+					for (World world : Bukkit.getWorlds())
+						sender.sendMessage("§eWorld: §6" + world.getName() + "§e Loaded Chunks: §6" + world.getLoadedChunks().length + "§e ForceLoaded Chunks: §6" + world.getForceLoadedChunks().size() + "§e Entities: §6" + world.getEntities().size() + "§e Players: §6" + world.getPlayers().size());
+	
+					sender.sendMessage("§e--------------------------------------------------");
 				}
 
-				sender.sendMessage("§e Memory usage: §6" + MathUtilities.round((SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) / SystemStatus.BytestoMB(SystemStatus.getMaxMemory())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoMB(SystemStatus.getUsedMemory()) + " §e/§6 " + (int) SystemStatus.BytestoMB(SystemStatus.getMaxMemory()) + " MB§e)");
-				sender.sendMessage("§e Java version: " + SystemStatus.getJavaVersion());
-				sender.sendMessage("§e Disk usage: " + MathUtilities.round((SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) / SystemStatus.BytestoGB(SystemStatus.getMaxDisk())) * 100, 2) + "% §e(§6" + (int) SystemStatus.BytestoGB(SystemStatus.getUsedDisk()) + " §e/§6 " + (int) SystemStatus.BytestoGB(SystemStatus.getMaxDisk()) + " GB§e)");
-
-				sender.sendMessage("§e--------------------------------------------------");
-
-				for (World world : Bukkit.getWorlds())
-					sender.sendMessage("§eWorld: §6" + world.getName() + "§e Loaded Chunks: §6" + world.getLoadedChunks().length + "§e ForceLoaded Chunks: §6" + world.getForceLoadedChunks().size() + "§e Entities: §6" + world.getEntities().size() + "§e Players: §6" + world.getPlayers().size());
-
-				sender.sendMessage("§e--------------------------------------------------");
-
 				break;
-
+			}
 			case "teleport":
 
 				teleportCommand.teleport.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -1084,7 +1121,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				case "skin":
 					
-					//TODO
+					for(Player player : Bukkit.getOnlinePlayers())
+						returnArguments.add(player.getName());
 					
 					break;
 					
@@ -1104,6 +1142,14 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return SkullInventory.skullitem.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "status":
+					
+					returnArguments.add("serverinfo");
+					returnArguments.add("worldinfo");
+					returnArguments.add("all");
+					
+					break;
+					
 				case "sudo":
 
 					switch (args.length) {

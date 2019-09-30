@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
@@ -33,5 +35,15 @@ public class PlayerUtilities {
 				return;
 		}
 		PlayerUtilitiesReflections.updatePlayer(p);
+	}
+	
+	public static String getName(Player player) {
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		if(config == null) return player.getName();
+		
+		if(config.containsLoadedKey("nick"))
+			return config.getString("nick");
+		
+		return player.getName();
 	}
 }

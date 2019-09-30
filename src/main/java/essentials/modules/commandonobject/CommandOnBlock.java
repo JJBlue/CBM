@@ -141,18 +141,21 @@ public class CommandOnBlock {
 	}
 
 	public synchronized static void clear(Location location) {
-		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deleteBlock.sql", CommandOnBlock.class));
-		try {
-			preparedStatement.setString(1, location.getWorld().getName());
-			preparedStatement.setInt(2, location.getBlockX());
-			preparedStatement.setInt(3, location.getBlockY());
-			preparedStatement.setInt(4, location.getBlockZ());
-			preparedStatement.execute();
-
-			Map<Location, ?> map = chunkBuffer.get(location.getChunk());
-			map.remove(location);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if(!chunkBuffer.containsKey(location.getChunk())) return;
+		
+		Map<Location, ?> map = chunkBuffer.get(location.getChunk());
+		
+		if(map.remove(location) != null) {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deleteBlock.sql", CommandOnBlock.class));
+			try {
+				preparedStatement.setString(1, location.getWorld().getName());
+				preparedStatement.setInt(2, location.getBlockX());
+				preparedStatement.setInt(3, location.getBlockY());
+				preparedStatement.setInt(4, location.getBlockZ());
+				preparedStatement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

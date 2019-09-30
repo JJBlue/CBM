@@ -167,7 +167,7 @@ public class MainListener implements Listener {
 	@EventHandler
 	private void Move(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
-
+		
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
 		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk")) return;
 

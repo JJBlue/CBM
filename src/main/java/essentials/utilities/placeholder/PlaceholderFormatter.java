@@ -4,6 +4,8 @@ import essentials.player.CountTime;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
+import essentials.utilities.PlayerUtilities;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.BlockCommandSender;
@@ -427,6 +429,9 @@ jail_reason_[jailName]_[cellId]
 				break;
 
 			case "name":
+				
+				if(commandSender instanceof Player)
+					return PlayerUtilities.getName(player);
 				return commandSender.getName();
 			case "op":
 				return commandSender.isOp();
