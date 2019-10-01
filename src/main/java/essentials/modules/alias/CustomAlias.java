@@ -5,6 +5,7 @@ import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.utilities.BukkitUtilities;
+import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -54,11 +55,18 @@ public class CustomAlias {
 		BukkitUtilities.registerCommand("cbm", new Command(name) {
 			@Override
 			public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+				String OptionalCommandBeginn = PermissionHelper.getPluginDefaultCommand() + ":";
+				if(!commandLabel.equals(OptionalCommandBeginn) && commandLabel.startsWith(OptionalCommandBeginn))
+					commandLabel = commandLabel.substring(OptionalCommandBeginn.length(), commandLabel.length());
+				
 				boolean useExtraPermission = fileConfiguration.getBoolean(prefixCommands + commandLabel + ".extraPermission");
 
 				if (useExtraPermission && !sender.hasPermission("CustomAlias.command." + commandLabel)) return true;
 
-				final List<?> commands = new LinkedList<>(fileConfiguration.getList(prefixCommands + commandLabel + ".cmds"));
+				List<?> listCommands = fileConfiguration.getList(prefixCommands + commandLabel + ".cmds");
+				if(listCommands == null) return true;
+				
+				final List<?> commands = new LinkedList<>(listCommands);
 				CustomAlias.execute(sender, commands, args);
 
 				return true;
@@ -67,7 +75,13 @@ public class CustomAlias {
 			@Override
 			public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) throws IllegalArgumentException {
 				{ //Tab Complete for one Command
+					String OptionalCommandBeginn = PermissionHelper.getPluginDefaultCommand() + ":";
+					if(!commandLabel.equals(OptionalCommandBeginn) && commandLabel.startsWith(OptionalCommandBeginn))
+						commandLabel = commandLabel.substring(OptionalCommandBeginn.length(), commandLabel.length());
+					
 					final List<?> commands = fileConfiguration.getList(prefixCommands + commandLabel + ".cmds");
+					if(commands == null) return null;
+					
 					if (commands.size() == 1) {
 						if (commands.get(0) instanceof String) {
 							StringBuilder command = new StringBuilder((String) commands.get(0));
@@ -79,7 +93,7 @@ public class CustomAlias {
 							if (dots3)
 								command = new StringBuilder(command.substring(0, command.length() - 4));
 
-							command = new StringBuilder(PlaceholderFormatter.parseToString(sender, command.toString()));
+							command = new StringBuilder(PlaceholderFormatter.setPlaceholders(sender, command.toString()));
 
 							if (command.toString().contains("$" + args.length)) {
 								command = new StringBuilder(command.substring(0, command.indexOf("$" + args.length)));
@@ -126,7 +140,7 @@ public class CustomAlias {
 					if (tab.equalsIgnoreCase("@p"))
 						returnA.add(sender.getName());
 					else if (tab.contains("%"))
-						returnA.add(PlaceholderFormatter.parseToString(sender, tab));
+						returnA.add(PlaceholderFormatter.setPlaceholders(sender, tab));
 					else
 						returnA.add(tab);
 				}
@@ -186,7 +200,7 @@ public class CustomAlias {
 			if (dots3)
 				command = new StringBuilder(command.substring(0, command.length() - 4));
 
-			command = new StringBuilder(PlaceholderFormatter.parseToString(sender, command.toString()));
+			command = new StringBuilder(PlaceholderFormatter.setPlaceholders(sender, command.toString()));
 
 			for (int i = args.length; i > 0; i--) {
 				if (command.toString().contains("$" + i))
