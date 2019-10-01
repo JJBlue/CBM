@@ -37,7 +37,7 @@ import essentials.main.Main;
 import essentials.modules.Deop;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
-import essentials.modules.FlyThrowBlocks.FTB;
+import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;

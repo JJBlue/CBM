@@ -20,7 +20,7 @@ import essentials.modules.Deop;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
 import essentials.modules.ChatVerbesserung.ChatVerbesserung;
-import essentials.modules.FlyThrowBlocks.FTB;
+import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.LoadMapPaint;
 import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
