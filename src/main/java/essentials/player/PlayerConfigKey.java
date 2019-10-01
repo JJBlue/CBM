@@ -15,7 +15,8 @@ public enum PlayerConfigKey {
 	tpLocation,
 	tTp,
 	tWallGhost,
-	balance;
+	balance,
+	joinSilent;
 
 	private String value;
 

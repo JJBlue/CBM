@@ -110,7 +110,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 			}
 			case "armorstand":
-
 				return ArmorstandCommands.armorstandCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "blockname":
@@ -121,7 +120,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 
 			case "book":
-
 				return bookCommand.bookcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "boot":
@@ -173,19 +171,15 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			}
 			
 			case "coi":
-				
 				return CoICommands.commondsOnItemStack.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 			
 			case "cob":
-
 				return CoBCommands.commandOnBlock.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "commandspy":
-
 				return CommandSpy.commandSpy.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "container":
-				
 				return ContainerCommands.containerCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "feed": {
@@ -361,9 +355,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 
 			case "inventory":
-
-				inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				break;
+				return inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 			case "jump":
 
@@ -386,9 +378,19 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 
 			case "join":
-
 				return Join.onCommand(sender, cmd, cmdLabel, args);
 
+			case "joinsilent": {
+				
+				PlayerConfig config = PlayerManager.getPlayerConfig(p);
+				boolean value = !config.getBoolean(PlayerConfigKey.joinSilent);
+				config.set(PlayerConfigKey.joinSilent, value);
+				
+				if(value)
+					LanguageConfig.sendMessage(sender, "join-silent.true", p.getName());
+				else
+					LanguageConfig.sendMessage(sender, "join-silent.false", p.getName());
+			}
 			case "legging":
 
 				if (p == null) return true;
@@ -955,6 +957,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("legging");
 			returnArguments.add("lightning");
 			returnArguments.add("join");
+			returnArguments.add("joinsilent");
 			returnArguments.add("jump");
 			returnArguments.add("language");
 			returnArguments.add("more");
@@ -1199,7 +1202,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "join":
 					returnArguments.add("help");
 					break;
-
+					
 				case "language":
 
 					returnArguments.add("en");

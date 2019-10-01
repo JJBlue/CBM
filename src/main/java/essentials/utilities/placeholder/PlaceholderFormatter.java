@@ -1,10 +1,10 @@
 package essentials.utilities.placeholder;
 
-import essentials.player.CountTime;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerConfigKey;
-import essentials.player.PlayerManager;
-import essentials.utilities.PlayerUtilities;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,23 +13,22 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.TimeZone;
+import essentials.player.CountTime;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerConfigKey;
+import essentials.player.PlayerManager;
+import essentials.utilities.PlayerUtilities;
 
 public class PlaceholderFormatter {
 	public static String setPlaceholders(CommandSender sender, String text) {
-		return parseToString(sender, text);
+		return parseToString(sender, text, false);
 	}
 	
 	public static boolean containsPlaceholderAPI() {
-//		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
-		return false;
+		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
 	}
 	
-	public static String parseToString(CommandSender commandSender, String text) {
+	public static String parseToString(CommandSender commandSender, String text, boolean deleteNotExistPlaceHolders) {
 		if (text == null) return "";
 
 		StringBuilder finialize = new StringBuilder();
@@ -47,7 +46,7 @@ public class PlaceholderFormatter {
 				case '\\':
 
 					if (!argsEnabled && preCommand != null) {
-						finialize.append(objectToString(commandSender, preCommand, null));
+						finialize.append(objectToString(commandSender, preCommand, null, deleteNotExistPlaceHolders));
 						preCommand = null;
 					}
 					couldUseArgs = false;
@@ -84,7 +83,7 @@ public class PlaceholderFormatter {
 					backSlash = false;
 					
 					if (!argsEnabled && preCommand != null) {
-						finialize.append(objectToString(commandSender, preCommand, null));
+						finialize.append(objectToString(commandSender, preCommand, null, deleteNotExistPlaceHolders));
 						preCommand = null;
 					}
 					couldUseArgs = false;
@@ -100,7 +99,7 @@ public class PlaceholderFormatter {
 					argsEnabled = false;
 					inParser = false;
 
-					finialize.append(objectToString(commandSender, preCommand, parser.toString()));
+					finialize.append(objectToString(commandSender, preCommand, parser.toString(), deleteNotExistPlaceHolders));
 					parser = null;
 					preCommand = null;
 
@@ -108,7 +107,7 @@ public class PlaceholderFormatter {
 				case '%':
 
 					if (!argsEnabled && preCommand != null) {
-						finialize.append(objectToString(commandSender, preCommand, null));
+						finialize.append(objectToString(commandSender, preCommand, null, deleteNotExistPlaceHolders));
 						preCommand = null;
 					}
 					couldUseArgs = false;
@@ -141,7 +140,7 @@ public class PlaceholderFormatter {
 
 				default:
 					if (!argsEnabled && preCommand != null) {
-						finialize.append(objectToString(commandSender, preCommand, null));
+						finialize.append(objectToString(commandSender, preCommand, null, deleteNotExistPlaceHolders));
 						preCommand = null;
 					}
 
@@ -153,9 +152,9 @@ public class PlaceholderFormatter {
 						parser.append(c);
 			}
 		}
-
+		
 		if (preCommand != null)
-			finialize.append(objectToString(commandSender, preCommand, parser != null ? parser.toString() : null));
+			finialize.append(objectToString(commandSender, preCommand, parser != null ? parser.toString() : null, deleteNotExistPlaceHolders));
 
 		return finialize.toString();
 	}
@@ -168,7 +167,7 @@ public class PlaceholderFormatter {
 	 * time = HH:mm:ss
 	 * api = placeholderapi, cbm  # Use plugin for this item. Use if this alias exist for multiple plugins
 	 */
-	public static String objectToString(CommandSender commandSender, String text, String args) {
+	public static String objectToString(CommandSender commandSender, String text, String args, boolean deleteNotExistPlaceHolders) {
 		HashMap<String, String> argsMap = new HashMap<>();
 
 		{
@@ -204,8 +203,11 @@ public class PlaceholderFormatter {
 			value = parser(commandSender, text);
 		if(containsPlaceholderAPI() && value == null)
 			value = PlaceholderAPIUtilities.set(((Player) commandSender), text);
-		if(value == null)
-			value = "";
+		if(value == null) {
+			if(deleteNotExistPlaceHolders)
+				return "";
+			return text + ((args != null) ? "[" + args + "]" : "");
+		}
 
 		String endString = null;
 

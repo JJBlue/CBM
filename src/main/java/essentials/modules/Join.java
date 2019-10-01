@@ -18,6 +18,9 @@ import org.bukkit.event.server.ServerListPingEvent;
 import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
 import essentials.language.LanguageConfig;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerConfigKey;
+import essentials.player.PlayerManager;
 import essentials.player.PlayersYMLConfig;
 import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
@@ -29,12 +32,20 @@ public class Join implements Listener {
 
 	@EventHandler
 	private void J(PlayerJoinEvent event) {
+		if(fullServer(event)) return;
+		
 		ConfigurationSection section = PlayersYMLConfig.getConfigurationSection("join");
 		if(section == null) return;
 		
 		Player player = event.getPlayer();
+		boolean joinSilent = section.getBoolean("silent");
 		
-		if(section.getBoolean("silent"))
+		if(!joinSilent) {
+			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			joinSilent = config.getBoolean(PlayerConfigKey.joinSilent);
+		}
+		
+		if(joinSilent)
 			event.setJoinMessage(null);
 		else if(!event.getPlayer().hasPlayedBefore() && section.getBoolean("first-time-messages-enable")) {
 			List<String> messages = section.getStringList("first-time-messages");
@@ -63,23 +74,22 @@ public class Join implements Listener {
 				event.setJoinMessage(message);
 			}
 		}
-			
-		fullServer(event);
 	}
 	
-	private void fullServer(PlayerJoinEvent event) {
+	private boolean fullServer(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		if (player.isOp()) return;
-		if (MainConfig.getFullSize() == -1 || Bukkit.getOnlinePlayers().size() < MainConfig.getFullSize()) return;
-		if (MainConfig.getJoinable().contains(player.getUniqueId().toString())) return;
+		if (player.isOp()) return false;
+		if (MainConfig.getFullSize() == -1 || Bukkit.getOnlinePlayers().size() < MainConfig.getFullSize()) return false;
+		if (MainConfig.getJoinable().contains(player.getUniqueId().toString())) return false;
 		if (tempPlayer.contains(event.getPlayer().getName())) {
 			tempPlayer.remove(event.getPlayer().getName());
-			return;
+			return false;
 		}
 
 		System.out.println("Spieler mit der UUID: " + event.getPlayer().getUniqueId() + " versuchte zu joinen!");
 		event.getPlayer().kickPlayer(MainConfig.getFullMessage());
 		event.setJoinMessage(null);
+		return true;
 	}
 
 	@EventHandler
@@ -181,8 +191,7 @@ public class Join implements Listener {
 			} else if (args[1].equalsIgnoreCase("full")) {
 				try {
 					MainConfig.setFullSize(Integer.parseInt(args[2]));
-				} catch (NumberFormatException e) {
-				}
+				} catch (NumberFormatException e) {}
 				sender.sendMessage("Maximale Spieleranzahl wurde auf " + args[2] + " gesetzt.");
 			}
 		}

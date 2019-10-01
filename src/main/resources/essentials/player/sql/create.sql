@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS players(
 	tMute BOOLEAN,
 	playTime TEXT,
 	balance DOUBLE,
+	joinSilent BOOLEAN,
 	
 	PRIMARY KEY (uuid)
 );

@@ -48,7 +48,7 @@ public class TrollListener implements Listener {
 					onEntity.getLocation().setY(onEntity.getLocation().getY() + 10);
 
 				if (isAusfuehrer.getType().equals(Material.GLASS) || isAusfuehrer.getType().equals(Material.GLASS_PANE)) {
-					onEntity.teleport(onEntity.getLocation().getBlock().getLocation());
+					onEntity.teleport(onEntity.getLocation().getBlock().getLocation().add(0.5, 0, 0.5));
 					
 					PlayerConfig config = PlayerManager.getPlayerConfig(ausfuehrer);
 					Material m = config.containsLoadedKey("trollTrappedMaterial") ? (Material) config.get("trollTrappedMaterial") : Material.GLASS;

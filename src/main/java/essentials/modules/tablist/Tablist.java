@@ -199,11 +199,11 @@ public class Tablist {
 		}
 
 		if (header != null && !header.isEmpty())
-			header = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, header));
+			header = ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, header));
 		if (footer != null && !footer.isEmpty())
-			footer = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, footer));
+			footer = ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, footer));
 		if(player != null && !playerName.isEmpty())
-			playerName = ChatUtilities.convertToColor(PlaceholderFormatter.parseToString(player, playerName));
+			playerName = ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, playerName));
 
 		TablistUtilities.sendPlayerNameHeaderFooter(player, playerName, header, footer);
 	}

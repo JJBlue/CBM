@@ -37,11 +37,11 @@ public class PlayersYMLConfig {
 			ConfigurationSection section = getConfigurationSectionOrCreate("chat");
 			section.addDefault("enable", true);
 			
-			section.addDefault("prefix-enable", true);
+			section.addDefault("prefix-enable", false);
 			section.addDefault("prefix", "[%real_time%[time=HH:mm]] ");
-			section.addDefault("format-enable", true);
+			section.addDefault("format-enable", false);
 			section.addDefault("format", "<\\%s> \\%s");
-			section.addDefault("suffix-enable", true);
+			section.addDefault("suffix-enable", false);
 			section.addDefault("suffix", ".");
 		}
 		
@@ -51,7 +51,8 @@ public class PlayersYMLConfig {
 			section.addDefault("silent", false);
 			section.addDefault("messages-enable", false);
 			
-			List<String> list = new LinkedList<>(); //TODO
+			List<String> list = new LinkedList<>();
+			list.add("$1 died");
 			section.addDefault("messages", list);
 		}
 		
@@ -60,12 +61,14 @@ public class PlayersYMLConfig {
 			section.addDefault("silent", false);
 			section.addDefault("first-time-messages-enable", false);
 			
-			List<String> list = new LinkedList<>(); //TODO
+			List<String> list = new LinkedList<>();
+			list.add("$1 joined the first time");
 			section.addDefault("first-time-messages", list);
 			
 			section.addDefault("messages-enable", false);
 			
-			list = new LinkedList<>(); //TODO
+			list = new LinkedList<>();
+			list.add("$1 joined");
 			section.addDefault("messages", false);
 		}
 		
@@ -75,7 +78,8 @@ public class PlayersYMLConfig {
 			section.addDefault("silent", false);
 			section.addDefault("messages-enable", false);
 			
-			List<String> list = new LinkedList<>(); //TODO
+			List<String> list = new LinkedList<>();
+			list.add("$1 leaved");
 			section.addDefault("messages", list);
 		}
 		

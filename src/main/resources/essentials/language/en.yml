@@ -59,6 +59,9 @@ heal:
 hide:
   invisible-Player: §6$1 §eare invisible
   visible-Player: §6$1 §eare visible
+join-silent:
+  true: §6Join Silent is enabled for $1
+  false: §6Join Silent is disabled for $1
 god:
   enabled: §eGod mod is now enabled
   disabled: §eGod mod is now disabled

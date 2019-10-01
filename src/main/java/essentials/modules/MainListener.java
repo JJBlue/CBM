@@ -62,7 +62,7 @@ public class MainListener implements Listener {
 			if(section.getBoolean("prefix-enable")) {
 				StringBuilder prefix = new StringBuilder();
 				
-				prefix.append(PlaceholderFormatter.setPlaceholders(player, section.getString("prefix")));
+				prefix.append(ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, section.getString("prefix"))));
 				
 				if(Depend.existVault())
 					prefix.append(ChatUtilities.convertToColor(Vault.getPrefix(player)));
@@ -81,7 +81,7 @@ public class MainListener implements Listener {
 			if(section.getBoolean("suffix-enable")) {
 				StringBuilder suffix = new StringBuilder();
 				
-				suffix.append(PlaceholderFormatter.setPlaceholders(player, section.getString("suffix")));
+				suffix.append(ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, section.getString("suffix"))));
 				
 				if(Depend.existVault())
 					suffix.append(ChatUtilities.convertToColor(Vault.getSuffix(player)));
