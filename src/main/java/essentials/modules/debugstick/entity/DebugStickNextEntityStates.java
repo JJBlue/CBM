@@ -467,7 +467,7 @@ public class DebugStickNextEntityStates {
 					minecart.setMaxSpeed(nextDouble(minecart.getMaxSpeed(), 200, next));
 				} else if (entity instanceof Boat) {
 					Boat boat = (Boat) entity;
-					boat.setWorkOnLand(!boat.getWorkOnLand());
+					boat.setMaxSpeed(nextDouble(boat.getMaxSpeed(), 200, next));
 				}
 
 				break;
@@ -688,15 +688,15 @@ public class DebugStickNextEntityStates {
 
 	private static double nextDouble(double mom, double min, double max, boolean next) {
 		if (next) {
-			if (mom == max)
+			if (mom >= max)
 				return min;
 			else
-				return mom += 0.5;
+				return (mom += 0.5) > max ? max : mom;
 		} else {
-			if (mom == min)
+			if (mom <= min)
 				return max;
 			else
-				return mom -= 0.5;
+				return (mom -= 0.5) < min ? min : mom;
 		}
 	}
 
@@ -709,12 +709,12 @@ public class DebugStickNextEntityStates {
 			if (mom == max)
 				return min;
 			else
-				return ++mom;
+				return ++mom > max ? max : mom;
 		} else {
 			if (mom == min)
 				return max;
 			else
-				return --mom;
+				return --mom < min ? min : mom;
 		}
 	}
 }

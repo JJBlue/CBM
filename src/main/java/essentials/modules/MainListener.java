@@ -119,7 +119,14 @@ public class MainListener implements Listener {
 		ConfigurationSection section = PlayersYMLConfig.getConfigurationSection("leave");
 		if(section == null) return;
 		
-		if(section.getBoolean("silent"))
+		boolean leaveSilent = section.getBoolean("silent");
+		
+		if(!leaveSilent) {
+			PlayerConfig config = PlayerManager.getPlayerConfig(event.getPlayer());
+			leaveSilent = config.getBoolean(PlayerConfigKey.joinSilent);
+		}
+		
+		if(leaveSilent)
 			event.setQuitMessage(null);
 		else if(section.getBoolean("messages-enable")) {
 			List<String> messages = section.getStringList("messages");
@@ -165,12 +172,15 @@ public class MainListener implements Listener {
 	}
 	
 	@EventHandler
-	private void Move(PlayerMoveEvent e) {
+	private void Move(PlayerMoveEvent e) { //TODO
 		Player p = e.getPlayer();
 		
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk")) return;
+		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk"))
+			return;
 
+//		p.setCollidable(false);
+		
 		Location to = e.getTo();
 		Location from = e.getFrom();
 
@@ -179,7 +189,7 @@ public class MainListener implements Listener {
 			Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p.getName()));
 		}
 	}
-
+	
 	@EventHandler
 	public void damage(EntityDamageEvent event) {
 		Entity entity = event.getEntity();

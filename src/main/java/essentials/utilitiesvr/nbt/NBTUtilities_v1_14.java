@@ -3,7 +3,9 @@ package essentials.utilitiesvr.nbt;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import net.minecraft.server.v1_14_R1.NBTBase;
@@ -23,6 +25,10 @@ import net.minecraft.server.v1_14_R1.NBTTagString;
 public class NBTUtilities_v1_14 implements NBTTag {
 	public static NBTTagCompound getNBTTagCompound(ItemStack itemstack) {
 		return CraftItemStack.asNMSCopy(itemstack).getTag();
+	}
+	
+	public static NBTTagCompound getNbtTagCompound(Entity entity) {
+		return ((CraftEntity) entity).getHandle().save(new NBTTagCompound());
 	}
 	
 	/**

@@ -1,5 +1,21 @@
 package essentials.modules.debugstick;
 
+import java.util.List;
+
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+
 import essentials.modules.debugstick.blocks.DebugStickBlockChanges;
 import essentials.modules.debugstick.blocks.DebugStickBlocks;
 import essentials.modules.debugstick.entity.DebugStickEntities;
@@ -9,19 +25,6 @@ import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-
-import java.util.List;
 
 public class DebugStickListener implements Listener {
 
@@ -31,7 +34,7 @@ public class DebugStickListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void interact(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-
+		
 		if (player.getGameMode().equals(GameMode.CREATIVE) && player.isOp())
 			return; //He could use the normal Debug_Stick
 		if (!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
@@ -88,16 +91,19 @@ public class DebugStickListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void interactEntity(PlayerInteractAtEntityEvent event) {
 		Player player = event.getPlayer();
+		Entity entity = event.getRightClicked();
 
 		if (!player.getInventory().getItemInMainHand().getType().equals(Material.DEBUG_STICK)) return;
 		if (!player.isOp() && !PermissionHelper.hasPermission(player, "debugStick")) return;
 
 		event.setCancelled(true);
-
-		Entity entity = event.getRightClicked();
+		
 		if (player.isSneaking() && entity.isInvulnerable()) {
 			entity.setInvulnerable(false);
 			ChatUtilities.sendHotbarMessage(player, "Invulnerable is toggled off");
+			return;
+		} else if(player.isSneaking() && (entity instanceof Minecart || entity instanceof Boat)) {
+			DebugStickEntities.openEntityStateEditor(player, entity);
 			return;
 		}
 
@@ -125,7 +131,7 @@ public class DebugStickListener implements Listener {
 		event.setCancelled(true);
 
 		Entity entity = event.getEntity();
-
+		
 		if (player.isSneaking()) {
 			DebugStickEntities.openEntityStateEditor(player, entity);
 			return;
@@ -151,4 +157,10 @@ public class DebugStickListener implements Listener {
 		config.setTmp("DebugStickEntityChangesCurrent", debugStickBlockChanges);
 		ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
 	}
+	
+//	@EventHandler
+//    public void onMinecartCollision(VehicleEntityCollisionEvent event) {
+//        Entity vehicle = event.getVehicle();
+//        ((Minecart) vehicle).setMaxSpeed(0);
+//    }
 }
