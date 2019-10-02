@@ -1,10 +1,15 @@
 package essentials.modules;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
+import essentials.depend.Depend;
+import essentials.language.LanguageConfig;
+import essentials.main.Main;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerConfigKey;
+import essentials.player.PlayerManager;
+import essentials.player.PlayersYMLConfig;
+import essentials.utilities.StringUtilities;
+import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilities.placeholder.PlaceholderFormatter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -17,16 +22,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import essentials.depend.Depend;
-import essentials.language.LanguageConfig;
-import essentials.main.Main;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerConfigKey;
-import essentials.player.PlayerManager;
-import essentials.player.PlayersYMLConfig;
-import essentials.utilities.StringUtilities;
-import essentials.utilities.permissions.PermissionHelper;
-import essentials.utilities.placeholder.PlaceholderFormatter;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class MainListener implements Listener {
 	public final static Set<Player> hide = new HashSet<>();
@@ -173,6 +172,12 @@ public class MainListener implements Listener {
 //		}
 
 		for (Player ps : hide)
-			p.hidePlayer(Main.getPlugin(), ps);
+			if (PermissionHelper.hasCommandPermission(ps, "hide.all")) { //can be invisible in front of admins
+				e.getPlayer().hidePlayer(Main.getPlugin(), p);
+			} else {
+				if (!PermissionHelper.hasCommandPermission(e.getPlayer(), "hide.showhidden")) { //joining player is no admin
+					e.getPlayer().hidePlayer(Main.getPlugin(), p);
+				}
+			}
 	}
 }
