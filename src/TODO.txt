@@ -15,12 +15,13 @@ Futures:
 	- Oneline Player Tab -> Design
 	- Bad Word Chat Filter
 	
+	- kick player after some afk time
+	
 	Commands:
 	- alert player
 	- ban
 	- jail
 	- spawners
-	- clearchat
 	- better speed command -> fly, walk, swim
 	- glow player color
 	- clear ground (also timebased feature)
