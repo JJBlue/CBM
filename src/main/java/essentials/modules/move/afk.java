@@ -1,4 +1,4 @@
-package essentials.modules;
+package essentials.modules.move;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,10 +15,6 @@ import essentials.player.PlayerManager;
 import essentials.utilities.PlayerUtilities;
 
 public class afk implements Listener {
-	
-	public static void start() {
-		
-	}
 	
 	public static void change(Player player) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -38,6 +34,13 @@ public class afk implements Listener {
 			Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", PlayerUtilities.getName(player)));
 		else
 			Bukkit.broadcastMessage(LanguageConfig.getString("afk.isNowAfk", PlayerUtilities.getName(player)));
+	}
+	
+	public static boolean isAfk(Player player) {
+		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		if(config.containsLoadedKey("afk"))
+			return config.getBoolean("afk");
+		return false;
 	}
 	
 	@EventHandler
