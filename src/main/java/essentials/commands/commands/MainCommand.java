@@ -205,6 +205,47 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				} catch (NumberFormatException e) {
 					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
 				}
+				break;
+			}
+			case "giveall": {
+				int amount = 1;
+				ItemStack item;
+				if (args.length == 1) {
+					if (p == null) return true;
+					item = p.getInventory().getItemInMainHand();
+					if (item == null) return true;
+				} else if (args.length == 2) {
+					try {
+						amount = Integer.parseInt(args[1]);
+					} catch (NumberFormatException e) {
+						return true;
+					}
+					if (p == null) return true;
+					item = p.getInventory().getItemInMainHand();
+					if (item == null) return true;
+				} else if (args.length >= 3){
+					try {
+						amount = Integer.parseInt(args[2]);
+					} catch (NumberFormatException e) {
+						return true;
+					}
+
+					Material mat = Material.matchMaterial(args[1]);
+					if (mat == null) return true;
+					item = new ItemStack(mat, 1);
+				} else {
+					return true;
+				}
+
+				if (amount <= 0 || amount > 64) return true;
+				item.setAmount(amount);
+
+				for (Player ps : Bukkit.getOnlinePlayers()) {
+					if (ps.getInventory().addItem(item).size() != 0) { //adds items to (full) inventory
+						ps.getWorld().dropItem(ps.getLocation(), item);
+					} // no else as it gets added in if
+				}
+				break;
 			}
 			case "god": {
 				Player p1 = null;
@@ -232,6 +273,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					else
 						LanguageConfig.sendMessage(sender, "god.disabled");
 				}
+				break;
 			}
 			case "head":
 				if (p == null) return true;
@@ -967,6 +1009,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("fly");
 			returnArguments.add("for");
 			returnArguments.add("feed");
+			returnArguments.add("giveall");
 			returnArguments.add("god");
 			returnArguments.add("head");
 			returnArguments.add("heal");

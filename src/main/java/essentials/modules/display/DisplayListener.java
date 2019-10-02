@@ -1,9 +1,8 @@
 package essentials.modules.display;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
+import essentials.language.LanguageConfig;
+import essentials.utilities.MathUtilities;
+import essentials.utilities.chat.ChatUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
@@ -24,16 +23,16 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import essentials.language.LanguageConfig;
-import essentials.utilities.MathUtilities;
-import essentials.utilities.chat.ChatUtilities;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayListener implements Listener {
 	private Map<Player, BossBar> damgeBossbar = Collections.synchronizedMap(new HashMap<>());
 	private Map<Player, Integer> counts = Collections.synchronizedMap(new HashMap<>());
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void damge(EntityDamageByEntityEvent event) {
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void damage(EntityDamageByEntityEvent event) {
 		if(!(event.getEntity() instanceof LivingEntity)) return;
 		
 		ConfigurationSection display = DisplayManager.getConfigurationSection();
