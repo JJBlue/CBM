@@ -20,7 +20,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import essentials.depend.Depend;
-import essentials.depend.vault.Vault;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
@@ -28,7 +27,6 @@ import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.PlayersYMLConfig;
 import essentials.utilities.StringUtilities;
-import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
 
@@ -59,16 +57,8 @@ public class MainListener implements Listener {
 		} else if(section.getBoolean("prefix-enable") || section.getBoolean("format-enable") || section.getBoolean("suffix-enable")) {
 			StringBuilder builder = new StringBuilder();
 			
-			if(section.getBoolean("prefix-enable")) {
-				StringBuilder prefix = new StringBuilder();
-				
-				prefix.append(ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, section.getString("prefix"))));
-				
-				if(Depend.existVault())
-					prefix.append(ChatUtilities.convertToColor(Vault.getPrefix(player)));
-				
-				builder.append(prefix.toString());
-			}
+			if(section.getBoolean("prefix-enable"))
+				builder.append(Depend.getPrefix(player));
 			
 			if(section.getBoolean("format-enable")) {
 				String format = PlaceholderFormatter.setPlaceholders(player, section.getString("format"));
@@ -78,16 +68,8 @@ public class MainListener implements Listener {
 			} else
 				builder.append(event.getFormat());
 			
-			if(section.getBoolean("suffix-enable")) {
-				StringBuilder suffix = new StringBuilder();
-				
-				suffix.append(ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, section.getString("suffix"))));
-				
-				if(Depend.existVault())
-					suffix.append(ChatUtilities.convertToColor(Vault.getSuffix(player)));
-				
-				builder.append(suffix.toString());
-			}
+			if(section.getBoolean("suffix-enable"))
+				builder.append(Depend.getSuffix(player));
 			
 			event.setFormat(builder.toString());
 		}

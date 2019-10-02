@@ -49,6 +49,7 @@ import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
+import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
@@ -434,36 +435,55 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 				return EconomyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
-			case "nick":
+			case "unnick": {
 				
 				if(args.length < 2) break;
 				
+				Player p2 = null;
+				
 				if(args.length == 2) {
-					String name = args[1];
-					
-					p.setPlayerListName(name);
-					p.setDisplayName(name);
-					p.setCustomName(name);
-					
-					PlayerConfig config = PlayerManager.getPlayerConfig(p);
-					config.setTmp("nick", name);
-					
+					p2 = p;
 				} else if(args.length >= 3) {
-					Player p2 = Bukkit.getPlayer(args[2]);
+					p2 = Bukkit.getPlayer(args[1]);
 					if(p2 == null) break;
-					String name = args[1];
-					
-					p2.setPlayerListName(name);
-					p2.setDisplayName(name);
-					p2.setCustomName(name);
-					
-					PlayerConfig config = PlayerManager.getPlayerConfig(p2);
-					if(config != null)
-						config.setTmp("nick", name);
 				}
 				
-				break;
+				String name = p2.getName();
 				
+				PlayerConfig config = PlayerManager.getPlayerConfig(p2);
+				config.setTmp("nick", name);
+				
+				p.setPlayerListName(Tablist.getTablistPrefix(p2) + name);
+				p.setDisplayName(name);
+				p.setCustomName(name);
+				
+				break;
+			}
+			case "nick": {
+				
+				if(args.length < 2) break;
+				
+				String name = null;
+				Player p2 = null;
+				
+				if(args.length == 2) {
+					name = args[1];
+					p2 = p;
+				} else if(args.length >= 3) {
+					p2 = Bukkit.getPlayer(args[2]);
+					if(p2 == null) break;
+					name = args[1];
+				}
+				
+				PlayerConfig config = PlayerManager.getPlayerConfig(p2);
+				config.setTmp("nick", name);
+				
+				p.setPlayerListName(Tablist.getTablistPrefix(p2) + name);
+				p.setDisplayName(name);
+				p.setCustomName(name);
+				
+				break;
+			}	
 			case "more":
 
 				if (p == null) return true;
@@ -751,7 +771,20 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 			}
-			
+			case "unskin": {
+				if(args.length < 2) break;
+				
+				if(args.length == 2) {
+					if(p == null) break;
+					
+					Skin.changeSkin(p, p.getName());
+					LanguageConfig.sendMessage(sender, "skin.change", p.getName());
+				} else {
+					Player p2 = Bukkit.getPlayer(args[1]);
+					Skin.changeSkin(p2, p2.getName());
+					LanguageConfig.sendMessage(p2, "skin.change", p2.getName());
+				}
+			}
 			case "skin": {
 				
 				if(args.length < 2) break;
@@ -990,7 +1023,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("timer");
 			returnArguments.add("trade");
 			returnArguments.add("troll");
+			returnArguments.add("unnick");
 			returnArguments.add("updater");
+			returnArguments.add("unskin");
 			returnArguments.add("uuid");
 			returnArguments.add("version");
 			returnArguments.add("wallGhost");
@@ -1254,6 +1289,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return UpdaterCommand.updaterCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
+				case "unskin":
+				case "unnick":
 				case "hide":
 				case "lightning":
 				case "clear":
