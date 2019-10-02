@@ -23,8 +23,6 @@ Futures:
 	- clearchat
 	- better speed command -> fly, walk, swim
 	- glow player color
-	- clear ground
+	- clear ground (also timebased feature)
 	- scan for items in containers
-	- skin
-	- nickname
 	- itemStack add org.bukkit.attribute.Attribute

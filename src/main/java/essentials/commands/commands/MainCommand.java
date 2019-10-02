@@ -142,6 +142,26 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				break;
 			}
+
+			case "clearchat": {
+				if (args.length >= 2 && args[1].equalsIgnoreCase("all")) {
+					if (p == null || PermissionHelper.hasCommandPermission(p, "clearchat.all")) {
+						for (Player ps : Bukkit.getOnlinePlayers()) {
+							for (int i = 0; i < 50; i++) {
+								ps.sendRawMessage("       ");
+							}
+						}
+						break;
+					} else return true;
+				} else {
+					if (p != null) {
+						for (int i = 0; i < 50; i++) {
+							p.sendRawMessage("       ");
+						}
+					}
+				}
+				break;
+			}
 			
 			case "coi":
 				return CoICommands.commondsOnItemStack.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
@@ -998,6 +1018,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("book");
 			returnArguments.add("burn");
 			returnArguments.add("broadcast");
+			returnArguments.add("clearchat");
 			returnArguments.add("cob");
 			returnArguments.add("coi");
 			returnArguments.add("commandspy");
