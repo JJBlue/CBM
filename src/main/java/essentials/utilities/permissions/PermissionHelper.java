@@ -14,10 +14,12 @@ public class PermissionHelper {
 	}
 
 	public static boolean hasPermission(CommandSender sender, String permission) {
+		if(sender == null) return false;
 		return sender.hasPermission(getPermission(permission));
 	}
 
 	public static boolean hasCommandPermission(CommandSender sender, String permission) {
+		if(sender == null) return false;
 		return sender.hasPermission(getPermissionCommand(permission));
 	}
 

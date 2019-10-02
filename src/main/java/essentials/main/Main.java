@@ -32,6 +32,8 @@ import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commandspy.CommandSpyListener;
 import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
+import essentials.modules.move.MoveManager;
+import essentials.modules.move.afk;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnListener;
@@ -91,6 +93,8 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new DisplayListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CoIListener(), this);
 		Bukkit.getPluginManager().registerEvents(new SpawnListener(), this);
+		Bukkit.getPluginManager().registerEvents(new MoveManager(), this);
+		Bukkit.getPluginManager().registerEvents(new afk(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();
