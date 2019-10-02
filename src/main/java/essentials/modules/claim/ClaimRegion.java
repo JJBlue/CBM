@@ -1,21 +1,21 @@
 package essentials.modules.claim;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class ClaimRegion {
 	
@@ -26,6 +26,10 @@ public class ClaimRegion {
 	public synchronized static void claimWithFences(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
 		claim(player, world, minX, minZ, maxX, maxZ);
 		createFence(world, minX, minZ, maxX, maxZ);
+	}
+
+	public synchronized static void claimChunk(Player player, World world, Chunk chunk) {
+		claim(player, world, chunk.getX() * 16, chunk.getZ() * 16, chunk.getX() * 16 + 15, chunk.getZ() * 16 + 15);
 	}
 	
 	public synchronized static void claim(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
@@ -47,7 +51,7 @@ public class ClaimRegion {
 			BukkitAdapter.asBlockVector(new Location(world, minX, 0, minZ)),
 			BukkitAdapter.asBlockVector(new Location(world, maxX, 255, maxZ))
 		);
-		
+
 		if(player != null) {
 			DefaultDomain owners = region.getOwners();
 			owners.addPlayer(player.getUniqueId());
