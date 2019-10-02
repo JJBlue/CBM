@@ -63,14 +63,12 @@ public class SpigotPluginUpdater {
 				try {
 					if (connection.getInputStream() != null)
 						connection.getInputStream().close();
-				} catch (IOException e) {
-				}
+				} catch (IOException e) {}
 
 				try {
 					if (connection.getOutputStream() != null)
 						connection.getOutputStream().close();
-				} catch (IOException e) {
-				}
+				} catch (IOException e) {}
 			}
 		}
 
@@ -101,10 +99,10 @@ public class SpigotPluginUpdater {
 			lastDownloadedFile = new File(UpdaterServerManager.getDownloadFolder(), name + ".jar");
 
 			Downloader.downloadFile(
-					"https://api.spiget.org/v2/resources/" + getPluginID() + "/download",
-					lastDownloadedFile,
-					-1,
-					null
+				"https://api.spiget.org/v2/resources/" + getPluginID() + "/download",
+				lastDownloadedFile,
+				-1,
+				null
 			);
 			
 			return true;

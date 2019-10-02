@@ -125,8 +125,6 @@ public class Static {
 				if (ver2.length() == 0) ver2 = new StringBuilder(splitV2[i]);
 				else ver2.append(".").append(splitV2[i]);
 
-				System.out.println(ver1 + " " + v2);
-
 				if ((ver1 + ".*").equals(v2) || (ver2 + ".*").equals(v1)) return false;
 			}
 

@@ -37,6 +37,7 @@ import essentials.main.Main;
 import essentials.modules.Deop;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
+import essentials.modules.afk;
 import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
@@ -97,16 +98,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				else p1 = Bukkit.getPlayer(args[0]);
 
 				if (p1 == null) return true;
-
-				PlayerConfig config = PlayerManager.getPlayerConfig(p1);
-
-				boolean nV = !(config.containsLoadedKey("afk") && config.getBoolean("afk"));
-				config.setTmp("afk", nV);
-
-				if (!nV)
-					Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p1.getName()));
-				else
-					Bukkit.broadcastMessage(LanguageConfig.getString("afk.isNowAfk", p1.getName()));
+				afk.change(p1);
 
 				break;
 			}
@@ -314,10 +306,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				if (MainListener.hide.contains(p)) {
 					MainListener.hide.remove(p);
-					LanguageConfig.sendMessage(sender, "hide.invisible-Player", p1.getName());
+					LanguageConfig.sendMessage(sender, "hide.visible-Player", p1.getName());
 				} else {
 					MainListener.hide.add(p);
-					LanguageConfig.sendMessage(sender, "hide.visible-Player", p1.getName());
+					LanguageConfig.sendMessage(sender, "hide.invisible-Player", p1.getName());
 				}
 
 				break;
@@ -996,12 +988,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("itemdb");
 			returnArguments.add("info");
 			returnArguments.add("inventory");
-			returnArguments.add("legging");
-			returnArguments.add("lightning");
 			returnArguments.add("join");
 			returnArguments.add("joinsilent");
 			returnArguments.add("jump");
 			returnArguments.add("language");
+			returnArguments.add("legging");
+			returnArguments.add("lightning");
 			returnArguments.add("more");
 			returnArguments.add("mute");
 			returnArguments.add("nametag");

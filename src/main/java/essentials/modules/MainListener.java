@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -16,7 +15,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import essentials.depend.Depend;
@@ -150,25 +148,6 @@ public class MainListener implements Listener {
 				
 				event.setDeathMessage(message);
 			}
-		}
-	}
-	
-	@EventHandler
-	private void Move(PlayerMoveEvent e) { //TODO
-		Player p = e.getPlayer();
-		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
-		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk"))
-			return;
-
-//		p.setCollidable(false);
-		
-		Location to = e.getTo();
-		Location from = e.getFrom();
-
-		if (from.getX() != to.getX() || from.getZ() != to.getZ()) {
-			playerConfig.set("afk", false);
-			Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", p.getName()));
 		}
 	}
 	
