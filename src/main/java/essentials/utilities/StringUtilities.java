@@ -58,4 +58,9 @@ public class StringUtilities {
 			text = text.replace("$" + i, args[i - 1] == null ? "" : args[i - 1]);
 		return text;
 	}
+	
+	public static void append(StringBuilder builder, String s) {
+		if(s == null || builder == null) return;
+		builder.append(s);
+	}
 }

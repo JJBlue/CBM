@@ -19,6 +19,7 @@ import essentials.depend.Depend;
 import essentials.main.Main;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
+import essentials.utilities.StringUtilities;
 import essentials.utilities.TablistUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
@@ -126,26 +127,8 @@ public class Tablist {
 			sendTablist(player, -1);
 			return;
 		}
-
-		List<String> foundPermissions = new LinkedList<>();
-
-		String prefix = PermissionHelper.getPermission("tablist");
-		player.getEffectivePermissions().forEach(pai -> {
-			if (pai.getPermission().startsWith(prefix))
-				foundPermissions.add(pai.getPermission());
-		});
-
-		int biggestNumber = -1;
-
-		for (String permission : foundPermissions) {
-			try {
-				int number = Integer.parseInt(permission.substring(prefix.length(), permission.length()));
-				if (number > biggestNumber)
-					biggestNumber = number;
-			} catch (NumberFormatException e) {}
-		}
-
-		sendTablist(player, biggestNumber);
+		
+		sendTablist(player, getNumber(player));
 	}
 
 	/**
@@ -153,6 +136,8 @@ public class Tablist {
 	 * @param number of the Group Tablist, -1 is default
 	 */
 	public static void sendTablist(Player player, int number) {
+		if(player == null) return;
+		
 		String header = null;
 		String footer = null;
 		String playerName = "";
@@ -169,8 +154,6 @@ public class Tablist {
 			if (configuration.getBoolean("DefaultTablist.Footer.Enabled"))
 				footer = ListToString(configuration.getList("DefaultTablist.Footer." + page));
 			
-			playerName = getTablistPrefix(player);
-			playerName += configuration.getString("DefaultTablist.PlayerName");
 		} else {
 
 			if (!counterPageCurrent.containsKey("GroupTablist." + number))
@@ -183,16 +166,13 @@ public class Tablist {
 			if (configuration.getBoolean("GroupTablist." + number + ".Footer.Enabled"))
 				footer = ListToString(configuration.getList("GroupTablist." + number + ".Header." + page));
 			
-			playerName = getTablistPrefix(player);
-			playerName += configuration.getString("GroupTablist." + number + ".PlayerName");
 		}
 
 		if (header != null && !header.isEmpty())
 			header = ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, header));
 		if (footer != null && !footer.isEmpty())
 			footer = ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, footer));
-		if(player != null && !playerName.isEmpty())
-			playerName = ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, playerName));
+		playerName = getTablistName(player, number);
 
 		TablistUtilities.sendPlayerNameHeaderFooter(player, playerName, header, footer);
 	}
@@ -235,9 +215,43 @@ public class Tablist {
 		return builder.toString();
 	}
 	
-	public static String getTablistPrefix(Player player) {
+	public static String getTablistName(Player player) {
+		return getTablistName(player, getNumber(player));
+	}
+	
+	public static String getTablistName(Player player, int number) {
+		StringBuilder builder = new StringBuilder();
+		
 		if(configuration.getBoolean("useVaultPrefix"))
-			return Depend.getVaultPrefix(player);
-		return "";
+			StringUtilities.append(builder, Depend.getVaultPrefix(player));
+		
+		if(number == -1)
+			StringUtilities.append(builder, configuration.getString("DefaultTablist.PlayerName"));
+		else
+			StringUtilities.append(builder, configuration.getString("GroupTablist." + number + ".PlayerName"));
+		
+		return ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, builder.toString()));
+	}
+	
+	public static int getNumber(Player player) {
+		int biggestNumber = -1;
+
+		List<String> foundPermissions = new LinkedList<>();
+
+		String prefix = PermissionHelper.getPermission("tablist");
+		player.getEffectivePermissions().forEach(pai -> {
+			if (pai.getPermission().startsWith(prefix))
+				foundPermissions.add(pai.getPermission());
+		});
+		
+		for (String permission : foundPermissions) {
+			try {
+				int number = Integer.parseInt(permission.substring(prefix.length(), permission.length()));
+				if (number > biggestNumber)
+					biggestNumber = number;
+			} catch (NumberFormatException e) {}
+		}
+		
+		return biggestNumber;
 	}
 }

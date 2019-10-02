@@ -437,13 +437,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 			case "unnick": {
 				
-				if(args.length < 2) break;
-				
 				Player p2 = null;
 				
-				if(args.length == 2) {
+				if(args.length == 1) {
 					p2 = p;
-				} else if(args.length >= 3) {
+				} else if(args.length >= 2) {
 					p2 = Bukkit.getPlayer(args[1]);
 					if(p2 == null) break;
 				}
@@ -453,9 +451,13 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				PlayerConfig config = PlayerManager.getPlayerConfig(p2);
 				config.setTmp("nick", name);
 				
-				p.setPlayerListName(Tablist.getTablistPrefix(p2) + name);
-				p.setDisplayName(name);
-				p.setCustomName(name);
+				String playerListName = Tablist.getTablistName(p2);
+				if(playerListName == null || playerListName.isEmpty())
+					playerListName = name;
+				
+				p2.setPlayerListName(playerListName);
+				p2.setDisplayName(name);
+				p2.setCustomName(name);
 				
 				break;
 			}
@@ -465,6 +467,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 				String name = null;
 				Player p2 = null;
+				String playerListName = null;
 				
 				if(args.length == 2) {
 					name = args[1];
@@ -478,9 +481,17 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				PlayerConfig config = PlayerManager.getPlayerConfig(p2);
 				config.setTmp("nick", name);
 				
-				p.setPlayerListName(Tablist.getTablistPrefix(p2) + name);
-				p.setDisplayName(name);
-				p.setCustomName(name);
+				if(Bukkit.getPlayer(name) != null)
+					playerListName = Tablist.getTablistName(Bukkit.getPlayer(name));
+				else if(playerListName == null)
+					playerListName = Tablist.getTablistName(p2);
+				
+				if(playerListName == null || playerListName.isEmpty())
+					playerListName = name;
+				
+				p2.setPlayerListName(playerListName);
+				p2.setDisplayName(name);
+				p2.setCustomName(name);
 				
 				break;
 			}	
@@ -772,9 +783,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 			}
 			case "unskin": {
-				if(args.length < 2) break;
-				
-				if(args.length == 2) {
+				if(args.length == 1) {
 					if(p == null) break;
 					
 					Skin.changeSkin(p, p.getName());
