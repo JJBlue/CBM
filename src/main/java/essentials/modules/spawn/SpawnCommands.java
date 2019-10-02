@@ -55,11 +55,19 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 				
 				if(!(sender instanceof Player)) break;
 				
-				if(args.length == 2) {
+				if(args.length == 1) {
+					
+					boolean value = SpawnManager.setSpawn(0, "default", ((Player) sender).getLocation());
+					if(value)
+						LanguageConfig.sendMessage(sender, "spawn.set-spawn", "0", "default");
+					else
+						LanguageConfig.sendMessage(sender, "text.problem-detected");
+					
+				} else if(args.length == 2) {
 					
 					boolean value = SpawnManager.setSpawn(0, args[1], ((Player) sender).getLocation());
 					if(value)
-						LanguageConfig.sendMessage(sender, "spawn.set-spawn", 0 + "", args[2]);
+						LanguageConfig.sendMessage(sender, "spawn.set-spawn", "0", args[1]);
 					else
 						LanguageConfig.sendMessage(sender, "text.problem-detected");
 					
@@ -110,6 +118,16 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 							returnArguments.add(player.getName());
 					} else if(args.length == 3)
 						returnArguments.add("<Name or ID>");
+					
+				case "setspawn":
+					
+					if(args.length == 2) {
+						returnArguments.add("<Name>");
+						returnArguments.add("<ID>");
+					} else if(args.length == 3)
+						returnArguments.add("<Name>");
+					
+					break;
 			}
 		}
 

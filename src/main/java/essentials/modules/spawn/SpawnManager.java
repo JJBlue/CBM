@@ -152,12 +152,13 @@ public class SpawnManager {
 	}
 
 	public static boolean setSpawn(int id, String name, Location location) {
+		if(isNumber(name))
+			return setSpawn(Integer.parseInt(name), "__" + name + "__", location);
+		
 		if(name.equalsIgnoreCase("firstjoin") || id == -1) {
 			name = "firstjoin";
 			id = -1;
 		} else if(id < 0) return false;
-		
-		if(isNumber(name)) return false;
 		
 		PreparedStatement preparedStatement = getPreparedStatement(SQLParser.getResource("sql/setSpawn.sql", SpawnManager.class));
 		try {

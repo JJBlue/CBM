@@ -57,7 +57,6 @@ public class TeleportManager {
 		}
 		
 		entity.teleport(location);
-		LanguageConfig.sendMessage(entity, "spawn.teleport");
 		if(hasCooldown()) {
 			cooldowns.put(entity, getCooldown());
 			startTimer();
