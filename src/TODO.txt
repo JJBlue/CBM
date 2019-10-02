@@ -13,6 +13,7 @@ Futures:
 	- mail
 	- Noteblock Editor
 	- Oneline Player Tab -> Design
+	- Bad Word Chat Filter
 	
 	Commands:
 	- alert player
@@ -21,7 +22,6 @@ Futures:
 	- spawners
 	- clearchat
 	- better speed command -> fly, walk, swim
-	- giveall
 	- glow player color
 	- clear ground
 	- scan for items in containers
