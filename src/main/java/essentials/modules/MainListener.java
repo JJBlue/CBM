@@ -15,11 +15,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashSet;
@@ -179,5 +181,14 @@ public class MainListener implements Listener {
 					e.getPlayer().hidePlayer(Main.getPlugin(), p);
 				}
 			}
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	private void onKick(PlayerKickEvent e) {
+		Player p = e.getPlayer();
+
+		if (PermissionHelper.hasPermission(p, "kickprotection")) {
+			e.setCancelled(true);
+		}
 	}
 }
