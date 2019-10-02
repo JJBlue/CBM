@@ -119,6 +119,8 @@ public class SpawnCommands implements CommandExecutor, TabCompleter {
 					} else if(args.length == 3)
 						returnArguments.add("<Name or ID>");
 					
+					break;
+					
 				case "setspawn":
 					
 					if(args.length == 2) {
