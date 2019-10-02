@@ -147,7 +147,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				if (args.length >= 2 && args[1].equalsIgnoreCase("all")) {
 					if (p == null || PermissionHelper.hasCommandPermission(p, "clearchat.all")) {
 						for (Player ps : Bukkit.getOnlinePlayers()) {
-							for (int i = 0; i < 50; i++) {
+							for (int i = 0; i < 70; i++) {
 								ps.sendRawMessage("       ");
 							}
 						}
@@ -155,7 +155,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					} else return true;
 				} else {
 					if (p != null) {
-						for (int i = 0; i < 50; i++) {
+						for (int i = 0; i < 70; i++) {
 							p.sendRawMessage("       ");
 						}
 					}
@@ -232,8 +232,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				ItemStack item;
 				if (args.length == 1) {
 					if (p == null) return true;
-					item = p.getInventory().getItemInMainHand();
+					item = p.getInventory().getItemInMainHand().clone();
 					if (item == null) return true;
+					amount = item.getAmount();
 				} else if (args.length == 2) {
 					try {
 						amount = Integer.parseInt(args[1]);
@@ -241,7 +242,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 						return true;
 					}
 					if (p == null) return true;
-					item = p.getInventory().getItemInMainHand();
+					item = p.getInventory().getItemInMainHand().clone();
 					if (item == null) return true;
 				} else if (args.length >= 3){
 					try {
