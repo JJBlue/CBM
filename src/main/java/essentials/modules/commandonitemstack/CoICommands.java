@@ -10,7 +10,6 @@ import essentials.utilities.permissions.PermissionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,7 +24,7 @@ public class CoICommands implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length < 1) return true;
 		
 		if(!(sender instanceof Player)) return true;
@@ -111,7 +110,7 @@ public class CoICommands implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {

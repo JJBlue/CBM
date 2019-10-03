@@ -1,12 +1,14 @@
 package essentials.modules.alias;
 
-import essentials.config.ConfigHelper;
-import essentials.config.MainConfig;
-import essentials.language.LanguageConfig;
-import essentials.main.Main;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.permissions.PermissionHelper;
-import essentials.utilities.placeholder.PlaceholderFormatter;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -15,11 +17,14 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import essentials.config.ConfigHelper;
+import essentials.config.MainConfig;
+import essentials.language.LanguageConfig;
+import essentials.main.Main;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilities.placeholder.PlaceholderFormatter;
 
 public class CustomAlias {
 	static File file;
@@ -55,7 +60,7 @@ public class CustomAlias {
 	public static void registerCommand(String name) {
 		BukkitUtilities.registerCommand("cbm", new Command(name) {
 			@Override
-			public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+			public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 				String OptionalCommandBeginn = PermissionHelper.getPluginDefaultCommand() + ":";
 				if(!commandLabel.equals(OptionalCommandBeginn) && commandLabel.startsWith(OptionalCommandBeginn))
 					commandLabel = commandLabel.substring(OptionalCommandBeginn.length());
@@ -74,8 +79,7 @@ public class CustomAlias {
 			}
 
 			@Override
-			@NotNull
-			public List<String> tabComplete(@NotNull CommandSender sender, String commandLabel, @NotNull String[] args) throws IllegalArgumentException {
+			public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) throws IllegalArgumentException {
 				{ //Tab Complete for one Command
 					String OptionalCommandBeginn = PermissionHelper.getPluginDefaultCommand() + ":";
 					if(!commandLabel.equals(OptionalCommandBeginn) && commandLabel.startsWith(OptionalCommandBeginn))

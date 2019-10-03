@@ -1,15 +1,8 @@
 package essentials.modules;
 
-import essentials.depend.Depend;
-import essentials.language.LanguageConfig;
-import essentials.main.Main;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerConfigKey;
-import essentials.player.PlayerManager;
-import essentials.player.PlayersYMLConfig;
-import essentials.utilities.StringUtilities;
-import essentials.utilities.permissions.PermissionHelper;
-import essentials.utilities.placeholder.PlaceholderFormatter;
+import java.util.List;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -24,14 +17,18 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import essentials.depend.Depend;
+import essentials.language.LanguageConfig;
+import essentials.main.Main;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerConfigKey;
+import essentials.player.PlayerManager;
+import essentials.player.PlayersYMLConfig;
+import essentials.utilities.StringUtilities;
+import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilities.placeholder.PlaceholderFormatter;
 
 public class MainListener implements Listener {
-	public final static Set<Player> hide = new HashSet<>();
-
 	@EventHandler
 	private void Chat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
@@ -167,20 +164,9 @@ public class MainListener implements Listener {
 
 	@EventHandler
 	private void login(PlayerJoinEvent e) {
-		Player p = e.getPlayer();
-
 //		if(fileConf.getBoolean("jail")) {
 //			//to jail TODO
 //		}
-
-		for (Player ps : hide)
-			if (PermissionHelper.hasCommandPermission(ps, "hide.all")) { //can be invisible in front of admins
-				e.getPlayer().hidePlayer(Main.getPlugin(), p);
-			} else {
-				if (!PermissionHelper.hasCommandPermission(e.getPlayer(), "hide.showhidden")) { //joining player is no admin
-					e.getPlayer().hidePlayer(Main.getPlugin(), p);
-				}
-			}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

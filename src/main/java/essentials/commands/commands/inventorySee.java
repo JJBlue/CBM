@@ -1,17 +1,17 @@
 package essentials.commands.commands;
 
-import essentials.utilities.PlayerUtilities;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import essentials.utilities.PlayerUtilities;
 
 public class inventorySee implements CommandExecutor, TabCompleter {
 	public final static inventorySee inventorySee;
@@ -20,7 +20,7 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 		inventorySee = new inventorySee();
 	}
 
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, @NotNull String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (!(sender instanceof Player)) return true;
 		if (args.length < 1) return true;
 
@@ -62,7 +62,7 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {

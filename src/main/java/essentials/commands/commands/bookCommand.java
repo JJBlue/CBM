@@ -1,6 +1,11 @@
 package essentials.commands.commands;
 
-import essentials.config.MainConfig;
+import java.io.File;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,13 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import essentials.config.MainConfig;
 
 public class bookCommand implements CommandExecutor, TabCompleter {
 	public final static bookCommand bookcommand;
@@ -30,7 +30,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 
 	//TODO commans in book
 
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
 
 		Player p = null;
@@ -88,7 +88,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {

@@ -1,5 +1,32 @@
 package essentials.commands.commands;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+
 import components.classes.Files;
 import essentials.commands.NameTag.nt;
 import essentials.config.MainConfig;
@@ -7,9 +34,8 @@ import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.modules.Deop;
-import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.Join;
-import essentials.modules.MainListener;
+import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;
@@ -17,6 +43,7 @@ import essentials.modules.commandonitemstack.CoICommands;
 import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
+import essentials.modules.hide.HideManager;
 import essentials.modules.move.afk;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
@@ -36,29 +63,20 @@ import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.skin.Skin;
-import essentials.utilities.*;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.ItemUtilies;
+import essentials.utilities.MathUtilities;
+import essentials.utilities.PlayerUtilities;
+import essentials.utilities.StringUtilities;
+import essentials.utilities.TimeUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.system.SystemStatus;
-import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
-import org.bukkit.command.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class MainCommand implements CommandExecutor, TabCompleter {
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
 		Player p = null;
 
@@ -335,27 +353,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				else Bukkit.getPlayer(args[1]);
 
 				if (p1 == null) return true;
-
-				for (Player p2 : Bukkit.getOnlinePlayers()) {
-					if (MainListener.hide.contains(p))
-						p2.showPlayer(Main.getPlugin(), p);
-					else
-						if (PermissionHelper.hasCommandPermission(p1, "hide.all")) { //can be invisible in front of admins
-							p2.hidePlayer(Main.getPlugin(), p);
-						} else {
-							if (!PermissionHelper.hasCommandPermission(p2, "hide.showhidden")) { //p2 is no admin
-								p2.hidePlayer(Main.getPlugin(), p);
-							}
-						}
-				}
-
-				if (MainListener.hide.contains(p)) {
-					MainListener.hide.remove(p);
-					LanguageConfig.sendMessage(sender, "hide.visible-Player", p1.getName());
-				} else {
-					MainListener.hide.add(p);
-					LanguageConfig.sendMessage(sender, "hide.invisible-Player", p1.getName());
-				}
+				HideManager.changeHide(p1);
 
 				break;
 			}
@@ -1003,7 +1001,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return null;
 
 		List<String> returnArguments = new LinkedList<>();
