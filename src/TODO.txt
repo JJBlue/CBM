@@ -27,3 +27,7 @@ Futures:
 	- clear ground (also timebased feature)
 	- scan for items in containers
 	- itemStack add org.bukkit.attribute.Attribute
+	
+	Bug:
+	Cob on plate not work
+	

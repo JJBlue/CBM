@@ -8,6 +8,8 @@ import org.bukkit.scoreboard.Team;
 import org.bukkit.scoreboard.Team.Option;
 import org.bukkit.scoreboard.Team.OptionStatus;
 
+import essentials.utilities.permissions.PermissionHelper;
+
 public class nt {
 	static Scoreboard board;
 	static Team team;
@@ -31,12 +33,18 @@ public class nt {
 			}
 
 			team.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.NEVER);
-			for (Player p : Bukkit.getOnlinePlayers()) p.setScoreboard(board);
-			Bukkit.broadcastMessage("NameTag Visible");
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				p.setScoreboard(board);
+				if(p.isOp() || p.hasPermission(PermissionHelper.getPermission("nametag.seeChange")))
+					p.sendMessage("NameTag Invisible"); //TODO Language
+			}
 		} else {
 			team.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
-			for (Player p : Bukkit.getOnlinePlayers()) p.setScoreboard(board);
-			Bukkit.broadcastMessage("NameTag shown");
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				p.setScoreboard(board);
+				if(p.isOp() || p.hasPermission(PermissionHelper.getPermission("nametag.seeChange")))
+					p.sendMessage("NameTag Visible"); //TODO Language
+			}
 		}
 	}
 }

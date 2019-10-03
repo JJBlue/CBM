@@ -56,6 +56,7 @@ public class Tablist {
 		configuration.addDefault("DefaultEnabled", true);
 		configuration.addDefault("GroupEnabled", false);
 		configuration.addDefault("useVaultPrefix", true);
+		configuration.addDefault("useVaultSuffix", true);
 
 		configuration.addDefault("Update.AutoInterval", 60);
 		configuration.addDefault("Update.onAfk", false);
@@ -229,6 +230,9 @@ public class Tablist {
 			StringUtilities.append(builder, configuration.getString("DefaultTablist.PlayerName"));
 		else
 			StringUtilities.append(builder, configuration.getString("GroupTablist." + number + ".PlayerName"));
+		
+		if(configuration.getBoolean("useVaultSuffix"))
+			StringUtilities.append(builder, Depend.getVaultSuffix(player));
 		
 		return ChatUtilities.convertToColor(PlaceholderFormatter.setPlaceholders(player, builder.toString()));
 	}
