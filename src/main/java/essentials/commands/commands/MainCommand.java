@@ -351,7 +351,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			case "hide": {
 				Player p1 = null;
 				if (args.length <= 1) p1 = p;
-				else Bukkit.getPlayer(args[1]);
+				else p1 = Bukkit.getPlayer(args[1]);
 
 				if (p1 == null) return true;
 				
