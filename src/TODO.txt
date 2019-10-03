@@ -14,8 +14,8 @@ Futures:
 	- Noteblock Editor
 	- Oneline Player Tab -> Design
 	- Bad Word Chat Filter
-	
 	- kick player after some afk time
+	- Fernsteurung Player
 	
 	Commands:
 	- alert player
@@ -30,4 +30,5 @@ Futures:
 	
 	Bug:
 	Cob on plate not work
-	
+	Placehoder: 50%
+	Async Updater
