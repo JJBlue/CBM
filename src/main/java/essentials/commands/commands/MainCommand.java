@@ -43,7 +43,6 @@ import essentials.modules.commandonitemstack.CoICommands;
 import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
-import essentials.modules.hide.HideManager;
 import essentials.modules.move.afk;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
@@ -56,6 +55,8 @@ import essentials.modules.trade.TradeCommands;
 import essentials.modules.troll.TrollCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.updater.UpdaterCommand;
+import essentials.modules.visible.HideState;
+import essentials.modules.visible.VisibleManager;
 import essentials.modules.warpmanager.warpCommands;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
@@ -353,7 +354,16 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				else Bukkit.getPlayer(args[1]);
 
 				if (p1 == null) return true;
-				HideManager.changeHide(p1);
+				
+				if(args.length < 3)
+					VisibleManager.changeVisible(p1);
+				else {
+					try {
+						VisibleManager.setVisible(p1, HideState.valueOf(args[2].toUpperCase()));
+					} catch (IllegalArgumentException e) {
+						LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
+					}
+				}
 
 				break;
 			}
@@ -1157,6 +1167,18 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					
 					break;
 					
+				case "hide":
+					
+					if(args.length == 2) {
+						for (Player player : Bukkit.getOnlinePlayers())
+							returnArguments.add(player.getName());
+					} else if(args.length == 3) {
+						for(HideState state : HideState.values())
+							returnArguments.add(state.name());
+					}
+					
+					break;
+					
 				case "motd":
 					
 					returnArguments.add("<Text>");
@@ -1208,7 +1230,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				case "unskin":
 				case "unnick":
-				case "hide":
 				case "lightning":
 				case "clear":
 				case "fly":

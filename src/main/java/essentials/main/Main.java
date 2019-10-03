@@ -32,7 +32,6 @@ import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commandspy.CommandSpyListener;
 import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
-import essentials.modules.hide.HideManager;
 import essentials.modules.move.MoveManager;
 import essentials.modules.move.afk;
 import essentials.modules.pluginmanager.DisableEnable;
@@ -46,6 +45,7 @@ import essentials.modules.trade.TradeListener;
 import essentials.modules.troll.TrollListener;
 import essentials.modules.updater.UpdaterConfig;
 import essentials.modules.updater.UpdaterServerManager;
+import essentials.modules.visible.VisibleManager;
 import essentials.modules.warpmanager.WarpManager;
 import essentials.modules.world.WorldConfig;
 import essentials.player.PlayerListener;
@@ -96,7 +96,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new SpawnListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MoveManager(), this);
 		Bukkit.getPluginManager().registerEvents(new afk(), this);
-		Bukkit.getPluginManager().registerEvents(new HideManager(), this);
+		Bukkit.getPluginManager().registerEvents(new VisibleManager(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();
