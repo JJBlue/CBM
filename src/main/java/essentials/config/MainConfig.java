@@ -42,11 +42,11 @@ public class MainConfig {
 
 		//Server
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
-		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll");
+		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll"); //TODO: Change to Language
 		configuration.addDefault(MainConfigEnum.enableOperators.value, false);
 
 		List<String> list = new LinkedList<>();
-		list.add("#UUID (could join when onlinePlayers < showPlayerAmount)");
+		list.add("#UUID (could join when onlinePlayers < showPlayerAmount)"); //TODO: Change to Language
 		configuration.addDefault(MainConfigEnum.JoinPlayersWhenFull.value, list);
 
 		list = new LinkedList<>();
@@ -54,7 +54,7 @@ public class MainConfig {
 		configuration.addDefault(MainConfigEnum.CouldOperators.value, list);
 
 		configuration.addDefault(MainConfigEnum.MotdEnable.value, false);
-		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing");
+		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing"); //TODO: Change to Language
 
 		List<String> stringsTmp = new LinkedList<>();
 		stringsTmp.add("stop");
@@ -93,9 +93,8 @@ public class MainConfig {
 		save();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<String> getJoinable() {
-		return (List<String>) configuration.getList(MainConfigEnum.JoinPlayersWhenFull.value);
+		return configuration.getStringList(MainConfigEnum.JoinPlayersWhenFull.value);
 	}
 
 	public static void setJoinable(List<String> list) {
@@ -166,7 +165,7 @@ public class MainConfig {
 		for (String element : restartList) {
 			if (element.startsWith("!file")) {
 				if (element.length() <= 6) continue;
-				element = element.substring(6, element.length());
+				element = element.substring(6);
 
 				File file = new File(element);
 				if (!file.exists() || file.isDirectory()) continue;

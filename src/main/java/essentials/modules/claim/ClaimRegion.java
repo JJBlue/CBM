@@ -35,6 +35,7 @@ public class ClaimRegion {
 	public synchronized static void claim(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
 		RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 		RegionManager manager = container.get(BukkitAdapter.adapt(world));
+		if (manager == null) return;
 		
 		String id;
 		int number = 1;

@@ -29,7 +29,7 @@ public class ConnectionEventManager {
 	}
 
 	public static void unregister(Listener l) {
-		if (!listeners.isEmpty() && listeners.contains(l)) {
+		if (!listeners.isEmpty()) {
 			listeners.remove(l);
 		}
 	}

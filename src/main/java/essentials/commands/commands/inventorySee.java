@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 		inventorySee = new inventorySee();
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, @NotNull String[] args) {
 		if (!(sender instanceof Player)) return true;
 		if (args.length < 1) return true;
 
@@ -61,7 +62,7 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {
@@ -71,13 +72,8 @@ public class inventorySee implements CommandExecutor, TabCompleter {
 			returnArguments.add("inventory");
 
 		} else {
-			switch (args[0]) {
-				default:
-					for (Player player : Bukkit.getOnlinePlayers())
-						returnArguments.add(player.getName());
-
-					break;
-			}
+			for (Player player : Bukkit.getOnlinePlayers())
+				returnArguments.add(player.getName());
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));

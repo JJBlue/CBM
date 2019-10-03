@@ -49,6 +49,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -57,22 +58,19 @@ import java.util.*;
 public class MainCommand implements CommandExecutor, TabCompleter {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
 		Player p = null;
 
 		if (sender instanceof Player)
 			p = (Player) sender;
 
-		if (args.length == 0)
-			return false;
-
 		args[0] = args[0].toLowerCase();
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
 			case "afk": {
-				Player p1 = null;
+				Player p1;
 
 				if (args.length == 1) p1 = p;
 				else p1 = Bukkit.getPlayer(args[0]);
@@ -110,7 +108,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 			case "burn": {
 				if (args.length < 2) return true;
-				Player p1 = (Player) Bukkit.getPlayer(args[1]);
+				Player p1 = Bukkit.getPlayer(args[1]);
 				if (p1 == null) return true;
 				p1.setFireTicks(Integer.parseInt(args[2]));
 
@@ -176,7 +174,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				return ContainerCommands.containerCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 			case "feed": {
-				Player p1 = null;
+				Player p1;
 
 				if (args.length >= 2) {
 					p1 = Bukkit.getPlayer(args[1]);
@@ -205,7 +203,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 			}
 			case "fly": {
-				Player p1 = null;
+				Player p1;
 
 				if (args.length >= 2) p1 = Bukkit.getPlayer(args[1]);
 				else p1 = p;
@@ -244,7 +242,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					if (p == null) return true;
 					item = p.getInventory().getItemInMainHand().clone();
 					if (item == null) return true;
-				} else if (args.length >= 3){
+				} else {
 					try {
 						amount = Integer.parseInt(args[2]);
 					} catch (NumberFormatException e) {
@@ -254,8 +252,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					Material mat = Material.matchMaterial(args[1]);
 					if (mat == null) return true;
 					item = new ItemStack(mat, 1);
-				} else {
-					return true;
 				}
 
 				if (amount <= 0 || amount > 64) return true;
@@ -269,7 +265,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 			}
 			case "god": {
-				Player p1 = null;
+				Player p1;
 
 				if (args.length >= 2) p1 = Bukkit.getPlayer(args[1]);
 				else p1 = p;
@@ -411,7 +407,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				while (!top && l.getY() <= 256) {
 					l.setY(l.getY() + 1);
 
-					if (l == null || l.getBlock().getType().equals(Material.AIR))
+					if (l.getBlock().getType().equals(Material.AIR))
 						top = true;
 				}
 
@@ -450,11 +446,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				if (args.length == 1) {
 					if (p == null) return true;
 
-					b = p.getTargetBlock((Set<Material>) null, Integer.MAX_VALUE);
+					b = p.getTargetBlock(null, Integer.MAX_VALUE);
 					if (b == null) return true;
 
 					p.getWorld().strikeLightningEffect(b.getLocation());
-				} else if (args.length > 1) {
+				} else {
 					Player p1 = Bukkit.getPlayer(args[0]);
 					if (p1 == null) return true;
 
@@ -478,11 +474,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 			case "unnick": {
 				
-				Player p2 = null;
+				Player p2;
 				
 				if(args.length == 1) {
 					p2 = p;
-				} else if(args.length >= 2) {
+				} else {
 					p2 = Bukkit.getPlayer(args[1]);
 					if(p2 == null) break;
 				}
@@ -513,7 +509,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				if(args.length == 2) {
 					name = args[1];
 					p2 = p;
-				} else if(args.length >= 3) {
+				} else {
 					p2 = Bukkit.getPlayer(args[2]);
 					if(p2 == null) break;
 					name = args[1];
@@ -687,7 +683,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 							pl.add(z);
 							Player player1 = Bukkit.getPlayer(players[z]);
 							if (player1 != null)
-								player1.sendMessage("You were selected!");
+								player1.sendMessage("You were selected!"); //TODO: Port to Language
 							i++;
 						}
 					}
@@ -696,7 +692,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 						if (!pl.contains(y)) {
 							Player player1 = Bukkit.getPlayer(players[y]);
 							if (player1 != null)
-								player1.sendMessage("§4You were not selected!");
+								player1.sendMessage("§4You were not selected!"); //TODO: Port to Language
 						}
 					}
 				}
@@ -707,7 +703,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				MainConfig.reload();
 				Main.reload();
-				sender.sendMessage("§aReload complete!");
+				sender.sendMessage("§aReload complete!"); //TODO: Port to Language
 
 				break;
 
@@ -717,6 +713,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					is = p.getInventory().getItemInMainHand();
 				} else {
 					Player p1 = Bukkit.getPlayer(args[1]);
+					if (p1 == null) break;
 					is = p1.getInventory().getItemInMainHand();
 				}
 
@@ -808,7 +805,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					else
 						p.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
 
-					sender.sendMessage("Normal Speed == 2");
+					sender.sendMessage("Normal Speed == 2"); //TODO: Port to Language
 				} else if (args.length >= 4) {
 					Player p1 = Bukkit.getPlayer(args[3]);
 					if (p1 == null) return true;
@@ -818,7 +815,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					else if (args[2].equalsIgnoreCase("fly"))
 						p1.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
 
-					sender.sendMessage("Normal Speed == 2");
+					sender.sendMessage("Normal Speed == 2"); //TODO: Port to Language
 				}
 
 				break;
@@ -898,7 +895,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 				
-				if(serverInfo) {	
+				if(serverInfo) {	//TODO: Port to Language
 					sender.sendMessage("§e--------------------------------------------------");
 	
 					sender.sendMessage("§e Platform: §6" + SystemStatus.getPlatform() + "§e(§6" + SystemStatus.getArchitecture() + "§e)" + " §eRunning threads: §6" + SystemStatus.getRunningThreads());
@@ -1006,7 +1003,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
 		if (args.length < 1) return null;
 
 		List<String> returnArguments = new LinkedList<>();
@@ -1210,7 +1207,16 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					return SignCommands.signCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 				case "skin":
-					
+
+				case "unskin":
+				case "unnick":
+				case "hide":
+				case "lightning":
+				case "clear":
+				case "fly":
+				case "uuid":
+				case "wallGhost":
+
 					for(Player player : Bukkit.getOnlinePlayers())
 						returnArguments.add(player.getName());
 					
@@ -1297,7 +1303,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					returnArguments.add("fr");
 					
 					for(File file : Files.getFiles(MainConfig.getDataFolder() + "language/example.yml")) {
-						if(!file.getName().toLowerCase().contains("example"));
+						if(!file.getName().toLowerCase().contains("example"))
 							returnArguments.add(file.getName().substring(0, file.getName().lastIndexOf(".")));
 					}
 					
@@ -1341,19 +1347,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					return UpdaterCommand.updaterCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
-				case "unskin":
-				case "unnick":
-				case "hide":
-				case "lightning":
-				case "clear":
-				case "fly":
-				case "uuid":
-				case "wallGhost":
-					for (Player player : Bukkit.getOnlinePlayers())
-						returnArguments.add(player.getName());
-
-					break;
-
 				case "warp":
 				case "delwarp":
 				case "editwarp":
@@ -1375,7 +1368,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (i >= -10 && i <= 10)
 			f = (float) (i / 10);
 		else
-			sender.sendMessage("Es darf nur eine Zahl zwischen -10 bist 10 sein");
+			sender.sendMessage("Es darf nur eine Zahl zwischen -10 bist 10 sein"); //TODO: Change to Language
 
 		return f;
 	}

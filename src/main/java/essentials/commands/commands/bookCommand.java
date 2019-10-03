@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 
 	//TODO commans in book
 
-	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
 
 		Player p = null;
@@ -75,6 +76,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 
 			case "convert":
 
+				if (p == null) break;
 				ItemStack is = p.getInventory().getItemInMainHand();
 				if (is == null || !is.getType().equals(Material.WRITTEN_BOOK)) return true;
 				is.setType(Material.WRITABLE_BOOK);
@@ -86,7 +88,7 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {
@@ -106,7 +108,9 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 					break;
 				case "give":
 
-					for (File file : new File(filePath).listFiles()) {
+					File[] files = new File(filePath).listFiles();
+					if (files == null) break;
+					for (File file : files) {
 						if (!file.isDirectory())
 							returnArguments.add(file.getName());
 					}
@@ -189,14 +193,12 @@ public class bookCommand implements CommandExecutor, TabCompleter {
 
 		List<String> list = new LinkedList<>();
 
-		for (Object obj : configuration.getList("pages")) {
-			String s = obj.toString();
-
+		for (String s : configuration.getStringList("pages")) {
 			if (s.length() < 3) continue;
 
 			try {
-				pageHelper(list, Integer.parseInt(s.substring(0, 1)), s.substring(2, s.length()));
-			} catch (NumberFormatException e) {
+				pageHelper(list, Integer.parseInt(s.substring(0, 1)), s.substring(2));
+			} catch (NumberFormatException ignored) {
 			}
 		}
 

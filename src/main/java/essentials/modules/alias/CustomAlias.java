@@ -15,6 +15,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,10 +55,10 @@ public class CustomAlias {
 	public static void registerCommand(String name) {
 		BukkitUtilities.registerCommand("cbm", new Command(name) {
 			@Override
-			public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+			public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
 				String OptionalCommandBeginn = PermissionHelper.getPluginDefaultCommand() + ":";
 				if(!commandLabel.equals(OptionalCommandBeginn) && commandLabel.startsWith(OptionalCommandBeginn))
-					commandLabel = commandLabel.substring(OptionalCommandBeginn.length(), commandLabel.length());
+					commandLabel = commandLabel.substring(OptionalCommandBeginn.length());
 				
 				boolean useExtraPermission = fileConfiguration.getBoolean(prefixCommands + commandLabel + ".extraPermission");
 
@@ -73,14 +74,15 @@ public class CustomAlias {
 			}
 
 			@Override
-			public List<String> tabComplete(CommandSender sender, String commandLabel, String[] args) throws IllegalArgumentException {
+			@NotNull
+			public List<String> tabComplete(@NotNull CommandSender sender, String commandLabel, @NotNull String[] args) throws IllegalArgumentException {
 				{ //Tab Complete for one Command
 					String OptionalCommandBeginn = PermissionHelper.getPluginDefaultCommand() + ":";
 					if(!commandLabel.equals(OptionalCommandBeginn) && commandLabel.startsWith(OptionalCommandBeginn))
-						commandLabel = commandLabel.substring(OptionalCommandBeginn.length(), commandLabel.length());
+						commandLabel = commandLabel.substring(OptionalCommandBeginn.length());
 					
 					final List<?> commands = fileConfiguration.getList(prefixCommands + commandLabel + ".cmds");
-					if(commands == null) return null;
+					if(commands == null) return new ArrayList<>();
 					
 					if (commands.size() == 1) {
 						if (commands.get(0) instanceof String) {
@@ -121,8 +123,14 @@ public class CustomAlias {
 
 							PluginCommand pluginCommand = Main.getPlugin().getCommand(label);
 
-							if (pluginCommand != null && pluginCommand.getTabCompleter() != null)
-								return pluginCommand.getTabCompleter().onTabComplete(sender, pluginCommand, commandLabel, cAndArgs);
+							if (pluginCommand != null && pluginCommand.getTabCompleter() != null) {
+								List<String> ret = pluginCommand.getTabCompleter().onTabComplete(sender, pluginCommand, commandLabel, cAndArgs);
+								if(ret == null) {
+									return new ArrayList<>();
+								} else {
+									return ret;
+								}
+							}
 						}
 					}
 				}
@@ -130,7 +138,7 @@ public class CustomAlias {
 				List<String> returnA = new LinkedList<>();
 
 				List<?> tabCompletes = fileConfiguration.getList(prefixCommands + commandLabel + ".tabComplete." + args.length);
-				if (tabCompletes == null) return null;
+				if (tabCompletes == null) return new ArrayList<>();
 
 				for (Object obj : tabCompletes) {
 					if (!(obj instanceof String)) continue;

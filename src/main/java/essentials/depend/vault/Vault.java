@@ -1,14 +1,13 @@
 package essentials.depend.vault;
 
-import org.bukkit.Server;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.ServicesManager;
-
 import essentials.main.Main;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Server;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicesManager;
 
 public class Vault {
 	private static Economy economy;
@@ -35,6 +34,8 @@ public class Vault {
 		if(chat != null) return true;
 		
 		RegisteredServiceProvider<Chat> rsp = getServicesManager().getRegistration(Chat.class);
+		if(rsp == null)
+			return false;
 		chat = rsp.getProvider();
 		return chat != null;
 	}

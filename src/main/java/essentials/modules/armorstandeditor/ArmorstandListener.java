@@ -51,7 +51,7 @@ public class ArmorstandListener implements Listener {
 
 				switch (player.getInventory().getHeldItemSlot()) {
 					case 1:
-						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (0.1));
+						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (0.1)); //TODO: Replace with Language
 						armorStand.teleport(location.add(0.1, 0, 0));
 						break;
 					case 2:
@@ -128,7 +128,7 @@ public class ArmorstandListener implements Listener {
 
 				switch (player.getInventory().getHeldItemSlot()) {
 					case 1:
-						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (-0.1));
+						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (-0.1)); //TODO: Replace with Language
 						armorStand.teleport(location.add(-0.1, 0, 0));
 						break;
 					case 2:
@@ -175,7 +175,7 @@ public class ArmorstandListener implements Listener {
 		switch (player.getInventory().getHeldItemSlot()) {
 			case 0:
 				int degrees = (sub ? -1 : 1);
-				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees);
+				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees); //TODO: Replace with Language
 				return angle.add(MathUtilities.degreeToEuler(degrees), 0, 0);
 			case 1:
 				degrees = (sub ? -1 : 1);
@@ -209,7 +209,7 @@ public class ArmorstandListener implements Listener {
 
 		config.removeBuffer("armorstandEditorListener");
 		config.removeBuffer("armorstandEditorEnum");
-		ChatUtilities.sendHotbarMessage(player, "§4Exit");
+		ChatUtilities.sendHotbarMessage(player, "§4Exit"); //TODO: Replace with Language
 		event.setCancelled(true);
 	}
 }

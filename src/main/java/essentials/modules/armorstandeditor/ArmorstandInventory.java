@@ -61,7 +61,7 @@ public class ArmorstandInventory {
 		markerField.setOnChangeValue((old, neu, item) -> armorstand.setMarker(neu));
 
 		InventoryItem reset = new InventoryItem(Material.GRAY_WOOL);
-		reset.setDisplayName("Reset Gesture");
+		reset.setDisplayName("Reset Gesture"); //TODO: Replace with Language
 		reset.setOnClick((event, item) -> {
 			armorstand.setHeadPose(new EulerAngle(0.05494790421765526, 0.11621542312304131, 0));
 			armorstand.setBodyPose(new EulerAngle(0, 0.05842652523351677, 0));
@@ -73,7 +73,7 @@ public class ArmorstandInventory {
 		});
 
 		List<String> usage = new LinkedList<>();
-		usage.add("<Cause> <Selected Slot>: <Result>");
+		usage.add("<Cause> <Selected Slot>: <Result>"); //TODO: Replace with Language
 		usage.add("Hit 0: x - 1");
 		usage.add("Hit 1: y - 1");
 		usage.add("Hit 2: z - 1");
@@ -85,7 +85,7 @@ public class ArmorstandInventory {
 		usage.add("§4Warning this deaktivate Marker");
 
 		InventoryItem head = new InventoryItem(Material.PLAYER_HEAD);
-		head.setDisplayName("Move Head");
+		head.setDisplayName("Move Head"); //TODO: Replace with Language
 		head.setLore(usage);
 		head.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -97,7 +97,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem body = new InventoryItem(Material.CHAINMAIL_CHESTPLATE);
-		body.setDisplayName("Move Body");
+		body.setDisplayName("Move Body"); //TODO: Replace with Language
 		body.setLore(usage);
 		body.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -109,7 +109,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem leftArm = new InventoryItem(Material.STICK);
-		leftArm.setDisplayName("Move Left Arm");
+		leftArm.setDisplayName("Move Left Arm"); //TODO: Replace with Language
 		leftArm.setLore(usage);
 		leftArm.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -121,7 +121,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem rightArm = new InventoryItem(Material.STICK);
-		rightArm.setDisplayName("Move Right Arm");
+		rightArm.setDisplayName("Move Right Arm"); //TODO: Replace with Language
 		rightArm.setLore(usage);
 		rightArm.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -133,7 +133,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem leftLeg = new InventoryItem(Material.DIAMOND_BOOTS);
-		leftLeg.setDisplayName("Move Left Leg");
+		leftLeg.setDisplayName("Move Left Leg"); //TODO: Replace with Language
 		leftLeg.setLore(usage);
 		leftLeg.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -145,7 +145,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem rightLeg = new InventoryItem(Material.DIAMOND_BOOTS);
-		rightLeg.setDisplayName("Move Right Leg");
+		rightLeg.setDisplayName("Move Right Leg"); //TODO: Replace with Language
 		rightLeg.setLore(usage);
 		rightLeg.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -157,7 +157,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem position = new InventoryItem(Material.ARMOR_STAND);
-		position.setDisplayName("Move Position");
+		position.setDisplayName("Move Position"); //TODO: Replace with Language
 		position.setLore(usage);
 		position.setOnClick((event, item) -> {
 			PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -169,7 +169,7 @@ public class ArmorstandInventory {
 		});
 
 		InventoryItem rotation = new InventoryItem(Material.ARROW);
-		rotation.setDisplayName("Rotation");
+		rotation.setDisplayName("Rotation"); //TODO: Replace with Language
 		usage.clear();
 		usage.add("Hit 1: rotation - 1");
 		usage.add("Place 1: rotation + 1");

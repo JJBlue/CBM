@@ -29,7 +29,11 @@ public class chair implements Listener {
 	}
 
 	public static void sit(Player p, Location l) {
-		if (l == null || p == null || l.getBlock() == null) return;
+		if (l == null || p == null) {
+			return;
+		} else {
+			l.getBlock();
+		}
 
 		String clickedType = l.getBlock().getType().name().toLowerCase();
 

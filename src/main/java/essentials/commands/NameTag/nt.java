@@ -15,7 +15,9 @@ public class nt {
 	public static void setNameTag(boolean wert) {
 		if (team == null || board == null) {
 			ScoreboardManager manager = Bukkit.getScoreboardManager();
-			board = manager.getNewScoreboard();
+			if (manager != null) {
+				board = manager.getNewScoreboard();
+			}
 			team = board.registerNewTeam("teamname");
 			for (Player p : Bukkit.getOnlinePlayers()) team.addPlayer(p);
 			team.setDisplayName("");

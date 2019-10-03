@@ -1,31 +1,20 @@
 package essentials.modules.claim;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-
 import essentials.main.Main;
 import essentials.modules.particles.ParticleEffectsManager;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
+
+import java.util.*;
 
 public class ClaimShowTimer {
-	private static Set<Player> players = Collections.synchronizedSet(new HashSet<>());
+	private static final Set<Player> players = Collections.synchronizedSet(new HashSet<>());
 	private static int taskID = -1;
 	
 	public static void addPlayer(Player player) {
@@ -54,6 +43,7 @@ public class ClaimShowTimer {
 			
 			for(World world : worlds) {
 				RegionManager manager = container.get(BukkitAdapter.adapt(world));
+				if (manager == null) continue;
 				
 				Map<String, ProtectedRegion> regions = manager.getRegions();
 				synchronized (players) {

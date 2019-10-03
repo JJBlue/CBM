@@ -5,12 +5,9 @@ public enum ConnectionEvents {
 
 	public static ConnectionEvents getEnum(String name) {
 		try {
-			ConnectionEvents events = ConnectionEvents.valueOf(name);
-			if (events != null)
-				return events;
+			return ConnectionEvents.valueOf(name);
 		} catch (IllegalArgumentException e) {
+			return ConnectionEvents.UNKNOWN;
 		}
-
-		return ConnectionEvents.UNKNOWN;
 	}
 }

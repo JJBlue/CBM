@@ -3,7 +3,6 @@ package essentials.language;
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.utilities.StringUtilities;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -115,7 +114,7 @@ public class LanguageConfig {
 			FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(f);
 			fileConfiguration.set(key, "§4Message is missing Paramters: ");
 			fileConfiguration.save(f);
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 
 	public static void sendMessage(CommandSender sender, String key, String... args) {

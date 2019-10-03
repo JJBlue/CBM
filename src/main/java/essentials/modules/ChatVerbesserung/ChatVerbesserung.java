@@ -120,7 +120,7 @@ public class ChatVerbesserung implements Listener {
 
 					try {
 						CVConf.save(CV);
-					} catch (IOException e1) {
+					} catch (IOException ignored) {
 					}
 
 					Load();
@@ -145,7 +145,7 @@ public class ChatVerbesserung implements Listener {
 
 						try {
 							CVConf.save(CV);
-						} catch (IOException e1) {
+						} catch (IOException ignored) {
 						}
 						Load();
 					} else
