@@ -42,10 +42,11 @@ public class CommandOnBlock {
 		}
 	}
 
-	public static void executeBlock(Player p, CoBAction action, Location location) {
+	public static boolean executeBlock(Player p, CoBAction action, Location location) {
 		CoBBlock commandOnBlock = getCommandOnBlock(location);
-		if (commandOnBlock == null) return;
+		if (commandOnBlock == null) return false;
 		commandOnBlock.execute(p, action);
+		return true;
 	}
 
 	public synchronized static CoBBlock getOrCreateCommandOnBlock(Location location) {

@@ -1,5 +1,9 @@
 package essentials.modules.commandonobject;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,6 +11,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
+
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
 
 public class CommandListener implements Listener {
 	@EventHandler
@@ -47,7 +54,22 @@ public class CommandListener implements Listener {
 					action = CoBAction.STAND_LEFT_CLICK;
 		}
 		
-		CommandOnBlock.executeBlock(p, action, e.getClickedBlock().getLocation());
+		Block block = e.getClickedBlock();
+		
+		PlayerConfig config = PlayerManager.getPlayerConfig(p);
+		if(
+			config.containsLoadedKey("cob_last_location") &&
+			config.getString("cob_last_location").equals(block.getX() + ":" + block.getY() + ":" + block.getZ()) &&
+			config.containsLoadedKey("con_last_time") &&
+			Duration.between(config.getLocalDateTime("con_last_time"), LocalDateTime.now()).toMillis() < 100
+		) {
+			return;
+		}
+		
+		if(CommandOnBlock.executeBlock(p, action, block.getLocation())) {
+			config.setTmp("cob_last_location", block.getX() + ":" + block.getY() + ":" + block.getZ());
+			config.setTmp("con_last_time", LocalDateTime.now());
+		}
 	}
 
 	@EventHandler
