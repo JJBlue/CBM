@@ -31,6 +31,7 @@ public class CommandListener implements Listener {
 		CoBAction action = null;
 		switch (e.getAction()) {
 			case PHYSICAL:
+				action = CoBAction.EVERYTIME;
 				break;
 			case RIGHT_CLICK_BLOCK:
 				if (p.isSneaking())

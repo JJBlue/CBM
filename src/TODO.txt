@@ -29,6 +29,5 @@ Futures:
 	- itemStack add org.bukkit.attribute.Attribute
 	
 	Bug:
-	Cob on plate not work
+	Cob on plate not work -> test again. if it is now fixed
 	Placehoder: 50%
-	Async Updater

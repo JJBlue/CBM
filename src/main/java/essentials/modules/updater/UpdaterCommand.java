@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import components.thread.AsyncExecute;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,32 +30,40 @@ public class UpdaterCommand implements CommandExecutor, TabCompleter {
 
 		switch (args[0].toLowerCase()) {
 			case "check":
-
-				List<String> updates = UpdaterServerManager.checkForUpdate();
-				if (updates == null || updates.isEmpty())
-					LanguageConfig.sendMessage(sender, "updater.no-new-versions");
-				else
-					LanguageConfig.sendMessage(sender, "updater.new-versions", StringUtilities.listToListingString(updates));
-
+				
+				AsyncExecute.put(() -> {
+					List<String> updates = UpdaterServerManager.checkForUpdate();
+					if (updates == null || updates.isEmpty())
+						LanguageConfig.sendMessage(sender, "updater.no-new-versions");
+					else
+						LanguageConfig.sendMessage(sender, "updater.new-versions", StringUtilities.listToListingString(updates));
+				});
+				
 				break;
 
 			case "update":
-
+				
 				if (args.length == 1) {
 					LanguageConfig.sendMessage(sender, "updater.install-need-confirm");
 					return true;
 				}
 
 				BukkitUtilities.broadcast(LanguageConfig.getString("updater.install-confirm"), PermissionHelper.getPermission("updater.seeBroadcast"));
-				UpdaterServerManager.updateInstall();
+				
+				AsyncExecute.put(() -> {
+					UpdaterServerManager.updateInstall();
+				});
 
 				break;
 
 			case "download":
 
 				BukkitUtilities.broadcast(LanguageConfig.getString("updater.download"), PermissionHelper.getPermission("updater.seeBroadcast"));
-				UpdaterServerManager.update();
-
+				
+				AsyncExecute.put(() -> {
+					UpdaterServerManager.update();
+				});
+				
 				break;
 
 			case "install":
@@ -62,9 +72,12 @@ public class UpdaterCommand implements CommandExecutor, TabCompleter {
 					LanguageConfig.sendMessage(sender, "updater.install-need-confirm");
 					return true;
 				}
-
+				
 				BukkitUtilities.broadcast(LanguageConfig.getString("updater.install-confirm"), PermissionHelper.getPermission("updater.seeBroadcast"));
-				UpdaterServerManager.install();
+				
+				AsyncExecute.put(() -> {
+					UpdaterServerManager.install();
+				});
 
 				break;
 		}
