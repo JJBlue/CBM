@@ -1,31 +1,46 @@
 package essentials.modules.troll;
 
+import essentials.language.LanguageConfig;
+import essentials.main.Main;
+import essentials.modules.visible.HideState;
+import essentials.modules.visible.VisibleManager;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
-import essentials.language.LanguageConfig;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerManager;
-
-public class TrollCommands implements CommandExecutor, TabCompleter {
+public class TrollCommands implements TabExecutor, Listener {
 
 	public final static TrollCommands trollCommands;
+	private final HashMap<Player, Player> control = new HashMap<>();
 	
 	static {
 		trollCommands = new TrollCommands();
 	}
+
+	private TrollCommands() {
+		Bukkit.getPluginManager().registerEvents(this, Main.getPlugin());
+	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if (args.length < 1) return true;
 		
 		Player p = null;
@@ -102,13 +117,33 @@ public class TrollCommands implements CommandExecutor, TabCompleter {
 				} catch (IllegalArgumentException e) {
 					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
+				break;
+
+			case "control":
+				if (p == null) break;
+				if (control.containsKey(p)) {
+					control.remove(p);
+					VisibleManager.setVisible(p, HideState.VISIBLE);
+					break;
+				}
+				if (args.length < 2) return true;
+
+				Player toControl = Bukkit.getPlayer(args[1]);
+				if (toControl == null) return true;
+
+				if (control.containsValue(toControl)) return true;
+
+				control.put(p, toControl);
+				p.teleport(toControl.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
+				VisibleManager.setVisible(p, HideState.INVISIBLE);
+				break;
 		}
 		
 		return false;
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {
@@ -117,24 +152,23 @@ public class TrollCommands implements CommandExecutor, TabCompleter {
 			returnArguments.add("deop");
 			returnArguments.add("servertext");
 			returnArguments.add("wall");
+			returnArguments.add("control");
 
 		} else {
 			switch (args[0]) {
+				case "servertext":
+					returnArguments.add("@a");
+
 				default:
 				case "op":
 				case "deop":
+
+				case "control":
 					for (Player player : Bukkit.getOnlinePlayers())
 						returnArguments.add(player.getName());
 
 					break;
-				case "servertext":
 
-					for (Player player : Bukkit.getOnlinePlayers())
-						returnArguments.add(player.getName());
-					returnArguments.add("@a");
-
-					break;
-					
 				case "wall":
 					
 					for(Material material : Material.values())
@@ -150,6 +184,27 @@ public class TrollCommands implements CommandExecutor, TabCompleter {
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onMove(PlayerMoveEvent e) {
+		if (control.containsValue(e.getPlayer())) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if (control.containsKey(e.getPlayer())) {
+			Location to = e.getTo();
+			if (to == null) return;
+			control.get(e.getPlayer()).teleport(e.getTo());
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onQuit(PlayerQuitEvent e) {
+		Player player = e.getPlayer();
+
+		control.keySet().removeIf(k -> k.equals(player) || control.get(k).equals(player));
 	}
 
 }
