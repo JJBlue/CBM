@@ -124,21 +124,16 @@ public class ControlListener implements Listener {
 	public void onQuit(PlayerQuitEvent e) {
 		Player player = e.getPlayer();
 
-		for (Player p : ControlManager.control.keySet()) {
-			if (!p.equals(player) && !ControlManager.control.get(p).equals(player)) continue;
-
-			Player k = ControlManager.getControlledPlayer(p);
-			if (k.equals(player)) { //ControlManager.controlling player still ingame
-				VisibleManager.setVisible(p, HideState.VISIBLE);
-				CollisionManager.setCollision(p, true);
-				player = p;
-			} else if (p.equals(player)) {
-				VisibleManager.setVisible(player, HideState.VISIBLE);
-				CollisionManager.setCollision(player, true);
-				player = k;
-			}
+		if(ControlManager.isControlled(player)) {
+			Player controller = ControlManager.getControllerPlayer(player);
+			
+			CollisionManager.setCollision(controller, true);
+			VisibleManager.setVisible(controller, HideState.VISIBLE);
+		} else {
+			CollisionManager.setCollision(player, true);
+			VisibleManager.setVisible(player, HideState.VISIBLE);
 		}
-
+		
 		ControlManager.remove(player);
 	}
 }

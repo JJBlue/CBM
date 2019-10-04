@@ -22,7 +22,7 @@ public class CollisionManager {
 		team.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
 	}
 	
-	public static void setCollision(Player player, boolean value) {
+	public static void setCollision(Player player, boolean value) { //TODO remove quit player
 		if(team == null)
 			load();
 		

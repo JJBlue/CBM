@@ -10,14 +10,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 
 import essentials.language.LanguageConfig;
-import essentials.modules.collision.CollisionManager;
 import essentials.modules.troll.control.ControlManager;
-import essentials.modules.visible.HideState;
-import essentials.modules.visible.VisibleManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 
@@ -113,8 +109,6 @@ public class TrollCommands implements TabExecutor {
 				if (p == null) break;
 				if (ControlManager.isControlSomeone(p)) {
 					ControlManager.remove(p);
-					VisibleManager.setVisible(p, HideState.VISIBLE);
-					CollisionManager.setCollision(p, true);
 					break;
 				}
 				if (args.length < 2) return true;
@@ -122,13 +116,8 @@ public class TrollCommands implements TabExecutor {
 				Player toControl = Bukkit.getPlayer(args[1]);
 				if (toControl == null) return true;
 				if (p.equals(toControl)) return true;
-
-				if (ControlManager.isControlled(toControl)) return true;
-
+				
 				ControlManager.add(p, toControl);
-				p.teleport(toControl.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
-				VisibleManager.setVisible(p, HideState.INVISIBLE);
-				CollisionManager.setCollision(p, false);
 				break;
 		}
 		
