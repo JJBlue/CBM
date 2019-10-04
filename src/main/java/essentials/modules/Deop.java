@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
-import essentials.utilities.PlayerUtilities;
+import essentials.utilities.player.PlayerUtilities;
 
 public class Deop implements Listener, CommandExecutor {
 	@EventHandler

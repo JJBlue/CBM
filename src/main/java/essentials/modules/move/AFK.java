@@ -4,7 +4,8 @@ import essentials.language.LanguageConfig;
 import essentials.modules.collision.CollisionManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
-import essentials.utilities.PlayerUtilities;
+import essentials.utilities.player.PlayerUtilities;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

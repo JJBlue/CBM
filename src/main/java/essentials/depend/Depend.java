@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 
 import essentials.depend.vault.Vault;
 import essentials.player.PlayersYMLConfig;
-import essentials.utilities.PlayerUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.placeholder.PlaceholderFormatter;
+import essentials.utilities.player.PlayerUtilities;
 
 public class Depend {
 	public static boolean existVault() {

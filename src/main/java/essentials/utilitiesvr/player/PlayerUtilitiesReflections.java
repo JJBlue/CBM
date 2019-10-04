@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import components.reflections.SimpleReflection;
+import essentials.utilities.player.EnumHandUtil;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.itemstack.ItemStackUtilitiesReflections;
 
@@ -40,6 +41,38 @@ public class PlayerUtilitiesReflections {
 		}
 		
 		return null;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void setArmSwing(Player player, EnumHandUtil hand) {
+		try {
+			switch (hand) {
+				case MAIN_HAND:
+					setArmSwing(player, SimpleReflection.getEnum((Class<Enum>) Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".EnumHand"), "MAIN_HAND"));
+					break;
+				case OFF_HAND:
+					setArmSwing(player, SimpleReflection.getEnum((Class<Enum>) Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".EnumHand"), "OFF_HAND"));
+					break;
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void setArmSwing(Player player, Object hand) {
+		try {
+			sendPacket(player, getPacket("PacketPlayInArmAnimation", hand));
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void setHeldItemSlot(Player player, int number) {
+		try {
+			sendPacket(player, getPacket("PacketPlayOutHeldItemSlot", number));
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void updatePlayer(final Player player) {

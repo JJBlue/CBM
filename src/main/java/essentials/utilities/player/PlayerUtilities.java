@@ -1,4 +1,4 @@
-package essentials.utilities;
+package essentials.utilities.player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -12,6 +12,7 @@ import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
+import net.minecraft.server.v1_14_R1.PacketPlayOutHeldItemSlot;
 
 public class PlayerUtilities {
 	@SuppressWarnings("deprecation")
@@ -60,5 +61,20 @@ public class PlayerUtilities {
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void setArmSwing(Player player, EnumHandUtil hand) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				PlayerUtilities_v1_14.setArmSwing(player, hand);
+				return;
+		}
+		
+		PlayerUtilitiesReflections.setArmSwing(player, hand);
+	}
+	
+	public static void setHeldItemSlot(Player player, int number) {
+		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
+		PlayerUtilities.sendPacket(player, animation);
 	}
 }

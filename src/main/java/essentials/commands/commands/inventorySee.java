@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import essentials.utilities.PlayerUtilities;
+import essentials.utilities.player.PlayerUtilities;
 
 public class inventorySee implements CommandExecutor, TabCompleter {
 	public final static inventorySee inventorySee;

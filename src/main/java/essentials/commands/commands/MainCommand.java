@@ -40,6 +40,7 @@ import essentials.skin.Skin;
 import essentials.utilities.*;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilities.player.PlayerUtilities;
 import essentials.utilities.system.SystemStatus;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;

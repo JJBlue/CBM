@@ -8,15 +8,20 @@ import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
+import essentials.utilities.player.EnumHandUtil;
+import essentials.utilities.player.PlayerUtilities;
 import net.minecraft.server.v1_14_R1.DimensionManager;
 import net.minecraft.server.v1_14_R1.EntityPlayer;
 import net.minecraft.server.v1_14_R1.EnumGamemode;
+import net.minecraft.server.v1_14_R1.EnumHand;
 import net.minecraft.server.v1_14_R1.EnumItemSlot;
 import net.minecraft.server.v1_14_R1.MobEffect;
 import net.minecraft.server.v1_14_R1.Packet;
+import net.minecraft.server.v1_14_R1.PacketPlayInArmAnimation;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEffect;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_14_R1.PacketPlayOutHeldItemSlot;
 import net.minecraft.server.v1_14_R1.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_14_R1.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_14_R1.PacketPlayOutPosition;
@@ -45,11 +50,32 @@ public class PlayerUtilities_v1_14 {
 		return ((CraftPlayer) player).getHandle();
 	}
 	
+	public static void setArmSwing(Player player, EnumHandUtil hand) {
+		switch (hand) {
+			case MAIN_HAND:
+				setArmSwing(player, EnumHand.MAIN_HAND);
+				break;
+			case OFF_HAND:
+				setArmSwing(player, EnumHand.OFF_HAND);
+				break;
+		}
+	}
+	
+	public static void setArmSwing(Player player, EnumHand hand) {
+		((CraftPlayer) player).getHandle().playerConnection.a(new PacketPlayInArmAnimation(hand));
+	}
+	
+	public static void setHeldItemSlot(Player player, int number) {
+		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
+		PlayerUtilities.sendPacket(player, animation);
+	}
+	
 	public static void updatePlayer(final Player player) {
 		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
 		boolean flying = player.isFlying();
 		int entityID = player.getEntityId();
+		int heldItem = player.getInventory().getHeldItemSlot();
 
 		PacketPlayOutPlayerInfo packetRemovePlayer = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer);
 		PacketPlayOutPlayerInfo packetAddPlayer = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer);
@@ -98,8 +124,10 @@ public class PlayerUtilities_v1_14 {
 				PacketPlayOutUpdateHealth packetPlayOutUpdateHealth = new PacketPlayOutUpdateHealth((float) player.getHealth(), player.getFoodLevel(), player.getSaturation());
 				playerConnection.sendPacket(packetPlayOutUpdateHealth);
 				
+				setHeldItemSlot(player, heldItem);
+				
 				if (flying)
-					player.setFlying(true);
+					Bukkit.getPlayer(player.getName()).setFlying(true);
 				
 				entityPlayer.lastSentExp = -1;
 				player.updateInventory();

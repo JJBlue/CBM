@@ -22,10 +22,10 @@ import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.PlayersYMLConfig;
-import essentials.utilities.PlayerUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
+import essentials.utilities.player.PlayerUtilities;
 
 public class Join implements Listener {
 	private static ArrayList<String> tempPlayer = new ArrayList<>();
