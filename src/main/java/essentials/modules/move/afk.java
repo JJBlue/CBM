@@ -9,32 +9,14 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
-import org.bukkit.scoreboard.Team.Option;
-import org.bukkit.scoreboard.Team.OptionStatus;
 
 import essentials.language.LanguageConfig;
+import essentials.modules.collision.CollisionManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.PlayerUtilities;
 
 public class afk implements Listener {
-	
-	private static Scoreboard scoreboard;
-	private static Team team;
-	
-	public synchronized static void load() {
-		if(team != null) return;
-		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		scoreboard = manager.getMainScoreboard();
-		team = scoreboard.getTeam("cbm_afk");
-		if(team == null)
-			team = scoreboard.registerNewTeam("cbm_afk");
-		team.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
-	}
 	
 	public static void change(Player player) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
@@ -50,15 +32,11 @@ public class afk implements Listener {
 		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
 		playerConfig.setTmp("afk", value);
 		
-		if(team == null)
-			load();
-		
 		if(!value) {
 			Bukkit.broadcastMessage(LanguageConfig.getString("afk.noLongerAfk", PlayerUtilities.getName(player)));
-			team.removeEntry(player.getName());
+			CollisionManager.setCollision(player, true);
 		} else {
-			team.addEntry(player.getName());
-			team.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
+			CollisionManager.setCollision(player, false);
 			Bukkit.broadcastMessage(LanguageConfig.getString("afk.isNowAfk", PlayerUtilities.getName(player)));
 		}
 	}

@@ -1,5 +1,6 @@
 package essentials.utilities;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -11,6 +12,7 @@ import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
+import net.minecraft.server.v1_14_R1.PacketPlayOutBlockBreakAnimation;
 
 public class PlayerUtilities {
 	@SuppressWarnings("deprecation")
@@ -45,5 +47,19 @@ public class PlayerUtilities {
 			return config.getString("nick");
 		
 		return player.getName();
+	}
+
+	public static void sendPacket(Player player, PacketPlayOutBlockBreakAnimation packet) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				PlayerUtilities_v1_14.sendPacket(player, packet);
+				return;
+		}
+		
+		try {
+			PlayerUtilitiesReflections.sendPacket(player, packet);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
 	}
 }
