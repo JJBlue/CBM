@@ -12,7 +12,6 @@ import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
-import net.minecraft.server.v1_14_R1.PacketPlayOutBlockBreakAnimation;
 
 public class PlayerUtilities {
 	@SuppressWarnings("deprecation")
@@ -49,7 +48,7 @@ public class PlayerUtilities {
 		return player.getName();
 	}
 
-	public static void sendPacket(Player player, PacketPlayOutBlockBreakAnimation packet) {
+	public static void sendPacket(Player player, Object packet) {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				PlayerUtilities_v1_14.sendPacket(player, packet);

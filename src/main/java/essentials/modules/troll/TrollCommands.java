@@ -1,43 +1,33 @@
 package essentials.modules.troll;
 
-import essentials.language.LanguageConfig;
-import essentials.main.Main;
-import essentials.modules.collision.CollisionManager;
-import essentials.modules.visible.HideState;
-import essentials.modules.visible.VisibleManager;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityToggleGlideEvent;
-import org.bukkit.event.entity.EntityToggleSwimEvent;
-import org.bukkit.event.player.*;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TrollCommands implements TabExecutor, Listener {
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.jetbrains.annotations.NotNull;
+
+import essentials.language.LanguageConfig;
+import essentials.modules.collision.CollisionManager;
+import essentials.modules.troll.control.ControlManager;
+import essentials.modules.visible.HideState;
+import essentials.modules.visible.VisibleManager;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+
+public class TrollCommands implements TabExecutor {
 
 	public final static TrollCommands trollCommands;
-	private final HashMap<Player, Player> control = new HashMap<>();
 	
 	static {
 		trollCommands = new TrollCommands();
-	}
-
-	private TrollCommands() {
-		Bukkit.getPluginManager().registerEvents(this, Main.getPlugin());
 	}
 	
 	@Override
@@ -122,8 +112,8 @@ public class TrollCommands implements TabExecutor, Listener {
 
 			case "control":
 				if (p == null) break;
-				if (control.containsKey(p)) {
-					control.remove(p);
+				if (ControlManager.containsKey(p)) {
+					ControlManager.remove(p);
 					VisibleManager.setVisible(p, HideState.VISIBLE);
 					CollisionManager.setCollision(p, true);
 					break;
@@ -134,9 +124,9 @@ public class TrollCommands implements TabExecutor, Listener {
 				if (toControl == null) return true;
 				if (p.equals(toControl)) return true;
 
-				if (control.containsValue(toControl)) return true;
+				if (ControlManager.containsValue(toControl)) return true;
 
-				control.put(p, toControl);
+				ControlManager.add(p, toControl);
 				p.teleport(toControl.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
 				VisibleManager.setVisible(p, HideState.INVISIBLE);
 				CollisionManager.setCollision(p, false);
@@ -188,96 +178,6 @@ public class TrollCommands implements TabExecutor, Listener {
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void onMove(PlayerMoveEvent e) {
-		if (control.containsValue(e.getPlayer())) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (control.containsKey(e.getPlayer())) {
-			Location to = e.getTo();
-			if (to == null) return;
-			control.get(e.getPlayer()).teleport(e.getTo());
-		}
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onSneak(PlayerToggleSneakEvent e) {
-		if (control.containsValue(e.getPlayer())) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (control.containsKey(e.getPlayer())) {
-			control.get(e.getPlayer()).setSneaking(e.getPlayer().isSneaking());
-		}
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onFly(PlayerToggleFlightEvent e) {
-		if (control.containsValue(e.getPlayer())) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (control.containsKey(e.getPlayer())) {
-			control.get(e.getPlayer()).setFlying(e.getPlayer().isFlying());
-		}
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onSwim(EntityToggleSwimEvent e) {
-		if (!(e.getEntity() instanceof Player)) return;
-
-		Player p = (Player) e.getEntity();
-		if (control.containsValue(p)) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (control.containsKey(p)) {
-			control.get(p).setSwimming(p.isSwimming());
-		}
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onGlide(EntityToggleGlideEvent e) {
-		if (!(e.getEntity() instanceof Player)) return;
-
-		Player p = (Player) e.getEntity();
-		if (control.containsValue(p)) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (control.containsKey(p)) {
-			control.get(p).setGliding(p.isGliding());
-		}
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onQuit(PlayerQuitEvent e) {
-		Player player = e.getPlayer();
-
-		for (Player p : control.keySet()) {
-			if (!p.equals(player) && !control.get(p).equals(player)) continue;
-
-			Player k = control.get(p);
-			if (k.equals(player)) { //controlling player still ingame
-				VisibleManager.setVisible(p, HideState.VISIBLE);
-				CollisionManager.setCollision(p, true);
-				player = p;
-			} else if (p.equals(player)) {
-				VisibleManager.setVisible(player, HideState.VISIBLE);
-				CollisionManager.setCollision(player, true);
-				player = k;
-			}
-		}
-
-		control.remove(player);
 	}
 
 }

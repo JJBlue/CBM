@@ -25,6 +25,10 @@ import net.minecraft.server.v1_14_R1.PacketPlayOutUpdateHealth;
 import net.minecraft.server.v1_14_R1.PlayerConnection;
 
 public class PlayerUtilities_v1_14 {
+	public static void sendPacket(Player player, Object packet) {
+		sendPacket(player, (Packet<?>) packet);
+	}
+	
 	public static void sendPacket(Player player, Packet<?> packet) {
 		getPlayerConnection(player).sendPacket(packet);
 	}
