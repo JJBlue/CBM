@@ -262,7 +262,22 @@ public class TrollCommands implements TabExecutor, Listener {
 	public void onQuit(PlayerQuitEvent e) {
 		Player player = e.getPlayer();
 
-		control.keySet().removeIf(k -> k.equals(player) || control.get(k).equals(player));
+		for (Player p : control.keySet()) {
+			if (!p.equals(player) && !control.get(p).equals(player)) continue;
+
+			Player k = control.get(p);
+			if (k.equals(player)) { //controlling player still ingame
+				VisibleManager.setVisible(p, HideState.VISIBLE);
+				CollisionManager.setCollision(p, true);
+				player = p;
+			} else if (p.equals(player)) {
+				VisibleManager.setVisible(player, HideState.VISIBLE);
+				CollisionManager.setCollision(player, true);
+				player = k;
+			}
+		}
+
+		control.remove(player);
 	}
 
 }
