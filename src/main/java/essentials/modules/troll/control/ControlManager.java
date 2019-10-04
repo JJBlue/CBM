@@ -14,8 +14,7 @@ public class ControlManager {
 	protected final static HashMap<Player, Player> controlledMap = new HashMap<>();
 	
 	public static void add(Player controller, Player controlled) {
-		if(control.containsKey(controller)) return;
-		if(controlledMap.containsKey(controlled)) return;
+		remove(controller);
 		
 		control.put(controller, controlled);
 		controlledMap.put(controlled, controller);

@@ -1,13 +1,20 @@
 package essentials.modules.troll.control;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -21,7 +28,76 @@ import essentials.utilities.player.EnumHandUtil;
 import essentials.utilities.player.PlayerUtilities;
 
 public class ControlListener implements Listener {
-	//TODO block break, place, interact entity, damage entity, chat
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void block(BlockBreakEvent event) {
+		Player player = event.getPlayer();
+		
+		if(ControlManager.isControlSomeone(player)) {
+			event.setCancelled(true);
+			Bukkit.getPluginManager().callEvent(new BlockBreakEvent(event.getBlock(), ControlManager.getControlledPlayer(player)));
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void block(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
+		
+		if(ControlManager.isControlSomeone(player)) {
+			event.setCancelled(true);
+			Bukkit.getPluginManager().callEvent(new BlockPlaceEvent(event.getBlockPlaced(), event.getBlockReplacedState(), event.getBlockAgainst(), event.getItemInHand(), ControlManager.getControlledPlayer(player), event.canBuild(), event.getHand()));
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void chat(AsyncPlayerChatEvent event) {
+		Player player = event.getPlayer();
+		
+		if(ControlManager.isControlSomeone(player)) {
+			event.setCancelled(true);
+			ControlManager.getControlledPlayer(player).chat(event.getMessage());
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void entity(EntityDamageByEntityEvent event) {
+		if(!(event.getDamager() instanceof Player)) return;
+		
+		Player player = (Player) event.getDamager();
+		
+		if(ControlManager.isControlSomeone(player)) {
+			event.setCancelled(true);
+			Bukkit.getPluginManager().callEvent(new EntityDamageByEntityEvent(ControlManager.getControlledPlayer(player), event.getEntity(), event.getCause(), event.getDamage()));
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void interact(PlayerInteractAtEntityEvent event) {
+		Player player = (Player) event.getPlayer();
+		
+		if(ControlManager.isControlSomeone(player)) {
+			event.setCancelled(true);
+			Bukkit.getPluginManager().callEvent(new PlayerInteractAtEntityEvent(ControlManager.getControlledPlayer(player), event.getRightClicked(), event.getClickedPosition(), event.getHand()));
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void interact(PlayerInteractEvent event) {
+		Player player = (Player) event.getPlayer();
+		
+		if(ControlManager.isControlSomeone(player)) {
+			event.setCancelled(true);
+			Bukkit.getPluginManager().callEvent(
+				new PlayerInteractEvent(
+					ControlManager.getControlledPlayer(player),
+					event.getAction(),
+					event.getItem(),
+					event.getClickedBlock(),
+					event.getBlockFace(),
+					event.getHand()
+				)
+			);
+		}
+	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent e) {
