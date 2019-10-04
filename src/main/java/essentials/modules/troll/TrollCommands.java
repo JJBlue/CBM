@@ -2,6 +2,7 @@ package essentials.modules.troll;
 
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
+import essentials.modules.collision.CollisionManager;
 import essentials.modules.visible.HideState;
 import essentials.modules.visible.VisibleManager;
 import essentials.player.PlayerConfig;
@@ -16,9 +17,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
+import org.bukkit.event.entity.EntityToggleSwimEvent;
+import org.bukkit.event.player.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -124,18 +125,21 @@ public class TrollCommands implements TabExecutor, Listener {
 				if (control.containsKey(p)) {
 					control.remove(p);
 					VisibleManager.setVisible(p, HideState.VISIBLE);
+					CollisionManager.setCollision(p, true);
 					break;
 				}
 				if (args.length < 2) return true;
 
 				Player toControl = Bukkit.getPlayer(args[1]);
 				if (toControl == null) return true;
+				if (p.equals(toControl)) return true;
 
 				if (control.containsValue(toControl)) return true;
 
 				control.put(p, toControl);
 				p.teleport(toControl.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
 				VisibleManager.setVisible(p, HideState.INVISIBLE);
+				CollisionManager.setCollision(p, false);
 				break;
 		}
 		
@@ -197,6 +201,60 @@ public class TrollCommands implements TabExecutor, Listener {
 			Location to = e.getTo();
 			if (to == null) return;
 			control.get(e.getPlayer()).teleport(e.getTo());
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onSneak(PlayerToggleSneakEvent e) {
+		if (control.containsValue(e.getPlayer())) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if (control.containsKey(e.getPlayer())) {
+			control.get(e.getPlayer()).setSneaking(e.getPlayer().isSneaking());
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onFly(PlayerToggleFlightEvent e) {
+		if (control.containsValue(e.getPlayer())) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if (control.containsKey(e.getPlayer())) {
+			control.get(e.getPlayer()).setFlying(e.getPlayer().isFlying());
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onSwim(EntityToggleSwimEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+
+		Player p = (Player) e.getEntity();
+		if (control.containsValue(p)) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if (control.containsKey(p)) {
+			control.get(p).setSwimming(p.isSwimming());
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onGlide(EntityToggleGlideEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+
+		Player p = (Player) e.getEntity();
+		if (control.containsValue(p)) {
+			e.setCancelled(true);
+			return;
+		}
+
+		if (control.containsKey(p)) {
+			control.get(p).setGliding(p.isGliding());
 		}
 	}
 
