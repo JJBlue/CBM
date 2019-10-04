@@ -4,10 +4,8 @@ import essentials.language.LanguageConfig;
 import essentials.utilities.MathUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import org.bukkit.Bukkit;
-import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.ConfigurationSection;
@@ -47,23 +45,20 @@ public class DisplayListener implements Listener {
 		BossBar bossBar = damgeBossbar.get(player);
 		
 		if(bossBar == null) {
-			bossBar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID, new BarFlag[0]);
+			bossBar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
 			bossBar.addPlayer(player);
 			damgeBossbar.put(player, bossBar);
 		}
-		
-		if(bossBar != null) {
-			Attributable attributable = (Attributable) entity;
-			double max = attributable.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-			double resultHealth = entity.getHealth() - event.getDamage();
-			if(resultHealth < 0) resultHealth = 0;
-			else if(resultHealth > max) resultHealth = max;
-			
-			bossBar.setTitle(entity.getName() + ": §e" + MathUtilities.round(resultHealth, 2) + "§f / §e" + max + "§f (§4-" + MathUtilities.round(event.getDamage(), 2) + "§f)");
-			bossBar.setProgress((1 / max) * resultHealth);
-			
-			DisplayBossBarTimer.addBossbar(bossBar, 5, () -> damgeBossbar.remove(player));
-		}
+
+		double max = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		double resultHealth = entity.getHealth() - event.getDamage();
+		if(resultHealth < 0) resultHealth = 0;
+		else if(resultHealth > max) resultHealth = max;
+
+		bossBar.setTitle(entity.getName() + ": §e" + MathUtilities.round(resultHealth, 2) + "§f / §e" + max + "§f (§4-" + MathUtilities.round(event.getDamage(), 2) + "§f)");
+		bossBar.setProgress((1 / max) * resultHealth);
+
+		DisplayBossBarTimer.addBossbar(bossBar, 5, () -> damgeBossbar.remove(player));
 	}
 	
 	private static Player getPlayer(Entity entity) {

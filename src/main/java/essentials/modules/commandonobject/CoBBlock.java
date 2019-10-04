@@ -1,26 +1,24 @@
 package essentials.modules.commandonobject;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import components.datenbank.async.AsyncDatabase;
 import components.sql.SQLParser;
 import essentials.database.Databases;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.*;
 
 public class CoBBlock {
 	private int ID;
 	private boolean isIDSet = false;
 	private final Location location;
-	public List<CoBCommandInfo> commands;
+	public final List<CoBCommandInfo> commands;
 
 	public CoBBlock(Location location) {
 		this.location = location;
+		commands = Collections.synchronizedList(new ArrayList<>());
 	}
 
 	public Location getLocation() {
@@ -114,7 +112,7 @@ public class CoBBlock {
 	public synchronized int save() {
 		int result = 0;
 
-		if (commands == null || location == null) return result;
+		if (location == null) return result;
 
 		if (!isIDSet) {
 			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addBlock.sql", CoBBlock.class));
@@ -187,7 +185,7 @@ public class CoBBlock {
 	}
 
 	public void execute(Player p, CoBAction action) {
-		if (commands == null || commands.isEmpty()) return;
+		if (commands.isEmpty()) return;
 
 		commands.forEach(ci -> {
 			if (action.isIn(ci.action))

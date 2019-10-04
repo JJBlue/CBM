@@ -1,22 +1,16 @@
 package essentials.player;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import components.datenbank.DatabaseSyntax;
+import essentials.database.Databases;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
-import components.datenbank.DatabaseSyntax;
-import essentials.database.Databases;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class PlayerConfig {
 
@@ -263,7 +257,7 @@ public class PlayerConfig {
 		try {
 			statement.setString(1, uuid.toString());
 			ResultSet resultSet = statement.executeQuery();
-			if (PlayerManager.hasColoumn(key, resultSet))
+			if (PlayerManager.hasColumn(key, resultSet))
 				return resultSet;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -275,7 +269,7 @@ public class PlayerConfig {
 
 	public void save() {
 		synchronized (buffer) {
-			List<String> coloumns = PlayerManager.getColoumns();
+			List<String> coloumns = PlayerManager.getColumns();
 
 			if (automaticExtension) {
 				for (String key : buffer.keySet()) {

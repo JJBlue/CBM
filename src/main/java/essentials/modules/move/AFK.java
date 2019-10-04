@@ -1,5 +1,10 @@
 package essentials.modules.move;
 
+import essentials.language.LanguageConfig;
+import essentials.modules.collision.CollisionManager;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+import essentials.utilities.PlayerUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,17 +15,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import essentials.language.LanguageConfig;
-import essentials.modules.collision.CollisionManager;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerManager;
-import essentials.utilities.PlayerUtilities;
-
-public class afk implements Listener {
+public class AFK implements Listener {
 	
 	public static void change(Player player) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		if(player == null) return;
 		if(config.containsLoadedKey("afk")) {
 			setAfk(player, !config.getBoolean("afk"));
 			return;

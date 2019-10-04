@@ -67,13 +67,13 @@ public class PlayerManager {
 		players.clear();
 	}
 
-	static boolean hasColoumn(String coloum, ResultSet resultSet) {
+	static boolean hasColumn(String column, ResultSet resultSet) {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
-			int coloumnCount = metaData.getColumnCount();
+			int columnCount = metaData.getColumnCount();
 
-			for (int i = 1; i <= coloumnCount; i++) {
-				if (metaData.getColumnName(i).equalsIgnoreCase(coloum))
+			for (int i = 1; i <= columnCount; i++) {
+				if (metaData.getColumnName(i).equalsIgnoreCase(column))
 					return true;
 			}
 		} catch (SQLException e) {
@@ -82,21 +82,21 @@ public class PlayerManager {
 		return false;
 	}
 
-	static List<String> getColoumns() {
-		List<String> coloumns = new LinkedList<>();
+	static List<String> getColumns() {
+		List<String> columns = new LinkedList<>();
 
 		Datenbank database = Databases.getPlayerDatabase();
 		ResultSet resultSet = database.getResult("SELECT * FROM players LIMIT 1");
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
-			int coloumnCount = metaData.getColumnCount();
+			int columnCount = metaData.getColumnCount();
 
-			for (int i = 1; i <= coloumnCount; i++)
-				coloumns.add(metaData.getColumnName(i));
+			for (int i = 1; i <= columnCount; i++)
+				columns.add(metaData.getColumnName(i));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return coloumns;
+		return columns;
 	}
 }

@@ -1,5 +1,8 @@
 package essentials.modules.commandspy;
 
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+import essentials.utilities.permissions.PermissionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,17 +11,12 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerManager;
-import essentials.utilities.permissions.PermissionHelper;
-
 public class CommandSpyListener implements Listener {
 	@EventHandler
 	public void spyCommands(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 
-		int val = -1;
-		boolean searched = false;
+		int val;
 
 		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 			if (onlinePlayer == player) continue;
@@ -33,8 +31,7 @@ public class CommandSpyListener implements Listener {
 			if (commandSpyValue <= 0)
 				continue;
 
-			if (!searched)
-				val = getCommandSpyValue(player);
+			val = getCommandSpyValue(player);
 
 			if (commandSpyValue >= val)
 				onlinePlayer.sendMessage("§oCSpy: §6§o[" + player.getName() + "]: " + event.getMessage());
@@ -48,13 +45,13 @@ public class CommandSpyListener implements Listener {
 		for (PermissionAttachmentInfo pai : player.getEffectivePermissions()) {
 			if (pai.getPermission().startsWith(command)) {
 				String per = pai.getPermission();
-				per = per.substring(command.length(), per.length());
+				per = per.substring(command.length());
 
 				try {
 					int tmp = Integer.parseInt(per);
 					if (tmp > value)
 						value = tmp;
-				} catch (NumberFormatException e) {}
+				} catch (NumberFormatException ignored) {}
 			}
 		}
 

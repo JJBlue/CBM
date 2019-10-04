@@ -88,7 +88,7 @@ public class CountTime {
 			try {
 				current = LocalDateTime.of(Integer.parseInt(times[0]), Integer.parseInt(times[1]) + 1, Integer.parseInt(times[2]) + 1, Integer.parseInt(times[3]), Integer.parseInt(times[4]));
 				return;
-			} catch (NumberFormatException exception) {
+			} catch (NumberFormatException ignored) {
 			}
 		}
 
@@ -117,7 +117,7 @@ public class CountTime {
 
 					if (selected == c)
 						number++;
-					else if (selected != c) {
+					else {
 						builder.append(getString(selected, number));
 
 						selected = c;

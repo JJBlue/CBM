@@ -9,14 +9,13 @@ import org.bukkit.scoreboard.Team.Option;
 import org.bukkit.scoreboard.Team.OptionStatus;
 
 public class CollisionManager {
-	private static Scoreboard scoreboard;
 	private static Team team;
 	
 	public synchronized static void load() {
 		if(team != null) return;
 		
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		scoreboard = manager.getMainScoreboard();
+		Scoreboard scoreboard = manager.getMainScoreboard();
 		team = scoreboard.getTeam("cbm_collision");
 		if(team == null)
 			team = scoreboard.registerNewTeam("cbm_collision");

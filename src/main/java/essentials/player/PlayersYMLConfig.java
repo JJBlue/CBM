@@ -1,20 +1,19 @@
 package essentials.player;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.modules.display.DisplayManager;
 import essentials.modules.move.MoveManager;
 import essentials.modules.spawn.SpawnConfiguration;
 import essentials.modules.teleport.TeleportManager;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PlayersYMLConfig {
 	private static File file;
@@ -133,6 +132,6 @@ public class PlayersYMLConfig {
 		
 		try {
 			configuration.save(file);
-		} catch (IOException e) {}
+		} catch (IOException ignored) {}
 	}
 }

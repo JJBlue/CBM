@@ -54,7 +54,7 @@ public class SudoPlayerProxy {
 						buffer.put(m, otherMethod);
 						return otherMethod.invoke(abstractSudoPlayer, object);
 					}
-				} catch (NoSuchMethodException e) {
+				} catch (NoSuchMethodException ignored) {
 				}
 
 				buffer.put(m, null);
@@ -91,7 +91,7 @@ public class SudoPlayerProxy {
 						buffer.put(m, otherMethod);
 						return otherMethod.invoke(abstractSudoPlayer, object);
 					}
-				} catch (NoSuchMethodException e) {
+				} catch (NoSuchMethodException ignored) {
 				}
 
 				buffer.put(m, null);

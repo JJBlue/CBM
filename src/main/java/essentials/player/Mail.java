@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 //TODO old
-public class mail {
+public class Mail {
 	private static String suffix = "[Mail]";
 
 	public static void load(Player p) {
@@ -25,7 +25,7 @@ public class mail {
 		fileConf.options().copyDefaults(true);
 		try {
 			fileConf.save(file);
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 		}
 
 		if (fileConf.getInt("show") == 1 && fileConf.getInt("toggle") == 1) {
@@ -217,11 +217,7 @@ public class mail {
 						StringBuilder mail = new StringBuilder("[" + name + "]");
 
 						for (int y = 1; y <= i; y++) {
-							if (mail == null) {
-								mail = new StringBuilder(args[y]);
-							} else {
-								mail.append(" ").append(args[y]);
-							}
+							mail.append(" ").append(args[y]);
 						}
 
 						ArrayList<String> l = new ArrayList<>();

@@ -18,7 +18,7 @@ public class SudoPlayerManager {
 
 		try {
 			/*
-			 * This is not a relly Player it didn't work for cast to CraftPlayer, it only uses all the interfaces from CraftPlayer and Superclasses
+			 * This is not a really Player it didn't work for cast to CraftPlayer, it only uses all the interfaces from CraftPlayer and Superclasses
 			 */
 			return SudoPlayerProxy.create(usedSudo, player);
 		} catch (ClassNotFoundException e) {

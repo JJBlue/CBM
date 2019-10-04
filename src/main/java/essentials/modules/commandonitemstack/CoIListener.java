@@ -56,7 +56,7 @@ public class CoIListener implements Listener {
 		} else if(event.getDamager() instanceof LivingEntity)
 			itemStack = ((LivingEntity) entity).getEquipment().getItemInMainHand();
 		
-		if(itemStack == null || entity == null) return;
+		if(itemStack == null) return;
 		
 		CoIManager.execute(entity, itemStack, CoIAction.DEFAULT);
 		CoIManager.execute(entity, itemStack, CoIAction.HIT);

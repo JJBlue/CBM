@@ -1,9 +1,6 @@
 package essentials.modules.container;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
+import essentials.utilities.container.ContainerUtilities;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,8 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
-import essentials.utilities.container.ContainerUtilities;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ContainerCommands implements CommandExecutor, TabCompleter {
 
@@ -23,7 +23,7 @@ public class ContainerCommands implements CommandExecutor, TabCompleter {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		
 		if(args.length < 1) return true;
 		
@@ -49,7 +49,7 @@ public class ContainerCommands implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
 		if (args.length < 1) return null;
 
 		List<String> returnArguments = new LinkedList<>();

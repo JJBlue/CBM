@@ -1,26 +1,16 @@
 package essentials.main;
 
-import java.io.File;
-import java.time.LocalDateTime;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import essentials.commands.commands.MainCommand;
 import essentials.commands.commands.bookCommand;
 import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
+import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.ColorListener;
 import essentials.modules.Deop;
+import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.Join;
 import essentials.modules.MainListener;
-import essentials.modules.ChatVerbesserung.ChatVerbesserung;
-import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.LoadMapPaint;
 import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
@@ -32,8 +22,8 @@ import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commandspy.CommandSpyListener;
 import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
+import essentials.modules.move.AFK;
 import essentials.modules.move.MoveManager;
-import essentials.modules.move.afk;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnListener;
@@ -52,6 +42,15 @@ import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
 import essentials.player.PlayersYMLConfig;
 import essentials.utilities.inventory.InventoryListener;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.time.LocalDateTime;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -95,7 +94,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new CoIListener(), this);
 		Bukkit.getPluginManager().registerEvents(new SpawnListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MoveManager(), this);
-		Bukkit.getPluginManager().registerEvents(new afk(), this);
+		Bukkit.getPluginManager().registerEvents(new AFK(), this);
 		Bukkit.getPluginManager().registerEvents(new VisibleManager(), this);
 
 		{

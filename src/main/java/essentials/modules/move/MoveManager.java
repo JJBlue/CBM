@@ -1,11 +1,7 @@
 package essentials.modules.move;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
+import essentials.main.Main;
+import essentials.player.PlayersYMLConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -14,8 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import essentials.main.Main;
-import essentials.player.PlayersYMLConfig;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MoveManager implements Listener {
 	
@@ -46,11 +45,11 @@ public class MoveManager implements Listener {
 			
 			standStill.forEach((player, time) -> {
 				if(section == null) return;
-				if(afk.isAfk(player)) return;
+				if(AFK.isAfk(player)) return;
 				
 				long seconds = Duration.between(time, localDateTime).toSeconds();
 				if(section.getLong("after") <= seconds)
-					afk.setAfk(player, true);
+					AFK.setAfk(player, true);
 			});
 			
 			for(Player player : Bukkit.getOnlinePlayers()) {

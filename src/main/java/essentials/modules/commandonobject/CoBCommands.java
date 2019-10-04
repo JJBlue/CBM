@@ -1,19 +1,5 @@
 package essentials.modules.commandonobject;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
 import essentials.language.LanguageConfig;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
@@ -21,6 +7,16 @@ import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 import essentials.utilities.permissions.PermissionHelper;
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.command.*;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CoBCommands implements CommandExecutor, TabCompleter {
 	public final static CoBCommands commandOnBlock;
@@ -31,7 +27,7 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 
 	//MoveEvent Listener ist im MoveEvents
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, @NotNull String[] args) {
 		Player p = null;
 
 		if (sender instanceof Player)
@@ -138,7 +134,9 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+		List<String> result = null;
+		boolean finished = false;
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {
@@ -153,12 +151,12 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 				case "remove":
 					switch (args.length) {
 						case 2:
-							
-							for(CoBAction action : CoBAction.values())
+
+							for (CoBAction action : CoBAction.values())
 								returnArguments.add(action.name());
-							
+
 							break;
-					
+
 						case 3:
 
 							returnArguments = BukkitUtilities.getAvailableCommands(sender);
@@ -168,8 +166,11 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 
 						case 4:
 
-							if (args[1].toLowerCase().equalsIgnoreCase("@c"))
-								return BukkitUtilities.getAvailableCommands(sender);
+							if (args[1].toLowerCase().equalsIgnoreCase("@c")) {
+								result = BukkitUtilities.getAvailableCommands(sender);
+								finished = true;
+								break;
+							}
 
 						default:
 
@@ -179,17 +180,22 @@ public class CoBCommands implements CommandExecutor, TabCompleter {
 							if (command == null) break;
 							TabCompleter tabCompleter = command.getTabCompleter();
 							if (tabCompleter == null) break;
-							return tabCompleter.onTabComplete(sender, command, sendServer ? args[3] : args[2], Arrays.copyOfRange(args, sendServer ? 4 : 3, args.length));
+							result = tabCompleter.onTabComplete(sender, command, sendServer ? args[3] : args[2], Arrays.copyOfRange(args, sendServer ? 4 : 3, args.length));
+							finished = true;
+							break;
 					}
 
 					break;
 			}
 		}
+		if (!finished) {
 
-		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
+			returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
 
-		returnArguments.sort(Comparator.naturalOrder());
+			returnArguments.sort(Comparator.naturalOrder());
 
-		return returnArguments;
+			result = returnArguments;
+		}
+		return result;
 	}
 }

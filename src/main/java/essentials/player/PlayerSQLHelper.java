@@ -13,7 +13,7 @@ import java.time.LocalTime;
 public class PlayerSQLHelper {
 
 	public static String LocationToString(Location location) {
-		String builder = location.getWorld().getName() +
+		return location.getWorld().getName() +
 				':' +
 				round(location.getX()) +
 				':' +
@@ -24,7 +24,6 @@ public class PlayerSQLHelper {
 				round(location.getYaw()) +
 				':' +
 				round(location.getPitch());
-		return builder;
 	}
 
 	public static Location StringToLocation(String loc) {
@@ -44,7 +43,7 @@ public class PlayerSQLHelper {
 			float pitch = Float.parseFloat(locSplit[5]);
 
 			return new Location(world, x, y, z, yaw, pitch);
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException ignored) {
 		}
 		return null;
 	}
@@ -77,15 +76,15 @@ public class PlayerSQLHelper {
 		else if (obj instanceof Double)
 			preparedStatement.setDouble(index, (Double) obj);
 		else if (obj instanceof LocalDate)
-			preparedStatement.setDate(index, java.sql.Date.valueOf(obj != null ? (LocalDate) obj : LocalDate.now()));
+			preparedStatement.setDate(index, java.sql.Date.valueOf((LocalDate) obj));
 		else if (obj instanceof java.sql.Date)
 			preparedStatement.setDate(index, (java.sql.Date) obj);
 		else if (obj instanceof LocalTime)
-			preparedStatement.setTime(index, java.sql.Time.valueOf(obj != null ? (LocalTime) obj : LocalTime.now()));
+			preparedStatement.setTime(index, java.sql.Time.valueOf((LocalTime) obj));
 		else if (obj instanceof java.sql.Time)
 			preparedStatement.setTime(index, (java.sql.Time) obj);
 		else if (obj instanceof LocalDateTime)
-			preparedStatement.setTimestamp(index, java.sql.Timestamp.valueOf(obj != null ? (LocalDateTime) obj : LocalDateTime.now()));
+			preparedStatement.setTimestamp(index, java.sql.Timestamp.valueOf((LocalDateTime) obj));
 		else if (obj instanceof java.sql.Timestamp)
 			preparedStatement.setTimestamp(index, (java.sql.Timestamp) obj);
 		else if (obj instanceof Location)

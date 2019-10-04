@@ -1,27 +1,25 @@
 package essentials.modules.commandonobject;
 
+import components.datenbank.Datenbank;
+import components.datenbank.async.AsyncDatabase;
+import components.sql.SQLParser;
+import essentials.database.Databases;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
-import components.datenbank.Datenbank;
-import components.datenbank.async.AsyncDatabase;
-import components.sql.SQLParser;
-import essentials.database.Databases;
 
 public class CommandOnBlock {
 	private CommandOnBlock() {}
 
-	private static Map<Chunk, Map<Location, CoBBlock>> chunkBuffer = Collections.synchronizedMap(new HashMap<>());
+	private static final Map<Chunk, Map<Location, CoBBlock>> chunkBuffer = Collections.synchronizedMap(new HashMap<>());
 
 	public static void load() {
 		Datenbank database = Databases.getWorldDatabase();
@@ -57,7 +55,6 @@ public class CommandOnBlock {
 			return coBBlock;
 
 		coBBlock = new CoBBlock(location);
-		coBBlock.commands = Collections.synchronizedList(new LinkedList<>());
 
 		Map<Location, CoBBlock> map = chunkBuffer.get(location.getChunk());
 		map.put(location, coBBlock);
@@ -109,7 +106,6 @@ public class CommandOnBlock {
 					Location cloneLocation = current.clone();
 					coBBlock = new CoBBlock(cloneLocation);
 					coBBlock.setID(resultSet.getInt("IDCommandOnBlock"));
-					coBBlock.commands = Collections.synchronizedList(new LinkedList<>());
 					blocks.put(cloneLocation, coBBlock);
 				}
 

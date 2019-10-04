@@ -189,7 +189,7 @@ public class DebugStickNextBlockStates {
 					try {
 						rotatable.setRotation(blockFaces[count]);
 						break;
-					} catch (IllegalArgumentException | IllegalStateException e) {
+					} catch (IllegalArgumentException | IllegalStateException ignored) {
 					}
 				} while (start != count);
 
