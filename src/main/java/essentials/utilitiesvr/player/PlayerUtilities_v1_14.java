@@ -1,5 +1,6 @@
 package essentials.utilitiesvr.player;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,7 @@ import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
+import components.reflections.SimpleReflection;
 import essentials.utilities.player.EnumHandUtil;
 import essentials.utilities.player.PlayerUtilities;
 import net.minecraft.server.v1_14_R1.DimensionManager;
@@ -18,6 +20,7 @@ import net.minecraft.server.v1_14_R1.EnumItemSlot;
 import net.minecraft.server.v1_14_R1.MobEffect;
 import net.minecraft.server.v1_14_R1.Packet;
 import net.minecraft.server.v1_14_R1.PacketPlayInArmAnimation;
+import net.minecraft.server.v1_14_R1.PacketPlayInEntityAction;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEffect;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEquipment;
@@ -68,6 +71,22 @@ public class PlayerUtilities_v1_14 {
 	public static void setHeldItemSlot(Player player, int number) {
 		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
 		PlayerUtilities.sendPacket(player, animation);
+	}
+	
+	public static void setSneak(Player player, boolean value) {
+		try {
+			PacketPlayInEntityAction action = new PacketPlayInEntityAction();
+			Field field = SimpleReflection.getField("animation", action.getClass());
+			
+			if(value)
+				field.set(action, PacketPlayInEntityAction.EnumPlayerAction.START_SNEAKING);
+			else
+				field.set(action, PacketPlayInEntityAction.EnumPlayerAction.STOP_SNEAKING);
+			
+			((CraftPlayer) player).getHandle().playerConnection.a(action);
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void updatePlayer(final Player player) {

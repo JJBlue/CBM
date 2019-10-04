@@ -12,7 +12,6 @@ import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
-import net.minecraft.server.v1_14_R1.PacketPlayOutHeldItemSlot;
 
 public class PlayerUtilities {
 	@SuppressWarnings("deprecation")
@@ -74,7 +73,12 @@ public class PlayerUtilities {
 	}
 	
 	public static void setHeldItemSlot(Player player, int number) {
-		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
-		PlayerUtilities.sendPacket(player, animation);
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				PlayerUtilities_v1_14.setHeldItemSlot(player, number);
+				return;
+		}
+		
+		PlayerUtilitiesReflections.setHeldItemSlot(player, number);
 	}
 }

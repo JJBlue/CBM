@@ -1,7 +1,6 @@
 package essentials.modules.troll;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -112,7 +111,7 @@ public class TrollCommands implements TabExecutor {
 
 			case "control":
 				if (p == null) break;
-				if (ControlManager.containsKey(p)) {
+				if (ControlManager.isControlSomeone(p)) {
 					ControlManager.remove(p);
 					VisibleManager.setVisible(p, HideState.VISIBLE);
 					CollisionManager.setCollision(p, true);
@@ -124,7 +123,7 @@ public class TrollCommands implements TabExecutor {
 				if (toControl == null) return true;
 				if (p.equals(toControl)) return true;
 
-				if (ControlManager.containsValue(toControl)) return true;
+				if (ControlManager.isControlled(toControl)) return true;
 
 				ControlManager.add(p, toControl);
 				p.teleport(toControl.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);

@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
+import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -15,74 +16,92 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import essentials.modules.collision.CollisionManager;
 import essentials.modules.visible.HideState;
 import essentials.modules.visible.VisibleManager;
+import essentials.utilities.player.EnumHandUtil;
+import essentials.utilities.player.PlayerUtilities;
 
 public class ControlListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent e) {
-		if (ControlManager.control.containsValue(e.getPlayer())) {
+		Player player = e.getPlayer();
+		
+		if (ControlManager.isControlled(player)) {
 			e.setCancelled(true);
 			return;
 		}
 
-		if (ControlManager.control.containsKey(e.getPlayer())) {
+		if (ControlManager.isControlSomeone(player)) {
 			Location to = e.getTo();
 			if (to == null) return;
-			ControlManager.control.get(e.getPlayer()).teleport(e.getTo());
+			ControlManager.getControlledPlayer(player).teleport(e.getTo());
+		}
+	}
+	
+	@EventHandler(ignoreCancelled = true)
+	public void armSwing(PlayerAnimationEvent event) {
+		Player player = event.getPlayer();
+		
+		if(ControlManager.isControlled(player)) {
+			event.setCancelled(true);
+			return;
+		}
+		
+		if(ControlManager.isControlSomeone(player)) {
+			Player controlled = ControlManager.control.get(event.getPlayer());
+			PlayerUtilities.setArmSwing(controlled, EnumHandUtil.MAIN_HAND);
 		}
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onSneak(PlayerToggleSneakEvent e) {
-		if (ControlManager.control.containsValue(e.getPlayer())) {
+		Player player = e.getPlayer();
+		
+		if (ControlManager.isControlled(player)) {
+			player.setSneaking(ControlManager.getControllerPlayer(player).isSneaking());
 			e.setCancelled(true);
 			return;
 		}
 
-		if (ControlManager.control.containsKey(e.getPlayer())) {
-			ControlManager.control.get(e.getPlayer()).setSneaking(e.getPlayer().isSneaking());
-		}
+		if (ControlManager.isControlSomeone(player))
+			ControlManager.getControlledPlayer(player).setSneaking(player.isSneaking());
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onFly(PlayerToggleFlightEvent e) {
-		if (ControlManager.control.containsValue(e.getPlayer())) {
+		if (ControlManager.isControlled(e.getPlayer())) {
 			e.setCancelled(true);
 			return;
 		}
 
-		if (ControlManager.control.containsKey(e.getPlayer())) {
-			ControlManager.control.get(e.getPlayer()).setFlying(e.getPlayer().isFlying());
-		}
+		if (ControlManager.isControlSomeone(e.getPlayer()))
+			ControlManager.getControlledPlayer(e.getPlayer()).setFlying(e.getPlayer().isFlying());
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onSwim(EntityToggleSwimEvent e) {
+	public void onSwim(EntityToggleSwimEvent e) { //TODO
 		if (!(e.getEntity() instanceof Player)) return;
 
 		Player p = (Player) e.getEntity();
-		if (ControlManager.control.containsValue(p)) {
+		if (ControlManager.isControlled(p)) {
 			e.setCancelled(true);
 			return;
 		}
 
-		if (ControlManager.control.containsKey(p)) {
-			ControlManager.control.get(p).setSwimming(p.isSwimming());
-		}
+		if (ControlManager.isControlSomeone(p))
+			ControlManager.getControlledPlayer(p).setSwimming(p.isSwimming());
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onGlide(EntityToggleGlideEvent e) {
+	public void onGlide(EntityToggleGlideEvent e) { //TODO
 		if (!(e.getEntity() instanceof Player)) return;
 
 		Player p = (Player) e.getEntity();
-		if (ControlManager.control.containsValue(p)) {
+		if (ControlManager.isControlled(p)) {
 			e.setCancelled(true);
 			return;
 		}
 
-		if (ControlManager.control.containsKey(p)) {
-			ControlManager.control.get(p).setGliding(p.isGliding());
-		}
+		if (ControlManager.isControlSomeone(p))
+			ControlManager.getControlledPlayer(p).setGliding(p.isGliding());
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -92,7 +111,7 @@ public class ControlListener implements Listener {
 		for (Player p : ControlManager.control.keySet()) {
 			if (!p.equals(player) && !ControlManager.control.get(p).equals(player)) continue;
 
-			Player k = ControlManager.control.get(p);
+			Player k = ControlManager.getControlledPlayer(p);
 			if (k.equals(player)) { //ControlManager.controlling player still ingame
 				VisibleManager.setVisible(p, HideState.VISIBLE);
 				CollisionManager.setCollision(p, true);
@@ -104,6 +123,6 @@ public class ControlListener implements Listener {
 			}
 		}
 
-		ControlManager.control.remove(player);
+		ControlManager.remove(player);
 	}
 }
