@@ -155,7 +155,10 @@ public class PlaceholderFormatter {
 		
 		if (preCommand != null)
 			finialize.append(objectToString(commandSender, preCommand, parser != null ? parser.toString() : null, deleteNotExistPlaceHolders));
-
+		
+		if(parser != null)
+			finialize.append(parser.toString());
+		
 		return finialize.toString();
 	}
 

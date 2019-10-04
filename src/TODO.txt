@@ -30,4 +30,3 @@ Futures:
 	
 	Bug:
 	Cob on plate not work -> test again. if it is now fixed
-	Placehoder: 50%
