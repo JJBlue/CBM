@@ -21,6 +21,8 @@ import essentials.utilities.player.EnumHandUtil;
 import essentials.utilities.player.PlayerUtilities;
 
 public class ControlListener implements Listener {
+	//TODO block break, place, interact entity, damage entity, chat
+	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent e) {
 		Player player = e.getPlayer();
