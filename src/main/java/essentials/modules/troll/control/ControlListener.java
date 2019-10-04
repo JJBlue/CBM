@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -46,8 +47,23 @@ public class ControlListener implements Listener {
 		}
 		
 		if(ControlManager.isControlSomeone(player)) {
-			Player controlled = ControlManager.control.get(event.getPlayer());
+			Player controlled = ControlManager.getControlledPlayer(player);
 			PlayerUtilities.setArmSwing(controlled, EnumHandUtil.MAIN_HAND);
+		}
+	}
+	
+	@EventHandler
+	public void changeSlot(PlayerItemHeldEvent event) { //TODO check
+		Player player = event.getPlayer();
+		
+		if(ControlManager.isControlled(player)) {
+			event.setCancelled(true);
+			return;
+		}
+		
+		if(ControlManager.isControlSomeone(player)) {
+			Player controlled = ControlManager.getControlledPlayer(player);
+			PlayerUtilities.setHeldItemSlot(controlled, player.getInventory().getHeldItemSlot());
 		}
 	}
 
