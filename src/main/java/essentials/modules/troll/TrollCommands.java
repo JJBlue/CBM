@@ -107,10 +107,11 @@ public class TrollCommands implements TabExecutor {
 
 			case "control":
 				if (p == null) break;
-				if (ControlManager.isControlSomeone(p)) {
+				if(args.length == 1) {
 					ControlManager.remove(p);
 					break;
 				}
+				
 				if (args.length < 2) return true;
 
 				Player toControl = Bukkit.getPlayer(args[1]);

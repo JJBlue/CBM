@@ -89,6 +89,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
+		case "test":{
+			p.openInventory(p.getInventory());
+		}
+		
 			case "afk": {
 				Player p1;
 

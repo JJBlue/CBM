@@ -1,128 +1,70 @@
 package essentials.modules.troll.control;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
-import essentials.utilities.player.PlayerUtilities;
+import essentials.main.Main;
 
 public class ControlListener implements Listener {
-	Set<Event> events = Collections.synchronizedSet(new HashSet<>());
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void block(BlockBreakEvent event) {
-		Player player = event.getPlayer();
-		
-		if(ControlManager.isControlSomeone(player)) {
-			event.setCancelled(true);
-			Event e = new BlockBreakEvent(event.getBlock(), ControlManager.getControlledPlayer(player));
-			events.add(e);
-			Bukkit.getPluginManager().callEvent(e);
-		} else if(ControlManager.isControlled(player)) {
-			if(events.contains(event))
-				events.remove(event);
-			else
-				event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void block(BlockPlaceEvent event) {
-		Player player = event.getPlayer();
-		
-		if(ControlManager.isControlSomeone(player)) {
-			event.setCancelled(true);
-			Event e = new BlockPlaceEvent(event.getBlockPlaced(), event.getBlockReplacedState(), event.getBlockAgainst(), event.getItemInHand(), ControlManager.getControlledPlayer(player), event.canBuild(), event.getHand());
-			events.add(e);
-			Bukkit.getPluginManager().callEvent(e);
-		} else if(ControlManager.isControlled(player)) {
-			if(events.contains(event))
-				events.remove(event);
-			else
-				event.setCancelled(true);
-		}
-	}
-	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void chat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		
 		if(ControlManager.isControlSomeone(player)) {
 			event.setCancelled(true);
-			ControlManager.getControlledPlayer(player).chat(event.getMessage());
+			Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+				ControlManager.getControlledPlayer(player).chat(event.getMessage());
+			}, 0L);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void entity(EntityDamageByEntityEvent event) {
-		if(!(event.getDamager() instanceof Player)) return;
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void pickup(EntityPickupItemEvent event) {
+		if(!(event.getEntity() instanceof Player)) return;
 		
-		Player player = (Player) event.getDamager();
+		Player player = (Player) event.getEntity();
 		
 		if(ControlManager.isControlSomeone(player)) {
-			event.setCancelled(true);
-			Event e = new EntityDamageByEntityEvent(ControlManager.getControlledPlayer(player), event.getEntity(), event.getCause(), event.getDamage());
-			events.add(e);
-			Bukkit.getPluginManager().callEvent(e);
-		} else if(ControlManager.isControlled(player)) {
-			if(events.contains(event))
-				events.remove(event);
-			else
-				event.setCancelled(true);
+			Player controlled = ControlManager.getControlledPlayer(player);
+			controlled.getInventory().setContents(player.getInventory().getContents());
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void interact(PlayerInteractAtEntityEvent event) {
-		Player player = (Player) event.getPlayer();
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void pickup(InventoryClickEvent event) {
+		Player player = (Player) event.getWhoClicked();
 		
 		if(ControlManager.isControlSomeone(player)) {
+			Player controlled = ControlManager.getControlledPlayer(player);
+			controlled.getInventory().setContents(player.getInventory().getContents());
+			controlled.getInventory().setItem(event.getSlot(), event.getCursor());
+		} else if(ControlManager.isControlled(player))
 			event.setCancelled(true);
-			Event e = new PlayerInteractAtEntityEvent(ControlManager.getControlledPlayer(player), event.getRightClicked(), event.getClickedPosition(), event.getHand());
-			events.add(e);
-			Bukkit.getPluginManager().callEvent(e);
-		} else if(ControlManager.isControlled(player)) {
-			if(events.contains(event))
-				events.remove(event);
-			else
-				event.setCancelled(true);
-		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void interact(PlayerInteractEvent event) {
-		Player player = (Player) event.getPlayer();
+	@EventHandler
+	public void inventoryDrop(PlayerDropItemEvent event) {
+		Player player = event.getPlayer();
 		
 		if(ControlManager.isControlSomeone(player)) {
+			Player controlled = ControlManager.getControlledPlayer(player);
+			controlled.getInventory().setContents(player.getInventory().getContents());
+		} else if (ControlManager.isControlled(player)) {
 			event.setCancelled(true);
-			Bukkit.getPluginManager().callEvent(
-				new PlayerInteractEvent(
-					ControlManager.getControlledPlayer(player),
-					event.getAction(),
-					event.getItem(),
-					event.getClickedBlock(),
-					event.getBlockFace(),
-					event.getHand()
-				)
-			);
+			return;
 		}
 	}
 	
@@ -143,7 +85,7 @@ public class ControlListener implements Listener {
 	}
 	
 	@EventHandler
-	public void changeSlot(PlayerItemHeldEvent event) { //TODO test
+	public void changeSlot(PlayerItemHeldEvent event) {
 		Player player = event.getPlayer();
 		
 		if(ControlManager.isControlled(player)) {
@@ -156,19 +98,29 @@ public class ControlListener implements Listener {
 		
 		if(ControlManager.isControlSomeone(player)) {
 			Player controlled = ControlManager.getControlledPlayer(player);
-			PlayerUtilities.setHeldItemSlot(controlled, player.getInventory().getHeldItemSlot());
+			controlled.getInventory().setHeldItemSlot(event.getNewSlot());
 		}
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onFly(PlayerToggleFlightEvent e) {
-		if (ControlManager.isControlled(e.getPlayer())) {
-			e.setCancelled(true);
-			return;
-		}
+	public void onFly(PlayerToggleFlightEvent event) {
+		Player player = event.getPlayer();
 
-		if (ControlManager.isControlSomeone(e.getPlayer()))
-			ControlManager.getControlledPlayer(e.getPlayer()).setFlying(e.getPlayer().isFlying());
+		if (ControlManager.isControlSomeone(player)) {
+			Player controlled = ControlManager.getControlledPlayer(player);
+			controlled.setAllowFlight(player.getAllowFlight());
+			controlled.setFlying(event.isFlying());
+		} else if(ControlManager.isControlled(player)) {
+			Player controller = ControlManager.getControllerPlayer(player);
+			player.setAllowFlight(controller.getAllowFlight());
+			player.setFlying(controller.isFlying());
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onDie(PlayerDeathEvent event) {
+		Player player = event.getEntity();
+		ControlManager.remove(player);
 	}
 
 	@EventHandler(ignoreCancelled = true)
