@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -75,5 +76,23 @@ public class MoveManager implements Listener {
 	@EventHandler
 	public void quit(PlayerQuitEvent event) {
 		standStill.remove(event.getPlayer());
+	}
+	
+	@EventHandler
+	public void teleport(PlayerTeleportEvent event) {
+		switch (event.getCause()) {
+			case COMMAND:
+			case SPECTATE:
+			case ENDER_PEARL:
+			case CHORUS_FRUIT:
+				standStill.remove(event.getPlayer());
+				break;
+			case END_GATEWAY:
+			case END_PORTAL:
+			case NETHER_PORTAL:
+			case PLUGIN:
+			case UNKNOWN:
+				break;
+		}
 	}
 }

@@ -28,7 +28,7 @@ public class ControlManager {
 		CollisionManager.setCollision(controlled, false);
 		controlled.hidePlayer(Main.getPlugin(), controller);
 		
-		controller.teleport(controlled.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
+		controller.teleport(controlled.getLocation(), PlayerTeleportEvent.TeleportCause.SPECTATE);
 	}
 
 	public static void remove(Player p) {
