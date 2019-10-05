@@ -42,6 +42,8 @@ public class VisibleManager implements Listener {
 		}
 		
 		for (Player p2 : Bukkit.getOnlinePlayers()) {
+			if(p2 == player) continue;
+			
 			if(!isHidden)
 				p2.showPlayer(Main.getPlugin(), player);
 			else if(hideState == HideState.INVISIBLE_FOR_ALL)

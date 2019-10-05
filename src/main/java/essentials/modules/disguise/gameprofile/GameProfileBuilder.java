@@ -1,4 +1,4 @@
-package essentials.skin;
+package essentials.modules.disguise.gameprofile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,8 +74,12 @@ public class GameProfileBuilder {
 	}
 	
 	public static GameProfile fetch(UUID uuid, boolean forceNew) throws IOException {
+		return fetch(uuid, null, null, forceNew);
+	}
+	
+	public static GameProfile fetch(UUID uuid, UUID setUUID, String name, boolean forceNew) throws IOException {
 		if (!forceNew && cache.containsKey(uuid) && cache.get(uuid).isValid())
-			return cache.get(uuid).profile;
+			return setProfile(cache.get(uuid).profile, setUUID, name);
 		else {
 			String url = String.format(SERVICE_URL, UUIDTypeAdapter.fromUUID(uuid));
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -85,12 +89,12 @@ public class GameProfileBuilder {
 				checkCache();
 				String json = readInput(connection.getInputStream());
 				
-				GameProfile result = deserialize(json);
+				GameProfile result = deserialize(json, setUUID, name);
 				cache.put(uuid, new CachedProfile(result));
 				return result;
 			} else {
 				if (!forceNew && cache.containsKey(uuid))
-					return cache.get(uuid).profile;
+						return setProfile(cache.get(uuid).profile, setUUID, name);
 				
 				JSONObject error = (JSONObject) JSONParser.parse(readInput(connection.getErrorStream()));
 				throw new IOException(error.getString("error") + ": " + error.getString("errorMessage"));
@@ -108,6 +112,13 @@ public class GameProfileBuilder {
 			json.append(line);
 		
 		return json.toString();
+	}
+	
+	public static GameProfile setProfile(GameProfile oldGameProfile, UUID newUUID, String name) {
+		if(newUUID == null && name == null) return oldGameProfile;
+		GameProfile gameProfile = new GameProfile(newUUID != null ? newUUID : oldGameProfile.getId(), name != null ? name : oldGameProfile.getName());
+		gameProfile.getProperties().putAll(oldGameProfile.getProperties()); //TODO Here is not a clone of the properties, so do not change skin or other things
+		return gameProfile;
 	}
 	
 	public static GameProfile getProfile(UUID uuid, String name, String skin) {
@@ -130,8 +141,12 @@ public class GameProfileBuilder {
 	}
 	
 	public static GameProfile deserialize(String jsonString) {
+		return deserialize(jsonString, null, null);
+	}
+	
+	public static GameProfile deserialize(String jsonString, UUID setUUID, String setName) {
 		JSONObject json = (JSONObject) JSONParser.parse(jsonString);
-		GameProfile profile = new GameProfile(UUIDTypeAdapter.fromString(json.getString("id")), json.getString("name"));
+		GameProfile profile = new GameProfile(setUUID != null ? setUUID : UUIDTypeAdapter.fromString(json.getString("id")), setName != null ? setName : json.getString("name"));
 		
 		JSONArray properties = (JSONArray) json.get("properties");
 		

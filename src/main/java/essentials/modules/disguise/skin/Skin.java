@@ -1,15 +1,15 @@
-package essentials.skin;
+package essentials.modules.disguise.skin;
 
 import java.io.IOException;
 import java.util.Collection;
 
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
 import essentials.language.LanguageConfig;
+import essentials.modules.disguise.gameprofile.GameProfileBuilder;
 import essentials.utilities.player.PlayerUtilities;
 
 public class Skin {
@@ -17,8 +17,7 @@ public class Skin {
 	private Skin() {}
 
     public static void changeSkin(Player p, String name) {
-        GameProfile skingp;
-        CraftPlayer cp = (CraftPlayer) p;
+        GameProfile skingp = PlayerUtilities.getGameProfile(p);
 
         try {
             skingp = GameProfileBuilder.fetch(PlayerUtilities.getOfflinePlayer(name).getUniqueId());
@@ -30,8 +29,8 @@ public class Skin {
 
         Collection<Property> props = skingp.getProperties().get("textures");
 
-        cp.getProfile().getProperties().removeAll("textures");
-        cp.getProfile().getProperties().putAll("textures", props);
+        skingp.getProperties().removeAll("textures");
+        skingp.getProperties().putAll("textures", props);
         
         PlayerUtilities.updatePlayer(p);
     }

@@ -43,12 +43,14 @@ import essentials.modules.commandonitemstack.CoICommands;
 import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
+import essentials.modules.disguise.DisguiseManager;
+import essentials.modules.disguise.name.NameManager;
+import essentials.modules.disguise.skin.Skin;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
-import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
@@ -63,7 +65,6 @@ import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
 import essentials.player.sudoplayer.SudoPlayerInterface;
 import essentials.player.sudoplayer.SudoPlayerManager;
-import essentials.skin.Skin;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.MathUtilities;
@@ -88,6 +89,15 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
+			case "test": {
+				DisguiseManager.disguise(p, "Jannilol12");
+				break;
+			}
+			case "test2":
+				
+				DisguiseManager.undisguise(p);
+				break;
+		
 			case "afk": {
 				Player p1;
 
@@ -491,18 +501,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					if(p2 == null) break;
 				}
 				
-				String name = p2.getName();
-				
-				PlayerConfig config = PlayerManager.getPlayerConfig(p2);
-				config.setTmp("nick", name);
-				
-				String playerListName = Tablist.getTablistName(p2);
-				if(playerListName == null || playerListName.isEmpty())
-					playerListName = name;
-				
-				p2.setPlayerListName(playerListName);
-				p2.setDisplayName(name);
-				p2.setCustomName(name);
+				NameManager.unnick(p2);
 				
 				break;
 			}
@@ -512,7 +511,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 				String name = null;
 				Player p2 = null;
-				String playerListName = null;
 				
 				if(args.length == 2) {
 					name = args[1];
@@ -523,20 +521,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					name = args[1];
 				}
 				
-				PlayerConfig config = PlayerManager.getPlayerConfig(p2);
-				config.setTmp("nick", name);
-				
-				if(Bukkit.getPlayer(name) != null)
-					playerListName = Tablist.getTablistName(Bukkit.getPlayer(name));
-				else if(playerListName == null)
-					playerListName = Tablist.getTablistName(p2);
-				
-				if(playerListName == null || playerListName.isEmpty())
-					playerListName = name;
-				
-				p2.setPlayerListName(playerListName);
-				p2.setDisplayName(name);
-				p2.setCustomName(name);
+				NameManager.nick(p2, name);
 				
 				break;
 			}	

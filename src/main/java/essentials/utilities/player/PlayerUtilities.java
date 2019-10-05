@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import com.mojang.authlib.GameProfile;
+
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
@@ -80,5 +82,24 @@ public class PlayerUtilities {
 		}
 		
 		PlayerUtilitiesReflections.setHeldItemSlot(player, number);
+	}
+	
+	public static void setGameProfile(Player player, GameProfile gameProfile) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				PlayerUtilities_v1_14.setGameProfile(player, gameProfile);
+				return;
+		}
+		
+		PlayerUtilitiesReflections.setGameProfile(player, gameProfile);
+	}
+	
+	public static GameProfile getGameProfile(Player player) {
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return PlayerUtilities_v1_14.getGameProfile(player);
+		}
+		
+		return PlayerUtilitiesReflections.getGameProfile(player);
 	}
 }

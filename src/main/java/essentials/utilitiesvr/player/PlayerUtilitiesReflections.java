@@ -10,8 +10,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import com.mojang.authlib.GameProfile;
+
 import components.reflections.SimpleReflection;
 import essentials.utilities.player.EnumHandUtil;
+import essentials.utilities.player.PlayerUtilities;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.itemstack.ItemStackUtilitiesReflections;
 
@@ -73,6 +76,25 @@ public class PlayerUtilitiesReflections {
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void setGameProfile(Player player, GameProfile gameProfile) {
+		try {
+			Field field = SimpleReflection.getField("bW", Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".EntityHuman"));
+			field.setAccessible(true);
+			field.set(getEntityPlayer(player), gameProfile);
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | ClassNotFoundException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static GameProfile getGameProfile(Player player) {
+		try {
+			return (GameProfile) SimpleReflection.callMethod(getEntityPlayer(player), "getProfile");
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static void updatePlayer(final Player player) {

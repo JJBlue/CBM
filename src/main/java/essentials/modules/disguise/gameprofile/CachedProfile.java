@@ -1,4 +1,4 @@
-package essentials.skin;
+package essentials.modules.disguise.gameprofile;
 
 import com.mojang.authlib.GameProfile;
 

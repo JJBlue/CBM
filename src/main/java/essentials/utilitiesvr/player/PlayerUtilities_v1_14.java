@@ -9,10 +9,13 @@ import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
+import com.mojang.authlib.GameProfile;
+
 import components.reflections.SimpleReflection;
 import essentials.utilities.player.EnumHandUtil;
 import essentials.utilities.player.PlayerUtilities;
 import net.minecraft.server.v1_14_R1.DimensionManager;
+import net.minecraft.server.v1_14_R1.EntityHuman;
 import net.minecraft.server.v1_14_R1.EntityPlayer;
 import net.minecraft.server.v1_14_R1.EnumGamemode;
 import net.minecraft.server.v1_14_R1.EnumHand;
@@ -20,7 +23,6 @@ import net.minecraft.server.v1_14_R1.EnumItemSlot;
 import net.minecraft.server.v1_14_R1.MobEffect;
 import net.minecraft.server.v1_14_R1.Packet;
 import net.minecraft.server.v1_14_R1.PacketPlayInArmAnimation;
-import net.minecraft.server.v1_14_R1.PacketPlayInEntityAction;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEffect;
 import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEquipment;
@@ -73,20 +75,18 @@ public class PlayerUtilities_v1_14 {
 		PlayerUtilities.sendPacket(player, animation);
 	}
 	
-	public static void setSneak(Player player, boolean value) {
+	public static void setGameProfile(Player player, GameProfile gameProfile) {
 		try {
-			PacketPlayInEntityAction action = new PacketPlayInEntityAction();
-			Field field = SimpleReflection.getField("animation", action.getClass());
-			
-			if(value)
-				field.set(action, PacketPlayInEntityAction.EnumPlayerAction.START_SNEAKING);
-			else
-				field.set(action, PacketPlayInEntityAction.EnumPlayerAction.STOP_SNEAKING);
-			
-			((CraftPlayer) player).getHandle().playerConnection.a(action);
+			Field field = SimpleReflection.getField("bW", EntityHuman.class);
+			field.setAccessible(true);
+			field.set(((CraftPlayer) player).getHandle(), gameProfile);
 		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static GameProfile getGameProfile(Player player) {
+		return ((CraftPlayer) player).getHandle().getProfile();
 	}
 	
 	public static void updatePlayer(final Player player) {
