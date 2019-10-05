@@ -28,5 +28,7 @@ Futures:
 	- scan for items in containers
 	- itemStack add org.bukkit.attribute.Attribute
 	
+	- better fly/walk speed -> tab complete und arguments order
+	
 	Bug:
 	Cob on plate not work -> test again. if it is now fixed

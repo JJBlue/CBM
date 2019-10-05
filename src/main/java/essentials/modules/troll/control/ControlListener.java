@@ -1,40 +1,46 @@
 package essentials.modules.troll.control;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityToggleGlideEvent;
-import org.bukkit.event.entity.EntityToggleSwimEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import essentials.modules.collision.CollisionManager;
-import essentials.modules.visible.HideState;
-import essentials.modules.visible.VisibleManager;
-import essentials.utilities.player.EnumHandUtil;
 import essentials.utilities.player.PlayerUtilities;
 
 public class ControlListener implements Listener {
+	Set<Event> events = Collections.synchronizedSet(new HashSet<>());
+	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void block(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		
 		if(ControlManager.isControlSomeone(player)) {
 			event.setCancelled(true);
-			Bukkit.getPluginManager().callEvent(new BlockBreakEvent(event.getBlock(), ControlManager.getControlledPlayer(player)));
+			Event e = new BlockBreakEvent(event.getBlock(), ControlManager.getControlledPlayer(player));
+			events.add(e);
+			Bukkit.getPluginManager().callEvent(e);
+		} else if(ControlManager.isControlled(player)) {
+			if(events.contains(event))
+				events.remove(event);
+			else
+				event.setCancelled(true);
 		}
 	}
 	
@@ -44,7 +50,14 @@ public class ControlListener implements Listener {
 		
 		if(ControlManager.isControlSomeone(player)) {
 			event.setCancelled(true);
-			Bukkit.getPluginManager().callEvent(new BlockPlaceEvent(event.getBlockPlaced(), event.getBlockReplacedState(), event.getBlockAgainst(), event.getItemInHand(), ControlManager.getControlledPlayer(player), event.canBuild(), event.getHand()));
+			Event e = new BlockPlaceEvent(event.getBlockPlaced(), event.getBlockReplacedState(), event.getBlockAgainst(), event.getItemInHand(), ControlManager.getControlledPlayer(player), event.canBuild(), event.getHand());
+			events.add(e);
+			Bukkit.getPluginManager().callEvent(e);
+		} else if(ControlManager.isControlled(player)) {
+			if(events.contains(event))
+				events.remove(event);
+			else
+				event.setCancelled(true);
 		}
 	}
 	
@@ -66,7 +79,14 @@ public class ControlListener implements Listener {
 		
 		if(ControlManager.isControlSomeone(player)) {
 			event.setCancelled(true);
-			Bukkit.getPluginManager().callEvent(new EntityDamageByEntityEvent(ControlManager.getControlledPlayer(player), event.getEntity(), event.getCause(), event.getDamage()));
+			Event e = new EntityDamageByEntityEvent(ControlManager.getControlledPlayer(player), event.getEntity(), event.getCause(), event.getDamage());
+			events.add(e);
+			Bukkit.getPluginManager().callEvent(e);
+		} else if(ControlManager.isControlled(player)) {
+			if(events.contains(event))
+				events.remove(event);
+			else
+				event.setCancelled(true);
 		}
 	}
 	
@@ -76,7 +96,14 @@ public class ControlListener implements Listener {
 		
 		if(ControlManager.isControlSomeone(player)) {
 			event.setCancelled(true);
-			Bukkit.getPluginManager().callEvent(new PlayerInteractAtEntityEvent(ControlManager.getControlledPlayer(player), event.getRightClicked(), event.getClickedPosition(), event.getHand()));
+			Event e = new PlayerInteractAtEntityEvent(ControlManager.getControlledPlayer(player), event.getRightClicked(), event.getClickedPosition(), event.getHand());
+			events.add(e);
+			Bukkit.getPluginManager().callEvent(e);
+		} else if(ControlManager.isControlled(player)) {
+			if(events.contains(event))
+				events.remove(event);
+			else
+				event.setCancelled(true);
 		}
 	}
 	
@@ -115,27 +142,15 @@ public class ControlListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled = true)
-	public void armSwing(PlayerAnimationEvent event) {
-		Player player = event.getPlayer();
-		
-		if(ControlManager.isControlled(player)) {
-			event.setCancelled(true);
-			return;
-		}
-		
-		if(ControlManager.isControlSomeone(player)) {
-			Player controlled = ControlManager.getControlledPlayer(player);
-			PlayerUtilities.setArmSwing(controlled, EnumHandUtil.MAIN_HAND);
-		}
-	}
-	
 	@EventHandler
-	public void changeSlot(PlayerItemHeldEvent event) { //TODO check
+	public void changeSlot(PlayerItemHeldEvent event) { //TODO test
 		Player player = event.getPlayer();
 		
 		if(ControlManager.isControlled(player)) {
-			event.setCancelled(true);
+			Player controller = ControlManager.getControllerPlayer(player);
+			if(event.getNewSlot() != controller.getInventory().getHeldItemSlot())
+				event.setCancelled(true);
+			
 			return;
 		}
 		
@@ -143,20 +158,6 @@ public class ControlListener implements Listener {
 			Player controlled = ControlManager.getControlledPlayer(player);
 			PlayerUtilities.setHeldItemSlot(controlled, player.getInventory().getHeldItemSlot());
 		}
-	}
-
-	@EventHandler
-	public void onSneak(PlayerToggleSneakEvent e) {
-		Player player = e.getPlayer();
-		
-		if (ControlManager.isControlled(player)) {
-			player.setSneaking(ControlManager.getControllerPlayer(player).isSneaking());
-			e.setCancelled(true);
-			return;
-		}
-
-		if (ControlManager.isControlSomeone(player))
-			ControlManager.getControlledPlayer(player).setSneaking(player.isSneaking());
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -171,47 +172,8 @@ public class ControlListener implements Listener {
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onSwim(EntityToggleSwimEvent e) { //TODO
-		if (!(e.getEntity() instanceof Player)) return;
-
-		Player p = (Player) e.getEntity();
-		if (ControlManager.isControlled(p)) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (ControlManager.isControlSomeone(p))
-			ControlManager.getControlledPlayer(p).setSwimming(p.isSwimming());
-	}
-
-	@EventHandler(ignoreCancelled = true)
-	public void onGlide(EntityToggleGlideEvent e) { //TODO
-		if (!(e.getEntity() instanceof Player)) return;
-
-		Player p = (Player) e.getEntity();
-		if (ControlManager.isControlled(p)) {
-			e.setCancelled(true);
-			return;
-		}
-
-		if (ControlManager.isControlSomeone(p))
-			ControlManager.getControlledPlayer(p).setGliding(p.isGliding());
-	}
-
-	@EventHandler(ignoreCancelled = true)
 	public void onQuit(PlayerQuitEvent e) {
 		Player player = e.getPlayer();
-
-		if(ControlManager.isControlled(player)) {
-			Player controller = ControlManager.getControllerPlayer(player);
-			
-			CollisionManager.setCollision(controller, true);
-			VisibleManager.setVisible(controller, HideState.VISIBLE);
-		} else {
-			CollisionManager.setCollision(player, true);
-			VisibleManager.setVisible(player, HideState.VISIBLE);
-		}
-		
 		ControlManager.remove(player);
 	}
 }

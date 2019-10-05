@@ -24,7 +24,7 @@ public class ControlManager {
 		VisibleManager.setVisible(controller, HideState.VISIBLE);
 		DisguiseManager.disguise(controller, controlled.getName());
 		
-		VisibleManager.setVisible(controlled, HideState.INVISIBLE);
+		VisibleManager.setVisible(controlled, HideState.INVISIBLE_FOR_ALL);
 		CollisionManager.setCollision(controlled, false);
 		controlled.hidePlayer(Main.getPlugin(), controller);
 		
@@ -32,24 +32,27 @@ public class ControlManager {
 	}
 
 	public static void remove(Player p) {
+		Player controller = null;
+		Player controlled = null;
+		
 		if(isControlSomeone(p)) {
-			Player controlled = control.remove(p);
+			controlled = control.remove(p);
 			controlledMap.remove(controlled);
-			
-			DisguiseManager.undisguise(p);
-			VisibleManager.setVisible(p, HideState.INVISIBLE);
-			
-			VisibleManager.setVisible(controlled, HideState.VISIBLE);
+			controller = p;
 		}
 		
 		if(isControlled(p)) {
-			Player controller = controlledMap.remove(p);
+			controller = controlledMap.remove(p);
 			control.remove(controller);
-			
+			controlled = p;
+		}
+		
+		if(controller != null && controlled != null) {
 			DisguiseManager.undisguise(controller);
 			VisibleManager.setVisible(controller, HideState.INVISIBLE);
+			VisibleManager.sendMessage(controller);
 			
-			VisibleManager.setVisible(p, HideState.VISIBLE);
+			VisibleManager.setVisible(controlled, HideState.VISIBLE);
 		}
 	}
 	

@@ -5,14 +5,14 @@ import java.io.IOException;
 import org.bukkit.entity.Player;
 
 import essentials.modules.disguise.gameprofile.GameProfileBuilder;
+import essentials.modules.disguise.name.NameManager;
 import essentials.utilities.player.PlayerUtilities;
 
 public class DisguiseManager {
 	public static void disguise(Player player, String name) {
-//		NameManager.nick(player, name);
-		
 		try {
-			PlayerUtilities.setGameProfile(player, GameProfileBuilder.fetch(PlayerUtilities.getOfflinePlayer(name).getUniqueId()));
+			PlayerUtilities.setGameProfile(player, GameProfileBuilder.fetch(PlayerUtilities.getOfflinePlayer(name).getUniqueId(), player.getUniqueId(), name, false));
+			NameManager.nick(player, name);
 			PlayerUtilities.updatePlayer(player);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -20,10 +20,9 @@ public class DisguiseManager {
 	}
 	
 	public static void undisguise(Player player) {
-//		NameManager.unnick(player);
-		
 		try {
 			PlayerUtilities.setGameProfile(player, GameProfileBuilder.fetch(player.getUniqueId()));
+			NameManager.unnick(player);
 			PlayerUtilities.updatePlayer(player);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -9,11 +9,16 @@ import essentials.player.PlayerManager;
 
 public class NameManager {
 	public static void nick(Player player, String name) {
-		Player toPlayer = Bukkit.getPlayer(name);
+		Player toPlayer = name != null ? Bukkit.getPlayer(name) : null;
 		String playerListName = null;
 		
 		PlayerConfig config = PlayerManager.getPlayerConfig(player);
-		config.setTmp("nick", name);
+		if(name != null)
+			config.setTmp("nick", name);
+		else {
+			config.removeBuffer("nick");
+			name = player.getName();
+		}
 		
 		if(toPlayer != null)
 			playerListName = Tablist.getTablistName(toPlayer);
@@ -29,6 +34,6 @@ public class NameManager {
 	}
 	
 	public static void unnick(Player player) {
-		nick(player, player.getName());
+		nick(player, null);
 	}
 }

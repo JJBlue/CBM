@@ -89,15 +89,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
-			case "test": {
-				DisguiseManager.disguise(p, "Jannilol12");
-				break;
-			}
-			case "test2":
-				
-				DisguiseManager.undisguise(p);
-				break;
-		
 			case "afk": {
 				Player p1;
 
@@ -202,6 +193,37 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			case "container":
 				return ContainerCommands.containerCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
+			case "undisguise": {
+				Player p2;
+				
+				if(args.length == 1) {
+					p2 = p;
+				} else {
+					p2 = Bukkit.getPlayer(args[1]);
+					if(p2 == null) break;
+				}
+				
+				DisguiseManager.undisguise(p2);
+			}
+			case "disguise": {
+				if(args.length < 2) break;
+				
+				String name = null;
+				Player p2 = null;
+				
+				if(args.length == 2) {
+					name = args[1];
+					p2 = p;
+				} else {
+					p2 = Bukkit.getPlayer(args[2]);
+					if(p2 == null) break;
+					name = args[1];
+				}
+				
+				DisguiseManager.disguise(p2, name);
+				
+				break;
+			}
 			case "feed": {
 				Player p1;
 
@@ -365,11 +387,13 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				if (p1 == null) return true;
 				
-				if(args.length < 3)
+				if(args.length < 3) {
 					VisibleManager.changeVisible(p1);
-				else {
+					VisibleManager.sendMessage(p1);
+				} else {
 					try {
 						VisibleManager.setVisible(p1, HideState.valueOf(args[2].toUpperCase()));
+						VisibleManager.sendMessage(p1);
 					} catch (IllegalArgumentException e) {
 						LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 					}
@@ -1015,6 +1039,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("commandspy");
 			returnArguments.add("container");
 			returnArguments.add("chestplate");
+			returnArguments.add("disguise");
 			returnArguments.add("delwarp");
 			returnArguments.add("economy");
 			returnArguments.add("editwarp");
@@ -1065,6 +1090,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("timer");
 			returnArguments.add("trade");
 			returnArguments.add("troll");
+			returnArguments.add("undisguise");
 			returnArguments.add("unnick");
 			returnArguments.add("updater");
 			returnArguments.add("unskin");
@@ -1172,12 +1198,15 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "nbt":
 					
 					return NBTCommands.nbtCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-					
+				
+				case "disguise":
 				case "nick":
 					
-					if(args.length == 2)
+					if(args.length == 2) {
 						returnArguments.add("<Name>");
-					else if(args.length == 3) {
+						for(Player player : Bukkit.getOnlinePlayers())
+							returnArguments.add(player.getName());
+					} else if(args.length == 3) {
 						for(Player player : Bukkit.getOnlinePlayers())
 							returnArguments.add(player.getName());
 					}
@@ -1213,6 +1242,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				case "skin":
 
+				case "undisguise":
 				case "unskin":
 				case "unnick":
 				case "lightning":

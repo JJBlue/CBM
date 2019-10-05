@@ -51,7 +51,25 @@ public class VisibleManager implements Listener {
 			else if (!PermissionHelper.hasCommandPermission(p2, "hide.showhidden")) //p2 is no admin
 				p2.hidePlayer(Main.getPlugin(), player);
 		}
-
+	}
+	
+	public static void sendMessage(Player player) {
+		boolean isHidden = false;
+		HideState hideState = hide.get(player);
+		
+		if(hideState != null) {
+			switch (hideState) {
+				case INVISIBLE:
+				case INVISIBLE_FOR_ALL:
+					isHidden = true;
+					break;
+				case VISIBLE:
+					isHidden = false;
+					break;
+			}
+		}
+		
+		
 		if(isHidden)
 			LanguageConfig.sendMessage(player, "hide.invisible-Player", player.getName());
 		else
