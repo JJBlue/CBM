@@ -48,6 +48,7 @@ import essentials.modules.disguise.name.NameManager;
 import essentials.modules.disguise.skin.Skin;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
+import essentials.modules.player.BukkitMidiPlayer;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
@@ -89,10 +90,18 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
-		case "test":{
-			p.openInventory(p.getInventory());
-		}
-		
+			case "test":{
+				File file = new File("C:\\Users\\Julian\\Downloads\\Super Mario 64 - Medley.mid");
+				try {
+					BukkitMidiPlayer player = new BukkitMidiPlayer(file);
+					player.start();
+					Bukkit.broadcastMessage("start");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				break;
+			}
 			case "afk": {
 				Player p1;
 
