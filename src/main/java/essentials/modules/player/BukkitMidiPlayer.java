@@ -184,9 +184,6 @@ public class BukkitMidiPlayer {
     					running = false;
     					break;
     				case MetaMessageType.set_tempo:
-        				int bpm = MetaMessageType.getBPM(metaMessage);
-        				
-        				//60000 / (bpm * ppq)
         				sleep = MetaMessageType.getTempo(metaMessage);
         				
     					break;
