@@ -1,4 +1,4 @@
-package essentials.modules.player;
+package essentials.modules.player.utils;
 
 import org.bukkit.Instrument;
 import org.bukkit.Note;
@@ -38,7 +38,7 @@ public class BukkitNoteInstrumentConverter {
 		return null;
 	}
 	
-	public static Instrument getInstrument() {
+	public static Instrument getInstrument(javax.sound.midi.Instrument instrument) {
 		return Instrument.PIANO; //TODO
 	}
 }

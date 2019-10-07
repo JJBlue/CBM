@@ -1,4 +1,4 @@
-package essentials.modules.player;
+package essentials.modules.player.utils;
 
 import javax.sound.midi.MetaMessage;
 

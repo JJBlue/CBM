@@ -1,4 +1,4 @@
-package essentials.modules.player;
+package essentials.modules.player.oldButDoNotRemove;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaMessage;
+import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -16,7 +17,10 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Soundbank;
+import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
+
+import essentials.modules.player.utils.MetaMessageType;
 
 public class MidiPlayerOldHelperDoNotRemove {
 	
@@ -34,12 +38,13 @@ public class MidiPlayerOldHelperDoNotRemove {
     }
     
     public static void main(String[] args) throws Exception {
-    	//    	Soundbank soundbank2 = MidiSystem.getSoundbank(new File("C:\\Users\\Julian\\Downloads\\Super Mario 64 - Medley.mid"));
+    	File file = null;
+    	
+    	Soundbank soundbank2 = MidiSystem.getSoundbank(file);
+//    	System.out.println(soundbank2.getInstruments().length);
     	Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
-    	File file = new File("C:\\Users\\Julian\\Downloads\\Super Mario 64 - Medley.mid");
+//    	System.out.println(soundbank.getInstruments().length);
     	Sequence sequence = MidiSystem.getSequence(file);
-    	System.out.println((double) sequence.getMicrosecondLength() / (double) sequence.getTickLength());
-    	System.out.println(sequence.getResolution());
     	
 //    	play(file);
 
@@ -54,7 +59,7 @@ public class MidiPlayerOldHelperDoNotRemove {
     			MidiEvent event = track.get(i);
     			System.out.print("@" + event.getTick() + " ");
 
-    			if(event.getTick() > 0) continue; //TODO
+//    			if(event.getTick() > 0) continue; //TODO
     			
     			MidiMessage message = event.getMessage();
     			if (message instanceof ShortMessage) {
@@ -95,7 +100,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    				case ShortMessage.POLY_PRESSURE:
 	    					break;
 	    				case ShortMessage.PROGRAM_CHANGE:
-	    					System.out.println("Instrument: " + soundbank.getInstruments()[0].getName());
+	    					System.out.println("Instrument: " + soundbank.getInstruments()[sm.getData1()].getName());
 	    					break;
 	    				case ShortMessage.SONG_POSITION_POINTER:
 	    					break;
@@ -134,7 +139,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					System.out.println("MetaMessage: track_name " + MetaMessageType.getTrackName(metaMessage));
 	    					break;
 	    				case MetaMessageType.instrument_name:
-	    					System.out.println("MetaMessage: instrument_name");
+	    					System.out.println("MetaMessage: instrument_name " + MetaMessageType.getInstrumentName(metaMessage));
 	    					break;
 	    				case MetaMessageType.lyrics:
 	    					System.out.println("MetaMessage: lyrics");
