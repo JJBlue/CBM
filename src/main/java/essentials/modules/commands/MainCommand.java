@@ -1,4 +1,4 @@
-package essentials.commands.commands;
+package essentials.modules.commands;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -16,6 +16,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,12 +24,13 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import components.classes.Files;
-import essentials.commands.NameTag.nt;
 import essentials.config.MainConfig;
 import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
@@ -37,6 +39,7 @@ import essentials.modules.Deop;
 import essentials.modules.Join;
 import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
+import essentials.modules.NameTag.nt;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;
 import essentials.modules.commandonitemstack.CoICommands;
@@ -91,7 +94,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 		switch (args[0]) {
 			case "test":{
-				File file = null;
+				File file = new File(args[1]);
 				try {
 					int ID = BukkitMidiPlayerManager.play(file);
 					Bukkit.broadcastMessage("start " + ID);
@@ -104,6 +107,24 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			case "test2": {
 				BukkitMidiPlayerManager.stop(Integer.parseInt(args[1]));
 				Bukkit.broadcastMessage("stop");
+				break;
+			}
+			case "a": {
+				ItemStack itemStack = p.getInventory().getItemInMainHand();
+				BlockStateMeta blockStateMeta = (BlockStateMeta) itemStack.getItemMeta();
+				ShulkerBox shulkerBox = (ShulkerBox) blockStateMeta.getBlockState();
+				
+				Inventory inventory = Bukkit.createInventory(
+					null,
+					shulkerBox.getInventory().getSize(),
+					shulkerBox.getCustomName() == null ? "ShulkerBox" : shulkerBox.getCustomName()
+				);
+				inventory.setContents(shulkerBox.getInventory().getContents());
+				p.openInventory(inventory);
+				
+				System.out.println(shulkerBox.isLocked());
+				
+//				p.openInventory(shulkerBox.getSnapshotInventory());
 			}
 			case "afk": {
 				Player p1;

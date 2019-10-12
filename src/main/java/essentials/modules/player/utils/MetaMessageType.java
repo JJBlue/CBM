@@ -6,8 +6,8 @@ public class MetaMessageType {
 	public final static int sequence_number = 0x00;
 	public final static int text = 0x01;
 	public final static int copyright = 0x02;
-	public final static int track_name = 0x03;
-	public final static int instrument_name = 0x04;
+	public final static int instrument_name = 0x03; //TODO don't know if 0x03 or 0x04
+	public final static int track_name = 0x04; //TODO don't know if 0x03 or 0x04
 	public final static int lyrics = 0x05;
 	public final static int marker = 0x06;
 	public final static int cue_marker = 0x07;

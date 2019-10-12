@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import javax.sound.midi.InvalidMidiDataException;
 
 public class BukkitMidiPlayerManager {
 	private static Map<Integer, BukkitMidiPlayer> players = Collections.synchronizedMap(new HashMap<>());
+	private static int counter = 1;
 	
 	public static int play(File file) {
 		try {
@@ -18,8 +18,8 @@ public class BukkitMidiPlayerManager {
 			int ID = getFreeID();
 			if(ID < 0) return ID;
 			
+			players.put(ID, player);
 			player.start();
-			players.put(getFreeID(), player);
 			return ID;
 		} catch (InvalidMidiDataException | IOException e) {
 			e.printStackTrace();
@@ -34,18 +34,17 @@ public class BukkitMidiPlayerManager {
 		player.stop();
 	}
 	
-	public static int getFreeID() {
+	public synchronized static int getFreeID() {
 		if(players.size() >= Integer.MAX_VALUE) return -1;
 		
-		Random random = new Random();
-		int value;
-		
 		do {
-			value = random.nextInt(Integer.MAX_VALUE) + 1;
-		} while(players.containsKey(value));
+			counter++;
+			if(counter < 0)
+				counter = 1;
+		} while(players.containsKey(counter));
 		
-		players.put(value, null);
+		players.put(counter, null);
 		
-		return value;
+		return counter;
 	}
 }

@@ -107,8 +107,7 @@ public class JSONFinder {
 
 	public static Boolean getBoolean(String key, abstractJSON ajson) {
 		Object o = getObject(key, ajson);
-		if (o == null) return null;
-
+		if (o == null) return false;
 		if (o instanceof Boolean) return (boolean) o;
 		return false;
 	}

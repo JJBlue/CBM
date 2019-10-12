@@ -1,4 +1,4 @@
-package essentials.commands.commands;
+package essentials.modules.commands;
 
 import java.io.File;
 import java.io.IOException;

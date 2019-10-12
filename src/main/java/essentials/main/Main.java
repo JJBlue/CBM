@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import essentials.commands.commands.MainCommand;
-import essentials.commands.commands.bookCommand;
 import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
@@ -29,6 +27,8 @@ import essentials.modules.chair.chair;
 import essentials.modules.commandonitemstack.CoIListener;
 import essentials.modules.commandonobject.CommandListener;
 import essentials.modules.commandonobject.CommandOnBlock;
+import essentials.modules.commands.MainCommand;
+import essentials.modules.commands.bookCommand;
 import essentials.modules.commandspy.CommandSpyListener;
 import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;

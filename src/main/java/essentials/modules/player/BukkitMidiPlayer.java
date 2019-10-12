@@ -2,8 +2,10 @@ package essentials.modules.player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -27,6 +29,7 @@ public class BukkitMidiPlayer {
 	private long sleep;
 	
 	public List<BukkitTrack> tracks;
+	public Map<BukkitTrack, Instrument> instruments;
 	
 	public BukkitMidiPlayer(File file) throws InvalidMidiDataException, IOException {
 		this.file = file;
@@ -45,7 +48,7 @@ public class BukkitMidiPlayer {
     			maxTicks = bukkitTrack.maxTick;
 		}
 		
-		//TODO add instrument list/map
+		instruments = new HashMap<>();
 	}
 	
 	private void setAndNextTicks() {
@@ -70,6 +73,10 @@ public class BukkitMidiPlayer {
 	
 	public void setInstrument(BukkitTrack track, Instrument instrument) {
 		//TODO
+	}
+	
+	public void getInstrument() {
+		
 	}
 	
 	public void changeTempo(int tempo) {

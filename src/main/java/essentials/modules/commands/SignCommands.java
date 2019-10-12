@@ -1,4 +1,4 @@
-package essentials.commands.commands;
+package essentials.modules.commands;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
