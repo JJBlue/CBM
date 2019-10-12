@@ -169,6 +169,10 @@ public class CoBBlock {
 
 		return result;
 	}
+	
+	public void saveAsync() {
+		AsyncDatabase.add(() -> save());
+	}
 
 	public int getID() {
 		return ID;

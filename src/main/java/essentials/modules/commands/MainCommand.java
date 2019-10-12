@@ -35,8 +35,8 @@ import essentials.config.MainConfig;
 import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
-import essentials.modules.Deop;
-import essentials.modules.Join;
+import essentials.modules.OpListener;
+import essentials.modules.JoinListener;
 import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
@@ -495,7 +495,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 
 			case "join":
-				return Join.onCommand(sender, cmd, cmdLabel, args);
+				return JoinListener.onCommand(sender, cmd, cmdLabel, args);
 
 			case "joinsilent": {
 				
@@ -657,7 +657,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 			case "op":
 
-				Deop.deopCommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				OpListener.deopCommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 				break;
 

@@ -18,6 +18,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
 import essentials.language.LanguageConfig;
+import essentials.modules.ban.BanManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
@@ -27,12 +28,18 @@ import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
 import essentials.utilities.player.PlayerUtilities;
 
-public class Join implements Listener {
+public class JoinListener implements Listener {
 	private static ArrayList<String> tempPlayer = new ArrayList<>();
 
 	@EventHandler
 	private void J(PlayerJoinEvent event) {
 		if(fullServer(event)) return;
+		
+		if(BanManager.isPlayerBanned(event.getPlayer().getUniqueId())) {
+			event.setJoinMessage(null);
+			event.getPlayer().kickPlayer(BanManager.getMessage(event.getPlayer().getUniqueId()));
+			return;
+		}
 		
 		ConfigurationSection section = PlayersYMLConfig.getConfigurationSection("join");
 		if(section == null) return;

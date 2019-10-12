@@ -14,8 +14,8 @@ import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
 import essentials.modules.ColorListener;
-import essentials.modules.Deop;
-import essentials.modules.Join;
+import essentials.modules.OpListener;
+import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
 import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.FlyThroughBlocks.FTB;
@@ -74,12 +74,12 @@ public class Main extends JavaPlugin implements Listener {
 
 		System.out.println("[CBM] loading Listeners");
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
-		Bukkit.getPluginManager().registerEvents(new Deop(), this);
+		Bukkit.getPluginManager().registerEvents(new OpListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MainListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MPListener(), this);
 		Bukkit.getPluginManager().registerEvents(new chair(), this);
-		Bukkit.getPluginManager().registerEvents(new Join(), this);
+		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CommandListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TrollListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ChatVerbesserung(), this);

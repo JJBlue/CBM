@@ -1,6 +1,7 @@
 package essentials.player;
 
 import components.datenbank.DatabaseSyntax;
+import components.datenbank.async.AsyncDatabase;
 import essentials.database.Databases;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -345,5 +346,9 @@ public class PlayerConfig {
 
 			buffer.clear();
 		}
+	}
+	
+	public void saveAsync() {
+		AsyncDatabase.add(() -> save());
 	}
 }

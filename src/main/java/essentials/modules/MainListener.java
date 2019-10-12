@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -160,13 +159,6 @@ public class MainListener implements Listener {
 			return;
 
 		event.setCancelled(true);
-	}
-
-	@EventHandler
-	private void login(PlayerJoinEvent e) {
-//		if(fileConf.getBoolean("jail")) {
-//			//to jail TODO
-//		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

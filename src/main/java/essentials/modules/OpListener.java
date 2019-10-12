@@ -15,7 +15,7 @@ import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
 import essentials.utilities.player.PlayerUtilities;
 
-public class Deop implements Listener, CommandExecutor {
+public class OpListener implements Listener, CommandExecutor {
 	@EventHandler
 	public void command(PlayerCommandPreprocessEvent e) {
 		if(!MainConfig.getConfiguration().getBoolean(MainConfigEnum.enableOperators.value)) return;
@@ -26,10 +26,10 @@ public class Deop implements Listener, CommandExecutor {
 			player.setOp(false);
 	}
 
-	public final static Deop deopCommand;
+	public final static OpListener deopCommand;
 
 	static {
-		deopCommand = new Deop();
+		deopCommand = new OpListener();
 	}
 
 	@Override

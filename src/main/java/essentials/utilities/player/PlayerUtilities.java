@@ -31,6 +31,10 @@ public class PlayerUtilities {
 		return Bukkit.getOfflinePlayer(uuid);
 	}
 	
+	public static UUID getUUID(String player) {
+		return getOfflinePlayer(player).getUniqueId();
+	}
+	
 	public static void updatePlayer(Player p) {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
