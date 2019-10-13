@@ -57,8 +57,7 @@ import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
 import essentials.modules.sudo.SudoCommand;
-import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
-import essentials.modules.sudo.sudoplayer.SudoPlayerManager;
+import essentials.modules.sudo.SudoManager;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
@@ -829,10 +828,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 			case "silent":
 
-				CommandSender commandSender = SudoPlayerManager.getSudoPlayer(sender);
-				((SudoPlayerInterface) commandSender).setSilentOutputMessage(true);
-				Bukkit.dispatchCommand(commandSender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
-
+				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
 				break;
 
 			case "sit":

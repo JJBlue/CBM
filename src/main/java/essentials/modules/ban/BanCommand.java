@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import essentials.language.LanguageConfig;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.TimeUtilities;
+import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.player.PlayerUtilities;
 
 public class BanCommand implements CommandExecutor, TabCompleter {
@@ -38,9 +39,9 @@ public class BanCommand implements CommandExecutor, TabCompleter {
 				BanManager.banPlayer(PlayerUtilities.getUUID(args[1]), reason);
 				
 				
-				LanguageConfig.sendMessage(sender, "ban.ban", args[1]);
+				LanguageConfig.sendMessageWithPermission(PermissionHelper.getPermission("ban.see"), "ban.ban", args[1]);
 				if(reason != null)
-					LanguageConfig.sendMessage(sender, "ban.banReason", args[1], reason);
+					LanguageConfig.sendMessageWithPermission(PermissionHelper.getPermission("ban.see"), "ban.banReason", args[1], reason);
 				
 				break;
 			}	
@@ -53,9 +54,9 @@ public class BanCommand implements CommandExecutor, TabCompleter {
 				BanManager.banPlayer(PlayerUtilities.getUUID(args[1]), reason, time);
 				
 				if(reason == null)
-					LanguageConfig.sendMessage(sender, "ban.tempban", args[1], TimeUtilities.timeToString(LocalDateTime.now(), time));
+					LanguageConfig.sendMessageWithPermission(PermissionHelper.getPermission("ban.see"), "ban.tempban", args[1], TimeUtilities.timeToString(LocalDateTime.now(), time));
 				else
-					LanguageConfig.sendMessage(sender, "ban.tempbanReason", args[1], TimeUtilities.timeToString(LocalDateTime.now(), time), reason);
+					LanguageConfig.sendMessageWithPermission(PermissionHelper.getPermission("ban.see"), "ban.tempbanReason", args[1], TimeUtilities.timeToString(LocalDateTime.now(), time), reason);
 				
 				break;
 			}
@@ -63,7 +64,7 @@ public class BanCommand implements CommandExecutor, TabCompleter {
 				
 				if(args.length < 2) break;
 				BanManager.unbanPlayer(PlayerUtilities.getUUID(args[1]));
-				LanguageConfig.sendMessage(sender, "ban.unban", args[1]);
+				LanguageConfig.sendMessageWithPermission(PermissionHelper.getPermission("ban.see"), "ban.unban", args[1]);
 				
 				break;
 			}

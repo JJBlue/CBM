@@ -2,6 +2,7 @@ package essentials.language;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
+import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -10,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.acl.Permission;
 
 public class LanguageConfig {
 	private LanguageConfig() {}
@@ -119,5 +121,9 @@ public class LanguageConfig {
 
 	public static void sendMessage(CommandSender sender, String key, String... args) {
 		sender.sendMessage(getString(key, args));
+	}
+	
+	public static void sendMessageWithPermission(String permission, String key, String... args) {
+		BukkitUtilities.broadcast(getString(key, args), permission);
 	}
 }

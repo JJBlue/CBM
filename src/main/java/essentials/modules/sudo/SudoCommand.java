@@ -31,13 +31,16 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
 		switch (args[0].toLowerCase()) {
 			case "sudo-": { //Only execute command over player/console
 				
+				if (args.length < 3) break;
+				
 				if (args[1].equalsIgnoreCase("@c"))
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
-				else {
+				else if(args[1].equalsIgnoreCase("@a")) {
+					for(Player player : Bukkit.getOnlinePlayers())
+						Bukkit.dispatchCommand(player, StringUtilities.arrayToStringRange(args, 2, args.length));
+				} else {
 					Player player = Bukkit.getPlayer(args[1]);
 					if (player == null) return true;
-
-					if (args.length < 3) return true;
 					Bukkit.dispatchCommand(player, StringUtilities.arrayToStringRange(args, 2, args.length));
 				}
 				
@@ -45,13 +48,16 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
 			}	
 			case "sudo": { //Execute command with your permissions
 				
+				if (args.length < 3) return true;
+				
 				if (args[1].equalsIgnoreCase("@c"))
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
-				else {
+				else if(args[1].equalsIgnoreCase("@a")) {
+					for(Player sudoPlayer : Bukkit.getOnlinePlayers())
+						SudoManager.execute(sender, sudoPlayer, StringUtilities.arrayToStringRange(args, 2, args.length));
+				} else {
 					Player sudoPlayer = Bukkit.getPlayer(args[1]);
 					if (sudoPlayer == null) return true;
-
-					if (args.length < 3) return true;
 					SudoManager.execute(sender, sudoPlayer, StringUtilities.arrayToStringRange(args, 2, args.length));
 				}
 				
@@ -88,6 +94,7 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
 						for (Player player : Bukkit.getOnlinePlayers())
 							returnArguments.add(player.getName());
 						returnArguments.add("@c");
+						returnArguments.add("@a");
 					} else if(args.length == 3) {
 						returnArguments = BukkitUtilities.getAvailableCommands(sender);
 					} else {
