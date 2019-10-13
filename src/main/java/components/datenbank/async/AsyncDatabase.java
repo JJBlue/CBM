@@ -24,6 +24,7 @@ public class AsyncDatabase {
 	
 	public static void add(Runnable runnable) {
 		list.add(new DatabaseRunnable(runnable));
+		resume();
 	}
 	
 	public synchronized static void start() {

@@ -1,14 +1,15 @@
 package essentials.player;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 
 public class PlayerSQLHelper {
 
@@ -60,11 +61,11 @@ public class PlayerSQLHelper {
 
 	public static void set(PreparedStatement preparedStatement, int index, Object obj) throws SQLException {
 		if (preparedStatement == null) return;
-
-		if (obj == null)
-			preparedStatement.setString(index, null);
+		
+		if(obj == null)
+			preparedStatement.setNull(index, Types.JAVA_OBJECT);
 		else if (obj instanceof Boolean)
-			preparedStatement.setBoolean(index, (Boolean) obj);
+			preparedStatement.setBoolean(index, (Boolean) obj); 
 		else if (obj instanceof Byte)
 			preparedStatement.setByte(index, (Byte) obj);
 		else if (obj instanceof Integer)
@@ -91,6 +92,10 @@ public class PlayerSQLHelper {
 			preparedStatement.setString(index, LocationToString((Location) obj));
 		else
 			preparedStatement.setString(index, obj.toString());
+	}
+	
+	public static void setNull(PreparedStatement preparedStatement, int index, int type) throws SQLException {
+		preparedStatement.setNull(index, type);
 	}
 
 	public static String getSQLDataType(Object obj) {

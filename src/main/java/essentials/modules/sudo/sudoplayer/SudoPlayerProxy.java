@@ -1,4 +1,4 @@
-package essentials.player.sudoplayer;
+package essentials.modules.sudo.sudoplayer;
 
 import components.reflections.SimpleReflection;
 import essentials.utilitiesvr.ReflectionsUtilities;

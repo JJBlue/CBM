@@ -7,25 +7,35 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import essentials.utilities.StringUtilities;
 import essentials.utilities.player.PlayerUtilities;
 
-public class banCommand implements CommandExecutor, TabCompleter {
+public class BanCommand implements CommandExecutor, TabCompleter {
+	
+	public static BanCommand commands;
+	
+	static {
+		commands = new BanCommand();
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(args.length < 1) return true;
 		
 		switch (args[0].toLowerCase()) {
-			case "ban": {
+			case "ban": { // tempban <Player> <Reason>
 				
 				if(args.length < 2) break;
-				BanManager.banPlayer(PlayerUtilities.getUUID(args[1]), args.length < 3 ? null : args[2]);
+				BanManager.banPlayer(PlayerUtilities.getUUID(args[1]), args.length < 3 ? null : StringUtilities.arrayToStringRange(args, 2, args.length));
+				//TODO message
 				
 				break;
 			}	
-			case "tempban": {
+			case "tempban": { // tempban <Player> <Time> <Reason>
 				
 				if(args.length < 3) break;
-				BanManager.banPlayer(PlayerUtilities.getUUID(args[1]), args[2], args.length < 4 ? null : args[3]);
+				BanManager.banPlayer(PlayerUtilities.getUUID(args[1]), args.length < 4 ? null : StringUtilities.arrayToStringRange(args, 3, args.length), args[2]);
+				//TODO message
 				
 				break;
 			}
@@ -33,6 +43,7 @@ public class banCommand implements CommandExecutor, TabCompleter {
 				
 				if(args.length < 2) break;
 				BanManager.unbanPlayer(PlayerUtilities.getUUID(args[1]));
+				System.out.println("unban!"); //TODO message
 				
 				break;
 			}

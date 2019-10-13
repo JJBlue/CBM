@@ -1,17 +1,24 @@
 package essentials.player;
 
-import components.datenbank.DatabaseSyntax;
-import components.datenbank.async.AsyncDatabase;
-import essentials.database.Databases;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.*;
+import components.datenbank.DatabaseSyntax;
+import components.datenbank.async.AsyncDatabase;
+import essentials.database.Databases;
 
 public class PlayerConfig {
 
@@ -40,11 +47,15 @@ public class PlayerConfig {
 	public void set(String key, Object value) {
 		set(key, value, false, false);
 	}
+	
+	public void set(String key, Object value, int type) {
+		set(key, value, type, false, false);
+	}
 
 	public void setTmp(String key, Object value) {
 		set(key, value, true, true);
 	}
-
+	
 	public synchronized void set(String key, Object value, boolean saved, boolean tmp) {
 		PlayerConfigValue playerConfigValue = buffer.get(key);
 
@@ -52,6 +63,17 @@ public class PlayerConfig {
 			buffer.put(key, new PlayerConfigValue(value, saved, tmp));
 		else
 			playerConfigValue.set(value);
+	}
+	
+	public synchronized void set(String key, Object value, int type, boolean saved, boolean tmp) {
+		PlayerConfigValue playerConfigValue = buffer.get(key);
+
+		if (playerConfigValue == null)
+			buffer.put(key, new PlayerConfigValue(value, type, saved, tmp));
+		else {
+			playerConfigValue.set(value);
+			playerConfigValue.setType(type);
+		}
 	}
 
 	public synchronized void removeBuffer(String key) {
@@ -69,9 +91,8 @@ public class PlayerConfig {
 
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
-			if (resultSet != null && resultSet.next()) {
+			if (resultSet != null && resultSet.next())
 				return resultSet.getObject(key);
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -185,6 +206,8 @@ public class PlayerConfig {
 		if (value != null) {
 			if (value.getObject() instanceof String)
 				return (String) value.getObject();
+			else if(value.getObject() == null)
+				return null;
 			return value.getObject().toString();
 		}
 
@@ -239,12 +262,13 @@ public class PlayerConfig {
 		try {
 			ResultSet resultSet = getPlayerInformation(key);
 			if (resultSet != null && resultSet.next()) {
-				LocalDateTime v = resultSet.getTimestamp(key).toLocalDateTime();
+				Timestamp timestamp = resultSet.getTimestamp(key);
+				if(timestamp == null) return null;
+				LocalDateTime v = timestamp.toLocalDateTime();
 				buffer.put(key, new PlayerConfigValue(v, true));
 				return v;
 			}
-		} catch (SQLException e) {
-		}
+		} catch (SQLException e) {}
 		return null;
 	}
 
@@ -270,6 +294,8 @@ public class PlayerConfig {
 
 	public void save() {
 		synchronized (buffer) {
+			if(buffer.isEmpty()) return;
+			
 			List<String> coloumns = PlayerManager.getColumns();
 
 			if (automaticExtension) {
@@ -304,6 +330,8 @@ public class PlayerConfig {
 						continue;
 					conditions.add(key);
 				}
+				
+				if(conditions.isEmpty()) return;
 
 				builder.append('\n');
 				String[] array = new String[conditions.size()];

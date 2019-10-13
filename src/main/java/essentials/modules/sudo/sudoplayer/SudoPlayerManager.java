@@ -1,6 +1,6 @@
-package essentials.player.sudoplayer;
+package essentials.modules.sudo.sudoplayer;
 
-import essentials.player.sudoplayer.versions.SudoPlayer_v1_14;
+import essentials.modules.sudo.sudoplayer.versions.SudoPlayer_v1_14;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

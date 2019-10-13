@@ -82,22 +82,6 @@ public class AFK implements Listener {
 			return;
 		
 		setAfk(p, false);
-		
-//		Location to = event.getTo();
-//		Location from = event.getFrom();
-//		
-//		if (from.getYaw() != to.getYaw() || from.getPitch() != to.getPitch()) {
-//			setAfk(p, false);
-//			return;
-//		}
-//		
-//		List<Entity> list = p.getNearbyEntities(0.7, 0.7, 0.7);
-//		if(list.size() > 0) {
-//			event.setCancelled(true);
-//			return;
-//		}
-//		
-//		setAfk(p, false);
 	}
 	
 	@EventHandler

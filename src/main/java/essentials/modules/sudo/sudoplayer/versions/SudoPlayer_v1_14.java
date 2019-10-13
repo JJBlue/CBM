@@ -1,6 +1,5 @@
-package essentials.player.sudoplayer.versions;
+package essentials.modules.sudo.sudoplayer.versions;
 
-import essentials.player.sudoplayer.SudoPlayerInterface;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_14_R1.CraftServer;
@@ -10,6 +9,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+
+import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
 
 import java.util.Set;
 

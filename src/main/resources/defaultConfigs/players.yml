@@ -3,6 +3,10 @@ afk:
   autoEnable: true
   # Set player to afk after x seconds, if there didn't move
   after: 300
+ban:
+  message: You were §4banned.$1$2
+  reason: '\nReason: §6$1'
+  until: '\nTime until unbanned: §6$1'
 command:
   # "7say hi" will be converted to -> "/say hi"
   # disable convert in game type "\7say hi" -> "7 say hi". "\\7 say hi" -> "\7 say hi"...

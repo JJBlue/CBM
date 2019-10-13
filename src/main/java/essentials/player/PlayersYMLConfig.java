@@ -2,6 +2,7 @@ package essentials.player;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
+import essentials.modules.ban.BanManager;
 import essentials.modules.display.DisplayManager;
 import essentials.modules.move.MoveManager;
 import essentials.modules.spawn.SpawnConfiguration;
@@ -89,6 +90,7 @@ public class PlayersYMLConfig {
 		TeleportManager.load();
 		SpawnConfiguration.load();
 		MoveManager.load();
+		BanManager.load();
 		
 		configuration.options().copyDefaults(true);
 		try {

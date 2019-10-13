@@ -1,4 +1,4 @@
-package essentials.player.sudoplayer;
+package essentials.modules.sudo.sudoplayer;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;

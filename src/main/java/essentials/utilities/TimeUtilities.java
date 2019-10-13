@@ -75,20 +75,20 @@ public class TimeUtilities {
 		}
 		
 		if(map.containsKey('y'))
-			time.plusYears(map.get('y'));
+			time = time.plusYears(map.get('y'));
 		if(map.containsKey('M'))
-			time.plusMonths(map.get('M'));
+			time = time.plusMonths(map.get('M'));
 		if(map.containsKey('d'))
-			time.plusDays(map.get('d'));
+			time = time.plusDays(map.get('d'));
 		if(map.containsKey('w'))
-			time.plusWeeks(map.get('w'));
+			time = time.plusWeeks(map.get('w'));
 		
 		if(map.containsKey('h'))
-			time.plusHours(map.get('h'));
+			time = time.plusHours(map.get('h'));
 		if(map.containsKey('m'))
-			time.plusMinutes(map.get('m'));
+			time = time.plusMinutes(map.get('m'));
 		if(map.containsKey('s'))
-			time.plusSeconds(map.get('s'));
+			time = time.plusSeconds(map.get('s'));
 		
 		return time;
 	}

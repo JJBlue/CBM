@@ -4,17 +4,25 @@ public class PlayerConfigValue {
 	private boolean isSaved;
 	private boolean isTmp;
 	private Object value;
+	private int type;
 
 	public PlayerConfigValue(Object value, boolean saved) {
 		setSaved(saved);
 		this.value = value;
-		this.setTmp(false);
+		this.isTmp = false;
 	}
 
 	public PlayerConfigValue(Object value, boolean saved, boolean isTmp) {
 		setSaved(saved);
 		this.value = value;
-		this.setTmp(isTmp);
+		this.isTmp = isTmp;
+	}
+	
+	public PlayerConfigValue(Object value, int type, boolean saved, boolean isTmp) {
+		setSaved(saved);
+		this.value = value;
+		this.setType(type);
+		this.isTmp = isTmp;
 	}
 
 	public void set(Object object) {
@@ -40,5 +48,13 @@ public class PlayerConfigValue {
 
 	public void setTmp(boolean isTmp) {
 		this.isTmp = isTmp;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

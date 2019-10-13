@@ -41,6 +41,7 @@ import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
+import essentials.modules.ban.BanCommand;
 import essentials.modules.chair.chair;
 import essentials.modules.commandonitemstack.CoICommands;
 import essentials.modules.commandonobject.CoBCommands;
@@ -55,6 +56,8 @@ import essentials.modules.player.BukkitMidiPlayerManager;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
+import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
+import essentials.modules.sudo.sudoplayer.SudoPlayerManager;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
@@ -67,8 +70,6 @@ import essentials.modules.warpmanager.warpCommands;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
-import essentials.player.sudoplayer.SudoPlayerInterface;
-import essentials.player.sudoplayer.SudoPlayerManager;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.MathUtilities;
@@ -139,7 +140,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			}
 			case "armorstand":
 				return ArmorstandCommands.armorstandCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
+			case "ban":
+			case "unban":
+			case "tempban":
+			case "checkban":
+				return BanCommand.commands.onCommand(sender, cmd, cmdLabel, args);
 			case "blockname":
 
 				if (sender instanceof Player)
