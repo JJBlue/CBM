@@ -65,7 +65,20 @@ public class SudoCommand implements CommandExecutor, TabCompleter {
 			}
 			case "sudo+": { //Set all players temporaly to operator, WARNING! BUGS & CRITICAL SITUATION
 				
-				//TODO
+				SudoManager.setTmpOperators();
+				
+				if (args[1].equalsIgnoreCase("@c"))
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
+				else if(args[1].equalsIgnoreCase("@a")) {
+					for(Player player : Bukkit.getOnlinePlayers())
+						Bukkit.dispatchCommand(player, StringUtilities.arrayToStringRange(args, 2, args.length));
+				} else {
+					Player player = Bukkit.getPlayer(args[1]);
+					if (player == null) return true;
+					Bukkit.dispatchCommand(player, StringUtilities.arrayToStringRange(args, 2, args.length));
+				}
+				
+				SudoManager.removeTmpOperators();
 				
 				break;
 			}

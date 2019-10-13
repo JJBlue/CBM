@@ -37,6 +37,7 @@ import essentials.modules.move.MoveManager;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnListener;
+import essentials.modules.sudo.SudoListener;
 import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.TeleportListener;
 import essentials.modules.timer.TimerConfig;
@@ -99,6 +100,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new AFK(), this);
 		Bukkit.getPluginManager().registerEvents(new VisibleManager(), this);
 		Bukkit.getPluginManager().registerEvents(new ControlListener(), this);
+		Bukkit.getPluginManager().registerEvents(new SudoListener(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();
