@@ -35,8 +35,8 @@ import essentials.config.MainConfig;
 import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
-import essentials.modules.OpListener;
 import essentials.modules.JoinListener;
+import essentials.modules.OpListener;
 import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
@@ -56,6 +56,7 @@ import essentials.modules.player.BukkitMidiPlayerManager;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
+import essentials.modules.sudo.SudoCommand;
 import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
 import essentials.modules.sudo.sudoplayer.SudoPlayerManager;
 import essentials.modules.teleport.teleportCommand;
@@ -908,25 +909,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 			}
 			case "skull":
-
-				SkullInventory.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				break;
-
+				return SkullInventory.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 			case "sudo":
-
-				if (args[1].equalsIgnoreCase("@c")) {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
-				} else {
-					Player sudoPlayer = Bukkit.getPlayer(args[1]);
-					if (sudoPlayer == null) return true;
-
-					if (args.length < 3) return true;
-					PluginCommand command = Bukkit.getServer().getPluginCommand(args[2]);
-					if (command != null)
-						command.execute(SudoPlayerManager.getSudoPlayer(sender, sudoPlayer), args[2], Arrays.copyOfRange(args, 3, args.length));
-				}
-
-				break;
+			case "sudo-":
+			case "sudo+":
+				return SudoCommand.commands.onCommand(sender, cmd, cmdLabel, args);
 
 			case "status": {
 				
@@ -1070,6 +1057,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 1) {
 			returnArguments.add("afk");
 			returnArguments.add("armorstand");
+			returnArguments.add("ban");
 			returnArguments.add("blockname");
 			returnArguments.add("boot");
 			returnArguments.add("book");
@@ -1126,12 +1114,16 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("skull");
 			returnArguments.add("status");
 			returnArguments.add("sudo");
+			returnArguments.add("sudo+");
+			returnArguments.add("sudo-");
 			returnArguments.add("speed");
 			returnArguments.add("restart");
 			returnArguments.add("teleport");
+			returnArguments.add("tempban");
 			returnArguments.add("timer");
 			returnArguments.add("trade");
 			returnArguments.add("troll");
+			returnArguments.add("unban");
 			returnArguments.add("undisguise");
 			returnArguments.add("unnick");
 			returnArguments.add("updater");
@@ -1157,35 +1149,25 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					} else if (args.length == 3) returnArguments.add("[<amount>]");
 
 					break;
-
+					
+				case "ban":
+				case "tempban":
+				case "unban":
+					return BanCommand.commands.onTabComplete(sender, cmd, cmdLabel, args);
 				case "armorstand":
-
 					return ArmorstandCommands.armorstandCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "book":
-
 					return bookCommand.bookcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "cob":
-
 					return CoBCommands.commandOnBlock.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "coi":
-					
 					return CoICommands.commondsOnItemStack.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-					
 				case "commandspy":
-
 					return CommandSpy.commandSpy.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "container":
-					
 					return ContainerCommands.containerCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-					
 				case "economy":
-					
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-					
 				case "for":
 					
 					switch (args.length) {
@@ -1283,7 +1265,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					return SignCommands.signCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 				case "skin":
-
 				case "undisguise":
 				case "unskin":
 				case "unnick":
@@ -1311,9 +1292,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					break;
 
 				case "skull":
-
 					return SkullInventory.skullitem.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "status":
 					
 					returnArguments.add("serverinfo");
@@ -1323,39 +1302,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					break;
 					
 				case "sudo":
-
-					switch (args.length) {
-						case 2:
-
-							for (Player player : Bukkit.getOnlinePlayers())
-								returnArguments.add(player.getName());
-
-							returnArguments.add("@c");
-
-							break;
-
-						case 3:
-
-							returnArguments = BukkitUtilities.getAvailableCommands(sender);
-							break;
-
-						default:
-
-							PluginCommand command = Bukkit.getPluginCommand(args[2]);
-							if (command == null) break;
-							TabCompleter tabCompleter = command.getTabCompleter();
-							if (tabCompleter == null) break;
-							return tabCompleter.onTabComplete(sender, command, args[2], Arrays.copyOfRange(args, 3, args.length));
-					}
-
-					break;
-
+				case "sudo-":
+				case "sudo+":
+					return SudoCommand.commands.onTabComplete(sender, cmd, cmdLabel, args);
 				case "teleport":
-
 					return teleportCommand.teleport.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "troll":
-					
 					return TrollCommands.trollCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "info":
@@ -1367,7 +1319,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "inventory":
 
 					return inventorySee.inventorySee.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "join":
 					returnArguments.add("help");
 					break;
@@ -1388,41 +1339,29 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				case "nametag":
 					returnArguments.add("true");
 					returnArguments.add("false");
-
 					break;
 
 				case "paint":
-
 					return MPCommand.mpcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "pluginmanager":
-
 					return DisableEnable.disableEnable.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "spawn":
 				case "setspawn":
 				case "delspawn":
-					
 					return SpawnCommands.spawnCommands.onTabComplete(sender, cmd, cmdLabel, args);
-					
 				case "timer":
-
 					return TimerCommand.timerCommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 				case "trade":
-
 					return TradeCommands.tradeCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 				case "random":
 					if (args.length == 2) returnArguments.add("<Amount>");
 					else if (args.length == 3) returnArguments.add("<Player,Player...>");
-
 					break;
 
 				case "updater":
-
 					return UpdaterCommand.updaterCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "warp":
 				case "delwarp":
 				case "editwarp":
@@ -1432,7 +1371,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;

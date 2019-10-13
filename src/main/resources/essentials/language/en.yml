@@ -28,6 +28,12 @@ time:
 afk:
   isNowAfk: §e$1 is now §6afk
   noLongerAfk: §e$1 is no longer §6afk
+ban:
+  ban: §ePlayer §6$1§e is now banned from the server
+  banReason: '§ePlayer §6$1§e is now banned. Reason: $2'
+  tempban: §ePlayer §6$1§e is now banned for $2
+  tempbanReason: '§ePlayer §6$1§e is now banned for $2. Reason: $3'
+  unban: §ePlayer §6$1§e is no longer be banned from the server
 cob:
   add: §eCommand ($2) was added to the block
   remove: §eCommand ($2) was removed from this block
