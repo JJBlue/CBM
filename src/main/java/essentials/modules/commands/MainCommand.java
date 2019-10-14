@@ -50,6 +50,7 @@ import essentials.modules.container.ContainerCommands;
 import essentials.modules.disguise.DisguiseManager;
 import essentials.modules.disguise.name.NameManager;
 import essentials.modules.disguise.skin.Skin;
+import essentials.modules.eventsfinder.EventFinder;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.player.BukkitMidiPlayerManager;
@@ -94,6 +95,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 
 		switch (args[0]) {
+			case "t": {
+				EventFinder.print(sender);
+				break;
+			}
 			case "test":{
 				File file = new File(args[1]);
 				try {
@@ -122,10 +127,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				);
 				inventory.setContents(shulkerBox.getInventory().getContents());
 				p.openInventory(inventory);
-				
-				System.out.println(shulkerBox.isLocked());
-				
-//				p.openInventory(shulkerBox.getSnapshotInventory());
 			}
 			case "afk": {
 				Player p1;

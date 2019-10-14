@@ -61,7 +61,7 @@ public class BanManager {
 	public static LocalDateTime getBanUntil(UUID uuid) {
 		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
 		LocalDateTime time = config.getLocalDateTime("banUntil");
-		if(LocalDateTime.now().isAfter(time)) return null;
+		if(time == null || LocalDateTime.now().isAfter(time)) return null;
 		return time;
 	}
 	
