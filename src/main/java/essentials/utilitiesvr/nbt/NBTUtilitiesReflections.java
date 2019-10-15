@@ -138,6 +138,8 @@ public class NBTUtilitiesReflections implements NBTTag {
 
 	public NBTUtilitiesReflections(ItemStack itemStack) {
 		nbtTagCompound = getNBTTagCompound(itemStack);
+		if(nbtTagCompound == null)
+			nbtTagCompound = createNBTTagCompound();
 	}
 	
 	public boolean hasNBT() {

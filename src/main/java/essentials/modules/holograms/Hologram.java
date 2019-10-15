@@ -1,53 +1,74 @@
 package essentials.modules.holograms;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
+import java.util.LinkedList;
+import java.util.List;
 
-import essentials.utilities.NBTUtilities;
-import essentials.utilitiesvr.nbt.NBTTag;
+import org.bukkit.Location;
 
 public class Hologram {
-	private ArmorStand armorStand;
+	protected List<HologramLine> lines;
+	protected Location location;
 	
 	public Hologram(Location location) {
-		spawn(location);
+		this.location = location;
+		lines = new LinkedList<>();
 	}
 	
-	public Hologram() {}
+	public Hologram(Location location, List<HologramLine> lines) {
+		this.lines = lines;
+		this.location = location;
+	}
 	
-	public void spawn(Location location) {
-		if(armorStand != null) return;
+	public void setText(int line, String text) {
+		if(line < lines.size()) {
+			HologramLine hologramLine = lines.get(line);
+			hologramLine.setText(text);
+		} else {
+			
+			do {
+				addText("");
+			} while(line > lines.size());
+			
+			addText(text);
+		}
+	}
+	
+	public void addText(String text) {
+		int position = lines.size();
+		HologramLine line = new HologramLine(getLocation(position));
+		line.setPosition(position);
+		line.setText(text);
+		lines.add(line);
+	}
+	
+	public void removeText() {
+		HologramLine line = lines.get(lines.size() - 1);
+		lines.remove(line);
+		line.destroy();
+	}
+	
+	public void removeLine(int line) {
+		HologramLine hologramLine = lines.get(lines.size() - 1);
+		lines.remove(hologramLine);
+		hologramLine.destroy();
 		
-		armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-		armorStand.setAI(false);
-		armorStand.setGravity(false);
-		armorStand.setMarker(true);
-		armorStand.setInvulnerable(true);
-		armorStand.setGravity(false);
-		armorStand.setSmall(true);
-		armorStand.setVisible(false);
-		armorStand.setCustomNameVisible(true);
-		armorStand.setCollidable(false);
-		armorStand.setCanPickupItems(false);
-		armorStand.setRemoveWhenFarAway(false);
-		armorStand.setArms(true);
+		//TODO reposition other lines
+	}
+	
+	protected Location getLocation(int line) {
+		return null;
+	}
+	
+	public void moveHologram(Location location) {
+		this.location = location;
+		//TODO update information HologramManager?
+		//TODO move
+	}
+	
+	public void clear() {
+		for(HologramLine line : lines)
+			line.destroy();
 		
-		ItemStack paper = new ItemStack(Material.PAPER);
-		armorStand.getEquipment().setItemInMainHand(paper);
-	}
-	
-	public ItemStack getNBTItemStack() {
-		return armorStand.getEquipment().getItemInMainHand();
-	}
-	
-	public NBTTag getNBTTag() {
-		return NBTUtilities.getNBTTag(getNBTItemStack());
-	}
-	
-	public void setNBTTag(NBTTag nbtTag) {
-		NBTUtilities.setNBTTagCompound(getNBTItemStack(), nbtTag.getNBTTagCompound());
+		lines.clear();
 	}
 }

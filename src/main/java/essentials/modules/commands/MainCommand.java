@@ -51,6 +51,7 @@ import essentials.modules.disguise.DisguiseManager;
 import essentials.modules.disguise.name.NameManager;
 import essentials.modules.disguise.skin.Skin;
 import essentials.modules.eventsfinder.EventFinder;
+import essentials.modules.holograms.HologramLine;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.player.BukkitMidiPlayerManager;
@@ -97,6 +98,16 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		switch (args[0]) {
 			case "t": {
 				EventFinder.print(sender);
+				break;
+			}
+			case "t2": {
+				EventFinder.inventory(p, EventFinder.findEvents());
+				break;
+			}
+			case "t3": {
+				new HologramLine(p.getLocation().clone().add(0, 2, 0));
+				new HologramLine(p.getLocation().clone().add(0, 1.75, 0));
+				
 				break;
 			}
 			case "test":{

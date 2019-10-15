@@ -114,6 +114,8 @@ public class NBTUtilities_v1_14 implements NBTTag {
 
 	public NBTUtilities_v1_14(ItemStack itemStack) {
 		nbtTagCompound = getNBTTagCompound(itemStack);
+		if(nbtTagCompound == null)
+			nbtTagCompound = createNBTTagCompound();
 	}
 	
 	public NBTUtilities_v1_14(Object nbtTagCompound) {
