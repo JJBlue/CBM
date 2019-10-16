@@ -46,14 +46,14 @@ public class HologramCommand implements CommandExecutor, TabCompleter {
 			case "create": {
 				if(args.length < 2) break;
 				
-				Hologram hologram = new Hologram(player.getLocation());
+				Hologram hologram = new Hologram(player.getLocation().clone().add(0, 2, 0));
 				hologram.addText(ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 1, args.length)));
 				break;
 			}
 			case "createid": {
 				if(args.length < 3) break;
 				
-				Hologram hologram = new Hologram(player.getLocation(), args[1]);
+				Hologram hologram = new Hologram(player.getLocation().clone().add(0, 2, 0), args[1]);
 				hologram.addText(ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 2, args.length)));
 				break;
 			}
@@ -102,7 +102,7 @@ public class HologramCommand implements CommandExecutor, TabCompleter {
 				
 				Hologram hologram = HologramManager.getHologram(player.getLocation(), radius, args[1]);
 				if(hologram == null) break;
-				hologram.moveHologram(player.getLocation());
+				hologram.moveHologram(player.getLocation().clone().add(0, 2, 0));
 				break;
 			}
 			case "setid" : {
