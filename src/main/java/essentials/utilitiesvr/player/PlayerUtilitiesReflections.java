@@ -14,7 +14,6 @@ import com.mojang.authlib.GameProfile;
 
 import components.reflections.SimpleReflection;
 import essentials.utilities.player.EnumHandUtil;
-import essentials.utilities.player.PlayerUtilities;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.itemstack.ItemStackUtilitiesReflections;
 

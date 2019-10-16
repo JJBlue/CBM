@@ -1,17 +1,18 @@
 package essentials.utilities.system;
 
-import com.sun.management.OperatingSystemMXBean;
-import components.reflections.SimpleReflection;
-import essentials.main.Main;
-import essentials.utilities.MathUtilities;
-
-import org.bukkit.Bukkit;
-
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+
+import org.bukkit.Bukkit;
+
+import com.sun.management.OperatingSystemMXBean;
+
+import components.reflections.SimpleReflection;
+import essentials.main.Main;
+import essentials.utilities.MathUtilities;
 
 public class SystemStatus {
 	private SystemStatus() {}

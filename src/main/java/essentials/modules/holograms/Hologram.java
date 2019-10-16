@@ -8,15 +8,34 @@ import org.bukkit.Location;
 public class Hologram {
 	protected List<HologramLine> lines;
 	protected Location location;
+	public final static double distanceBetween = 0.3;
+	protected String ID;
 	
 	public Hologram(Location location) {
+		this.ID = System.currentTimeMillis() + "";
 		this.location = location;
 		lines = new LinkedList<>();
 	}
 	
-	public Hologram(Location location, List<HologramLine> lines) {
-		this.lines = lines;
+	public Hologram(Location location, String ID) {
+		this.ID = ID;
 		this.location = location;
+		lines = new LinkedList<>();
+	}
+	
+	protected void setHologramLine(HologramLine hologramLine) {
+		int line = hologramLine.getPosition();
+		
+		if(line < lines.size())
+			lines.set(line, hologramLine);
+		else {
+			
+			do {
+				lines.add(null);
+			} while(line > lines.size());
+			
+			lines.add(hologramLine);
+		}
 	}
 	
 	public void setText(int line, String text) {
@@ -35,7 +54,8 @@ public class Hologram {
 	
 	public void addText(String text) {
 		int position = lines.size();
-		HologramLine line = new HologramLine(getLocation(position));
+		HologramLine line = new HologramLine(getLocation(position), ID);
+		line.setID(ID);
 		line.setPosition(position);
 		line.setText(text);
 		lines.add(line);
@@ -52,17 +72,34 @@ public class Hologram {
 		lines.remove(hologramLine);
 		hologramLine.destroy();
 		
-		//TODO reposition other lines
+		for(int i = line; i < lines.size(); i++)
+			hologramLine.setPosition(i);
+		
+		refreshPosition(location);
 	}
 	
 	protected Location getLocation(int line) {
-		return null;
+		
+		Location location = this.location.clone();
+		
+		for(int i = 0; i < line; i++)
+			location.add(0, -distanceBetween, 0);
+		
+		return location;
 	}
 	
 	public void moveHologram(Location location) {
 		this.location = location;
-		//TODO update information HologramManager?
-		//TODO move
+		refreshPosition(location);
+	}
+	
+	public void refreshPosition(Location location) {
+		Location currentLocation = location.clone();
+		
+		for(HologramLine line : lines) {
+			line.teleport(currentLocation);
+			currentLocation.add(0, -distanceBetween, 0);
+		}
 	}
 	
 	public void clear() {
@@ -70,5 +107,21 @@ public class Hologram {
 			line.destroy();
 		
 		lines.clear();
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+	public List<HologramLine> getLines() {
+		return lines;
+	}
+
+	public Location getLocation() {
+		return location;
 	}
 }

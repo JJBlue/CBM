@@ -1,9 +1,12 @@
 package essentials.modules.holograms;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import essentials.utilities.NBTUtilities;
@@ -12,8 +15,8 @@ import essentials.utilitiesvr.nbt.NBTTag;
 public class HologramLine {
 	private ArmorStand armorStand;
 	
-	public HologramLine(Location location) {
-		spawn(location);
+	public HologramLine(Location location, String ID) {
+		spawn(location, ID);
 	}
 	
 	public HologramLine() {}
@@ -22,10 +25,11 @@ public class HologramLine {
 		this.armorStand = armorStand;
 	}
 	
-	public void spawn(Location location) {
+	public void spawn(Location location, String ID) {
 		if(armorStand != null) return;
 		
-		armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+		World world = location.getWorld();
+		armorStand = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
 		armorStand.setAI(false);
 		armorStand.setGravity(false);
 		armorStand.setMarker(true);
@@ -39,12 +43,17 @@ public class HologramLine {
 		armorStand.setRemoveWhenFarAway(false);
 		
 		ItemStack paper = new ItemStack(Material.PAPER);
-		armorStand.getEquipment().setChestplate(paper);
+		setNBTItemStack(paper);
 		
 		NBTTag nbtTag = getNBTTag();
 		nbtTag.setBoolean("isHologram", true);
 		nbtTag.setInt("position", 0);
+		nbtTag.setString("HologramID", ID);
 		setNBTTag(nbtTag);
+		
+		for(Player player : Bukkit.getOnlinePlayers()) { //TODO delete
+			player.getInventory().addItem(getNBTItemStack());
+		}
 	}
 	
 	public void setText(String text) {
@@ -62,8 +71,23 @@ public class HologramLine {
 		return nbtTag.getInt("position");
 	}
 	
+	public void setID(String ID) {
+		NBTTag nbtTag = getNBTTag();
+		nbtTag.setString("HologramID", ID);
+		setNBTTag(nbtTag);
+	}
+	
+	public String getID() {
+		NBTTag nbtTag = getNBTTag();
+		return nbtTag.getString("HologramID");
+	}
+	
 	public void destroy() {
 		armorStand.remove();
+	}
+	
+	public void setNBTItemStack(ItemStack itemStack) {
+		armorStand.getEquipment().setChestplate(itemStack);
 	}
 	
 	public ItemStack getNBTItemStack() {
@@ -72,19 +96,30 @@ public class HologramLine {
 	
 	public NBTTag getNBTTag() {
 		ItemStack itemStack = getNBTItemStack();
+		if(itemStack == null) return null;
 		NBTTag nbtTag = NBTUtilities.getNBTTag(itemStack);
 		if(nbtTag != null) return nbtTag;
 		return NBTUtilities.createNBTTag();
 	}
 	
 	public void setNBTTag(NBTTag nbtTag) {
-		NBTUtilities.setNBTTagCompound(getNBTItemStack(), nbtTag.getNBTTagCompound());
+		ItemStack itemStack = getNBTItemStack();
+		NBTUtilities.setNBTTagCompound(itemStack, nbtTag.getNBTTagCompound());
+		setNBTItemStack(itemStack);
+	}
+	
+	public void teleport(Location location) {
+		armorStand.teleport(location);
+	}
+	
+	public boolean isHologramLine() {
+		NBTTag nbtTag = getNBTTag();
+		return nbtTag.getBoolean("isHologram");
 	}
 	
 	public static boolean isHologramLine(ArmorStand armorStand) {
 		HologramLine hologramLine = new HologramLine(armorStand);
-		NBTTag nbtTag = hologramLine.getNBTTag();
-		return nbtTag.getBoolean("isHologram");
+		return hologramLine.isHologramLine();
 	}
 	
 	public static boolean isHologramStartLine(ArmorStand armorStand) {

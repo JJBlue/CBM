@@ -51,7 +51,8 @@ import essentials.modules.disguise.DisguiseManager;
 import essentials.modules.disguise.name.NameManager;
 import essentials.modules.disguise.skin.Skin;
 import essentials.modules.eventsfinder.EventFinder;
-import essentials.modules.holograms.HologramLine;
+import essentials.modules.holograms.Hologram;
+import essentials.modules.holograms.HologramManager;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.player.BukkitMidiPlayerManager;
@@ -105,9 +106,15 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 			}
 			case "t3": {
-				new HologramLine(p.getLocation().clone().add(0, 2, 0));
-				new HologramLine(p.getLocation().clone().add(0, 1.75, 0));
+				Hologram hologram = new Hologram(p.getLocation().clone().add(0, 2, 0));
+				hologram.addText("test");
+				hologram.addText("lol");
+				hologram.addText("was geht ab!");
 				
+				break;
+			}
+			case "t4": {
+				HologramManager.getHologram(p.getLocation(), 2);
 				break;
 			}
 			case "test":{
