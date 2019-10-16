@@ -13,13 +13,13 @@ public class Hologram {
 	
 	public Hologram(Location location) {
 		this.ID = System.currentTimeMillis() + "";
-		this.location = location;
+		this.location = location.clone();
 		lines = new LinkedList<>();
 	}
 	
 	public Hologram(Location location, String ID) {
 		this.ID = ID;
-		this.location = location;
+		this.location = location.clone();
 		lines = new LinkedList<>();
 	}
 	
@@ -30,9 +30,9 @@ public class Hologram {
 			lines.set(line, hologramLine);
 		else {
 			
-			do {
+			while(line > lines.size()) {
 				lines.add(null);
-			} while(line > lines.size());
+			}
 			
 			lines.add(hologramLine);
 		}
@@ -79,13 +79,8 @@ public class Hologram {
 	}
 	
 	protected Location getLocation(int line) {
-		
 		Location location = this.location.clone();
-		
-		for(int i = 0; i < line; i++)
-			location.add(0, -distanceBetween, 0);
-		
-		return location;
+		return location.add(0, -distanceBetween * line, 0);
 	}
 	
 	public void moveHologram(Location location) {
@@ -115,6 +110,9 @@ public class Hologram {
 
 	public void setID(String iD) {
 		ID = iD;
+		
+		for(HologramLine line : lines)
+			line.setID(ID);
 	}
 
 	public List<HologramLine> getLines() {

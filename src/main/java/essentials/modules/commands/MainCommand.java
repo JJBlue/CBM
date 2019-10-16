@@ -51,8 +51,7 @@ import essentials.modules.disguise.DisguiseManager;
 import essentials.modules.disguise.name.NameManager;
 import essentials.modules.disguise.skin.Skin;
 import essentials.modules.eventsfinder.EventFinder;
-import essentials.modules.holograms.Hologram;
-import essentials.modules.holograms.HologramManager;
+import essentials.modules.holograms.HologramCommand;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
 import essentials.modules.player.BukkitMidiPlayerManager;
@@ -103,18 +102,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			}
 			case "t2": {
 				EventFinder.inventory(p, EventFinder.findEvents());
-				break;
-			}
-			case "t3": {
-				Hologram hologram = new Hologram(p.getLocation().clone().add(0, 2, 0));
-				hologram.addText("test");
-				hologram.addText("lol");
-				hologram.addText("was geht ab!");
-				
-				break;
-			}
-			case "t4": {
-				HologramManager.getHologram(p.getLocation(), 2);
 				break;
 			}
 			case "test":{
@@ -461,6 +448,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				}
 
 				break;
+			}
+			case "hologram": {
+				return HologramCommand.commands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 			}
 			case "itemdb":
 
@@ -1096,6 +1086,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("head");
 			returnArguments.add("heal");
 			returnArguments.add("hide");
+			returnArguments.add("hologram");
 			returnArguments.add("itemdb");
 			returnArguments.add("info");
 			returnArguments.add("inventory");
@@ -1228,7 +1219,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					}
 					
 					break;
-					
+				case "hologram":
+					return HologramCommand.commands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				case "motd":
 					
 					returnArguments.add("<Text>");

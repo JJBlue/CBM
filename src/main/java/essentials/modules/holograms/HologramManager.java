@@ -2,6 +2,8 @@ package essentials.modules.holograms;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
@@ -14,11 +16,26 @@ public class HologramManager {
 	
 	protected static Map<Location, Hologram> holograms = new HashMap<>();
 	
-	public static Hologram getHologram(Location location, int radius) {
+	public static Hologram getHologram(Location location, double radius) {
 		return getHologram(location, radius, null);
 	}
 	
-	public static Hologram getHologram(Location location, int radius, String ID) {
+	public static List<String> getIDs(Location location, double radius) {
+		List<String> list = new LinkedList<>();
+		
+		Collection<Entity> entities = location.getWorld().getNearbyEntities(location, radius, radius, radius, (e) -> {
+			return (e instanceof ArmorStand) && isHologramStartLine((ArmorStand) e);
+		});
+		
+		entities.forEach((e) -> {
+			HologramLine line = new HologramLine((ArmorStand) e);
+			list.add(line.getID());
+		});
+		
+		return list;
+	}
+	
+	public static Hologram getHologram(Location location, double radius, String ID) {
 		Collection<Entity> entities = location.getWorld().getNearbyEntities(location, radius, radius, radius, (e) -> {
 			return (e instanceof ArmorStand) && isHologramStartLine((ArmorStand) e);
 		});

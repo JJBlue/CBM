@@ -1,12 +1,10 @@
 package essentials.modules.holograms;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import essentials.utilities.NBTUtilities;
@@ -50,10 +48,6 @@ public class HologramLine {
 		nbtTag.setInt("position", 0);
 		nbtTag.setString("HologramID", ID);
 		setNBTTag(nbtTag);
-		
-		for(Player player : Bukkit.getOnlinePlayers()) { //TODO delete
-			player.getInventory().addItem(getNBTItemStack());
-		}
 	}
 	
 	public void setText(String text) {
