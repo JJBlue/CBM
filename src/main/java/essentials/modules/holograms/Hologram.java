@@ -89,7 +89,8 @@ public class Hologram {
 	}
 	
 	public void removeLine(int line) {
-		HologramLine hologramLine = lines.get(lines.size() - 1);
+		HologramLine hologramLine = lines.get(line);
+		if(hologramLine == null) return;
 		lines.remove(hologramLine);
 		hologramLine.destroy();
 		
