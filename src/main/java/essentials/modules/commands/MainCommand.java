@@ -1317,6 +1317,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 				case "tablist":
 					returnArguments.add("update");
+					break;
 
 				case "inventory":
 

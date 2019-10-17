@@ -1,20 +1,19 @@
 package essentials.modules.sudo;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
+import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
+import essentials.modules.sudo.sudoplayer.SudoPlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 
-import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
-import essentials.modules.sudo.sudoplayer.SudoPlayerManager;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SudoManager {
 	
-	protected static List<Player> tmpOperators = Collections.synchronizedList(new LinkedList<>());
+	protected static final List<Player> tmpOperators = Collections.synchronizedList(new LinkedList<>());
 	
 	public static void setTmpOperators() {
 		synchronized (tmpOperators) {
@@ -47,12 +46,17 @@ public class SudoManager {
 	
 	public static void executeInPlugin(CommandSender permissionsSender, Player executer, String plugin, String[] args) {
 		PluginCommand pluginCommand = Bukkit.getServer().getPluginCommand(plugin);
-		if (pluginCommand != null)
-			pluginCommand.execute(SudoPlayerManager.getSudoPlayer(permissionsSender, executer), plugin, args);
+		if (pluginCommand != null) {
+			Player player = SudoPlayerManager.getSudoPlayer(permissionsSender, executer);
+			if (player != null)
+				pluginCommand.execute(player, plugin, args);
+		}
 	}
 	
 	public static void execute(CommandSender permissionsSender, Player executer, String command) {
-		Bukkit.dispatchCommand(SudoPlayerManager.getSudoPlayer(permissionsSender, executer), command);
+		Player player = SudoPlayerManager.getSudoPlayer(permissionsSender, executer);
+		if (player != null)
+			Bukkit.dispatchCommand(player, command);
 	}
 	
 	public static void executeSilent(CommandSender sender, String command) {
