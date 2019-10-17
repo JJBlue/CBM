@@ -63,7 +63,7 @@ public class Warp {
 		if (!autoLore)
 			return itemStack;
 		else {
-			ItemStack is = itemStack;
+			ItemStack is = itemStack.clone();
 			ItemMeta itemMeta = is.getItemMeta();
 
 			List<String> lore = itemMeta.getLore() == null ? new LinkedList<>() : itemMeta.getLore();

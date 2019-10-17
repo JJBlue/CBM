@@ -158,7 +158,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 
 			case "burn": {
-				if (args.length < 2) return true;
+				if (args.length < 3) return true;
 				Player p1 = Bukkit.getPlayer(args[1]);
 				if (p1 == null) return true;
 				p1.setFireTicks(Integer.parseInt(args[2]));
@@ -291,7 +291,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				else p1 = p;
 
 				if (p1 == null) return true;
-				p1.setAllowFlight(true);
+				p1.setAllowFlight(!p1.getAllowFlight());
 
 				break;
 			}
