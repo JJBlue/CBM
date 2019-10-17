@@ -18,16 +18,17 @@ public class Skin {
 
     public static void changeSkin(Player p, String name) {
         GameProfile skingp = PlayerUtilities.getGameProfile(p);
-
+        GameProfile skinop;
+        
         try {
-            skingp = GameProfileBuilder.fetch(PlayerUtilities.getOfflinePlayer(name).getUniqueId());
+        	skinop = GameProfileBuilder.fetch(PlayerUtilities.getOfflinePlayer(name).getUniqueId());
         } catch (IOException e) {
         	LanguageConfig.sendMessage(p, "skin.error-load");
             e.printStackTrace();
             return;
         }
 
-        Collection<Property> props = skingp.getProperties().get("textures");
+        Collection<Property> props = skinop.getProperties().get("textures");
 
         skingp.getProperties().removeAll("textures");
         skingp.getProperties().putAll("textures", props);

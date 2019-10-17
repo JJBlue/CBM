@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import com.mojang.authlib.GameProfile;
 
 import components.reflections.SimpleReflection;
+import essentials.main.Main;
 import essentials.utilities.player.EnumHandUtil;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.itemstack.ItemStackUtilitiesReflections;
@@ -155,11 +156,13 @@ public class PlayerUtilitiesReflections {
 					Object packetPlayOutUpdateHealth = getPacket("PacketPlayOutUpdateHealth", (float) player.getHealth(), player.getFoodLevel(), player.getSaturation());
 					sendPacket(onlinePlayer, packetPlayOutUpdateHealth);
 					
-					if (flying)
-						player.setFlying(true);
-					
 					updateEXP(player);
 					player.updateInventory();
+					
+					Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+						if (flying)
+							Bukkit.getPlayer(player.getName()).setFlying(true);
+					}, 1l);
 					
 					continue;
 				}

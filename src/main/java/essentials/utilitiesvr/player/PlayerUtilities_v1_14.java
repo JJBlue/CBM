@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import com.mojang.authlib.GameProfile;
 
 import components.reflections.SimpleReflection;
+import essentials.main.Main;
 import essentials.utilities.player.EnumHandUtil;
 import essentials.utilities.player.PlayerUtilities;
 import net.minecraft.server.v1_14_R1.DimensionManager;
@@ -145,11 +146,13 @@ public class PlayerUtilities_v1_14 {
 				
 				setHeldItemSlot(player, heldItem);
 				
-				if (flying)
-					Bukkit.getPlayer(player.getName()).setFlying(true);
-				
 				entityPlayer.lastSentExp = -1;
 				player.updateInventory();
+				
+				Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+					if (flying)
+						Bukkit.getPlayer(player.getName()).setFlying(true);
+				}, 1l);
 				
 				continue;
 			}

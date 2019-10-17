@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -117,7 +118,7 @@ public class GameProfileBuilder {
 	public static GameProfile setProfile(GameProfile oldGameProfile, UUID newUUID, String name) {
 		if(newUUID == null && name == null) return oldGameProfile;
 		GameProfile gameProfile = new GameProfile(newUUID != null ? newUUID : oldGameProfile.getId(), name != null ? name : oldGameProfile.getName());
-		gameProfile.getProperties().putAll(oldGameProfile.getProperties()); //TODO Here is not a clone of the properties, so do not change skin or other things
+		gameProfile.getProperties().putAll(oldGameProfile.getProperties());
 		return gameProfile;
 	}
 	
@@ -159,6 +160,21 @@ public class GameProfileBuilder {
 		}
 		
 		return profile;
+	}
+	
+	public static GameProfile cloneGameProfile(GameProfile profile) {
+		GameProfile newProfile = new GameProfile(profile.getId(), profile.getName());
+		
+		for(String key : profile.getProperties().keySet()) {
+			Collection<Property> properties = profile.getProperties().get(key);
+			
+			for(Property property : properties) {
+				Property newProperty = new Property(property.getName(), property.getValue(), property.getSignature());
+				newProfile.getProperties().put(key, newProperty);
+			}
+		}
+		
+		return newProfile;
 	}
 	
 	public static String serialize(GameProfile profile) {
