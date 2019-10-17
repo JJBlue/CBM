@@ -1,45 +1,15 @@
 package essentials.modules.commands;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
-import org.bukkit.block.ShulkerBox;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-
 import components.classes.Files;
 import essentials.config.MainConfig;
 import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
-import essentials.modules.JoinListener;
-import essentials.modules.OpListener;
 import essentials.modules.FlyThroughBlocks.FTB;
+import essentials.modules.JoinListener;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
+import essentials.modules.OpListener;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.ban.BanCommand;
 import essentials.modules.chair.chair;
@@ -72,15 +42,27 @@ import essentials.modules.warpmanager.warpCommands;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.ItemUtilies;
-import essentials.utilities.MathUtilities;
-import essentials.utilities.StringUtilities;
-import essentials.utilities.TimeUtilities;
+import essentials.utilities.*;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.player.PlayerUtilities;
 import essentials.utilities.system.SystemStatus;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.ShulkerBox;
+import org.bukkit.command.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class MainCommand implements CommandExecutor, TabCompleter {
 
@@ -462,9 +444,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				break;
 
 			case "info":
+				Plugin plugin;
 
-				if (args.length < 2) break;
-				Plugin plugin = Bukkit.getPluginManager().getPlugin(args[1]);
+				if (args.length < 2) plugin = Main.getPlugin(); //fallback to own plugin if nothing is specified
+				else plugin = Bukkit.getPluginManager().getPlugin(args[1]);
 				if (plugin == null) break;
 
 				PluginDescriptionFile description = plugin.getDescription();
@@ -521,6 +504,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					LanguageConfig.sendMessage(sender, "join-silent.true", p.getName());
 				else
 					LanguageConfig.sendMessage(sender, "join-silent.false", p.getName());
+				break;
 			}
 			case "legging":
 
@@ -584,8 +568,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				
 				if(args.length < 2) break;
 				
-				String name = null;
-				Player p2 = null;
+				String name;
+				Player p2;
 				
 				if(args.length == 2) {
 					name = args[1];
