@@ -17,8 +17,7 @@ public class TablistTimer {
 
 				try {
 					Thread.sleep(sleepMilliSeconds);
-				} catch (InterruptedException e) {
-				}
+				} catch (InterruptedException e) {}
 			}
 
 			run = false;
