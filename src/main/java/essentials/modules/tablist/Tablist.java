@@ -37,6 +37,7 @@ public class Tablist {
 	static TablistListener tablistListener;
 
 	static boolean onJoin;
+	static boolean onJoinForAll;
 	static boolean onDeath;
 	static boolean onTeleport;
 	static boolean onWorldChange;
@@ -61,6 +62,7 @@ public class Tablist {
 		configuration.addDefault("Update.AutoInterval", 60);
 		configuration.addDefault("Update.onAfk", false);
 		configuration.addDefault("Update.onJoin", true);
+		configuration.addDefault("Update.onJoinForAll", false);
 		configuration.addDefault("Update.onDeath", false);
 		configuration.addDefault("Update.onTeleport", false);
 		configuration.addDefault("Update.onWorldChange", false);
@@ -95,6 +97,7 @@ public class Tablist {
 		TablistTimer.setSleep(configuration.getInt("Update.AutoInterval") * 1000);
 
 		onJoin = configuration.getBoolean("Update.onJoin");
+		onJoinForAll = configuration.getBoolean("Update.onJoinForAll");
 		onDeath = configuration.getBoolean("Update.onDeath");
 		onTeleport = configuration.getBoolean("Update.onTeleport");
 		onWorldChange = configuration.getBoolean("Update.onWorldChange");
