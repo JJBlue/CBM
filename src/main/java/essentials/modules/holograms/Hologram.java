@@ -52,6 +52,27 @@ public class Hologram {
 		}
 	}
 	
+	public void addText(int line, String text) {
+		if(line < lines.size()) {
+			
+			HologramLine hologramLine = new HologramLine(getLocation(line), ID);
+			hologramLine.setID(ID);
+			hologramLine.setPosition(line);
+			hologramLine.setText(text);
+			
+			lines.add(line, hologramLine);
+			
+			refreshPosition(line + 1);
+		} else {
+			
+			do {
+				addText("");
+			} while(line > lines.size());
+			
+			addText(text);
+		}
+	}
+	
 	public void addText(String text) {
 		int position = lines.size();
 		HologramLine line = new HologramLine(getLocation(position), ID);
@@ -72,10 +93,7 @@ public class Hologram {
 		lines.remove(hologramLine);
 		hologramLine.destroy();
 		
-		for(int i = line; i < lines.size(); i++)
-			hologramLine.setPosition(i);
-		
-		refreshPosition(location);
+		refreshPosition(line);
 	}
 	
 	protected Location getLocation(int line) {
@@ -85,11 +103,20 @@ public class Hologram {
 	
 	public void moveHologram(Location location) {
 		this.location = location;
-		refreshPosition(location);
+		refreshLocation();
 	}
 	
-	public void refreshPosition(Location location) {
-		Location currentLocation = location.clone();
+	public void refreshPosition(int startPos) {
+		for(int i = startPos; i < lines.size(); i++) {
+			HologramLine line = lines.get(i);
+			line.setPosition(i);
+		}
+		
+		refreshLocation();
+	}
+	
+	public void refreshLocation() {
+		Location currentLocation = this.location.clone();
 		
 		for(HologramLine line : lines) {
 			line.teleport(currentLocation);

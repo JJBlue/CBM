@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import essentials.language.LanguageConfig;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.chat.ChatUtilities;
 
@@ -70,7 +71,23 @@ public class HologramCommand implements CommandExecutor, TabCompleter {
 				
 				Hologram hologram = HologramManager.getHologram(player.getLocation(), radius, args[1]);
 				if(hologram == null) break;
-				hologram.setText(Integer.parseInt(args[2]), ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 3, args.length)));
+				try {
+					hologram.addText(Integer.parseInt(args[2]), ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 3, args.length)));
+				} catch (NumberFormatException e) {
+					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+				}
+				break;
+			}
+			case "setline": {
+				if(args.length < 4) break;
+				
+				Hologram hologram = HologramManager.getHologram(player.getLocation(), radius, args[1]);
+				if(hologram == null) break;
+				try {
+					hologram.setText(Integer.parseInt(args[2]), ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 3, args.length)));
+				} catch (NumberFormatException e) {
+					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+				}
 				break;
 			}
 			case "remove": {
@@ -86,7 +103,11 @@ public class HologramCommand implements CommandExecutor, TabCompleter {
 				
 				Hologram hologram = HologramManager.getHologram(player.getLocation(), radius, args[1]);
 				if(hologram == null) break;
-				hologram.removeLine(Integer.parseInt(args[2]));
+				try {
+					hologram.removeLine(Integer.parseInt(args[2]));
+				} catch (NumberFormatException e) {
+					LanguageConfig.sendMessage(sender, "error.NumberFormatException");
+				}
 				break;
 			}
 			case "delete": {
@@ -136,6 +157,7 @@ public class HologramCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("createid");
 			returnArguments.add("add");
 			returnArguments.add("addline");
+			returnArguments.add("setline");
 			returnArguments.add("remove");
 			returnArguments.add("removeline");
 			returnArguments.add("getids");
@@ -176,6 +198,27 @@ public class HologramCommand implements CommandExecutor, TabCompleter {
 						returnArguments.add("<Line>");
 					else
 						returnArguments.add("<Text>");
+					
+					break;
+				}
+				case "setline": {
+					
+					if(args.length == 2) {
+						for(String id : HologramManager.getIDs(((Player) sender).getLocation(), radius))
+							returnArguments.add(id);
+					} else if(args.length == 3)
+						returnArguments.add("<Line>");
+					else if(args.length == 4) {
+						Hologram hologram = HologramManager.getHologram(((Player) sender).getLocation(), radius, args[1]);
+						if(hologram != null) {
+							try {
+								HologramLine line = hologram.getLines().get(Integer.parseInt(args[2]));
+								if(line != null)
+									returnArguments.add(line.getText());
+							}catch (NumberFormatException e) {}
+						}
+						returnArguments.add("<Text>");
+					}
 					
 					break;
 				}

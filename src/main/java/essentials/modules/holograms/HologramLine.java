@@ -54,6 +54,10 @@ public class HologramLine {
 		armorStand.setCustomName(text);
 	}
 	
+	public String getText() {
+		return armorStand.getCustomName();
+	}
+	
 	public void setPosition(int position) {
 		NBTTag nbtTag = getNBTTag();
 		nbtTag.setInt("position", position);
