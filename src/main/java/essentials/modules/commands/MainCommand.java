@@ -30,6 +30,7 @@ import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnCommands;
 import essentials.modules.sudo.SudoCommand;
 import essentials.modules.sudo.SudoManager;
+import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
 import essentials.modules.trade.TradeCommands;
@@ -548,6 +549,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			case "economy":
 				
 				return EconomyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+
+			case "tablist":
+				if (args.length < 2) break;
+				if (args[1].equalsIgnoreCase("update")) {
+					Tablist.updateAllPlayers();
+				}
 
 			case "unnick": {
 				
@@ -1108,6 +1115,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("sudo-");
 			returnArguments.add("speed");
 			returnArguments.add("restart");
+			returnArguments.add("tablist");
 			returnArguments.add("teleport");
 			returnArguments.add("tempban");
 			returnArguments.add("timer");
@@ -1306,6 +1314,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
 						returnArguments.add(plugin.getName());
 					break;
+
+				case "tablist":
+					returnArguments.add("update");
 
 				case "inventory":
 

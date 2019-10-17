@@ -10,7 +10,7 @@ public class TablistListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		if (!Tablist.onJoin) return;
-		Tablist.update(event.getPlayer());
+		Tablist.updateAllPlayers(); //for the player count on all players tab
 	}
 
 	@EventHandler
