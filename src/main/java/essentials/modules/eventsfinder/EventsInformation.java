@@ -42,4 +42,12 @@ public class EventsInformation {
 	public static EventPriority getEventPriority(Method method) {
 		return method.getAnnotation(EventHandler.class).priority();
 	}
+
+	public boolean containsPlugin(Plugin plugin) {
+		return eventHandlers.containsKey(plugin);
+	}
+	
+	public String getEventName() {
+		return event.getSimpleName();
+	}
 }

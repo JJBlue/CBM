@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,9 +22,6 @@ import org.bukkit.plugin.RegisteredListener;
 
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.HoverAction;
-import essentials.utilities.inventory.InventoryFactory;
-import essentials.utilities.inventory.InventoryItem;
-import essentials.utilities.inventory.InventoryPage;
 
 public class EventFinder {
 	public static void print(CommandSender commandSender) {
@@ -92,86 +88,6 @@ public class EventFinder {
 				}
 			}
 		}
-	}
-	
-	//TODO not working correctly -> inventory out of bounds (full)
-	public static void inventory(Player player, Collection<EventsInformation> events) {
-		InventoryFactory factory = new InventoryFactory(54, "Inventory");
-		InventoryPage pluginsPage = factory.createFirstPage();
-		final int pluginPagePosition = 0;
-		int currentFreePage = 1;
-		
-		InventoryItem back = new InventoryItem(Material.ARROW);
-		back.setDisplayName("§4BACK");
-		
-		for(Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-			if(!plugin.isEnabled()) continue;
-			
-			//Event Page
-			InventoryPage eventPage = new InventoryPage();
-			final int eventPagePosition = currentFreePage++;
-			factory.addInventoryPage(eventPagePosition, eventPage);
-			
-			//Method Back Button
-			InventoryItem backEventClone = back.clone();
-			backEventClone.setOnClick((event, item) -> {
-				event.setCancelled(true);
-				factory.setPage(pluginPagePosition);
-			});
-			eventPage.addItem(45, backEventClone);
-			
-			//Plugin Item -> Event page
-			InventoryItem pluginItem = new InventoryItem(Material.WHITE_WOOL);
-			pluginItem.setDisplayName(plugin.getName());
-			pluginItem.setOnClick((event, item) -> {
-				event.setCancelled(true);
-				factory.setPage(eventPagePosition);
-			});
-			pluginsPage.addItem(pluginItem);
-			
-			//Events
-			for(EventsInformation eventsInformation : events) {
-				
-				//Method Page
-				InventoryPage methodPage = new InventoryPage();
-				final int methodPagePosition = currentFreePage++;
-				factory.addInventoryPage(methodPagePosition, methodPage);
-				
-				//Method Back Button
-				InventoryItem backMethodClone = back.clone();
-				backMethodClone.setOnClick((event, item) -> {
-					event.setCancelled(true);
-					factory.setPage(eventPagePosition);
-				});
-				methodPage.addItem(45, backMethodClone);
-				
-				//Event Item -> method page
-				InventoryItem eventItem = new InventoryItem(Material.WHITE_WOOL);
-				eventItem.setDisplayName(eventsInformation.event.getSimpleName());
-				eventItem.setOnClick((event, item) -> {
-					event.setCancelled(true);
-					factory.setPage(methodPagePosition);
-				});
-				eventPage.addItem(eventItem);
-				
-				//Methods
-				List<Method> methods = eventsInformation.get(plugin);
-				if(methods == null || methods.isEmpty()) continue;
-				
-				for(Method method : methods) {
-					InventoryItem methodItem = new InventoryItem(Material.WHITE_WOOL);
-					methodItem.setDisplayName(method.getDeclaringClass().getName() + "." + method.getName() + "()");
-					methodItem.setOnClick((event, item) -> event.setCancelled(true));
-					methodPage.addItem(methodItem);
-				}
-				
-			}
-			
-		}
-		
-		factory.refreshPage();
-		factory.setDeleteOnExit();
-		player.openInventory(factory.getInventory());
 	}
 	
 	public static Collection<EventsInformation> findEvents() {

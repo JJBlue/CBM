@@ -52,6 +52,6 @@ public class DebugStickBlockInventory {
 		}
 
 		factory.refreshPage();
-		player.openInventory(factory.getInventory());
+		factory.openInventory(player);
 	}
 }

@@ -30,12 +30,10 @@ public class InventoryFactory {
 
 	public InventoryFactory(Inventory inventory) {
 		this.inventory = inventory;
-		InventoryManager.add(this);
 	}
 
 	public InventoryFactory(int size, String title) {
 		inventory = Bukkit.createInventory(null, size, title);
-		InventoryManager.add(this);
 	}
 
 	public InventoryPage createFirstPage() {
@@ -81,6 +79,10 @@ public class InventoryFactory {
 
 	public InventoryPage getCurrentInventoryPage() {
 		return pages.get(currentPage);
+	}
+	
+	public int getSize() {
+		return pages.size();
 	}
 
 	public void refreshPage() {
@@ -149,6 +151,11 @@ public class InventoryFactory {
 	public void openInventory(Player player) {
 		refreshPage();
 		player.openInventory(inventory);
+		registerInventory();
+	}
+	
+	public void registerInventory() {
+		InventoryManager.add(this);
 	}
 
 	public Inventory getInventory() {

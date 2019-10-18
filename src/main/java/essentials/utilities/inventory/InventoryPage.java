@@ -67,6 +67,21 @@ public class InventoryPage {
 	public ItemStack get(int pos) {
 		return inv.get(pos);
 	}
+	
+	public int getSize() {
+		return inv.size();
+	}
+	
+	public int count(int from, int to) {
+		int count = 0;
+		
+		for(int i = from; i <= to; i++) {
+			if(inv.containsKey(i))
+				count++;
+		}
+		
+		return count;
+	}
 
 	public InventoryItem getInventoryItem(int pos) {
 		ItemStack itemStack = inv.get(pos);

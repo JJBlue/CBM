@@ -125,9 +125,9 @@ public class TradeSystem {
 		factory.refreshPage();
 
 		if (p1 != null)
-			p1.openInventory(factory.getInventory());
+			factory.openInventory(p1);
 		if (p2 != null)
-			p2.openInventory(factory.getInventory());
+			factory.openInventory(p2);
 	}
 
 	private void startTimer() {

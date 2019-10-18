@@ -57,6 +57,6 @@ public class DebugStickEntityInventory {
 		}
 
 		factory.refreshPage();
-		player.openInventory(factory.getInventory());
+		factory.openInventory(player);
 	}
 }

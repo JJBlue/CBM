@@ -26,9 +26,9 @@ public class SystemStatus {
 		return System.getProperty("os.arch");
 	}
 
-	public static long getAllProcesses() {
-		return ProcessHandle.allProcesses().count();
-	}
+//	public static long getAllProcesses() {
+//		return ProcessHandle.allProcesses().count();
+//	}
 
 	public static double getCPUUsage() {
 		OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
@@ -86,6 +86,10 @@ public class SystemStatus {
 	}
 
 	public static String getJavaVersion() {
+		String version = System.getProperty("java.version");
+		
+		if(version.startsWith("8") || version.startsWith("7"))
+			return version;
 		return Runtime.version().toString();
 	}
 
