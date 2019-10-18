@@ -96,6 +96,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 		args[0] = args[0].toLowerCase();
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
+		
+		if(CommandParser.parse(sender, cmd, cmdLabel, args, true)) {
+			sender.sendMessage("ERROR 85422545885. Sorry, but you don't know what this is");
+		}
 
 		switch (args[0]) {
 			case "t": {
