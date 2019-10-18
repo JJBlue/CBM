@@ -7,7 +7,6 @@ Futures:
 	- bossbar
 	- customrecipes
 	- disableenchantments
-	- holograms
 	- homes
 	- kids
 	- mail
@@ -15,14 +14,11 @@ Futures:
 	- Oneline Player Tab -> Design
 	- Bad Word Chat Filter
 	- kick player after some afk time
-	- Fernsteurung Player
 	
 	Commands:
 	- alert player
-	- ban
 	- jail
 	- spawners
-	- better speed command -> fly, walk, swim
 	- glow player color
 	- clear ground (also timebased feature)
 	- scan for items in containers

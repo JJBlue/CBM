@@ -155,7 +155,11 @@ public class EventFinderInventory {
 		if(eventName.contains("inventory"))
 			return Material.CHEST;
 		if(eventName.contains("damage"))
-			return Material.RED_WOOL;
+			return Material.DIAMOND_SWORD;
+		if(eventName.contains("block"))
+			return Material.DIAMOND_PICKAXE;
+		if(eventName.contains("move"))
+			return Material.DIAMOND_BOOTS;
 		return Material.WHITE_WOOL;
 	}
 }
