@@ -99,6 +99,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		
 //		if(!CommandParser.parse(sender, cmd, cmdLabel, args, true))
 //			sender.sendMessage("ERROR 85422545885. Sorry, but you don't know what this is");
+		
+//		args = PlaceCommandholderFormatter.setPlaceholders(sender, StringUtilities.arrayToString(args)).split(" ");
+//		sender.sendMessage(StringUtilities.arrayToString(args));
 
 		switch (args[0]) {
 			case "t": {

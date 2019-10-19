@@ -11,10 +11,17 @@ import org.bukkit.block.CommandBlock;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class CommandParser {
+	
+	public static boolean parse(CommandSender sender, String command) {
+		String args[] = command.split(" ");
+		PluginCommand commands = Bukkit.getPluginCommand(args[0]);
+		return parse(sender, commands, args[0], Arrays.copyOfRange(args, 1, args.length), true);
+	}
 	
 	/*
 	 * CommandSender = Entity, BlockCommandSender, ConsoleCommandSender
@@ -25,7 +32,7 @@ public class CommandParser {
 		for(int i = 0; i < args.length; i++) {
 			if(args[i].startsWith("@p")) {
 				if(sender instanceof Player) {
-					args[i] = ((Player) sender).getName(); //TODO UUID ?
+					args[i] = ((Player) sender).getName();
 					continue;
 				} else if(sender instanceof BlockCommandSender) {
 					CommandBlock commandBlock = (CommandBlock) sender;
@@ -43,7 +50,7 @@ public class CommandParser {
 					}
 					
 					if(nearest != null) {
-						args[i] = nearest.getName(); //TODO UUID ?
+						args[i] = nearest.getName();
 						continue;
 					}
 				}
@@ -56,6 +63,29 @@ public class CommandParser {
 					command.execute(sender, commandLabel, Arrays.copyOf(args, args.length));
 				}
 				
+			} else if(args[i].startsWith("@rw")) { //random player in world
+				World world = null;
+				
+				if(sender instanceof Entity)
+					world = ((Entity) sender).getWorld();
+				else if(sender instanceof BlockCommandSender)
+					world = ((BlockCommandSender) sender).getBlock().getWorld();
+				
+				if(world != null) {
+					List<Entity> entities = world.getEntities();
+					if(entities.isEmpty()) continue;
+					
+					Entity entity = entities.get(new Random().nextInt(entities.size()));
+					
+					if(entity instanceof Player)
+						args[i] = entity.getName();
+					else
+						args[i] = entity.getUniqueId().toString();
+					
+					continue;
+				}
+				
+				failure = true;
 			} else if(args[i].startsWith("@r")) {
 				Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 				if(players.isEmpty()) continue;
@@ -74,36 +104,13 @@ public class CommandParser {
 				}
 				
 				if(selectPlayer != null) {
-					args[i] = selectPlayer.getName(); //TODO UUID ?
+					args[i] = selectPlayer.getName();
 					continue;
 				}
 				
 				failure = true;
 				
-			} else if(args[i].startsWith("@rw")) { //random player in world
-				World world = null;
-				
-				if(sender instanceof Entity)
-					world = ((Entity) sender).getWorld();
-				else if(sender instanceof BlockCommandSender)
-					world = ((BlockCommandSender) sender).getBlock().getWorld();
-				
-				if(world != null) {
-					List<Entity> entities = world.getEntities();
-					if(entities.isEmpty()) continue;
-					
-					Entity entity = entities.get(new Random().nextInt(entities.size()));
-					
-					if(entity instanceof Player)
-						args[i] = entity.getName(); //TODO UUID ?
-					else
-						args[i] = entity.getUniqueId().toString();
-					
-					continue;
-				}
-				
-				failure = true;
-			}
+			} 
 			
 			if(exitOnFailure && failure)
 				return !failure;
