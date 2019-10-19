@@ -104,14 +104,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 //		sender.sendMessage(StringUtilities.arrayToString(args));
 
 		switch (args[0]) {
-			case "t": {
-				EventFinder.print(sender);
-				break;
-			}
-			case "t2": {
-				EventFinderInventory.inventory(p, EventFinder.findEvents());
-				break;
-			}
 			case "test":{
 				File file = new File(args[1]);
 				try {
@@ -279,6 +271,18 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				DisguiseManager.disguise(p2, name);
 				
 				break;
+			}
+			case "eventfinder": {
+				
+				if(p == null) break;
+				
+				if(args.length > 1) {
+					Plugin plugin = Bukkit.getPluginManager().getPlugin(args[1]);
+					if(plugin == null) break;
+					EventFinderInventory.inventory(p, EventFinder.findEvents(plugin));
+				} else
+					EventFinderInventory.inventory(p, EventFinder.findEvents());
+				
 			}
 			case "feed": {
 				Player p1;
@@ -1094,6 +1098,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			returnArguments.add("delwarp");
 			returnArguments.add("economy");
 			returnArguments.add("editwarp");
+			returnArguments.add("eventfinder");
 			returnArguments.add("fly");
 			returnArguments.add("for");
 			returnArguments.add("feed");
@@ -1191,6 +1196,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					return ContainerCommands.containerCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				case "economy":
 					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+				case "eventfinder": {
+					for(Plugin plugin : Bukkit.getPluginManager().getPlugins())
+						returnArguments.add(plugin.getName());
+				}
 				case "for":
 					
 					switch (args.length) {
