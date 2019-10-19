@@ -97,9 +97,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		args[0] = args[0].toLowerCase();
 		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
 		
-		if(CommandParser.parse(sender, cmd, cmdLabel, args, true)) {
-			sender.sendMessage("ERROR 85422545885. Sorry, but you don't know what this is");
-		}
+//		if(!CommandParser.parse(sender, cmd, cmdLabel, args, true))
+//			sender.sendMessage("ERROR 85422545885. Sorry, but you don't know what this is");
 
 		switch (args[0]) {
 			case "t": {
@@ -143,7 +142,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				Player p1;
 
 				if (args.length == 1) p1 = p;
-				else p1 = Bukkit.getPlayer(args[0]);
+				else p1 = Bukkit.getPlayer(args[1]);
 
 				if (p1 == null) return true;
 				AFK.change(p1);
@@ -552,7 +551,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
 					p.getWorld().strikeLightningEffect(b.getLocation());
 				} else {
-					Player p1 = Bukkit.getPlayer(args[0]);
+					Player p1 = Bukkit.getPlayer(args[1]);
 					if (p1 == null) return true;
 
 					p1.getWorld().strikeLightningEffect(p1.getLocation());
@@ -625,16 +624,16 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 					is.setAmount(64);
 				else if (args.length == 2)
 					try {
-						is.setAmount(Integer.parseInt(args[0]));
+						is.setAmount(Integer.parseInt(args[1]));
 					} catch (NumberFormatException nfe) {
-						LanguageConfig.sendMessage(sender, "error.NumberFormatException", args[0]);
+						LanguageConfig.sendMessage(sender, "error.NumberFormatException", args[1]);
 					}
 
 				break;
 
 			case "mute": {
 				if (args.length >= 2) {
-					Player p1 = PlayerUtilities.getOfflinePlayer(args[0]).getPlayer();
+					Player p1 = PlayerUtilities.getOfflinePlayer(args[1]).getPlayer();
 					if (p1 == null) return true;
 
 					PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
