@@ -112,6 +112,7 @@ public class TradeSystem {
 
 		factory.setOnClose((event) -> {
 			if (canceld) return;
+			canceld = true;
 
 			if (event.getPlayer() != p2)
 				p2.closeInventory();
@@ -160,12 +161,14 @@ public class TradeSystem {
 
 			if (i % 9 < 4) {
 				Map<Integer, ItemStack> map = p2.getInventory().addItem(is);
-				for (ItemStack drop : map.values())
+				for (ItemStack drop : map.values()) {
 					p2.getWorld().dropItem(p2.getLocation(), drop);
+				}
 			} else if (i % 9 > 4) {
 				Map<Integer, ItemStack> map = p1.getInventory().addItem(is);
-				for (ItemStack drop : map.values())
+				for (ItemStack drop : map.values()) {
 					p1.getWorld().dropItem(p1.getLocation(), drop);
+				}
 			}
 		}
 	}
