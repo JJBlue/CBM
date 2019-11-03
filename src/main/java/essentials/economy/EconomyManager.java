@@ -32,7 +32,7 @@ public class EconomyManager {
 		}
 		
 		if(hasMoney(uuid, money)) {
-			setMoney(uuid, getMoney(uuid) - money);
+			removeMoney(uuid, money);
 			return true;
 		}
 		
