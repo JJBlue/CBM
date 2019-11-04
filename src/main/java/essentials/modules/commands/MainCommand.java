@@ -1034,8 +1034,6 @@ public class MainCommand implements TabExecutor {
 		if (args.length < 1) return null;
 
 		final List<String> returnArguments = new LinkedList<>();
-
-		//TODO
 		
 		if (args.length == 1) {
 			CommandManager.commands.keySet().forEach(s -> returnArguments.add(s));
@@ -1047,11 +1045,8 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("burn");
 			returnArguments.add("broadcast");
 			returnArguments.add("clearchat");
-			returnArguments.add("container");
 			returnArguments.add("chestplate");
 			returnArguments.add("disguise");
-			returnArguments.add("economy");
-			returnArguments.add("editwarp");
 			returnArguments.add("eventfinder");
 			returnArguments.add("fly");
 			returnArguments.add("for");
@@ -1064,7 +1059,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("itemdb");
 			returnArguments.add("info");
 			returnArguments.add("inventory");
-			returnArguments.add("join");
 			returnArguments.add("joinsilent");
 			returnArguments.add("jump");
 			returnArguments.add("language");
@@ -1074,7 +1068,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("mute");
 			returnArguments.add("nametag");
 			returnArguments.add("motd");
-			returnArguments.add("nbt");
 			returnArguments.add("nick");
 			returnArguments.add("near");
 			returnArguments.add("playertime");
@@ -1092,9 +1085,7 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("speed");
 			returnArguments.add("restart");
 			returnArguments.add("tablist");
-			returnArguments.add("teleport");
 			returnArguments.add("timer");
-			returnArguments.add("trade");
 			returnArguments.add("troll");
 			returnArguments.add("unban");
 			returnArguments.add("undisguise");
@@ -1108,6 +1099,11 @@ public class MainCommand implements TabExecutor {
 			returnArguments.removeIf(s -> !sender.hasPermission(PermissionHelper.getPermissionCommand(s)));
 
 		} else { // I know that I tested here the permission never -> But then he know the first arguement, I think he knows the rest...
+			
+			List<String> ra = CommandManager.tabcomplete(sender, cmd, cmdLabel, args);
+			if(ra != null)
+				return ra;
+			
 			switch (args[0]) {
 				case "burn":
 				case "more":

@@ -76,4 +76,11 @@ public class CommandManager {
 			return false;
 		return commands.get(command).onCommand(sender, cmd, label, args);
 	}
+
+	public static List<String> tabcomplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		String command = getCommand(args[0]);
+		if(command == null)
+			return null;
+		return commands.get(command).onTabComplete(sender, cmd, alias, args);
+	}
 }
