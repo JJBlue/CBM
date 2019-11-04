@@ -18,12 +18,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CoBCommands implements CommandExecutor, TabCompleter {
-	public final static CoBCommands commandOnBlock;
-
-	static {
-		commandOnBlock = new CoBCommands();
-	}
+public class CoBCommands implements TabExecutor {
 
 	//MoveEvent Listener ist im MoveEvents
 	@Override

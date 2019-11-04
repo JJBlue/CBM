@@ -1,27 +1,21 @@
 package essentials.modules.MapPaint;
 
-import essentials.config.MainConfig;
-import essentials.player.PlayerConfig;
-import essentials.player.PlayerManager;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MPCommand implements CommandExecutor, TabCompleter {
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-	public static MPCommand mpcommand;
+import essentials.config.MainConfig;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
 
-	static {
-		mpcommand = new MPCommand();
-	}
+public class MPCommand implements TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {

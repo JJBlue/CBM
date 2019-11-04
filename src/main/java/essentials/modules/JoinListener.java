@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,7 @@ import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
 import essentials.utilities.player.PlayerUtilities;
 
-public class JoinListener implements Listener {
+public class JoinListener implements Listener, TabExecutor {
 	private static ArrayList<String> tempPlayer = new ArrayList<>();
 
 	@EventHandler
@@ -109,7 +110,8 @@ public class JoinListener implements Listener {
 
 	//TODO update
 	@SuppressWarnings("deprecation")
-	public static boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("help")) {
 				sender.sendMessage("/" + PermissionHelper.getPluginDefaultCommand() + " join list");
@@ -204,5 +206,10 @@ public class JoinListener implements Listener {
 		}
 
 		return true;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		return null;
 	}
 }

@@ -7,9 +7,8 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
@@ -18,14 +17,7 @@ import essentials.utilities.TimeUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.player.PlayerUtilities;
 
-public class BanCommand implements CommandExecutor, TabCompleter {
-	
-	public final static BanCommand commands;
-	
-	static {
-		commands = new BanCommand();
-	}
-
+public class BanCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length < 1) return true;

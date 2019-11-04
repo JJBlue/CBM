@@ -6,20 +6,13 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
 
-public class EconomyCommands implements CommandExecutor, TabCompleter {
-	
-	public final static EconomyCommands moneyCommands;
-	
-	static {
-		moneyCommands = new EconomyCommands();
-	}
+public class EconomyCommands implements TabExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {

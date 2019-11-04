@@ -12,14 +12,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SudoCommand implements CommandExecutor, TabCompleter {
-
-	public final static SudoCommand commands;
-	
-	static {
-		commands = new SudoCommand();
-	}
-	
+public class SudoCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if(args.length < 1) return true;

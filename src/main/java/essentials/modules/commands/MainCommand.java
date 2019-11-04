@@ -50,6 +50,7 @@ import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commands.commands.SignCommands;
 import essentials.modules.commands.commands.bookCommand;
 import essentials.modules.commands.commands.inventorySee;
+import essentials.modules.commands.tabexecutors.RedirectTabExecutor;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
 import essentials.modules.disguise.DisguiseManager;
@@ -108,12 +109,49 @@ public class MainCommand implements TabExecutor {
 			AFK.change(p1);
 			return true;
 		};
+		//TODO tabcomplete
 		CommandManager.register("afk", CommandManager.getTabExecutor(executor));
 	}
 	
 	public static void load() {
-		ClaimCommands.register();
+		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
 		afk();
+		CommandManager.register("armorstand", new RedirectTabExecutor(new ArmorstandCommands()));
+		CommandManager.register("ban", new RedirectTabExecutor(new BanCommand(), 0));
+		CommandManager.setAlias("unban", "ban");
+		CommandManager.setAlias("tempban", "ban");
+		CommandManager.setAlias("checkban", "ban");
+		CommandManager.register("book", new RedirectTabExecutor(new bookCommand()));
+		CommandManager.register("coi", new RedirectTabExecutor(new CoICommands()));
+		CommandManager.register("cob", new RedirectTabExecutor(new CoBCommands()));
+		CommandManager.register("commandspy", new RedirectTabExecutor(new CommandSpy()));
+		CommandManager.register("container", new RedirectTabExecutor(new ContainerCommands()));
+		CommandManager.register("hologram", new RedirectTabExecutor(new HologramCommand()));
+		CommandManager.register("inventory", new RedirectTabExecutor(new inventorySee()));
+		CommandManager.register("economy", new RedirectTabExecutor(new EconomyCommands()));
+		CommandManager.register("pluginmanager", new RedirectTabExecutor(new DisableEnable()));
+		CommandManager.register("nbt", new RedirectTabExecutor(new NBTCommands()));
+		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0));
+		CommandManager.register("op", new RedirectTabExecutor(new OpListener()));
+		CommandManager.register("paint", new RedirectTabExecutor(new MPCommand()));
+		CommandManager.register("sign", new RedirectTabExecutor(new SignCommands()));
+		CommandManager.register("spawn", new RedirectTabExecutor(new SpawnCommands(), 0));
+		CommandManager.setAlias("setspawn", "spawn");
+		CommandManager.setAlias("delspawn", "spawn");
+		CommandManager.register("skull", new RedirectTabExecutor(new SkullInventory()));
+		CommandManager.register("sudo", new RedirectTabExecutor(new SudoCommand(), 0));
+		CommandManager.setAlias("sudo-", "sudo");
+		CommandManager.setAlias("sudo+", "sudo");
+		CommandManager.register("teleport", new RedirectTabExecutor(new teleportCommand()));
+		CommandManager.register("timer", new RedirectTabExecutor(new TimerCommand()));
+		CommandManager.register("trade", new RedirectTabExecutor(new TradeCommands()));
+		CommandManager.register("troll", new RedirectTabExecutor(new TrollCommands()));
+		CommandManager.register("updater", new RedirectTabExecutor(new UpdaterCommand()));
+		CommandManager.register("warp", new RedirectTabExecutor(new warpCommands()));
+		CommandManager.setAlias("setwarp", "warp");
+		CommandManager.setAlias("delwarp", "warp");
+		CommandManager.setAlias("editwarp", "warp");
+		CommandManager.setAlias("savewarp", "warp");
 	}
 	
 	@Override
@@ -126,6 +164,9 @@ public class MainCommand implements TabExecutor {
 
 		args[0] = args[0].toLowerCase();
 		if(!CommandManager.checkPermissions(sender, args))
+			return true;
+		
+		if(CommandManager.execute(sender, cmd, cmdLabel, args))
 			return true;
 		
 		switch (args[0]) {
@@ -158,37 +199,12 @@ public class MainCommand implements TabExecutor {
 				inventory.setContents(shulkerBox.getInventory().getContents());
 				p.openInventory(inventory);
 			}
-			case "claim": {
-				return ClaimCommands.commands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-			}
-			case "afk": {
-				Player p1;
-
-				if (args.length == 1) p1 = p;
-				else p1 = Bukkit.getPlayer(args[1]);
-
-				if (p1 == null) return true;
-				AFK.change(p1);
-
-				break;
-			}
-			case "armorstand":
-				return ArmorstandCommands.armorstandCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-			case "ban":
-			case "unban":
-			case "tempban":
-			case "checkban":
-				return BanCommand.commands.onCommand(sender, cmd, cmdLabel, args);
 			case "blockname":
 
 				if (sender instanceof Player)
 					p.sendMessage(p.getLocation().getBlock().getType() + "");
 
 				break;
-
-			case "book":
-				return bookCommand.bookcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 			case "boot":
 
 				if (p == null) return true;
@@ -256,19 +272,6 @@ public class MainCommand implements TabExecutor {
 				}
 				break;
 			}
-			
-			case "coi":
-				return CoICommands.commondsOnItemStack.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-			
-			case "cob":
-				return CoBCommands.commandOnBlock.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-			case "commandspy":
-				return CommandSpy.commandSpy.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-			case "container":
-				return ContainerCommands.containerCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				
 			case "undisguise": {
 				Player p2;
 				
@@ -489,9 +492,7 @@ public class MainCommand implements TabExecutor {
 
 				break;
 			}
-			case "hologram": {
-				return HologramCommand.commands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-			}
+			
 			case "itemdb":
 
 				if (p == null) return true;
@@ -526,9 +527,7 @@ public class MainCommand implements TabExecutor {
 
 				break;
 
-			case "inventory":
-				return inventorySee.inventorySee.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
+			
 			case "jump":
 
 				if (p == null) return true;
@@ -549,9 +548,7 @@ public class MainCommand implements TabExecutor {
 
 				break;
 
-			case "join":
-				return JoinListener.onCommand(sender, cmd, cmdLabel, args);
-
+			
 			case "joinsilent": {
 				
 				PlayerConfig config = PlayerManager.getPlayerConfig(p);
@@ -603,10 +600,7 @@ public class MainCommand implements TabExecutor {
 				LanguageConfig.sendMessage(sender, "language.change", args[1]);
 				break;
 				
-			case "economy":
-				
-				return EconomyCommands.moneyCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
+			
 			case "tablist":
 				if (args.length < 2) break;
 				if (args[1].equalsIgnoreCase("update")) {
@@ -702,10 +696,7 @@ public class MainCommand implements TabExecutor {
 				MainConfig.setMotd(ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 1, args.length)));
 				break;
 
-			case "nbt":
-				
-				return NBTCommands.nbtCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				
+			
 			case "near":
 
 				if (p == null) return true;
@@ -717,16 +708,7 @@ public class MainCommand implements TabExecutor {
 
 				break;
 
-			case "op":
-
-				OpListener.deopCommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-				break;
-
-			case "paint":
-
-				return MPCommand.mpcommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
+			
 			case "playertime":
 				
 				//playertime [add/remove/set] <ticks> (<fixed> <Player>)
@@ -773,10 +755,7 @@ public class MainCommand implements TabExecutor {
 				
 				break;
 				
-			case "pluginmanager":
-
-				return DisableEnable.disableEnable.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
+			
 			case "random":
 				if (args.length < 3) break;
 
@@ -842,7 +821,6 @@ public class MainCommand implements TabExecutor {
 			case "restart":
 
 				MainConfig.restart();
-
 				break;
 				
 			case "shakeoff": {
@@ -855,6 +833,10 @@ public class MainCommand implements TabExecutor {
 				
 				break;
 			}
+			case "silent":
+
+				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
+				break;
 
 			case "seen": {
 				try {
@@ -883,11 +865,6 @@ public class MainCommand implements TabExecutor {
 				break;
 			}
 
-			case "silent":
-
-				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
-				break;
-
 			case "sit":
 
 				if (p == null) return false;
@@ -898,17 +875,7 @@ public class MainCommand implements TabExecutor {
 					sender.sendMessage("Chair: OFF");
 
 				break;
-
-			case "sign":
-
-				return SignCommands.signCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-			case "spawn":
-			case "setspawn":
-			case "delspawn":
-				
-				return SpawnCommands.spawnCommands.onCommand(sender, cmd, cmdLabel, args);
-				
+			
 			case "speed": {
 				if (args.length == 2) {
 					if (p == null) return true;
@@ -961,13 +928,6 @@ public class MainCommand implements TabExecutor {
 				}
 				
 			}
-			case "skull":
-				return SkullInventory.skullitem.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-			case "sudo":
-			case "sudo-":
-			case "sudo+":
-				return SudoCommand.commands.onCommand(sender, cmd, cmdLabel, args);
-
 			case "status": {
 				
 				boolean serverInfo = false;
@@ -1026,28 +986,6 @@ public class MainCommand implements TabExecutor {
 
 				break;
 			}
-			case "teleport":
-
-				teleportCommand.teleport.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-				break;
-
-			case "timer":
-
-				return TimerCommand.timerCommand.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-			case "trade":
-
-				return TradeCommands.tradeCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-			case "troll":
-				
-				return TrollCommands.trollCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				
-			case "updater":
-
-				return UpdaterCommand.updaterCommands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 			case "uuid":
 				if (args.length < 2) break;
 
@@ -1065,15 +1003,6 @@ public class MainCommand implements TabExecutor {
 					LanguageConfig.sendMessage(sender, "version.new-version", spu.getOnlineVersion());
 
 				break;
-
-			case "warp":
-			case "setwarp":
-			case "delwarp":
-			case "editwarp":
-			case "savewarp":
-
-				return warpCommands.commands.onCommand(sender, cmd, cmdLabel, args);
-
 			case "wallghost":
 
 				if (args.length <= 1) {
@@ -1104,25 +1033,23 @@ public class MainCommand implements TabExecutor {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return null;
 
-		List<String> returnArguments = new LinkedList<>();
+		final List<String> returnArguments = new LinkedList<>();
 
+		//TODO
+		
 		if (args.length == 1) {
-			returnArguments.add("afk");
-			returnArguments.add("armorstand");
-			returnArguments.add("ban");
+			CommandManager.commands.keySet().forEach(s -> returnArguments.add(s));
+			CommandManager.alias.keySet().forEach(s -> returnArguments.add(s));
+			
 			returnArguments.add("blockname");
 			returnArguments.add("boot");
 			returnArguments.add("book");
 			returnArguments.add("burn");
 			returnArguments.add("broadcast");
 			returnArguments.add("clearchat");
-			returnArguments.add("cob");
-			returnArguments.add("coi");
-			returnArguments.add("commandspy");
 			returnArguments.add("container");
 			returnArguments.add("chestplate");
 			returnArguments.add("disguise");
-			returnArguments.add("delwarp");
 			returnArguments.add("economy");
 			returnArguments.add("editwarp");
 			returnArguments.add("eventfinder");
@@ -1134,7 +1061,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("head");
 			returnArguments.add("heal");
 			returnArguments.add("hide");
-			returnArguments.add("hologram");
 			returnArguments.add("itemdb");
 			returnArguments.add("info");
 			returnArguments.add("inventory");
@@ -1151,15 +1077,11 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("nbt");
 			returnArguments.add("nick");
 			returnArguments.add("near");
-			returnArguments.add("paint");
 			returnArguments.add("playertime");
-			returnArguments.add("pluginmanager");
 			returnArguments.add("random");
 			returnArguments.add("repair");
 			returnArguments.add("reload");
 			returnArguments.add("shakeoff");
-			returnArguments.add("savewarp");
-			returnArguments.add("setwarp");
 			returnArguments.add("seen");
 			returnArguments.add("silent");
 			returnArguments.add("sit");
@@ -1167,14 +1089,10 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("skin");
 			returnArguments.add("skull");
 			returnArguments.add("status");
-			returnArguments.add("sudo");
-			returnArguments.add("sudo+");
-			returnArguments.add("sudo-");
 			returnArguments.add("speed");
 			returnArguments.add("restart");
 			returnArguments.add("tablist");
 			returnArguments.add("teleport");
-			returnArguments.add("tempban");
 			returnArguments.add("timer");
 			returnArguments.add("trade");
 			returnArguments.add("troll");
@@ -1186,9 +1104,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("uuid");
 			returnArguments.add("version");
 			returnArguments.add("wallGhost");
-			returnArguments.add("warp");
-			
-			returnArguments.addAll(SpawnCommands.spawnCommands.onTabComplete(sender, cmd, cmdLabel, args));
 
 			returnArguments.removeIf(s -> !sender.hasPermission(PermissionHelper.getPermissionCommand(s)));
 
@@ -1204,25 +1119,6 @@ public class MainCommand implements TabExecutor {
 					} else if (args.length == 3) returnArguments.add("[<amount>]");
 
 					break;
-					
-				case "ban":
-				case "tempban":
-				case "unban":
-					return BanCommand.commands.onTabComplete(sender, cmd, cmdLabel, args);
-				case "armorstand":
-					return ArmorstandCommands.armorstandCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "book":
-					return bookCommand.bookcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "cob":
-					return CoBCommands.commandOnBlock.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "coi":
-					return CoICommands.commondsOnItemStack.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "commandspy":
-					return CommandSpy.commandSpy.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "container":
-					return ContainerCommands.containerCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "economy":
-					return EconomyCommands.moneyCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				case "eventfinder": {
 					for(Plugin plugin : Bukkit.getPluginManager().getPlugins())
 						returnArguments.add(plugin.getName());
@@ -1247,7 +1143,7 @@ public class MainCommand implements TabExecutor {
 	
 						case 3:
 	
-							returnArguments = BukkitUtilities.getAvailableCommands(sender);
+							returnArguments.addAll(BukkitUtilities.getAvailableCommands(sender));
 							break;
 	
 						default:
@@ -1272,16 +1168,10 @@ public class MainCommand implements TabExecutor {
 					}
 					
 					break;
-				case "hologram":
-					return HologramCommand.commands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				case "motd":
 					
 					returnArguments.add("<Text>");
 					break;
-					
-				case "nbt":
-					
-					return NBTCommands.nbtCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				
 				case "disguise":
 				case "nick":
@@ -1317,12 +1207,8 @@ public class MainCommand implements TabExecutor {
 					
 				case "silent":
 
-					returnArguments = BukkitUtilities.getAvailableCommands(sender);
+					returnArguments.addAll(BukkitUtilities.getAvailableCommands(sender));
 					break;
-
-				case "sign":
-
-					return SignCommands.signCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 
 				case "skin":
 				case "undisguise":
@@ -1351,8 +1237,6 @@ public class MainCommand implements TabExecutor {
 
 					break;
 
-				case "skull":
-					return SkullInventory.skullitem.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				case "status":
 					
 					returnArguments.add("serverinfo");
@@ -1360,13 +1244,6 @@ public class MainCommand implements TabExecutor {
 					returnArguments.add("all");
 					
 					break;
-					
-				case "sudo":
-				case "sudo-":
-				case "sudo+":
-					return SudoCommand.commands.onTabComplete(sender, cmd, cmdLabel, args);
-				case "teleport":
-					return teleportCommand.teleport.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 				case "troll":
 					return TrollCommands.trollCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
@@ -1379,10 +1256,7 @@ public class MainCommand implements TabExecutor {
 				case "tablist":
 					returnArguments.add("update");
 					break;
-
-				case "inventory":
-
-					return inventorySee.inventorySee.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
+					
 				case "join":
 					returnArguments.add("help");
 					break;
@@ -1405,32 +1279,10 @@ public class MainCommand implements TabExecutor {
 					returnArguments.add("false");
 					break;
 
-				case "paint":
-					return MPCommand.mpcommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "pluginmanager":
-					return DisableEnable.disableEnable.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "spawn":
-				case "setspawn":
-				case "delspawn":
-					return SpawnCommands.spawnCommands.onTabComplete(sender, cmd, cmdLabel, args);
-				case "timer":
-					return TimerCommand.timerCommand.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
-				case "trade":
-					return TradeCommands.tradeCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-
 				case "random":
 					if (args.length == 2) returnArguments.add("<Amount>");
 					else if (args.length == 3) returnArguments.add("<Player,Player...>");
 					break;
-
-				case "updater":
-					return UpdaterCommand.updaterCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
-				case "warp":
-				case "delwarp":
-				case "editwarp":
-				case "setwarp":
-					return warpCommands.commands.onTabComplete(sender, cmd, cmdLabel, args);
 			}
 		}
 

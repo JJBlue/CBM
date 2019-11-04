@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +15,7 @@ import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
 import essentials.utilities.player.PlayerUtilities;
 
-public class OpListener implements Listener, CommandExecutor {
+public class OpListener implements Listener, TabExecutor {
 	@EventHandler
 	public void command(PlayerCommandPreprocessEvent e) {
 		if(!MainConfig.getConfiguration().getBoolean(MainConfigEnum.enableOperators.value)) return;
@@ -55,5 +55,10 @@ public class OpListener implements Listener, CommandExecutor {
 		sender.sendMessage(builder.toString());
 
 		return true;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		return null;
 	}
 }

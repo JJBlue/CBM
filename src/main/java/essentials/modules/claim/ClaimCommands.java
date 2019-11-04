@@ -13,21 +13,8 @@ import org.bukkit.entity.Player;
 
 import essentials.economy.EconomyManager;
 import essentials.language.LanguageConfig;
-import essentials.modules.commands.CommandManager;
-import essentials.modules.commands.tabexecutors.RedirectTabExecutor;
 
 public class ClaimCommands implements TabExecutor {
-
-	public final static ClaimCommands commands;
-	
-	static {
-		commands = new ClaimCommands();
-	}
-	
-	public static void register() {
-		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
-	}
-	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length <= 0) return true;

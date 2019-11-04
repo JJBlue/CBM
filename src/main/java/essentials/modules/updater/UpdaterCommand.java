@@ -1,28 +1,20 @@
 package essentials.modules.updater;
 
-import essentials.language.LanguageConfig;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.StringUtilities;
-import essentials.utilities.permissions.PermissionHelper;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-
-import components.thread.AsyncExecute;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UpdaterCommand implements CommandExecutor, TabCompleter {
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 
-	public final static UpdaterCommand updaterCommands;
+import components.thread.AsyncExecute;
+import essentials.language.LanguageConfig;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.StringUtilities;
+import essentials.utilities.permissions.PermissionHelper;
 
-	static {
-		updaterCommands = new UpdaterCommand();
-	}
-
+public class UpdaterCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 

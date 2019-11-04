@@ -12,8 +12,8 @@ import org.bukkit.command.TabExecutor;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class CommandManager {
-	private static Map<String, TabExecutor> commands;
-	private static Map<String, String> alias;
+	static Map<String, TabExecutor> commands;
+	static Map<String, String> alias;
 	
 	public static boolean register(String command, TabExecutor executor) {
 		if(commands.containsKey(command))
@@ -40,6 +40,14 @@ public class CommandManager {
 		return true;
 	}
 	
+	public static String getCommand(String ac) {
+		if(commands.containsKey(ac))
+			return ac;
+		if(alias.containsKey(ac))
+			return alias.get(ac);
+		return null;
+	}
+	
 	public static TabExecutor getTabExecutor(CommandExecutor commandexecuter) {
 		return getTabExecutor(commandexecuter, null);
 	}
@@ -60,5 +68,12 @@ public class CommandManager {
 				return null;
 			}
 		};
+	}
+	
+	public static boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
+		String command = getCommand(args[0]);
+		if(command == null)
+			return false;
+		return commands.get(command).onCommand(sender, cmd, label, args);
 	}
 }

@@ -14,9 +14,9 @@ import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
 import essentials.modules.ColorListener;
-import essentials.modules.OpListener;
 import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
+import essentials.modules.OpListener;
 import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.LoadMapPaint;
@@ -35,7 +35,6 @@ import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
 import essentials.modules.move.AFK;
 import essentials.modules.move.MoveManager;
-import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.spawn.SpawnListener;
 import essentials.modules.sudo.SudoListener;
@@ -114,7 +113,6 @@ public class Main extends JavaPlugin implements Listener {
 		bookCommand.saveDefaultBook();
 		CommandOnBlock.load();
 		LoadMapPaint.load();
-		DisableEnable.disableEnable.nothing(); //Lade Klasse, damit wenn .jar uberschrieben. Die load/unload Methoden funktionieren
 
 		for (Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
@@ -167,6 +165,8 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public static void reload() {
+		MainCommand.load();
+		
 		ClaimConfig.load();
 		CustomAlias.load();
 		UpdaterServerManager.load();

@@ -1,23 +1,15 @@
 package essentials.modules.trade;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
 import java.util.LinkedList;
 import java.util.List;
 
-public class TradeCommands implements CommandExecutor, TabCompleter {
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
-	public final static TradeCommands tradeCommands;
-
-	static {
-		tradeCommands = new TradeCommands();
-	}
-
+public class TradeCommands implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;

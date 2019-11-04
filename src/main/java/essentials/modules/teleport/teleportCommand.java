@@ -10,13 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class teleportCommand implements CommandExecutor, TabCompleter {
-
-	public final static teleportCommand teleport;
-
-	static {
-		teleport = new teleportCommand();
-	}
+public class teleportCommand implements TabExecutor {
 
 	public ArrayList<String> tpa = new ArrayList<>(); //TODO better
 

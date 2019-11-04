@@ -13,12 +13,7 @@ import org.bukkit.entity.Player;
 import essentials.utilities.player.PlayerUtilities;
 
 public class inventorySee implements TabExecutor {
-	public final static inventorySee inventorySee;
-
-	static {
-		inventorySee = new inventorySee();
-	}
-
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (!(sender instanceof Player)) return true;
 		if (args.length < 1) return true;

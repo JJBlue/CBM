@@ -19,12 +19,6 @@ import org.bukkit.inventory.meta.BookMeta;
 import essentials.config.MainConfig;
 
 public class bookCommand implements TabExecutor {
-	public final static bookCommand bookcommand;
-
-	static {
-		bookcommand = new bookCommand();
-	}
-
 	private final static String filePath = MainConfig.getDataFolder() + "books/";
 
 	//TODO commans in book

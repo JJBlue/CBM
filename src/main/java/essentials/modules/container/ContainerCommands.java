@@ -1,27 +1,20 @@
 package essentials.modules.container;
 
-import essentials.utilities.container.ContainerUtilities;
-import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ContainerCommands implements CommandExecutor, TabCompleter {
+import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
-	public static final ContainerCommands containerCommands;
-	
-	static {
-		containerCommands = new ContainerCommands();
-	}
-	
+import essentials.utilities.container.ContainerUtilities;
+
+public class ContainerCommands implements TabExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		

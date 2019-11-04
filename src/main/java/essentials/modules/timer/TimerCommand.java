@@ -1,25 +1,18 @@
 package essentials.modules.timer;
 
-import essentials.language.LanguageConfig;
-import essentials.utilities.StringUtilities;
-import org.bukkit.boss.BarColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TimerCommand implements CommandExecutor, TabCompleter {
+import org.bukkit.boss.BarColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 
-	public final static TimerCommand timerCommand;
+import essentials.language.LanguageConfig;
+import essentials.utilities.StringUtilities;
 
-	static {
-		timerCommand = new TimerCommand();
-	}
-
+public class TimerCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;

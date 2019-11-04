@@ -13,6 +13,7 @@ public class RedirectTabExecutor implements TabExecutor {
 
 	CommandExecutor commandExecutor;
 	TabCompleter tabCompleter;
+	int removeArgs = 1;
 	
 	public RedirectTabExecutor(CommandExecutor commandExecutor, TabCompleter tabCompleter) {
 		this.commandExecutor = commandExecutor;
@@ -24,17 +25,23 @@ public class RedirectTabExecutor implements TabExecutor {
 		this.tabCompleter = tabExecutor;
 	}
 	
+	public RedirectTabExecutor(TabExecutor tabExecutor, int removeArgs) {
+		this.removeArgs = removeArgs;
+		this.commandExecutor = tabExecutor;
+		this.tabCompleter = tabExecutor;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(commandExecutor != null)
-			return commandExecutor.onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+			return commandExecutor.onCommand(sender, command, label, removeArgs != 0 ? Arrays.copyOfRange(args, removeArgs, args.length) : args);
 		return false;
 	}
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		if(tabCompleter != null)
-			return tabCompleter.onTabComplete(sender, command, alias, Arrays.copyOfRange(args, 1, args.length));
+			return tabCompleter.onTabComplete(sender, command, alias, removeArgs != 0 ? Arrays.copyOfRange(args, removeArgs, args.length) : args);
 		return null;
 	}
 	

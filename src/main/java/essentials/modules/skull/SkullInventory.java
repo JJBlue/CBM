@@ -1,12 +1,15 @@
 package essentials.modules.skull;
 
 
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,17 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-public class SkullInventory implements Listener, CommandExecutor, TabCompleter {
-
-	public final static SkullInventory skullitem;
-
-	static {
-		skullitem = new SkullInventory();
-	}
+public class SkullInventory implements Listener, TabExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {

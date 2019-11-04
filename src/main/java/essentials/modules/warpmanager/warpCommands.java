@@ -1,24 +1,18 @@
 package essentials.modules.warpmanager;
 
-import essentials.language.LanguageConfig;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class warpCommands implements CommandExecutor, TabCompleter {
-	public final static warpCommands commands;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
-	static {
-		commands = new warpCommands();
-	}
+import essentials.language.LanguageConfig;
 
+public class warpCommands implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		Player p = null;

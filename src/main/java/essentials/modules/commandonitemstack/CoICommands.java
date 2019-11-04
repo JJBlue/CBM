@@ -17,13 +17,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CoICommands implements CommandExecutor, TabCompleter {
-	public static final CoICommands commondsOnItemStack;
-	
-	static {
-		commondsOnItemStack = new CoICommands();
-	}
-
+public class CoICommands implements TabExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if(args.length < 1) return true;

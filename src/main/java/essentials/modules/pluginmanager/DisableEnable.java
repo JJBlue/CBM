@@ -13,13 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class DisableEnable implements CommandExecutor, TabCompleter {
-	public final static DisableEnable disableEnable;
-
-	static {
-		disableEnable = new DisableEnable();
-	}
-
+public class DisableEnable implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 2) return true;
@@ -187,6 +181,4 @@ public class DisableEnable implements CommandExecutor, TabCompleter {
 
 		return returnArguments;
 	}
-
-	public void nothing() {}
 }

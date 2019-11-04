@@ -5,23 +5,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.chat.ChatUtilities;
 
-public class HologramCommand implements CommandExecutor, TabCompleter {
+public class HologramCommand implements TabExecutor {
 
 	private final double radius = 20;
-	public final static HologramCommand commands;
-	
-	static {
-		commands = new HologramCommand();
-	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

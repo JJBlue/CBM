@@ -21,12 +21,6 @@ import essentials.utilities.permissions.PermissionHelper;
 
 public class SignCommands implements TabExecutor {
 
-	public final static SignCommands signCommands;
-
-	static {
-		signCommands = new SignCommands();
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		/*

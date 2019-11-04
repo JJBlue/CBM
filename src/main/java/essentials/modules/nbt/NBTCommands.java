@@ -5,9 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,14 +15,7 @@ import essentials.utilities.NBTUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
 
-public class NBTCommands implements CommandExecutor, TabCompleter {
-
-	public final static NBTCommands nbtCommands;
-	
-	static {
-		nbtCommands = new NBTCommands();
-	}
-	
+public class NBTCommands implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length < 1) return true;
