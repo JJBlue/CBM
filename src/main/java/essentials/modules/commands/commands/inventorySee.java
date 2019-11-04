@@ -1,4 +1,4 @@
-package essentials.modules.commands;
+package essentials.modules.commands.commands;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -6,14 +6,13 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.utilities.player.PlayerUtilities;
 
-public class inventorySee implements CommandExecutor, TabCompleter {
+public class inventorySee implements TabExecutor {
 	public final static inventorySee inventorySee;
 
 	static {

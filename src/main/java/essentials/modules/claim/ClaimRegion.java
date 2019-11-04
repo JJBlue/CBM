@@ -1,5 +1,9 @@
 package essentials.modules.claim;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -7,24 +11,20 @@ import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
 public class ClaimRegion {
-	
-	public synchronized static boolean claim(World world, int minX, int minZ, int maxX, int maxZ) {
-		return claim(null, world, minX, minZ, maxX, maxZ);
-	}
-
 	public synchronized static boolean claimChunk(Player player, Chunk chunk) {
-		return claim(player, chunk.getWorld(), chunk.getX() * 16, chunk.getZ() * 16, chunk.getX() * 16 + 15, chunk.getZ() * 16 + 15);
+		return claim(player, chunk.getWorld(), chunk.getX() * 16, 0, chunk.getZ() * 16, chunk.getX() * 16 + 15, 255, chunk.getZ() * 16 + 15);
 	}
 	
-	public synchronized static boolean claim(Player player, World world, int minX, int minZ, int maxX, int maxZ) {
+	public synchronized static boolean claim(Player player, World world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
 		RegionManager manager = getRegionManager(world);
 		if (manager == null) return false;
 		
@@ -33,9 +33,11 @@ public class ClaimRegion {
 		
 		do {
 			if(player != null)
-				id = "plot:" + player.getName() + ":" + number;
+				id = "plot-" + player.getName() + "-" + number;
 			else
-				id = "plot:" + number;
+				id = "plot-" + number;
+			
+			number++;
 		} while(manager.hasRegion(id));
 		
 		ProtectedCuboidRegion region = new ProtectedCuboidRegion(
@@ -53,33 +55,56 @@ public class ClaimRegion {
 		return true;
 	}
 	
-	public synchronized static boolean unclaimChunk(Chunk chunk) {
-		return unclaim(chunk.getWorld(), chunk.getX() * 16, chunk.getZ() * 16, chunk.getX() * 16 + 15, chunk.getZ() * 16 + 15);
+	public synchronized static boolean unclaimChunk(Player player, Chunk chunk) {
+		return unclaim(player, chunk.getWorld(), chunk.getX() * 16, 0, chunk.getZ() * 16);
 	}
 	
-	public synchronized static boolean unclaim(World world, int minX, int minZ, int maxX, int maxZ) {
+	public synchronized static boolean unclaim(Player player, World world, int x, int y, int z) {
 		RegionManager manager = getRegionManager(world);
 		if (manager == null) return false;
 		
-		//TODO
 		
-		return true;
+		List<String> ids = manager.getApplicableRegionsIDs(BlockVector3.at(x, y, z));
+		boolean deletedRegion = false;
+		
+		for(String id : ids) {
+			if(id.contains("plot")) {
+				ProtectedRegion region = manager.getRegion(id);
+				DefaultDomain owners = region.getOwners();
+				if(owners.contains(player.getUniqueId()) || player == null) {
+					deletedRegion = true;
+					manager.removeRegion(id);
+					Bukkit.broadcastMessage("Deleted Region " + id); //TODO
+					break;
+				}
+			}
+		}
+		
+		return deletedRegion;
 	}
 	
-	public synchronized static boolean contains(World world, int minX, int minZ, int maxX, int maxZ) {
+	public synchronized static boolean contains(World world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
 		RegionManager manager = getRegionManager(world);
 		if (manager == null) return true;
 		
-		ProtectedCuboidRegion region = new ProtectedCuboidRegion(
-			"test",
-			BukkitAdapter.asBlockVector(new Location(world, minX, 0, minZ)),
-			BukkitAdapter.asBlockVector(new Location(world, maxX, 255, maxZ))
+		ProtectedCuboidRegion selection = new ProtectedCuboidRegion(
+			"selection",
+			BukkitAdapter.asBlockVector(new Location(world, minX, minY, minZ)),
+			BukkitAdapter.asBlockVector(new Location(world, maxX, maxY, maxZ))
 		);
 		
-		manager.overlapsUnownedRegion(region, null);
+		ApplicableRegionSet regionSet = manager.getApplicableRegions(selection);
+		if(regionSet.isVirtual()) {
+			Bukkit.broadcastMessage("is virtual!"); //TODO
+			return true;
+		}
 		
-//		manager.getApplicableRegionsIDs(BlockVector3.at(x, 100, z));
-		//TODO
+		Iterator<ProtectedRegion> iterator = regionSet.iterator();
+		while(iterator.hasNext()) {
+			iterator.next();
+			Bukkit.broadcastMessage("contains region"); //TODO
+			return true;
+		}
 		
 		return false;
 	}
@@ -89,7 +114,6 @@ public class ClaimRegion {
 		if (manager == null) return true;
 		
 //		manager.getApplicableRegionsIDs(BlockVector3.at(x, 100, z));
-		manager.getRegions();
 		//TODO
 		
 		return false;

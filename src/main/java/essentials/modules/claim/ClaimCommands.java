@@ -7,15 +7,27 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.economy.EconomyManager;
+import essentials.language.LanguageConfig;
+import essentials.modules.commands.CommandManager;
+import essentials.modules.commands.tabexecutors.RedirectTabExecutor;
 
-public class ClaimCommands implements CommandExecutor, TabCompleter {
+public class ClaimCommands implements TabExecutor {
 
+	public final static ClaimCommands commands;
+	
+	static {
+		commands = new ClaimCommands();
+	}
+	
+	public static void register() {
+		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length <= 0) return true;
@@ -33,13 +45,30 @@ public class ClaimCommands implements CommandExecutor, TabCompleter {
 				
 				if(player == null) break;
 				
-				//TODO freeBlocks
-				double money = ClaimConfig.getConfiguration().getDouble("claim.costPerBlock") * 255 * 16 * 16;
+				double notFreeBlocks = 255 * 16 * 16;
+				notFreeBlocks -= ClaimManager.getFreeBlocks(player);
+				double money = ClaimConfig.getConfiguration().getDouble("claim.costPerBlock") * notFreeBlocks;
 				
-				if(EconomyManager.removeMoney(player.getUniqueId(), money, true)) {
-					Chunk chunk = player.getLocation().getChunk();
-					ClaimRegion.claimChunk(player, chunk);
+				Bukkit.broadcastMessage(notFreeBlocks + " " + money); //TODO
+				
+				if(!EconomyManager.removeMoney(player.getUniqueId(), money, true)) {
+					LanguageConfig.sendMessage(player, "money.notenough", money + "");
+					break;
 				}
+				
+				Bukkit.broadcastMessage("money success"); //TODO
+				
+				Chunk chunk = player.getLocation().getChunk();
+				boolean claimed = ClaimRegion.claimChunk(player, chunk);
+				
+				if(!claimed) {
+					EconomyManager.addMoney(player.getUniqueId(), money);
+					LanguageConfig.sendMessage(player, "claim.errorclaiming");
+					break;
+				}
+				
+				Bukkit.broadcastMessage("success"); //TODO
+				LanguageConfig.sendMessage(player, "claim.success");
 				
 				break;
 			}
@@ -50,11 +79,26 @@ public class ClaimCommands implements CommandExecutor, TabCompleter {
 			case "unclaimchunk": {
 				
 				if(!(sender instanceof Player)) break;
-				Player player = (Player) sender;
+				
+				Player player = null;
+				
+				if(args.length == 2) {
+					player = Bukkit.getPlayer(args[1]);
+				} else if(sender instanceof Player) {
+					player = (Player) sender;
+				}
 				
 				//TODO
 				Chunk chunk = player.getLocation().getChunk();
-				ClaimRegion.unclaimChunk(chunk);
+				boolean success = ClaimRegion.unclaimChunk(player, chunk);
+				
+				if(!success) {
+					LanguageConfig.sendMessage(player, "claim.unclaiming");
+					break;
+				}
+				
+				ClaimManager.addFreeBlocks(player, 255 * 16 * 16);
+				LanguageConfig.sendMessage(player, "claim.unclaimed");
 				
 				break;
 			}
@@ -68,6 +112,12 @@ public class ClaimCommands implements CommandExecutor, TabCompleter {
 			}
 			case "isclaimed": {
 				//TODO
+				break;
+			}
+			case "prizes": {
+				double money = ClaimConfig.getConfiguration().getDouble("claim.costPerBlock");
+				LanguageConfig.sendMessage(sender, "claim.prizes", money + "", (money * 255) + "", (money * 255 * 16 * 16) + "");
+				
 				break;
 			}
 		}

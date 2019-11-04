@@ -24,11 +24,12 @@ import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
 import essentials.modules.armorstandeditor.ArmorstandListener;
 import essentials.modules.chair.chair;
+import essentials.modules.claim.ClaimConfig;
 import essentials.modules.commandonitemstack.CoIListener;
 import essentials.modules.commandonobject.CommandListener;
 import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commands.MainCommand;
-import essentials.modules.commands.bookCommand;
+import essentials.modules.commands.commands.bookCommand;
 import essentials.modules.commandspy.CommandSpyListener;
 import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
@@ -166,6 +167,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public static void reload() {
+		ClaimConfig.load();
 		CustomAlias.load();
 		UpdaterServerManager.load();
 		WorldConfig.load();

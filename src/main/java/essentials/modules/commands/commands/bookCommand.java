@@ -1,4 +1,4 @@
-package essentials.modules.commands;
+package essentials.modules.commands.commands;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,9 +8,8 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,7 +18,7 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import essentials.config.MainConfig;
 
-public class bookCommand implements CommandExecutor, TabCompleter {
+public class bookCommand implements TabExecutor {
 	public final static bookCommand bookcommand;
 
 	static {

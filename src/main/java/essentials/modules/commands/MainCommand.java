@@ -22,6 +22,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -43,8 +44,12 @@ import essentials.modules.NameTag.nt;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.ban.BanCommand;
 import essentials.modules.chair.chair;
+import essentials.modules.claim.ClaimCommands;
 import essentials.modules.commandonitemstack.CoICommands;
 import essentials.modules.commandonobject.CoBCommands;
+import essentials.modules.commands.commands.SignCommands;
+import essentials.modules.commands.commands.bookCommand;
+import essentials.modules.commands.commands.inventorySee;
 import essentials.modules.commandspy.CommandSpy;
 import essentials.modules.container.ContainerCommands;
 import essentials.modules.disguise.DisguiseManager;
@@ -84,8 +89,33 @@ import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.player.PlayerUtilities;
 import essentials.utilities.system.SystemStatus;
 
-public class MainCommand implements CommandExecutor, TabCompleter {
+public class MainCommand implements TabExecutor {
+	
+	//TEST
+	public static void afk() {
+		CommandExecutor executor = (sender, cmd, cmdLabel, args) -> {
+			Player p1 = null;
 
+			if (args.length == 1) {
+				if(sender instanceof Player) {
+					p1 = (Player) sender;
+				}
+			} else {
+				p1 = Bukkit.getPlayer(args[1]);
+			}
+
+			if (p1 == null) return true;
+			AFK.change(p1);
+			return true;
+		};
+		CommandManager.register("afk", CommandManager.getTabExecutor(executor));
+	}
+	
+	public static void load() {
+		ClaimCommands.register();
+		afk();
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
@@ -95,10 +125,11 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			p = (Player) sender;
 
 		args[0] = args[0].toLowerCase();
-		if (!sender.hasPermission(PermissionHelper.getPermissionCommand(args[0]))) return true;
+		if(!CommandManager.checkPermissions(sender, args))
+			return true;
 		
 		switch (args[0]) {
-			case "test":{
+			case "test": {
 				File file = new File(args[1]);
 				try {
 					int ID = BukkitMidiPlayerManager.play(file);
@@ -126,6 +157,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 				);
 				inventory.setContents(shulkerBox.getInventory().getContents());
 				p.openInventory(inventory);
+			}
+			case "claim": {
+				return ClaimCommands.commands.onCommand(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 			}
 			case "afk": {
 				Player p1;
@@ -1065,8 +1099,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		}
 
 		return false;
-	}
-
+	}	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return null;

@@ -1,12 +1,12 @@
 package essentials.modules.claim;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import de.schlichtherle.io.File;
 import essentials.config.MainConfig;
 
 public class ClaimConfig {
