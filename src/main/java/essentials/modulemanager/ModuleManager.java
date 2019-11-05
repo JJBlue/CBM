@@ -12,12 +12,17 @@ import org.bukkit.event.Listener;
 
 import essentials.main.Main;
 import essentials.modules.FlyThroughBlocks.FTBModule;
+import essentials.modules.armorstandeditor.ArmorstandModule;
 import essentials.modules.ban.BanModule;
+import essentials.modules.commandonitemstack.CoIModule;
+import essentials.modules.commandonobject.CoBModule;
 import essentials.modules.commandspy.CommandSpyModule;
 import essentials.modules.debugstick.DebugStickModule;
+import essentials.modules.display.DisplayModule;
 import essentials.modules.spawn.SpawnModule;
 import essentials.modules.sudo.SudoModule;
 import essentials.modules.tablist.TablistModule;
+import essentials.modules.trade.TradeModule;
 import essentials.modules.troll.TrollModule;
 import essentials.modules.warpmanager.WarpModule;
 
@@ -43,6 +48,8 @@ public class ModuleManager {
 				}
 			}
 		}
+		
+		ModuleConfig.save();
 	}
 	
 	public static void addDefaultModules() {
@@ -55,6 +62,11 @@ public class ModuleManager {
 		addModule(new TablistModule());
 		addModule(new FTBModule());
 		addModule(new TrollModule());
+		addModule(new ArmorstandModule());
+		addModule(new CoBModule());
+		addModule(new CoIModule());
+		addModule(new DisplayModule());
+		addModule(new TradeModule());
 	}
 	
 	public static void unload() {

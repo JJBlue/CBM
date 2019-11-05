@@ -41,11 +41,8 @@ import essentials.modules.JoinListener;
 import essentials.modules.OpListener;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
-import essentials.modules.armorstandeditor.ArmorstandCommands;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimCommands;
-import essentials.modules.commandonitemstack.CoICommands;
-import essentials.modules.commandonobject.CoBCommands;
 import essentials.modules.commands.commands.SignCommands;
 import essentials.modules.commands.commands.bookCommand;
 import essentials.modules.commands.commands.inventorySee;
@@ -66,7 +63,6 @@ import essentials.modules.sudo.SudoManager;
 import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.teleportCommand;
 import essentials.modules.timer.TimerCommand;
-import essentials.modules.trade.TradeCommands;
 import essentials.modules.troll.TrollCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.updater.UpdaterCommand;
@@ -112,10 +108,7 @@ public class MainCommand implements TabExecutor {
 		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
 		CommandManager.register("module", new RedirectTabExecutor(new ModuleCommand()));
 		afk();
-		CommandManager.register("armorstand", new RedirectTabExecutor(new ArmorstandCommands()));
 		CommandManager.register("book", new RedirectTabExecutor(new bookCommand()));
-		CommandManager.register("coi", new RedirectTabExecutor(new CoICommands()));
-		CommandManager.register("cob", new RedirectTabExecutor(new CoBCommands()));
 		CommandManager.register("container", new RedirectTabExecutor(new ContainerCommands()));
 		CommandManager.register("hologram", new RedirectTabExecutor(new HologramCommand()));
 		CommandManager.register("inventory", new RedirectTabExecutor(new inventorySee()));
@@ -129,7 +122,6 @@ public class MainCommand implements TabExecutor {
 		CommandManager.register("skull", new RedirectTabExecutor(new SkullInventory()));
 		CommandManager.register("teleport", new RedirectTabExecutor(new teleportCommand()));
 		CommandManager.register("timer", new RedirectTabExecutor(new TimerCommand()));
-		CommandManager.register("trade", new RedirectTabExecutor(new TradeCommands()));
 		CommandManager.register("updater", new RedirectTabExecutor(new UpdaterCommand()));
 	}
 	

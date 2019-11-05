@@ -10,8 +10,6 @@ public abstract class EModule implements Module {
 		loaded = true;
 		return load();
 	}
-	
-	
 
 	@Override
 	public boolean disable() {

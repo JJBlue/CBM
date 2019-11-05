@@ -29,13 +29,20 @@ public class ModuleConfig {
 		
 		if(!configuration.contains(path)) {
 			configuration.addDefault(path, false);
-			try {
-				configuration.save(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return configuration.getBoolean(path);
+	}
+	
+	public static void setAutoload(String id, boolean value) {
+		configuration.set("autoload." + id, value);
+	}
+	
+	public static void save() {
+		try {
+			configuration.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

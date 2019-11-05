@@ -24,6 +24,8 @@ public class ModuleCommand implements TabExecutor {
 				
 				Module module = ModuleManager.getModule(args[1]);
 				ModuleManager.enable(module);
+				ModuleConfig.setAutoload(module.getID(), true);
+				ModuleConfig.save();
 				LanguageConfig.sendMessage(sender, "module.enable", module.getID());
 				
 				break;
@@ -34,6 +36,8 @@ public class ModuleCommand implements TabExecutor {
 				
 				Module module = ModuleManager.getModule(args[1]);
 				ModuleManager.disable(module);
+				ModuleConfig.setAutoload(module.getID(), false);
+				ModuleConfig.save();
 				LanguageConfig.sendMessage(sender, "module.disable", module.getID());
 				
 				break;
@@ -54,13 +58,28 @@ public class ModuleCommand implements TabExecutor {
 		if (args.length == 1) {
 			returnArguments.add("enable");
 			returnArguments.add("disable");
-			returnArguments.add("list");
 
 		} else {
-			synchronized (ModuleManager.modules) {
-				for (String id : ModuleManager.modules.keySet())
-					returnArguments.add(id);
+			
+			switch (args[0].toLowerCase()) {
+				case "enable":
+					synchronized (ModuleManager.modules) {
+						for (Module module : ModuleManager.modules.values()) {
+							if(!module.isLoaded())
+								returnArguments.add(module.getID());
+						}
+					}
+					break;
+				case "disable":
+					synchronized (ModuleManager.modules) {
+						for (Module module : ModuleManager.modules.values()) {
+							if(module.isLoaded())
+								returnArguments.add(module.getID());
+						}
+					}
+					break;
 			}
+			
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
