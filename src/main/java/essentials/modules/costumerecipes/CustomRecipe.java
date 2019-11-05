@@ -38,7 +38,7 @@ public class CustomRecipe {
 		if(section == null)
 			section = configuration.createSection("recipes");
 		
-		for(String id : section.getKeys(false)) { //TODO checks of nullpointer
+		for(String id : section.getKeys(false)) {
 			try {
 				ConfigurationSection rSection = section.getConfigurationSection(id);
 				
