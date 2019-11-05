@@ -42,10 +42,36 @@ public class ModuleCommand implements TabExecutor {
 				
 				break;
 			}
-			case "list":
+			case "list": {
 				
-				//TODO
+				StringBuilder enabled = new StringBuilder();
+				StringBuilder disabled = new StringBuilder();
+				List<Module> modules;
+				
+				synchronized (ModuleManager.modules) {
+					modules = new LinkedList<>(ModuleManager.modules.values());
+				}
+				
+				for(Module module : modules) {
+					if(module.isLoaded()) {
+						if(enabled.length() > 0) {
+							enabled.append(", ");
+						}
+						
+						enabled.append(module.getID());
+					} else {
+						if(disabled.length() > 0) {
+							disabled.append(", ");
+						}
+						
+						disabled.append(module.getID());
+					}
+				}
+				
+				LanguageConfig.sendMessage(sender, "module.list", enabled.toString(), disabled.toString());
+				
 				break;
+			}
 		}
 		
 		return true;

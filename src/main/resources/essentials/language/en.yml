@@ -85,6 +85,7 @@ language:
 module:
   enable: §eEnabled Module §6$1
   disable: §eDisable Module §6$1
+  list: '§eModule''s enabled:\n$1\ndisabled:\n$2'
 money:
   notenough: §eYou have not enough money. You need $1
 mute:
