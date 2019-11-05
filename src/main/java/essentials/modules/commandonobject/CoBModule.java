@@ -1,5 +1,6 @@
 package essentials.modules.commandonobject;
 
+import essentials.main.Main;
 import essentials.modulemanager.EModule;
 import essentials.modulemanager.ModuleManager;
 import essentials.modules.commands.CommandManager;
@@ -17,6 +18,7 @@ public class CoBModule extends EModule{
 	@Override
 	public boolean unload() {
 		CommandManager.unregister("cob");
+		Main.unloadHelper(CommandOnBlock::unload);
 		return true;
 	}
 

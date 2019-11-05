@@ -1,15 +1,16 @@
 package essentials.modules.timer;
 
-import essentials.config.ConfigHelper;
-import essentials.config.MainConfig;
-import essentials.language.LanguageConfig;
+import java.io.File;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.util.List;
+import essentials.config.ConfigHelper;
+import essentials.config.MainConfig;
+import essentials.language.LanguageConfig;
 
 public class TimerConfig {
 	private TimerConfig() {}
@@ -26,6 +27,11 @@ public class TimerConfig {
 		configuration = YamlConfiguration.loadConfiguration(file);
 	}
 
+	public static void unload() {
+		configuration = null;
+		file = null;
+	}
+	
 	public static BukkitTimer startTimer(String timer) {
 		if (!configuration.contains(timer)) return null;
 

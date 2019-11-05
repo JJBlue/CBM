@@ -9,6 +9,7 @@ public class TimerModule extends EModule {
 
 	@Override
 	public boolean load() {
+		TimerConfig.load();
 		ModuleManager.addListener(new TimerListener(), this);
 		CommandManager.register("timer", new RedirectTabExecutor(new TimerCommand()));
 		return true;
@@ -17,6 +18,7 @@ public class TimerModule extends EModule {
 	@Override
 	public boolean unload() {
 		CommandManager.unregister("timer");
+		TimerConfig.unload();
 		return true;
 	}
 

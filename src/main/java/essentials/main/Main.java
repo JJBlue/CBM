@@ -19,7 +19,6 @@ import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
 import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.MapPaint.LoadMapPaint;
-import essentials.modules.alias.CustomAlias;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimConfig;
 import essentials.modules.commandonobject.CommandOnBlock;
@@ -30,9 +29,6 @@ import essentials.modules.move.AFK;
 import essentials.modules.move.MoveManager;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.teleport.TeleportListener;
-import essentials.modules.timer.TimerConfig;
-import essentials.modules.updater.UpdaterConfig;
-import essentials.modules.updater.UpdaterServerManager;
 import essentials.modules.visible.VisibleManager;
 import essentials.modules.world.WorldConfig;
 import essentials.player.PlayerListener;
@@ -100,25 +96,15 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable() {
 		//Used Runnable, because when one crashed the other could work
-		unloadHelper(CommandOnBlock::unload);
 		unloadHelper(PlayerManager::unload);
 		unloadHelper(WorldConfig::unload);
 		unloadHelper(PlayersYMLConfig::unload);
-
-		unloadHelper(() -> {
-			if (UpdaterConfig.isInstallOnShutdown())
-				UpdaterServerManager.install();
-
-			UpdaterServerManager.unload();
-		});
-
 		unloadHelper(Databases::unload);
 		unloadHelper(ModuleManager::unload);
-
 		super.onDisable();
 	}
 
-	private void unloadHelper(Runnable runnable) {
+	public static void unloadHelper(Runnable runnable) {
 		try {
 			runnable.run();
 		} catch (NoClassDefFoundError e) {
@@ -143,10 +129,6 @@ public class Main extends JavaPlugin implements Listener {
 		MainCommand.load();
 		
 		ClaimConfig.load();
-		CustomAlias.load();
-		UpdaterServerManager.load();
-		LoadMapPaint.load();
-		TimerConfig.load();
 	}
 
 	public static JavaPlugin getPlugin() {

@@ -14,6 +14,7 @@ import essentials.main.Main;
 import essentials.modules.ChatVerbesserung.ChatVerbesserungModule;
 import essentials.modules.FlyThroughBlocks.FTBModule;
 import essentials.modules.MapPaint.MapPaintModule;
+import essentials.modules.alias.CustomAliasModule;
 import essentials.modules.armorstandeditor.ArmorstandModule;
 import essentials.modules.ban.BanModule;
 import essentials.modules.commandonitemstack.CoIModule;
@@ -77,21 +78,22 @@ public class ModuleManager {
 		addModule(new OpModule());
 		addModule(new TimerModule());
 		addModule(new MapPaintModule());
+		addModule(new CustomAliasModule());
 	}
 	
 	public static void unload() {
-		//TODO try catch
 		if(modules == null) return;
 		
 		synchronized (modules) {
 			for(Module module : modules.values()) {
 				if(module.isLoaded()) {
-					module.disable();
+					Main.unloadHelper(() -> disable(module));
 				}
 			}
-			
-			modules = null;
 		}
+		
+		modules = null;
+		listeners = null;
 	}
 	
 	public static void enable(Module module) {
