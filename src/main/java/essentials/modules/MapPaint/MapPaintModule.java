@@ -9,8 +9,8 @@ public class MapPaintModule extends EModule {
 
 	@Override
 	public boolean load() {
-		ModuleManager.addListener(new MPListener(), this);
 		LoadMapPaint.load();
+		ModuleManager.addListener(new MPListener(), this);
 		CommandManager.register("paint", new RedirectTabExecutor(new MPCommand()));
 		return true;
 	}

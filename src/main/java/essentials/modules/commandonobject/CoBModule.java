@@ -10,6 +10,7 @@ public class CoBModule extends EModule{
 
 	@Override
 	public boolean load() {
+		CommandOnBlock.load();
 		ModuleManager.addListener(new CommandListener(), this);
 		CommandManager.register("cob", new RedirectTabExecutor(new CoBCommands()));
 		return true;

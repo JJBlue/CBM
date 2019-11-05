@@ -1,6 +1,5 @@
 package essentials.main;
 
-import java.io.File;
 import java.time.LocalDateTime;
 
 import org.bukkit.Bukkit;
@@ -18,10 +17,8 @@ import essentials.modules.ColorListener;
 import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
 import essentials.modules.ChatVerbesserung.ChatVerbesserung;
-import essentials.modules.MapPaint.LoadMapPaint;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimConfig;
-import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commands.CommandManager;
 import essentials.modules.commands.MainCommand;
 import essentials.modules.commands.commands.bookCommand;
@@ -45,9 +42,6 @@ public class Main extends JavaPlugin implements Listener {
 		System.out.println("[CBM] is starting");
 		plugin = this;
 		online = LocalDateTime.now();
-
-		File file = new File(getDataFolder().getParentFile(), "Allgemein");
-		file.renameTo(getDataFolder());
 
 		System.out.println("[CBM] loading important configs");
 		MainConfig.reload();
@@ -80,8 +74,6 @@ public class Main extends JavaPlugin implements Listener {
 
 		System.out.println("[CBM] loading configs");
 		bookCommand.saveDefaultBook();
-		CommandOnBlock.load();
-		LoadMapPaint.load();
 
 		for (Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
