@@ -12,16 +12,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.BlastingRecipe;
-import org.bukkit.inventory.CampfireRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.SmokingRecipe;
-import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import essentials.config.MainConfig;
@@ -91,19 +87,19 @@ public class CustomRecipe {
 				
 				switch (type) {
 					case BLASTING:
-						Recipe recipe = getBlasting(key, result, input, experience, cookingTime);
+						Recipe recipe = CustomRecipeSince_1_14.getBlasting(key, result, input, experience, cookingTime);
 						Bukkit.addRecipe(recipe);
 						break;
 					case CAMPFIRE:
-						recipe = getCampfire(key, result, input, experience, cookingTime);
+						recipe = CustomRecipeSince_1_14.getCampfire(key, result, input, experience, cookingTime);
 						Bukkit.addRecipe(recipe);
 						break;
 					case COOKING:
 						recipe = getFurnace(key, result, input, experience, cookingTime);
 						Bukkit.addRecipe(recipe);
-						recipe = getSmoking(key, result, input, experience, cookingTime);
+						recipe = CustomRecipeSince_1_14.getSmoking(key, result, input, experience, cookingTime);
 						Bukkit.addRecipe(recipe);
-						recipe = getCampfire(key, result, input, experience, cookingTime);
+						recipe = CustomRecipeSince_1_14.getCampfire(key, result, input, experience, cookingTime);
 						Bukkit.addRecipe(recipe);
 						break;
 					case FURNACE:
@@ -119,11 +115,11 @@ public class CustomRecipe {
 						Bukkit.addRecipe(recipe);
 						break;
 					case SMOKING:
-						recipe = getSmoking(key, result, input, experience, cookingTime);
+						recipe = CustomRecipeSince_1_14.getSmoking(key, result, input, experience, cookingTime);
 						Bukkit.addRecipe(recipe);
 						break;
 					case STONECUTTING:
-						recipe = getStonecutting(key, result, input);
+						recipe = CustomRecipeSince_1_14.getStonecutting(key, result, input);
 						Bukkit.addRecipe(recipe);
 						break;
 				}
@@ -167,24 +163,8 @@ public class CustomRecipe {
 		return recipe;
 	}
 	
-	public static Recipe getBlasting(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
-		return new BlastingRecipe(key, result, input, experience, cookingTime);
-	}
-	
-	public static Recipe getCampfire(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
-		return new CampfireRecipe(key, result, input, experience, cookingTime);
-	}
-	
 	public static Recipe getFurnace(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
 		return new FurnaceRecipe(key, result, input, experience, cookingTime);
-	}
-	
-	public static Recipe getSmoking(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
-		return new SmokingRecipe(key, result, input, experience, cookingTime);
-	}
-	
-	public static Recipe getStonecutting(NamespacedKey key, ItemStack result, RecipeChoice input) {
-		return new StonecuttingRecipe(key, result, input);
 	}
 
 	public static String[] splitShape(String shape) {
