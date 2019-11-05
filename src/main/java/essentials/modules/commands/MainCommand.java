@@ -3,7 +3,6 @@ package essentials.modules.commands;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -44,6 +43,7 @@ import essentials.modules.claim.ClaimCommands;
 import essentials.modules.commands.commands.SignCommands;
 import essentials.modules.commands.commands.bookCommand;
 import essentials.modules.commands.commands.inventorySee;
+import essentials.modules.commands.tabcompleter.STabCompleter;
 import essentials.modules.commands.tabexecutors.RedirectTabExecutor;
 import essentials.modules.container.ContainerCommands;
 import essentials.modules.disguise.DisguiseManager;
@@ -79,7 +79,26 @@ import essentials.utilities.system.SystemStatus;
 
 public class MainCommand implements TabExecutor {
 	
-	//TEST
+	public static void load() {
+		CommandManager.register("module", new RedirectTabExecutor(new ModuleCommand()));
+		CommandManager.register("book", new RedirectTabExecutor(new bookCommand()));
+		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
+		CommandManager.register("container", new RedirectTabExecutor(new ContainerCommands()));
+		CommandManager.register("economy", new RedirectTabExecutor(new EconomyCommands()));
+		CommandManager.register("hologram", new RedirectTabExecutor(new HologramCommand()));
+		CommandManager.register("inventory", new RedirectTabExecutor(new inventorySee()));
+		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0));
+		CommandManager.register("nbt", new RedirectTabExecutor(new NBTCommands()));
+		CommandManager.register("pluginmanager", new RedirectTabExecutor(new DisableEnable()));
+		CommandManager.register("sign", new RedirectTabExecutor(new SignCommands()));
+		CommandManager.register("skull", new RedirectTabExecutor(new SkullInventory()));
+		CommandManager.register("teleport", new RedirectTabExecutor(new teleportCommand()));
+		
+		afk();
+		blockname();
+		speed();
+	}
+	
 	public static void afk() {
 		CommandExecutor executor = (sender, cmd, cmdLabel, args) -> {
 			Player p1 = null;
@@ -96,25 +115,68 @@ public class MainCommand implements TabExecutor {
 			AFK.change(p1);
 			return true;
 		};
-		//TODO tabcomplete
-		CommandManager.register("afk", CommandManager.getTabExecutor(executor));
+		CommandManager.register("afk", CommandManager.getTabExecutor(executor, STabCompleter.getPlayers()));
 	}
 	
-	public static void load() {
-		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
-		CommandManager.register("module", new RedirectTabExecutor(new ModuleCommand()));
-		afk();
-		CommandManager.register("book", new RedirectTabExecutor(new bookCommand()));
-		CommandManager.register("container", new RedirectTabExecutor(new ContainerCommands()));
-		CommandManager.register("hologram", new RedirectTabExecutor(new HologramCommand()));
-		CommandManager.register("inventory", new RedirectTabExecutor(new inventorySee()));
-		CommandManager.register("economy", new RedirectTabExecutor(new EconomyCommands()));
-		CommandManager.register("pluginmanager", new RedirectTabExecutor(new DisableEnable()));
-		CommandManager.register("nbt", new RedirectTabExecutor(new NBTCommands()));
-		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0));
-		CommandManager.register("sign", new RedirectTabExecutor(new SignCommands()));
-		CommandManager.register("skull", new RedirectTabExecutor(new SkullInventory()));
-		CommandManager.register("teleport", new RedirectTabExecutor(new teleportCommand()));
+	public static void blockname() {
+		CommandExecutor executor = (sender, cmd, cmdLabel, args) -> {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				player.sendMessage(player.getLocation().getBlock().getType() + "");
+			}
+			return true;
+		};
+		CommandManager.register("blockname", CommandManager.getTabExecutor(executor));
+	}
+
+	public static void speed() {
+		CommandExecutor executor = (sender, cmd, cmdLabel, args) -> {
+			if(args.length < 2) return true;
+			
+			Player player = null;
+			
+			if(args.length >= 4) {
+				player = Bukkit.getPlayer(args[3]);
+			} else if(sender instanceof Player) {
+				player = (Player) sender;
+			}
+			
+			if(player == null) return true;
+			
+			double speed = Double.parseDouble(args[1]);
+			
+			if(args.length <= 3) {
+				switch(args[2].toLowerCase()) {
+					case "walk":
+						player.setWalkSpeed(flo(speed, sender));
+						break;
+					case "fly":
+						player.setFlySpeed(flo(speed, sender));
+						break;
+				}
+			} else {
+				if (player.isFlying())
+					player.setFlySpeed(flo(speed, sender));
+				else
+					player.setWalkSpeed(flo(speed, sender));
+			}
+			
+			return true;
+		};
+		TabCompleter completer = (sender, cmd, alias, args) -> {
+			List<String> list = new LinkedList<>();
+			
+			if(args.length == 2) {
+				list.add("<Speed from 0-10; 2=normal>");
+			} else if(args.length == 3) {
+				list.add("walk");
+				list.add("fly");
+			} else {
+				list = STabCompleter.getPlayersList();
+			}
+			return STabCompleter.sortAndRemove(list, args[args.length - 1]);
+		};
+		CommandManager.register("speed", CommandManager.getTabExecutor(executor, completer));
 	}
 	
 	@Override
@@ -128,7 +190,6 @@ public class MainCommand implements TabExecutor {
 		args[0] = args[0].toLowerCase();
 		if(!CommandManager.checkPermissions(sender, args))
 			return true;
-		
 		if(CommandManager.execute(sender, cmd, cmdLabel, args))
 			return true;
 		
@@ -162,12 +223,6 @@ public class MainCommand implements TabExecutor {
 				inventory.setContents(shulkerBox.getInventory().getContents());
 				p.openInventory(inventory);
 			}
-			case "blockname":
-
-				if (sender instanceof Player)
-					p.sendMessage(p.getLocation().getBlock().getType() + "");
-
-				break;
 			case "boot":
 
 				if (p == null) return true;
@@ -838,31 +893,6 @@ public class MainCommand implements TabExecutor {
 					sender.sendMessage("Chair: OFF");
 
 				break;
-			
-			case "speed": {
-				if (args.length == 2) {
-					if (p == null) return true;
-
-					if (p.isFlying())
-						p.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
-					else
-						p.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
-
-					sender.sendMessage("Normal Speed == 2"); //TODO: Port to Language
-				} else if (args.length >= 4) {
-					Player p1 = Bukkit.getPlayer(args[3]);
-					if (p1 == null) return true;
-
-					if (args[2].equalsIgnoreCase("walk"))
-						p1.setWalkSpeed(flo(Double.parseDouble(args[1]), sender));
-					else if (args[2].equalsIgnoreCase("fly"))
-						p1.setFlySpeed(flo(Double.parseDouble(args[1]), sender));
-
-					sender.sendMessage("Normal Speed == 2"); //TODO: Port to Language
-				}
-
-				break;
-			}
 			case "unskin": {
 				if(args.length == 1) {
 					if(p == null) break;
@@ -983,7 +1013,6 @@ public class MainCommand implements TabExecutor {
 			CommandManager.commands.keySet().forEach(s -> returnArguments.add(s));
 			CommandManager.alias.keySet().forEach(s -> returnArguments.add(s));
 			
-			returnArguments.add("blockname");
 			returnArguments.add("boot");
 			returnArguments.add("book");
 			returnArguments.add("burn");
@@ -1026,7 +1055,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("skin");
 			returnArguments.add("skull");
 			returnArguments.add("status");
-			returnArguments.add("speed");
 			returnArguments.add("restart");
 			returnArguments.add("tablist");
 			returnArguments.add("timer");
@@ -1157,23 +1185,10 @@ public class MainCommand implements TabExecutor {
 				case "clear":
 				case "fly":
 				case "uuid":
-				case "wallGhost":
 
 					for(Player player : Bukkit.getOnlinePlayers())
 						returnArguments.add(player.getName());
 					
-					break;
-					
-				case "speed":
-
-					for (Player player : Bukkit.getOnlinePlayers())
-						returnArguments.add(player.getName());
-
-					if (args.length == 2) {
-						returnArguments.add("walk");
-						returnArguments.add("fly");
-					}
-
 					break;
 
 				case "status":
@@ -1224,11 +1239,7 @@ public class MainCommand implements TabExecutor {
 					break;
 			}
 		}
-
-		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-		returnArguments.sort(Comparator.naturalOrder());
-
-		return returnArguments;
+		return STabCompleter.sortAndRemove(returnArguments, args[args.length - 1]);
 	}
 
 	private static float flo(double i, CommandSender sender) {
