@@ -1,17 +1,17 @@
 package essentials.language;
 
-import essentials.config.ConfigHelper;
-import essentials.config.MainConfig;
-import essentials.utilities.BukkitUtilities;
-import essentials.utilities.StringUtilities;
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.acl.Permission;
+import essentials.config.ConfigHelper;
+import essentials.config.MainConfig;
+import essentials.utilities.BukkitUtilities;
+import essentials.utilities.StringUtilities;
 
 public class LanguageConfig {
 	private LanguageConfig() {}
