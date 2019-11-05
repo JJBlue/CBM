@@ -1,5 +1,7 @@
 package essentials.modules.commands;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,11 @@ import essentials.utilities.permissions.PermissionHelper;
 public class CommandManager {
 	static Map<String, TabExecutor> commands;
 	static Map<String, String> alias;
+	
+	public static void load() {
+		commands = Collections.synchronizedMap(new HashMap<>());
+		alias = Collections.synchronizedMap(new HashMap<>());
+	}
 	
 	public static boolean register(String command, TabExecutor executor) {
 		if(commands.containsKey(command))

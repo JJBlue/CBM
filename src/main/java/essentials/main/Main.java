@@ -29,6 +29,7 @@ import essentials.modules.claim.ClaimConfig;
 import essentials.modules.commandonitemstack.CoIListener;
 import essentials.modules.commandonobject.CommandListener;
 import essentials.modules.commandonobject.CommandOnBlock;
+import essentials.modules.commands.CommandManager;
 import essentials.modules.commands.MainCommand;
 import essentials.modules.commands.commands.bookCommand;
 import essentials.modules.display.DisplayListener;
@@ -67,6 +68,10 @@ public class Main extends JavaPlugin implements Listener {
 		MainConfig.reload();
 		LanguageConfig.load();
 		Databases.load();
+		
+		System.out.println("[CBM] load important Classes");
+		CommandManager.load();
+		ModuleManager.load();
 
 		System.out.println("[CBM] loading Listeners");
 		Bukkit.getPluginManager().registerEvents(new FTB(), this);
@@ -130,8 +135,7 @@ public class Main extends JavaPlugin implements Listener {
 		});
 
 		unloadHelper(Databases::unload);
-		
-		ModuleManager.unload();
+		unloadHelper(ModuleManager::unload);
 
 		super.onDisable();
 	}

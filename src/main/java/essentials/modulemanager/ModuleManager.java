@@ -11,8 +11,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import essentials.main.Main;
+import essentials.modules.ban.BanModule;
 import essentials.modules.commandspy.CommandSpyModule;
 import essentials.modules.debugstick.DebugStickModule;
+import essentials.modules.spawn.SpawnModule;
+import essentials.modules.sudo.SudoModule;
+import essentials.modules.tablist.TablistModule;
+import essentials.modules.warpmanager.WarpModule;
 
 public class ModuleManager {
 
@@ -41,6 +46,12 @@ public class ModuleManager {
 	public static void addDefaultModules() {
 		addModule(new DebugStickModule());
 		addModule(new CommandSpyModule());
+		addModule(new SpawnModule());
+		addModule(new WarpModule());
+		addModule(new BanModule());
+		addModule(new SudoModule());
+		addModule(new TablistModule());
+		
 	}
 	
 	public static void unload() {

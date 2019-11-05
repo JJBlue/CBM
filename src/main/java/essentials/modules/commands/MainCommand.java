@@ -36,6 +36,7 @@ import essentials.config.MainConfig;
 import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
+import essentials.modulemanager.ModuleCommand;
 import essentials.modules.JoinListener;
 import essentials.modules.OpListener;
 import essentials.modules.FlyThroughBlocks.FTB;
@@ -110,6 +111,7 @@ public class MainCommand implements TabExecutor {
 	
 	public static void load() {
 		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
+		CommandManager.register("module", new RedirectTabExecutor(new ModuleCommand()));
 		afk();
 		CommandManager.register("armorstand", new RedirectTabExecutor(new ArmorstandCommands()));
 		CommandManager.register("book", new RedirectTabExecutor(new bookCommand()));
