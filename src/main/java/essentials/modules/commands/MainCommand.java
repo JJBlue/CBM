@@ -714,9 +714,7 @@ public class MainCommand implements TabExecutor {
 				MainConfig.setMotd(ChatUtilities.convertToColor(StringUtilities.arrayToStringRange(args, 1, args.length)));
 				break;
 
-			
 			case "near":
-
 				if (p == null) return true;
 
 				for (Entity e : p.getNearbyEntities(500, 500, 500)) {
@@ -725,11 +723,7 @@ public class MainCommand implements TabExecutor {
 				}
 
 				break;
-
-			
-			case "playertime":
-				
-				//playertime [add/remove/set] <ticks> (<fixed> <Player>)
+			case "playertime"://playertime [add/remove/set] <ticks> (<fixed> <Player>)
 			{
 				if(args.length < 3) break;
 				
@@ -769,11 +763,9 @@ public class MainCommand implements TabExecutor {
 						currentPlayer.setPlayerTime(ticks, fixed);
 						break;
 				}
-			}
 				
 				break;
-				
-			
+			}
 			case "random":
 				if (args.length < 3) break;
 

@@ -1,0 +1,16 @@
+recipes:
+  test:
+    enable: true
+    # shaped, shapeless, smoking, stonecutting, merchant, furnace, cooking, campfire, blasting
+    type: "shaped"
+    recipe: "xxx"
+    ingredient:
+      x: GOLD_INGOT
+    result: IRON_INGOT
+    lore:
+    - "Hier ist die Lore"
+    displayname: "Item"
+    amount: 1
+    unbreakable: true
+    experience: 1
+    cookingTime: 1
