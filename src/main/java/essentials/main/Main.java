@@ -3,8 +3,6 @@ package essentials.main;
 import java.time.LocalDateTime;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,7 +14,6 @@ import essentials.modulemanager.ModuleManager;
 import essentials.modules.ColorListener;
 import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
-import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimConfig;
 import essentials.modules.commands.CommandManager;
@@ -104,14 +101,6 @@ public class Main extends JavaPlugin implements Listener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		if (sender.hasPermission("cv") && cmd.getName().equalsIgnoreCase("cv"))
-			ChatVerbesserung.onCommand(sender, cmd, cmdLabel, args);
-
-		return false;
 	}
 
 	public static void reload() {
