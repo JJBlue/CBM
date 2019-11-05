@@ -11,7 +11,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import essentials.main.Main;
+import essentials.modules.ChatVerbesserung.ChatVerbesserungModule;
 import essentials.modules.FlyThroughBlocks.FTBModule;
+import essentials.modules.MapPaint.MapPaintModule;
 import essentials.modules.armorstandeditor.ArmorstandModule;
 import essentials.modules.ban.BanModule;
 import essentials.modules.commandonitemstack.CoIModule;
@@ -19,11 +21,14 @@ import essentials.modules.commandonobject.CoBModule;
 import essentials.modules.commandspy.CommandSpyModule;
 import essentials.modules.debugstick.DebugStickModule;
 import essentials.modules.display.DisplayModule;
+import essentials.modules.operator.OpModule;
 import essentials.modules.spawn.SpawnModule;
 import essentials.modules.sudo.SudoModule;
 import essentials.modules.tablist.TablistModule;
+import essentials.modules.timer.TimerModule;
 import essentials.modules.trade.TradeModule;
 import essentials.modules.troll.TrollModule;
+import essentials.modules.updater.UpdaterModule;
 import essentials.modules.warpmanager.WarpModule;
 
 public class ModuleManager {
@@ -67,6 +72,11 @@ public class ModuleManager {
 		addModule(new CoIModule());
 		addModule(new DisplayModule());
 		addModule(new TradeModule());
+		addModule(new UpdaterModule());
+		addModule(new ChatVerbesserungModule());
+		addModule(new OpModule());
+		addModule(new TimerModule());
+		addModule(new MapPaintModule());
 	}
 	
 	public static void unload() {

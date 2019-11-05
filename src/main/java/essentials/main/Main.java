@@ -17,10 +17,8 @@ import essentials.modulemanager.ModuleManager;
 import essentials.modules.ColorListener;
 import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
-import essentials.modules.OpListener;
 import essentials.modules.ChatVerbesserung.ChatVerbesserung;
 import essentials.modules.MapPaint.LoadMapPaint;
-import essentials.modules.MapPaint.MPListener;
 import essentials.modules.alias.CustomAlias;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimConfig;
@@ -33,7 +31,6 @@ import essentials.modules.move.MoveManager;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.teleport.TeleportListener;
 import essentials.modules.timer.TimerConfig;
-import essentials.modules.timer.TimerListener;
 import essentials.modules.updater.UpdaterConfig;
 import essentials.modules.updater.UpdaterServerManager;
 import essentials.modules.visible.VisibleManager;
@@ -67,19 +64,15 @@ public class Main extends JavaPlugin implements Listener {
 
 		System.out.println("[CBM] loading Listeners");
 		
-		Bukkit.getPluginManager().registerEvents(new OpListener(), this);
-		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
-		Bukkit.getPluginManager().registerEvents(new MainListener(), this);
-		Bukkit.getPluginManager().registerEvents(new MPListener(), this);
-		Bukkit.getPluginManager().registerEvents(new chair(), this);
-		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
-		Bukkit.getPluginManager().registerEvents(new ChatVerbesserung(), this);
-		Bukkit.getPluginManager().registerEvents(new SkullInventory(), this);
-		Bukkit.getPluginManager().registerEvents(new TeleportListener(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
-		Bukkit.getPluginManager().registerEvents(new TimerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MoveManager(), this);
+		Bukkit.getPluginManager().registerEvents(new ColorListener(), this);
+		Bukkit.getPluginManager().registerEvents(new MainListener(), this);
+		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
+		Bukkit.getPluginManager().registerEvents(new chair(), this);
+		Bukkit.getPluginManager().registerEvents(new SkullInventory(), this);
+		Bukkit.getPluginManager().registerEvents(new TeleportListener(), this);
 		Bukkit.getPluginManager().registerEvents(new AFK(), this);
 		Bukkit.getPluginManager().registerEvents(new VisibleManager(), this);
 

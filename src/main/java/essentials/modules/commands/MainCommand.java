@@ -38,8 +38,6 @@ import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.modulemanager.ModuleCommand;
 import essentials.modules.JoinListener;
-import essentials.modules.OpListener;
-import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimCommands;
@@ -62,10 +60,8 @@ import essentials.modules.skull.SkullInventory;
 import essentials.modules.sudo.SudoManager;
 import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.teleportCommand;
-import essentials.modules.timer.TimerCommand;
 import essentials.modules.troll.TrollCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
-import essentials.modules.updater.UpdaterCommand;
 import essentials.modules.visible.HideState;
 import essentials.modules.visible.VisibleManager;
 import essentials.player.PlayerConfig;
@@ -116,13 +112,9 @@ public class MainCommand implements TabExecutor {
 		CommandManager.register("pluginmanager", new RedirectTabExecutor(new DisableEnable()));
 		CommandManager.register("nbt", new RedirectTabExecutor(new NBTCommands()));
 		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0));
-		CommandManager.register("op", new RedirectTabExecutor(new OpListener()));
-		CommandManager.register("paint", new RedirectTabExecutor(new MPCommand()));
 		CommandManager.register("sign", new RedirectTabExecutor(new SignCommands()));
 		CommandManager.register("skull", new RedirectTabExecutor(new SkullInventory()));
 		CommandManager.register("teleport", new RedirectTabExecutor(new teleportCommand()));
-		CommandManager.register("timer", new RedirectTabExecutor(new TimerCommand()));
-		CommandManager.register("updater", new RedirectTabExecutor(new UpdaterCommand()));
 	}
 	
 	@Override
