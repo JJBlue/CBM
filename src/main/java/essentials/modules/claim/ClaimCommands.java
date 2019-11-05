@@ -36,14 +36,10 @@ public class ClaimCommands implements TabExecutor {
 				notFreeBlocks -= ClaimManager.getFreeBlocks(player);
 				double money = ClaimConfig.getConfiguration().getDouble("claim.costPerBlock") * notFreeBlocks;
 				
-				Bukkit.broadcastMessage(notFreeBlocks + " " + money); //TODO
-				
 				if(!EconomyManager.removeMoney(player.getUniqueId(), money, true)) {
 					LanguageConfig.sendMessage(player, "money.notenough", money + "");
 					break;
 				}
-				
-				Bukkit.broadcastMessage("money success"); //TODO
 				
 				Chunk chunk = player.getLocation().getChunk();
 				boolean claimed = ClaimRegion.claimChunk(player, chunk);
@@ -54,7 +50,6 @@ public class ClaimCommands implements TabExecutor {
 					break;
 				}
 				
-				Bukkit.broadcastMessage("success"); //TODO
 				LanguageConfig.sendMessage(player, "claim.success");
 				
 				break;
@@ -75,12 +70,11 @@ public class ClaimCommands implements TabExecutor {
 					player = (Player) sender;
 				}
 				
-				//TODO
 				Chunk chunk = player.getLocation().getChunk();
 				boolean success = ClaimRegion.unclaimChunk(player, chunk);
 				
 				if(!success) {
-					LanguageConfig.sendMessage(player, "claim.unclaiming");
+					LanguageConfig.sendMessage(player, "claim.errorunclaiming");
 					break;
 				}
 				

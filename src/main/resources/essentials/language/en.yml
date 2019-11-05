@@ -34,6 +34,11 @@ ban:
   tempban: §ePlayer §6$1§e is now banned for $2
   tempbanReason: '§ePlayer §6$1§e is now banned for $2. Reason: $3'
   unban: §ePlayer §6$1§e is no longer be banned from the server
+claim:
+  errorclaiming: §4Claim was not successfully
+  success: §eSuccessfully claimed a region
+  errorunclaiming: §4Claim was not successfully
+  unclaimed: §eSuccessfully unclaimed a region
 cob:
   add: §eCommand ($2) was added to the block
   remove: §eCommand ($2) was removed from this block
@@ -77,6 +82,8 @@ info:
   info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAuthors: §6$6\n§eWebsite: §6$7\n§eDescription: §6$8\n§eDepend: §6$9\n§eSoftDepend: §6$10'
 language:
   change: §eLanguage changed to §6$1
+money:
+  notenough: §eYou have not enough money. You need $1
 mute:
   enabled-Command: §6$1 §eis now muted
   disabled-Command: §6$1 is no longer muted

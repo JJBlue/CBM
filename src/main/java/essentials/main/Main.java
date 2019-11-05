@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import essentials.config.MainConfig;
 import essentials.database.Databases;
 import essentials.language.LanguageConfig;
+import essentials.modulemanager.ModuleManager;
 import essentials.modules.ColorListener;
 import essentials.modules.JoinListener;
 import essentials.modules.MainListener;
@@ -30,15 +31,10 @@ import essentials.modules.commandonobject.CommandListener;
 import essentials.modules.commandonobject.CommandOnBlock;
 import essentials.modules.commands.MainCommand;
 import essentials.modules.commands.commands.bookCommand;
-import essentials.modules.commandspy.CommandSpyListener;
-import essentials.modules.debugstick.DebugStickListener;
 import essentials.modules.display.DisplayListener;
 import essentials.modules.move.AFK;
 import essentials.modules.move.MoveManager;
 import essentials.modules.skull.SkullInventory;
-import essentials.modules.spawn.SpawnListener;
-import essentials.modules.sudo.SudoListener;
-import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.TeleportListener;
 import essentials.modules.timer.TimerConfig;
 import essentials.modules.timer.TimerListener;
@@ -48,7 +44,6 @@ import essentials.modules.troll.control.ControlListener;
 import essentials.modules.updater.UpdaterConfig;
 import essentials.modules.updater.UpdaterServerManager;
 import essentials.modules.visible.VisibleManager;
-import essentials.modules.warpmanager.WarpManager;
 import essentials.modules.world.WorldConfig;
 import essentials.player.PlayerListener;
 import essentials.player.PlayerManager;
@@ -90,17 +85,13 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TradeListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ArmorstandListener(), this);
-		Bukkit.getPluginManager().registerEvents(new CommandSpyListener(), this);
-		Bukkit.getPluginManager().registerEvents(new DebugStickListener(), this);
 		Bukkit.getPluginManager().registerEvents(new TimerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new DisplayListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CoIListener(), this);
-		Bukkit.getPluginManager().registerEvents(new SpawnListener(), this);
 		Bukkit.getPluginManager().registerEvents(new MoveManager(), this);
 		Bukkit.getPluginManager().registerEvents(new AFK(), this);
 		Bukkit.getPluginManager().registerEvents(new VisibleManager(), this);
 		Bukkit.getPluginManager().registerEvents(new ControlListener(), this);
-		Bukkit.getPluginManager().registerEvents(new SudoListener(), this);
 
 		{
 			MainCommand mainCommand = new MainCommand();
@@ -109,7 +100,6 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		System.out.println("[CBM] loading configs");
-		WarpManager.load();
 		bookCommand.saveDefaultBook();
 		CommandOnBlock.load();
 		LoadMapPaint.load();
@@ -127,8 +117,6 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable() {
 		//Used Runnable, because when one crashed the other could work
-		unloadHelper(WarpManager::unload);
-		unloadHelper(Tablist::unload);
 		unloadHelper(CommandOnBlock::unload);
 		unloadHelper(PlayerManager::unload);
 		unloadHelper(WorldConfig::unload);
@@ -142,6 +130,8 @@ public class Main extends JavaPlugin implements Listener {
 		});
 
 		unloadHelper(Databases::unload);
+		
+		ModuleManager.unload();
 
 		super.onDisable();
 	}
@@ -165,15 +155,14 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public static void reload() {
+		LanguageConfig.load();
+		WorldConfig.load();
+		PlayersYMLConfig.load();
 		MainCommand.load();
 		
 		ClaimConfig.load();
 		CustomAlias.load();
 		UpdaterServerManager.load();
-		WorldConfig.load();
-		PlayersYMLConfig.load();
-		LanguageConfig.load();
-		Tablist.load();
 		LoadMapPaint.load();
 		TimerConfig.load();
 	}

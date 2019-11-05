@@ -14,7 +14,7 @@ import essentials.language.LanguageConfig;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 
-public class CommandSpy implements TabExecutor {
+public class CommandSpyCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
 		if (args.length < 1 || !(sender instanceof Player)) return true;
