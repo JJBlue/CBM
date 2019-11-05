@@ -26,12 +26,6 @@ public class OpListener implements Listener, TabExecutor {
 			player.setOp(false);
 	}
 
-	public final static OpListener deopCommand;
-
-	static {
-		deopCommand = new OpListener();
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> list = MainConfig.getOperators();

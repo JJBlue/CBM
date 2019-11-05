@@ -39,7 +39,6 @@ import essentials.main.Main;
 import essentials.modulemanager.ModuleCommand;
 import essentials.modules.JoinListener;
 import essentials.modules.OpListener;
-import essentials.modules.FlyThroughBlocks.FTB;
 import essentials.modules.MapPaint.MPCommand;
 import essentials.modules.NameTag.nt;
 import essentials.modules.armorstandeditor.ArmorstandCommands;
@@ -131,7 +130,6 @@ public class MainCommand implements TabExecutor {
 		CommandManager.register("teleport", new RedirectTabExecutor(new teleportCommand()));
 		CommandManager.register("timer", new RedirectTabExecutor(new TimerCommand()));
 		CommandManager.register("trade", new RedirectTabExecutor(new TradeCommands()));
-		CommandManager.register("troll", new RedirectTabExecutor(new TrollCommands()));
 		CommandManager.register("updater", new RedirectTabExecutor(new UpdaterCommand()));
 	}
 	
@@ -984,25 +982,6 @@ public class MainCommand implements TabExecutor {
 					LanguageConfig.sendMessage(sender, "version.new-version", spu.getOnlineVersion());
 
 				break;
-			case "wallghost":
-
-				if (args.length <= 1) {
-					if (FTB.toogle(p))
-						LanguageConfig.sendMessage(sender, "wallghost.add-Player", p.getName());
-					else
-						LanguageConfig.sendMessage(sender, "wallghost.remove-Player", p.getName());
-				} else {
-					Player p2 = Bukkit.getPlayer(args[1]);
-					if (p2 == null) break;
-
-					if (FTB.toogle(p2))
-						LanguageConfig.sendMessage(sender, "wallghost.add-Player", args[1]);
-					else
-						LanguageConfig.sendMessage(sender, "wallghost.remove-Player", args[1]);
-				}
-
-				break;
-
 
 			default:
 				break;
@@ -1075,7 +1054,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("unskin");
 			returnArguments.add("uuid");
 			returnArguments.add("version");
-			returnArguments.add("wallGhost");
 
 			returnArguments.removeIf(s -> !sender.hasPermission(PermissionHelper.getPermissionCommand(s)));
 

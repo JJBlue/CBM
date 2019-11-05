@@ -82,6 +82,9 @@ info:
   info-Plugin: 'Name: §6$1 §e(§6$2§e, Prefix: §6$3§e)\n§eVersion: §6$4\n§eAPI-Version: §6$5\n§eAuthors: §6$6\n§eWebsite: §6$7\n§eDescription: §6$8\n§eDepend: §6$9\n§eSoftDepend: §6$10'
 language:
   change: §eLanguage changed to §6$1
+module:
+  enable: §eEnabled Module §6$1
+  disable: §eDisable Module §6$1
 money:
   notenough: §eYou have not enough money. You need $1
 mute:

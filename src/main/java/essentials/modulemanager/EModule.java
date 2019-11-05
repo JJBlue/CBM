@@ -7,6 +7,7 @@ public abstract class EModule implements Module {
 	@Override
 	public boolean enable() {
 		if(loaded) return true;
+		loaded = true;
 		return load();
 	}
 	
@@ -15,6 +16,7 @@ public abstract class EModule implements Module {
 	@Override
 	public boolean disable() {
 		if(!loaded) return true;
+		loaded = false;
 		return unload();
 	}
 
