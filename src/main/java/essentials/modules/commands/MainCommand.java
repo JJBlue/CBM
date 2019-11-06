@@ -145,7 +145,7 @@ public class MainCommand implements TabExecutor {
 			
 			double speed = Double.parseDouble(args[1]);
 			
-			if(args.length <= 3) {
+			if(args.length >= 3) {
 				switch(args[2].toLowerCase()) {
 					case "walk":
 						player.setWalkSpeed(flo(speed, sender));

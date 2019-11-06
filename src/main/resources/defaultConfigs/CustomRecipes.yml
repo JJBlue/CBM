@@ -1,16 +1,27 @@
 recipes:
-  test:
+  cr_test:
     enable: true
-    # shaped, shapeless, smoking, stonecutting, merchant, furnace, cooking, campfire, blasting
+    # shaped, shapeless, smoking, stonecutting, furnace, cooking, campfire, blasting
     type: "shaped"
+    # recipe: only for shaped or shapeless recipes
     recipe: "xxx"
+    # ingredient: set character to material
     ingredient:
       x: GOLD_INGOT
+    # the output result information
     result: IRON_INGOT
     lore:
     - "Hier ist die Lore"
-    displayname: "Item"
-    amount: 1
+    displayname: "This is a Item"
+    amount: 2
     unbreakable: true
-    experience: 1
-    cookingTime: 1
+  cr_stone:
+    enable: true
+    # All cooking recipes need: input,cookingTime,experience instead of recipe & ingredient
+    type: "cooking"
+    input:
+    - IRON_INGOT
+    result: STONE
+    cookingTime: 2
+    experience: 200
+    displayname: "A stone"

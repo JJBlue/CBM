@@ -20,6 +20,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 
 public class CustomRecipe {
@@ -27,12 +28,16 @@ public class CustomRecipe {
 	static FileConfiguration configuration;
 	
 	public static void load() {
-		file = new File(MainConfig.getDataFolder() + "/customrecipes");
+		file = new File(MainConfig.getDataFolder() + "/CustomRecipes.yml");
+		if(!file.exists())
+			ConfigHelper.extractDefaultConfigs("CustomRecipes", "CustomRecipes.yml");
+		
 		configuration = YamlConfiguration.loadConfiguration(file);
 		
 		registerAllRecipes();
 	}
 	
+	//TODO ADD NBT Information (~enchantments)
 	public static void registerAllRecipes() {
 		ConfigurationSection section = configuration.getConfigurationSection("recipes");
 		if(section == null)

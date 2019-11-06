@@ -20,6 +20,7 @@ import essentials.modules.ban.BanModule;
 import essentials.modules.commandonitemstack.CoIModule;
 import essentials.modules.commandonobject.CoBModule;
 import essentials.modules.commandspy.CommandSpyModule;
+import essentials.modules.costumerecipes.CustomRecipeModule;
 import essentials.modules.debugstick.DebugStickModule;
 import essentials.modules.display.DisplayModule;
 import essentials.modules.operator.OpModule;
@@ -79,6 +80,7 @@ public class ModuleManager {
 		addModule(new TimerModule());
 		addModule(new MapPaintModule());
 		addModule(new CustomAliasModule());
+		addModule(new CustomRecipeModule());
 	}
 	
 	public static void unload() {
