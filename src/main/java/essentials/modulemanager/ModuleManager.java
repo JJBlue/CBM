@@ -99,17 +99,19 @@ public class ModuleManager {
 	}
 	
 	public static void enable(Module module) {
-		if(module.isLoaded()) return;
+		if(module == null || module.isLoaded()) return;
 		module.enable();
 	}
 	
 	public static void disable(Module module) {
-		if(!module.isLoaded()) return;
+		if(module == null || !module.isLoaded()) return;
 		module.disable();
 		unloadListeners(module);
 	}
 	
 	public static void addModule(Module module) {
+		if(module == null) return;
+		
 		synchronized (module) {
 			if(!modules.containsKey(module.getID()))
 				modules.put(module.getID(), module);
