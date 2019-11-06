@@ -36,6 +36,7 @@ import essentials.economy.EconomyCommands;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
 import essentials.modulemanager.ModuleCommand;
+import essentials.modulemanager.ModuleManager;
 import essentials.modules.JoinListener;
 import essentials.modules.NameTag.nt;
 import essentials.modules.chair.chair;
@@ -761,6 +762,10 @@ public class MainCommand implements TabExecutor {
 
 				MainConfig.reload();
 				Main.reload();
+				
+				ModuleManager.unload();
+				ModuleManager.load();
+				
 				sender.sendMessage("§aReload complete!"); //TODO: Port to Language
 
 				break;

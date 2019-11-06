@@ -2,6 +2,7 @@ package essentials.modules.costumerecipes;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -22,10 +24,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
+import essentials.utilities.RecipeUtilities;
 
 public class CustomRecipe {
 	static File file;
 	static FileConfiguration configuration;
+	static List<String> recipesIDs;
 	
 	public static void load() {
 		file = new File(MainConfig.getDataFolder() + "/CustomRecipes.yml");
@@ -33,6 +37,7 @@ public class CustomRecipe {
 			ConfigHelper.extractDefaultConfigs("CustomRecipes", "CustomRecipes.yml");
 		
 		configuration = YamlConfiguration.loadConfiguration(file);
+		recipesIDs = new LinkedList<>();
 		
 		registerAllRecipes();
 	}
@@ -40,7 +45,8 @@ public class CustomRecipe {
 	public static void unload() {
 		file = null;
 		configuration = null;
-		//TODO clear recipes on reload
+		unregisterAllRecipes();
+		recipesIDs = null;
 	}
 	
 	//TODO ADD NBT Information (~enchantments)
@@ -51,6 +57,8 @@ public class CustomRecipe {
 		
 		for(String id : section.getKeys(false)) {
 			try {
+				String keyID = id.toLowerCase();
+				NamespacedKey key = NamespacedKey.minecraft(keyID);
 				ConfigurationSection rSection = section.getConfigurationSection(id);
 				
 				if(!rSection.getBoolean("enable")) continue;
@@ -70,7 +78,6 @@ public class CustomRecipe {
 				if(rSection.contains("amount"))
 					result.setAmount(rSection.getInt("amount"));
 				
-				NamespacedKey key = NamespacedKey.minecraft(id);
 				float experience = (float) rSection.getDouble("experience");
 				int cookingTime = rSection.getInt("cookingTime");
 				
@@ -96,43 +103,52 @@ public class CustomRecipe {
 					}
 				}
 				
+				boolean added = false;
+				Recipe recipe;
+				
 				switch (type) {
 					case BLASTING:
-						Recipe recipe = CustomRecipeSince_1_14.getBlasting(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						recipe = CustomRecipeSince_1_14.getBlasting(key, result, input, experience, cookingTime);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case CAMPFIRE:
 						recipe = CustomRecipeSince_1_14.getCampfire(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case COOKING:
 						recipe = getFurnace(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						recipe = CustomRecipeSince_1_14.getSmoking(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						recipe = CustomRecipeSince_1_14.getCampfire(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case FURNACE:
 						recipe = getFurnace(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case SHAPED:
 						recipe = getShapedRecipe(key, result, shape, ingredient);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case SHAPELESS:
 						recipe = getShapeless(key, result, shape, ingredient);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case SMOKING:
 						recipe = CustomRecipeSince_1_14.getSmoking(key, result, input, experience, cookingTime);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
 					case STONECUTTING:
 						recipe = CustomRecipeSince_1_14.getStonecutting(key, result, input);
-						Bukkit.addRecipe(recipe);
+						added = Bukkit.addRecipe(recipe);
 						break;
+				}
+				
+				if(added) {
+					recipesIDs.add(keyID);
+				} else {
+					System.out.println("[CBM] Recipe (" + id + ") could not be added");
 				}
 			} catch (Exception e) {
 				System.out.println("Some problems in the CustomRecipe config");
@@ -141,7 +157,26 @@ public class CustomRecipe {
 		}
 	}
 	
-	public static Recipe getShapedRecipe(NamespacedKey key, ItemStack result, String shape, Map<Character, Material> ingredient) {
+	public static void unregisterAllRecipes() {
+		try {
+			Iterator<Recipe> recipes = RecipeUtilities.recipeIterator();
+			
+			while(recipes.hasNext()) {
+				Recipe recipe = recipes.next();
+				NamespacedKey key = getNamespacedKey(recipe);
+				if(recipesIDs.contains(key.getKey())) {
+					recipes.remove();
+				}
+			}
+			
+			recipesIDs.clear();
+		} catch (Exception e) {
+			System.out.println("Could not remove recipes");
+			e.printStackTrace();
+		}
+	}
+	
+	public static ShapedRecipe getShapedRecipe(NamespacedKey key, ItemStack result, String shape, Map<Character, Material> ingredient) {
 		ShapedRecipe recipe = new ShapedRecipe(key, result);
 		recipe.shape(splitShape(shape));
 		List<Character> contains = new LinkedList<>();
@@ -158,7 +193,7 @@ public class CustomRecipe {
 		return recipe;
 	}
 	
-	public static Recipe getShapeless(NamespacedKey key, ItemStack result, String shape, Map<Character, Material> ingredient) {
+	public static ShapelessRecipe getShapeless(NamespacedKey key, ItemStack result, String shape, Map<Character, Material> ingredient) {
 		ShapelessRecipe recipe = new ShapelessRecipe(key, result);
 		List<Character> contains = new LinkedList<>();
 		
@@ -174,8 +209,19 @@ public class CustomRecipe {
 		return recipe;
 	}
 	
-	public static Recipe getFurnace(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
+	public static FurnaceRecipe getFurnace(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
 		return new FurnaceRecipe(key, result, input, experience, cookingTime);
+	}
+	
+	public static NamespacedKey getNamespacedKey(Recipe recipe) {
+		if(recipe instanceof CookingRecipe) {
+			return ((CookingRecipe<?>) recipe).getKey();
+		} else if(recipe instanceof ShapedRecipe) {
+			return ((ShapedRecipe) recipe).getKey();
+		} else if(recipe instanceof ShapelessRecipe) {
+			return ((ShapelessRecipe) recipe).getKey();
+		}
+		return CustomRecipeSince_1_14.getNamespacedKey(recipe); //TODO only 1.14 and above
 	}
 
 	public static String[] splitShape(String shape) {

@@ -25,4 +25,11 @@ public class CustomRecipeSince_1_14 {
 	public static Recipe getCampfire(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime) {
 		return new CampfireRecipe(key, result, input, experience, cookingTime);
 	}
+	
+	public static NamespacedKey getNamespacedKey(Recipe recipe) {
+		if(recipe instanceof StonecuttingRecipe) {
+			return ((StonecuttingRecipe) recipe).getKey();
+		}
+		return null;
+	}
 }

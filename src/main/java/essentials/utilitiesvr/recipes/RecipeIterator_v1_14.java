@@ -1,7 +1,10 @@
 package essentials.utilitiesvr.recipes;
 
+import net.minecraft.server.v1_14_R1.CraftingManager;
 import net.minecraft.server.v1_14_R1.IRecipe;
 import net.minecraft.server.v1_14_R1.MinecraftKey;
+import net.minecraft.server.v1_14_R1.MinecraftServer;
+
 import org.bukkit.inventory.Recipe;
 
 import java.util.Iterator;
@@ -12,7 +15,7 @@ public class RecipeIterator_v1_14 implements RecipeIterator {
 	Iterator<IRecipe<?>> currentIterator;
 
 	public RecipeIterator_v1_14() {
-		iterator = RecipesUtilities_v1_14.getCraftingManager().recipes.values().iterator();
+		iterator = getCraftingManager().recipes.values().iterator();
 	}
 
 	@Override
@@ -47,5 +50,14 @@ public class RecipeIterator_v1_14 implements RecipeIterator {
 	public void remove() {
 		if (currentIterator == null) return;
 		currentIterator.remove();
+	}
+	
+	public static CraftingManager getCraftingManager() {
+		return getMinecraftServer().getCraftingManager();
+	}
+
+	@SuppressWarnings("deprecation")
+	public static MinecraftServer getMinecraftServer() {
+		return MinecraftServer.getServer();
 	}
 }
