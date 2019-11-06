@@ -18,7 +18,7 @@ import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimConfig;
 import essentials.modules.commands.CommandManager;
 import essentials.modules.commands.MainCommand;
-import essentials.modules.commands.commands.bookCommand;
+import essentials.modules.commands.commands.BookCommand;
 import essentials.modules.move.AFK;
 import essentials.modules.move.MoveManager;
 import essentials.modules.skull.SkullInventory;
@@ -70,7 +70,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		System.out.println("[CBM] loading configs");
-		bookCommand.saveDefaultBook();
+		BookCommand.saveDefaultBook();
 
 		for (Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
@@ -38,5 +39,15 @@ public class STabCompleter {
 			List<String> ra = BukkitUtilities.getAvailableCommands(sender);
 			return sortAndRemove(ra, args[args.length - 1]);
 		};
+	}
+
+	public static List<String> getWorlds() {
+		List<String> ra = new LinkedList<>();
+		
+		for(World world : Bukkit.getWorlds()) {
+			ra.add(world.getName());
+		}
+		
+		return ra;
 	}
 }

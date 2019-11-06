@@ -34,6 +34,8 @@ ban:
   tempban: §ePlayer §6$1§e is now banned for $2
   tempbanReason: '§ePlayer §6$1§e is now banned for $2. Reason: $3'
   unban: §ePlayer §6$1§e is no longer be banned from the server
+clearground:
+  cleared: §eCleared $1 items
 claim:
   errorclaiming: §4Claim was not successfully
   success: §eSuccessfully claimed a region

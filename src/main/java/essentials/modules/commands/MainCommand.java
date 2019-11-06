@@ -40,9 +40,11 @@ import essentials.modules.JoinListener;
 import essentials.modules.NameTag.nt;
 import essentials.modules.chair.chair;
 import essentials.modules.claim.ClaimCommands;
+import essentials.modules.commands.commands.BookCommand;
+import essentials.modules.commands.commands.InventorySee;
 import essentials.modules.commands.commands.SignCommands;
-import essentials.modules.commands.commands.bookCommand;
-import essentials.modules.commands.commands.inventorySee;
+import essentials.modules.commands.commands.clearground;
+import essentials.modules.commands.commands.speed;
 import essentials.modules.commands.tabcompleter.STabCompleter;
 import essentials.modules.commands.tabexecutors.RedirectTabExecutor;
 import essentials.modules.container.ContainerCommands;
@@ -81,12 +83,12 @@ public class MainCommand implements TabExecutor {
 	
 	public static void load() {
 		CommandManager.register("module", new RedirectTabExecutor(new ModuleCommand()));
-		CommandManager.register("book", new RedirectTabExecutor(new bookCommand()));
+		CommandManager.register("book", new RedirectTabExecutor(new BookCommand()));
 		CommandManager.register("claim", new RedirectTabExecutor(new ClaimCommands()));
 		CommandManager.register("container", new RedirectTabExecutor(new ContainerCommands()));
 		CommandManager.register("economy", new RedirectTabExecutor(new EconomyCommands()));
 		CommandManager.register("hologram", new RedirectTabExecutor(new HologramCommand()));
-		CommandManager.register("inventory", new RedirectTabExecutor(new inventorySee()));
+		CommandManager.register("inventory", new RedirectTabExecutor(new InventorySee()));
 		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0));
 		CommandManager.register("nbt", new RedirectTabExecutor(new NBTCommands()));
 		CommandManager.register("pluginmanager", new RedirectTabExecutor(new DisableEnable()));
@@ -96,7 +98,8 @@ public class MainCommand implements TabExecutor {
 		
 		afk();
 		blockname();
-		speed();
+		speed.register();
+		clearground.register();
 	}
 	
 	public static void afk() {
@@ -129,56 +132,6 @@ public class MainCommand implements TabExecutor {
 		CommandManager.register("blockname", CommandManager.getTabExecutor(executor));
 	}
 
-	public static void speed() {
-		CommandExecutor executor = (sender, cmd, cmdLabel, args) -> {
-			if(args.length < 2) return true;
-			
-			Player player = null;
-			
-			if(args.length >= 4) {
-				player = Bukkit.getPlayer(args[3]);
-			} else if(sender instanceof Player) {
-				player = (Player) sender;
-			}
-			
-			if(player == null) return true;
-			
-			double speed = Double.parseDouble(args[1]);
-			
-			if(args.length >= 3) {
-				switch(args[2].toLowerCase()) {
-					case "walk":
-						player.setWalkSpeed(flo(speed, sender));
-						break;
-					case "fly":
-						player.setFlySpeed(flo(speed, sender));
-						break;
-				}
-			} else {
-				if (player.isFlying())
-					player.setFlySpeed(flo(speed, sender));
-				else
-					player.setWalkSpeed(flo(speed, sender));
-			}
-			
-			return true;
-		};
-		TabCompleter completer = (sender, cmd, alias, args) -> {
-			List<String> list = new LinkedList<>();
-			
-			if(args.length == 2) {
-				list.add("<Speed from 0-10; 2=normal>");
-			} else if(args.length == 3) {
-				list.add("walk");
-				list.add("fly");
-			} else {
-				list = STabCompleter.getPlayersList();
-			}
-			return STabCompleter.sortAndRemove(list, args[args.length - 1]);
-		};
-		CommandManager.register("speed", CommandManager.getTabExecutor(executor, completer));
-	}
-	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
@@ -1232,16 +1185,5 @@ public class MainCommand implements TabExecutor {
 			}
 		}
 		return STabCompleter.sortAndRemove(returnArguments, args[args.length - 1]);
-	}
-
-	private static float flo(double i, CommandSender sender) {
-		float f = (float) 0.1;
-
-		if (i >= -10 && i <= 10)
-			f = (float) (i / 10);
-		else
-			sender.sendMessage("Es darf nur eine Zahl zwischen -10 bist 10 sein"); //TODO: Change to Language
-
-		return f;
 	}
 }

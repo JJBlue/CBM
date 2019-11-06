@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import essentials.utilities.player.PlayerUtilities;
 
-public class inventorySee implements TabExecutor {
+public class InventorySee implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (!(sender instanceof Player)) return true;

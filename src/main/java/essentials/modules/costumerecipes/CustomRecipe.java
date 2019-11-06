@@ -37,6 +37,12 @@ public class CustomRecipe {
 		registerAllRecipes();
 	}
 	
+	public static void unload() {
+		file = null;
+		configuration = null;
+		//TODO clear recipes on reload
+	}
+	
 	//TODO ADD NBT Information (~enchantments)
 	public static void registerAllRecipes() {
 		ConfigurationSection section = configuration.getConfigurationSection("recipes");
@@ -193,10 +199,5 @@ public class CustomRecipe {
 			array[2] = shape.substring(6, shape.length() > 9 ? 9 : shape.length());
 		
 		return array;
-	}
-	
-	public static void unload() {
-		file = null;
-		configuration = null;
 	}
 }

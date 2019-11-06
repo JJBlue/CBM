@@ -5,7 +5,6 @@ Futures:
 	- Make a plugin silent for BroadcastMassages
 	- set Loot to an entity
 	- bossbar
-	- customrecipes
 	- disableenchantments
 	- homes
 	- kids
@@ -23,5 +22,3 @@ Futures:
 	- clear ground (also timebased feature)
 	- scan for items in containers
 	- itemStack add org.bukkit.attribute.Attribute
-	
-	- better fly/walk speed -> tab complete und arguments order
