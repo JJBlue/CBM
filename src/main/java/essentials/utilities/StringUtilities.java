@@ -1,5 +1,6 @@
 package essentials.utilities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class StringUtilities {
@@ -62,5 +63,72 @@ public class StringUtilities {
 	public static void append(StringBuilder builder, String s) {
 		if(s == null || builder == null) return;
 		builder.append(s);
+	}
+
+	public static List<String> parseQuotionMarks(String input) {
+		List<String> list = new LinkedList<>();
+		StringBuilder builder = null;
+		
+		boolean inArg = false;
+		boolean backspace = false;
+		
+		for(char c : input.toCharArray()) {
+			if(builder == null) {
+				builder = new StringBuilder();
+			}
+			
+			if(!inArg && Character.isWhitespace(c)) {
+				if(builder.length() > 0) {
+					list.add(builder.toString());
+					builder = null;
+				}
+				continue;
+			}
+			
+			switch (c) {
+				case '\\':
+					
+					if(inArg) {
+						if(backspace) {
+							builder.append(c);
+						}
+						
+						backspace = !backspace;
+					} else {
+						builder.append(c);
+					}
+					
+					break;
+				case '\"':
+					
+					if(inArg) {
+						if(backspace) {
+							builder.append(c);
+							backspace = false;
+						} else {
+							inArg = false;
+						}
+					} else {
+						inArg = true;
+					}
+					
+					break;
+				default: {
+					builder.append(c);
+					backspace = false;
+				}
+			}
+		}
+		
+		if(builder.length() > 0) {
+			list.add(builder.toString());
+		}
+		
+		return list;
+	}
+	
+	public static String[] toArray(List<String> list) {
+		String[] array = new String[list.size()];
+		return list.toArray(array);
 	}
 }

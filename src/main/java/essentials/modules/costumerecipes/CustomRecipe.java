@@ -60,7 +60,7 @@ public class CustomRecipe {
 				String keyID = id.toLowerCase();
 				NamespacedKey key = NamespacedKey.minecraft(keyID);
 				ConfigurationSection recipeSection = section.getConfigurationSection(id);
-				ConfigurationSection resultSection = recipeSection.getConfigurationSection(id + ".result");
+				ConfigurationSection resultSection = recipeSection.getConfigurationSection("result");
 				
 				if(!recipeSection.getBoolean("enable")) continue;
 				

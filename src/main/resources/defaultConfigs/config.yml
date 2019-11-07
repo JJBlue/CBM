@@ -4,7 +4,7 @@ bStats:
   # Disable/Enable BStats. bStats is on the first start of the server disabled to generate this file
   enable: true
 server:
-  # Restart: Commands or scripts to be executed when restarting
+  # Restart: Commands or files (!file <File>) or commands (!run <Command>) to be executed when restarting
   restart:
   - stop
   # PlayerAmount showen in Main Screen.

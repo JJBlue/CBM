@@ -1,6 +1,8 @@
 package essentials.config;
 
 import essentials.main.Main;
+import essentials.utilities.StringUtilities;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -162,10 +164,14 @@ public class MainConfig {
 	public static void restart() {
 		List<String> restartList = configuration.getStringList(MainConfigEnum.Restart.value);
 
+		String fileCommand = "!file";
+		String runCommand = "!run";
+		
 		for (String element : restartList) {
-			if (element.startsWith("!file")) {
-				if (element.length() <= 6) continue;
-				element = element.substring(6);
+			if (element.startsWith(fileCommand)) {
+				if (element.length() <= fileCommand.length() + 1) continue;
+				element = element.substring(fileCommand.length() + 1);
+				element = element.trim();
 
 				File file = new File(element);
 				if (!file.exists() || file.isDirectory()) continue;
@@ -175,8 +181,21 @@ public class MainConfig {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else
+			} else if(element.startsWith("!run")) {
+				if (element.length() <= runCommand.length() + 1) continue;
+				element = element.substring(runCommand.length() + 1);
+				element = element.trim();
+				
+				String[] array = StringUtilities.toArray(StringUtilities.parseQuotionMarks(element));
+
+				try {
+					Runtime.getRuntime().exec(array, null, new File("."));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), element);
+			}
 		}
 	}
 }

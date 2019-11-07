@@ -16,7 +16,7 @@ recipes:
       displayname: "This is a Item"
       amount: 2
       unbreakable: true
-      nbt: "{"test":1}"
+      nbt: '{"test":1}'
   cr_stone:
     enable: true
     # All cooking recipes need: input,cookingTime,experience instead of recipe & ingredient
