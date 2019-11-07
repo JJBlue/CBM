@@ -24,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
+import essentials.utilities.NBTUtilities;
 import essentials.utilities.RecipeUtilities;
 
 public class CustomRecipe {
@@ -49,7 +50,6 @@ public class CustomRecipe {
 		recipesIDs = null;
 	}
 	
-	//TODO ADD NBT Information (~enchantments)
 	public static void registerAllRecipes() {
 		ConfigurationSection section = configuration.getConfigurationSection("recipes");
 		if(section == null)
@@ -59,35 +59,38 @@ public class CustomRecipe {
 			try {
 				String keyID = id.toLowerCase();
 				NamespacedKey key = NamespacedKey.minecraft(keyID);
-				ConfigurationSection rSection = section.getConfigurationSection(id);
+				ConfigurationSection recipeSection = section.getConfigurationSection(id);
+				ConfigurationSection resultSection = recipeSection.getConfigurationSection(id + ".result");
 				
-				if(!rSection.getBoolean("enable")) continue;
+				if(!recipeSection.getBoolean("enable")) continue;
 				
-				Material material = Material.valueOf(rSection.getString("result").toUpperCase());
+				Material material = Material.valueOf(resultSection.getString("material").toUpperCase());
 				ItemStack result = new ItemStack(material);
 				
 				ItemMeta meta = result.getItemMeta();
-				if(rSection.contains("displayname"))
-					meta.setDisplayName(rSection.getString("displayname"));
-				if(rSection.contains("lore"))
-					meta.setLore(rSection.getStringList("lore"));
-				if(rSection.contains("unbreakable"))
-					meta.setUnbreakable(rSection.getBoolean("unbreakable"));
+				if(resultSection.contains("displayname"))
+					meta.setDisplayName(resultSection.getString("displayname"));
+				if(resultSection.contains("lore"))
+					meta.setLore(resultSection.getStringList("lore"));
+				if(resultSection.contains("unbreakable"))
+					meta.setUnbreakable(resultSection.getBoolean("unbreakable"));
 				result.setItemMeta(meta);
+				if(resultSection.contains("nbt"))
+					NBTUtilities.setNBTTagCompound(result, NBTUtilities.parse(resultSection.getString("nbt")));
 				
-				if(rSection.contains("amount"))
-					result.setAmount(rSection.getInt("amount"));
+				if(resultSection.contains("amount"))
+					result.setAmount(resultSection.getInt("amount"));
 				
-				float experience = (float) rSection.getDouble("experience");
-				int cookingTime = rSection.getInt("cookingTime");
+				float experience = (float) recipeSection.getDouble("experience");
+				int cookingTime = recipeSection.getInt("cookingTime");
 				
-				CustomRecipeType type = CustomRecipeType.valueOf(rSection.getString("type").toUpperCase());
+				CustomRecipeType type = CustomRecipeType.valueOf(recipeSection.getString("type").toUpperCase());
 				RecipeChoice input = null;
-				String shape = rSection.getString("recipe");
+				String shape = recipeSection.getString("recipe");
 				Map<Character, Material> ingredient = null;
 				
-				if(rSection.contains("input")) {
-					List<String> inputs = rSection.getStringList("input");
+				if(recipeSection.contains("input")) {
+					List<String> inputs = recipeSection.getStringList("input");
 					List<Material> materials = new LinkedList<>();
 					for(String m : inputs) {
 						materials.add(Material.valueOf(m.toUpperCase()));
@@ -95,10 +98,10 @@ public class CustomRecipe {
 					input = new RecipeChoice.MaterialChoice(materials);
 				}
 				
-				if(rSection.contains("ingredient")) {
+				if(recipeSection.contains("ingredient")) {
 					ingredient = new HashMap<>();
 					for(char c : shape.toCharArray()) {
-						Material m = Material.valueOf(rSection.getString("ingredient." + c));
+						Material m = Material.valueOf(recipeSection.getString("ingredient." + c));
 						ingredient.put(c, m);
 					}
 				}

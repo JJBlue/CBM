@@ -4,10 +4,13 @@ import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
 import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
 import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
+import net.minecraft.server.v1_14_R1.MojangsonParser;
 
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
+
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 public class NBTUtilities {
 	private NBTUtilities() {}
@@ -90,5 +93,14 @@ public class NBTUtilities {
 				return NBTUtilities_v1_14.getValue(nbtbase);
 		}
 		return NBTUtilitiesReflections.getValue(nbtbase);
+	}
+	
+	public static Object parse(String s) {
+		try {
+			return MojangsonParser.parse(s);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
