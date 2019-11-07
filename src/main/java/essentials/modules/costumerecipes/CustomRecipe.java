@@ -67,6 +67,9 @@ public class CustomRecipe {
 				Material material = Material.valueOf(resultSection.getString("material").toUpperCase());
 				ItemStack result = new ItemStack(material);
 				
+				if(resultSection.contains("nbt"))
+					NBTUtilities.setNBTTagCompound(result, NBTUtilities.parse(resultSection.getString("nbt")));
+				
 				ItemMeta meta = result.getItemMeta();
 				if(resultSection.contains("displayname"))
 					meta.setDisplayName(resultSection.getString("displayname"));
@@ -75,8 +78,6 @@ public class CustomRecipe {
 				if(resultSection.contains("unbreakable"))
 					meta.setUnbreakable(resultSection.getBoolean("unbreakable"));
 				result.setItemMeta(meta);
-				if(resultSection.contains("nbt"))
-					NBTUtilities.setNBTTagCompound(result, NBTUtilities.parse(resultSection.getString("nbt")));
 				
 				if(resultSection.contains("amount"))
 					result.setAmount(resultSection.getInt("amount"));
