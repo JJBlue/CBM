@@ -22,7 +22,7 @@ public class KitInventory {
 		int count = 0;
 		
 		synchronized (KitManager.kits) {
-			for(Kit kit : KitManager.kits) {
+			for(Kit kit : KitManager.kits.values()) {
 				int index = count / 45;
 				InventoryPage page = factory.getPage(index);
 				if(page == null) {

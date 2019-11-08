@@ -9,6 +9,14 @@ public class ConfigUtilities {
 	public static ItemStack readItemStack(ConfigurationSection section) {
 		if(section == null) return null;
 		
+		if(section.isItemStack("")) {
+			return section.getItemStack(""); //TODO test
+		}
+		
+		if(section.isString("")) {
+			return (ItemStack) ItemStackJSONUtilities.toObject(section.getString("")); //TODO test
+		}
+		
 		Material material = Material.valueOf(section.getString("material").toUpperCase());
 		ItemStack result = new ItemStack(material);
 		

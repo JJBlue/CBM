@@ -1,6 +1,7 @@
 package essentials.modules.kits;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,13 +17,19 @@ public class KitsConfig {
 	
 	static File file;
 	static FileConfiguration configuration;
+	static boolean saved = true;
 	
 	public static void load() {
 		file = new File(MainConfig.getDataFolder() + "/kits.yml");
 		configuration = YamlConfiguration.loadConfiguration(file);
+		saved = true;
 	}
 	
 	public static void unload() {
+		if(!saved) {
+			save();
+		}
+		
 		file = null;
 		configuration = null;
 	}
@@ -56,6 +63,34 @@ public class KitsConfig {
 		return kits;
 	}
 	
+	public static void saveKit(Kit kit) {
+		if(!kit.saved) return;
+		saved = false;
+		
+		ConfigurationSection kitsSection = getKitsSection();
+		ConfigurationSection kitSection = kitsSection.getConfigurationSection(kit.ID);
+		
+		kitSection.set("name", kit.name);
+		kit.showItemStack = ConfigUtilities.readItemStack(kitSection.getConfigurationSection("showItem"));
+		
+		kitSection.set("claimOnlyOne", kit.claimOneTime);
+		kitSection.set("command-run", kit.commandrun);
+		kitSection.set("cooldown", kit.cooldown);
+		kitSection.set("exp", kit.exp);
+		kitSection.set("money", kit.money);
+		kitSection.getBoolean("permission", kit.permission);
+		
+		//kit.items = getItemStacks(kitSection);
+		//TODO
+		
+		kit.saved = true;
+	}
+	
+	public static void removeKit(Kit kit) {
+		saved = false;
+		getKitsSection().set(kit.ID, null);
+	}
+	
 	public static ConfigurationSection getKitsSection() {
 		return configuration.getConfigurationSection("kits");
 	}
@@ -70,5 +105,14 @@ public class KitsConfig {
 		}
 		
 		return itemStacks;
+	}
+	
+	public static void save() {
+		try {
+			configuration.save(file);
+			saved = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
