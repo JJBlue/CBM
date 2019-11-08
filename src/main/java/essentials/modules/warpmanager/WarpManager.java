@@ -5,7 +5,7 @@ import components.sql.SQLParser;
 import essentials.database.Databases;
 import essentials.economy.EconomyManager;
 import essentials.player.PlayerSQLHelper;
-import essentials.utilities.ConfigUtilities;
+import essentials.utilities.ItemStackJSONUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -84,7 +84,7 @@ public class WarpManager {
 				Warp warp = new Warp(warpName);
 				warp.autoLore = result.getBoolean("autoLore");
 				warp.hasPermission = result.getBoolean("tPermission");
-				warp.itemStack = (ItemStack) ConfigUtilities.toObject(result.getString("itemStack"));
+				warp.itemStack = (ItemStack) ItemStackJSONUtilities.toObject(result.getString("itemStack"));
 				warp.cost = result.getInt("cost");
 				warp.location = PlayerSQLHelper.StringToLocation(result.getString("location"));
 				warp.showWithoutPermission = result.getBoolean("showWithoutPermission");

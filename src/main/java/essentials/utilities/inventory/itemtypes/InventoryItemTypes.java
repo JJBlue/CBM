@@ -1,6 +1,9 @@
 package essentials.utilities.inventory.itemtypes;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import essentials.utilities.inventory.InventoryItem;
 
 public class InventoryItemTypes {
 	private InventoryItemTypes() {}
@@ -52,6 +55,12 @@ public class InventoryItemTypes {
 
 		item.setDisplayName(displayName + cur);
 		item.setValue(cur);
+		return item;
+	}
+	
+	public static InventoryItem createBlockedItem(ItemStack itemStack) {
+		InventoryItem item = new InventoryItem(itemStack);
+		item.setOnClick((event, i) -> event.setCancelled(true));
 		return item;
 	}
 }

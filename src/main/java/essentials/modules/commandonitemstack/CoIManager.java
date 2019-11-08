@@ -6,8 +6,8 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.modules.commandonobject.CommandAusfuehren;
 import essentials.utilities.NBTUtilities;
+import essentials.utilities.commands.CommandAusfuehren;
 import essentials.utilitiesvr.nbt.NBTTag;
 
 public class CoIManager {

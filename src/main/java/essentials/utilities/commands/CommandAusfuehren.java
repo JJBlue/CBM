@@ -1,4 +1,4 @@
-package essentials.modules.commandonobject;
+package essentials.utilities.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -26,7 +26,8 @@ public class CommandAusfuehren {
 		if (s.startsWith("@c ")) {
 			s = s.split("@c ")[1];
 			Bukkit.getConsoleSender().getServer().dispatchCommand(Bukkit.getConsoleSender(), s);
-		} else if(p instanceof Player)
+		} else if(p instanceof Player) {
 			((Player) p).performCommand(s);
+		}
 	}
 }

@@ -41,6 +41,16 @@ public class NBTUtilitiesReflections implements NBTTag {
 		}
 	}
 
+	public static Object parse(String s) {
+		try {
+			Class<?> mojangparser = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".MojangsonParser");
+			return SimpleReflection.callStaticMethod(mojangparser, "parse", s);
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static Object createNBTTagCompound() {
 		try {
 			Class<?> nbt = Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagCompound");

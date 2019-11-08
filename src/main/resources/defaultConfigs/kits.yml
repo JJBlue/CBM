@@ -1,0 +1,28 @@
+# Can only claim on first time join on server or after dieing
+claimOneTimeAfterDieing: false
+# default cool-down, in s; -1 = everytime
+cool-down: 60
+# Could claim kid after dieing (timer must not be abgelaufen)
+timerSkipOnDie: true
+
+kits:
+  default:
+    # Could claim only one time this kid (full server lifetime)
+    claimOnlyOne: false
+    # permission: cbm.kid.<Name>
+    permissions: false
+    money: -1
+    exp: -1
+    command-run: -1
+    # items of the kids.
+    items:
+      # Key name of a itemstack (for example a), only be used to identify different itemstacks in the items section
+      a:
+        material: STONE
+        lore:
+        - "Powerful stone"
+        displayname: "Better as nothing"
+        unbreakable: true
+        nbt: '{Enchantments:[{id:sharpness,lvl:1},{id:knockback,lvl:2},{id:fire_aspect,lvl:1},{id:sweeping,lvl:3},{id:unbreaking,lvl:3},{id:mending,lvl:1}]}'
+  vip:
+

@@ -1,16 +1,13 @@
 package essentials.utilities;
 
-import essentials.utilitiesvr.ReflectionsUtilities;
-import essentials.utilitiesvr.nbt.NBTTag;
-import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
-import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
-import net.minecraft.server.v1_14_R1.MojangsonParser;
-
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilitiesvr.nbt.NBTTag;
+import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
+import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
 
 public class NBTUtilities {
 	private NBTUtilities() {}
@@ -96,11 +93,10 @@ public class NBTUtilities {
 	}
 	
 	public static Object parse(String s) {
-		try {
-			return MojangsonParser.parse(s);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return NBTUtilities_v1_14.parse(s);
 		}
-		return null;
+		return NBTUtilitiesReflections.parse(s);
 	}
 }

@@ -8,6 +8,9 @@ import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
+import net.minecraft.server.v1_14_R1.MojangsonParser;
 import net.minecraft.server.v1_14_R1.NBTBase;
 import net.minecraft.server.v1_14_R1.NBTTagByte;
 import net.minecraft.server.v1_14_R1.NBTTagByteArray;
@@ -29,6 +32,15 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	
 	public static NBTTagCompound getNbtTagCompound(Entity entity) {
 		return ((CraftEntity) entity).getHandle().save(new NBTTagCompound());
+	}
+	
+	public static NBTTagCompound parse(String s) {
+		try {
+			return MojangsonParser.parse(s);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**

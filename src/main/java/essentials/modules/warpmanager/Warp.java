@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import components.datenbank.Datenbank;
 import essentials.database.Databases;
 import essentials.player.PlayerSQLHelper;
-import essentials.utilities.ConfigUtilities;
+import essentials.utilities.ItemStackJSONUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class Warp {
@@ -42,7 +42,7 @@ public class Warp {
 		try {
 			preparedStatement.setString(1, PlayerSQLHelper.LocationToString(location));
 			if (itemStack != null && !itemStack.getType().equals(Material.AIR))
-				preparedStatement.setString(2, ConfigUtilities.toString(itemStack));
+				preparedStatement.setString(2, ItemStackJSONUtilities.toString(itemStack));
 			else
 				preparedStatement.setString(2, null);
 			preparedStatement.setBoolean(3, hasPermission);

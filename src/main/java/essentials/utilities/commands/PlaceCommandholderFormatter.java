@@ -1,4 +1,4 @@
-package essentials.utilities.placeholderCommand;
+package essentials.utilities.commands;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -20,11 +20,10 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
-import essentials.utilities.NBTUtilities;
+import essentials.utilities.ConfigUtilities;
 import essentials.utilities.RecipeUtilities;
 
 public class CustomRecipe {
@@ -64,23 +63,7 @@ public class CustomRecipe {
 				
 				if(!recipeSection.getBoolean("enable")) continue;
 				
-				Material material = Material.valueOf(resultSection.getString("material").toUpperCase());
-				ItemStack result = new ItemStack(material);
-				
-				if(resultSection.contains("nbt"))
-					NBTUtilities.setNBTTagCompound(result, NBTUtilities.parse(resultSection.getString("nbt")));
-				
-				ItemMeta meta = result.getItemMeta();
-				if(resultSection.contains("displayname"))
-					meta.setDisplayName(resultSection.getString("displayname"));
-				if(resultSection.contains("lore"))
-					meta.setLore(resultSection.getStringList("lore"));
-				if(resultSection.contains("unbreakable"))
-					meta.setUnbreakable(resultSection.getBoolean("unbreakable"));
-				result.setItemMeta(meta);
-				
-				if(resultSection.contains("amount"))
-					result.setAmount(resultSection.getInt("amount"));
+				ItemStack result = ConfigUtilities.readItemStack(resultSection);
 				
 				float experience = (float) recipeSection.getDouble("experience");
 				int cookingTime = recipeSection.getInt("cookingTime");
