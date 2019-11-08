@@ -45,6 +45,7 @@ import essentials.modules.commands.commands.BookCommand;
 import essentials.modules.commands.commands.InventorySee;
 import essentials.modules.commands.commands.SignCommands;
 import essentials.modules.commands.commands.clearground;
+import essentials.modules.commands.commands.gc;
 import essentials.modules.commands.commands.speed;
 import essentials.modules.commands.tabcompleter.STabCompleter;
 import essentials.modules.commands.tabexecutors.RedirectTabExecutor;
@@ -99,6 +100,7 @@ public class MainCommand implements TabExecutor {
 		
 		afk();
 		blockname();
+		gc.register();
 		speed.register();
 		clearground.register();
 	}
