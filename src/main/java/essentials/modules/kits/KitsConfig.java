@@ -52,9 +52,8 @@ public class KitsConfig {
 			kit.claimOneTime = kitSection.getBoolean("claimOnlyOne");
 			kit.commandrun = kitSection.getStringList("command-run");
 			kit.cooldown = kitSection.getInt("cooldown");
-			kit.exp = kitSection.getInt("exp");
-			kit.money = kitSection.getInt("money");
-			kit.items = getItemStacks(kitSection);
+			//TODO conditions & execute
+			kit.items = getItemStacks(kitSection.getConfigurationSection("items"));
 			kit.permission = kitSection.getBoolean("permission");
 			
 			kits.add(kit);
@@ -76,12 +75,9 @@ public class KitsConfig {
 		kitSection.set("claimOnlyOne", kit.claimOneTime);
 		kitSection.set("command-run", kit.commandrun);
 		kitSection.set("cooldown", kit.cooldown);
-		kitSection.set("exp", kit.exp);
-		kitSection.set("money", kit.money);
+		//TODO conditions & execute
 		kitSection.getBoolean("permission", kit.permission);
-		
-		//kit.items = getItemStacks(kitSection);
-		//TODO
+		setItemStacks(kit.items, kitSection.createSection("items"));
 		
 		kit.saved = true;
 	}
@@ -95,9 +91,8 @@ public class KitsConfig {
 		return configuration.getConfigurationSection("kits");
 	}
 
-	public static List<ItemStack> getItemStacks(ConfigurationSection section) {
+	public static List<ItemStack> getItemStacks(ConfigurationSection items) {
 		List<ItemStack> itemStacks = new LinkedList<>();
-		ConfigurationSection items = section.getConfigurationSection("items");
 		
 		for(String key : items.getKeys(false)) {
 			ItemStack itemStack = ConfigUtilities.readItemStack(items.getConfigurationSection(key));
@@ -105,6 +100,10 @@ public class KitsConfig {
 		}
 		
 		return itemStacks;
+	}
+	
+	public static void setItemStacks(List<ItemStack> items, ConfigurationSection section) {
+		//TODO
 	}
 	
 	public static void save() {

@@ -5,7 +5,8 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.economy.EconomyManager;
+import components.json.JSONObject;
+import essentials.utilities.ConditionUtilities;
 import essentials.utilities.commands.CommandAusfuehren;
 import essentials.utilities.permissions.PermissionHelper;
 
@@ -19,10 +20,14 @@ public class Kit {
 	boolean permission = false;
 	boolean claimOneTime = false;
 	int cooldown = -1;
-	int money = -1;
-	int exp = -1;
 	List<String> commandrun;
 	List<ItemStack> items;
+	
+	//Bedingungen
+	String json_condition;
+	JSONObject condition;
+	String json_execute;
+	JSONObject execute;
 	
 	//TMP
 	boolean saved = false;
@@ -38,16 +43,11 @@ public class Kit {
 		
 		//TODO cooldown
 		
-		if(exp > 0 && player.getLevel() < exp) {
+		if(!ConditionUtilities.checkCondition(player, condition)) {
 			return false;
 		}
 		
-		player.setLevel(player.getLevel() - exp);
-		
-		if(money > 0 && !EconomyManager.removeMoney(player.getUniqueId(), money, true)) {
-			player.setLevel(player.getLevel() + exp);
-			return false;
-		}
+		ConditionUtilities.execute(player, execute);
 		
 		for(ItemStack itemStack : items) {
 			player.getInventory().addItem(itemStack); //TODO if full

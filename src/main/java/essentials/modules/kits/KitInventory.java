@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import essentials.utilities.inventory.InventoryFactory;
 import essentials.utilities.inventory.InventoryItem;
 import essentials.utilities.inventory.InventoryPage;
+import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
 
 public class KitInventory {
 	public static void open(Player player) {
@@ -24,6 +25,8 @@ public class KitInventory {
 		synchronized (KitManager.kits) {
 			for(Kit kit : KitManager.kits.values()) {
 				int index = count / 45;
+				int offset = count % 45;
+				
 				InventoryPage page = factory.getPage(index);
 				if(page == null) {
 					page = new InventoryPage();
@@ -36,7 +39,14 @@ public class KitInventory {
 					kit.giveKit(player);
 				});
 				
-				page.addItem(count % 45, item);
+				page.addItem(offset, item);
+				
+				if(index > 0 && offset == 0) {
+					page.addItem(46, InventoryItemTypes.previous(factory));
+					
+					InventoryPage previousPage = factory.getPage(index - 1);
+					previousPage.addItem(54, InventoryItemTypes.next(factory));
+				}
 				
 				count++;
 			}

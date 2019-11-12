@@ -2,6 +2,7 @@ package essentials.modules.kits;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -20,8 +21,21 @@ public class KitsCommands implements TabExecutor {
 		switch (args[0].toLowerCase()) {
 			case "give": {
 				//give <Kid> (<Player>)
-				//TODO
-				KitManager.getKit(args[1]).giveKit((Player) sender);
+				if(args.length < 2) break;
+				
+				Player player = null;
+				
+				if(args.length < 3) {
+					if(sender instanceof Player)
+						player = (Player) sender;
+				} else {
+					player = Bukkit.getPlayer(args[2]);
+				}
+				
+				if(player == null)
+					break;
+				
+				KitManager.getKit(args[1]).giveKit(player);
 				
 				break;
 			}

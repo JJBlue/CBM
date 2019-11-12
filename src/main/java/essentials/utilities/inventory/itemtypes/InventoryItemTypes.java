@@ -3,6 +3,7 @@ package essentials.utilities.inventory.itemtypes;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import essentials.utilities.inventory.InventoryFactory;
 import essentials.utilities.inventory.InventoryItem;
 
 public class InventoryItemTypes {
@@ -61,6 +62,34 @@ public class InventoryItemTypes {
 	public static InventoryItem createBlockedItem(ItemStack itemStack) {
 		InventoryItem item = new InventoryItem(itemStack);
 		item.setOnClick((event, i) -> event.setCancelled(true));
+		return item;
+	}
+	
+	public static InventoryItem previous(InventoryFactory factory) {
+		return previous(factory, new ItemStack(Material.ARROW));
+	}
+	
+	public static InventoryItem previous(InventoryFactory factory, ItemStack itemStack) {
+		InventoryItem item = new InventoryItem(itemStack);
+		item.setOnClick((event, i) -> {
+			event.setCancelled(true);
+			factory.previous();
+		});
+		item.setDisplayName("Previous"); //TODO port to language
+		return item;
+	}
+	
+	public static InventoryItem next(InventoryFactory factory) {
+		return previous(factory, new ItemStack(Material.ARROW));
+	}
+	
+	public static InventoryItem next(InventoryFactory factory, ItemStack itemStack) {
+		InventoryItem item = new InventoryItem(itemStack);
+		item.setOnClick((event, i) -> {
+			event.setCancelled(true);
+			factory.next();
+		});
+		item.setDisplayName("Next"); //TODO port to language
 		return item;
 	}
 }
