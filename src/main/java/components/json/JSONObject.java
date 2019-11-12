@@ -18,6 +18,10 @@ public class JSONObject extends abstractJSON {
 	public void add(String key, Object value) {
 		map.put(key, JSONValue.getabstractJSON(value));
 	}
+	
+	public boolean contains(String key) {
+		return map.containsKey(key);
+	}
 
 	public abstractJSON get(String key) {
 		return map.get(key);
@@ -32,25 +36,56 @@ public class JSONObject extends abstractJSON {
 	}
 
 	//-----------------------------------------Extra Getter and Setter------------------------------
-	public String getString(String key) {
+	public boolean isJSONValue(String key) {
 		abstractJSON json = get(key);
-		if (json instanceof JSONValue)
-			return ((JSONValue) json).getString();
+		return json instanceof JSONValue;
+	}
+	
+	public boolean isString(String key) {
+		abstractJSON json = get(key);
+		if(!(json instanceof JSONValue))
+			return false;
+		return ((JSONValue) json).isString();
+	}
+	
+	public String getString(String key) {
+		if (isJSONValue(key))
+			return ((JSONValue) get(key)).getString();
 		return null;
+	}
+	
+	public boolean isBoolean(String key) {
+		abstractJSON json = get(key);
+		if(!(json instanceof JSONValue))
+			return false;
+		return ((JSONValue) json).isBoolean();
 	}
 
 	public Boolean getBoolean(String key) {
-		abstractJSON json = get(key);
-		if (json instanceof JSONValue)
-			return ((JSONValue) json).getBoolean();
+		if (isBoolean(key))
+			return ((JSONValue) get(key)).getBoolean();
 		return false;
 	}
 
+	public boolean isInt(String key) {
+		abstractJSON json = get(key);
+		if (json instanceof JSONValue)
+			return ((JSONValue) json).isInt();
+		return false;
+	}
+	
 	public int getInt(String key) {
 		abstractJSON json = get(key);
 		if (json instanceof JSONValue)
 			return ((JSONValue) json).getInt();
 		return 0;
+	}
+	
+	public boolean isLong(String key) {
+		abstractJSON json = get(key);
+		if (json instanceof JSONValue)
+			return ((JSONValue) json).isLong();
+		return false;
 	}
 
 	public long getLong(String key) {
@@ -59,12 +94,26 @@ public class JSONObject extends abstractJSON {
 			return ((JSONValue) json).getLong();
 		return 0;
 	}
+	
+	public boolean isDouble(String key) {
+		abstractJSON json = get(key);
+		if (json instanceof JSONValue)
+			return ((JSONValue) json).isDouble();
+		return false;
+	}
 
 	public double getDouble(String key) {
 		abstractJSON json = get(key);
 		if (json instanceof JSONValue)
 			return ((JSONValue) json).getDouble();
 		return 0;
+	}
+	
+	public boolean isFloat(String key) {
+		abstractJSON json = get(key);
+		if (json instanceof JSONValue)
+			return ((JSONValue) json).isFloat();
+		return false;
 	}
 
 	public float getFloat(String key) {

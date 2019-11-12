@@ -45,33 +45,57 @@ public class JSONValue extends abstractJSON {
 	public Object getValue() {
 		return value;
 	}
+	
+	public boolean isString() {
+		return value instanceof String;
+	}
 
 	public String getString() {
 		return value.toString();
 	}
 
+	public boolean isBoolean() {
+		return value instanceof Boolean;
+	}
+	
 	public boolean getBoolean() {
-		if (value instanceof Boolean) return (boolean) value;
+		if (isBoolean()) return (boolean) value;
 		return false;
+	}
+	
+	public boolean isInt() {
+		return value instanceof Integer;
 	}
 
 	public int getInt() {
-		if (value instanceof Integer) return (int) value;
+		if (isInt()) return (int) value;
 		return 0;
+	}
+	
+	public boolean isLong() {
+		return value instanceof Long;
 	}
 
 	public long getLong() {
-		if (value instanceof Integer || value instanceof Long) return (long) value;
+		if (isInt() || isLong()) return (long) value;
 		return 0;
 	}
 
+	public boolean isFloat() {
+		return value instanceof Float;
+	}
+	
 	public float getFloat() {
-		if (value instanceof Float) return (float) value;
+		if (isFloat()) return (float) value;
 		return 0;
+	}
+	
+	public boolean isDouble() {
+		return value instanceof Double;
 	}
 
 	public double getDouble() {
-		if (value instanceof Double || value instanceof Float) return (double) value;
+		if (isDouble() || isFloat() || isInt() || isLong()) return (double) value;
 		return 0;
 	}
 

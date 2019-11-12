@@ -2,6 +2,7 @@ package components.json;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class JSONArray extends abstractJSON {
@@ -31,6 +32,28 @@ public class JSONArray extends abstractJSON {
 
 	public List<?> getList() {
 		return array;
+	}
+	
+	public List<String> toListString() {
+		List<String> list = new LinkedList<>();
+		
+		for(Object object : array) {
+			if(object instanceof String) {
+				list.add((String) object);
+			} else if(object instanceof JSONValue) {
+				Object value = ((JSONValue) object).getValue();
+				
+				if(value instanceof String) {
+					list.add((String) value);
+				} else {
+					list.add(value.toString());
+				}
+			} else {
+				list.add(object.toString());
+			}
+		}
+		
+		return list;
 	}
 
 	public Object[] toArray() {
