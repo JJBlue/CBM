@@ -5,9 +5,8 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import components.json.JSONObject;
 import essentials.utilities.commands.CommandAusfuehren;
-import essentials.utilities.conditions.ConditionUtilities;
+import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class Kit {
@@ -24,10 +23,7 @@ public class Kit {
 	List<ItemStack> items;
 	
 	//Bedingungen
-	String json_condition;
-	JSONObject condition;
-	String json_execute;
-	JSONObject execute;
+	Condition condition;
 	
 	//TMP
 	boolean saved = false;
@@ -43,11 +39,9 @@ public class Kit {
 		
 		//TODO cooldown
 		
-		if(!ConditionUtilities.checkCondition(player, condition)) {
+		if(!condition.checkAndExecute(player)) {
 			return false;
 		}
-		
-		ConditionUtilities.execute(player, execute);
 		
 		for(ItemStack itemStack : items) {
 			player.getInventory().addItem(itemStack); //TODO if full

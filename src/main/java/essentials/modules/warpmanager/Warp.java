@@ -14,6 +14,7 @@ import components.datenbank.Datenbank;
 import essentials.database.Databases;
 import essentials.player.PlayerSQLHelper;
 import essentials.utilities.ItemStackJSONUtilities;
+import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class Warp {
@@ -24,8 +25,9 @@ public class Warp {
 	boolean autoLore;
 	boolean hasPermission;
 	boolean showWithoutPermission;
-	int cost;
 	int pos;
+	
+	Condition condition;
 
 	boolean saved = false;
 
@@ -38,7 +40,8 @@ public class Warp {
 		saved = true;
 
 		Datenbank database = Databases.getWorldDatabase();
-		PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ? WHERE name = ?");
+		//TODO create database
+		PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ?, condition = ?, executes = ? WHERE name = ?");
 		try {
 			preparedStatement.setString(1, PlayerSQLHelper.LocationToString(location));
 			if (itemStack != null && !itemStack.getType().equals(Material.AIR))
@@ -50,6 +53,8 @@ public class Warp {
 			preparedStatement.setBoolean(5, autoLore);
 			preparedStatement.setInt(6, pos);
 			preparedStatement.setString(7, name);
+			preparedStatement.setString(8, condition.getConditionToString());
+			preparedStatement.setString(9, condition.getExecuteToString());
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,9 +79,9 @@ public class Warp {
 			if (hasPermission)
 				lore.add("Permission: " + PermissionHelper.getPermission("warp." + name));
 
-			if (cost <= 0)
-				lore.add("Cost: " + cost);
-
+			if(condition != null)
+				lore.addAll(condition.getConditiontoList());
+			
 			itemMeta.setLore(lore);
 			is.setItemMeta(itemMeta);
 			return is;
@@ -124,11 +129,11 @@ public class Warp {
 	}
 
 	public int getCost() {
-		return cost;
+		return condition.getCondition().getInt("money");
 	}
 
 	public void setCost(int cost) {
-		this.cost = cost;
+		condition.getCondition().add("money", cost);
 		saved = false;
 	}
 

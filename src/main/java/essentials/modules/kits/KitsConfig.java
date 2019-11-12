@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import essentials.config.MainConfig;
 import essentials.utilities.ConfigUtilities;
+import essentials.utilities.conditions.Condition;
 
 public class KitsConfig {
 	
@@ -52,7 +53,7 @@ public class KitsConfig {
 			kit.claimOneTime = kitSection.getBoolean("claimOnlyOne");
 			kit.commandrun = kitSection.getStringList("command-run");
 			kit.cooldown = kitSection.getInt("cooldown");
-			//TODO conditions & execute
+			kit.condition = new Condition(kitSection.getString("conditions"), kitSection.getString("execute"));
 			kit.items = getItemStacks(kitSection.getConfigurationSection("items"));
 			kit.permission = kitSection.getBoolean("permission");
 			
@@ -75,7 +76,8 @@ public class KitsConfig {
 		kitSection.set("claimOnlyOne", kit.claimOneTime);
 		kitSection.set("command-run", kit.commandrun);
 		kitSection.set("cooldown", kit.cooldown);
-		//TODO conditions & execute
+		kitSection.set("conditions", kit.condition.getConditionToString());
+		kitSection.set("execute", kit.condition.getExecuteToString());
 		kitSection.getBoolean("permission", kit.permission);
 		setItemStacks(kit.items, kitSection.createSection("items"));
 		

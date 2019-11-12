@@ -122,7 +122,7 @@ public class ConditionUtilities {
 	}
 	
 	//TODO language
-	public static List<String> conditionsToString(Player player, JSONObject conditions) {
+	public static List<String> conditionsToString(JSONObject conditions) {
 		final List<String> list = new LinkedList<>();
 		
 		if(conditions.contains("money")) {

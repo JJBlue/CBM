@@ -6,8 +6,9 @@ CREATE TABLE IF NOT EXISTS warps(
 	tPermission BOOL,
 	showWithoutPermission BOOl,
 	autoLore BOOL,
-	cost INTEGER,
 	pos INT DEFAULT 0,
+	condition text,
+	executes text,
 	
 	PRIMARY KEY (name)
 );

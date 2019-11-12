@@ -1,20 +1,25 @@
 package essentials.modules.warpmanager;
 
-import components.datenbank.Datenbank;
-import components.sql.SQLParser;
-import essentials.database.Databases;
-import essentials.economy.EconomyManager;
-import essentials.player.PlayerSQLHelper;
-import essentials.utilities.ItemStackJSONUtilities;
-import essentials.utilities.permissions.PermissionHelper;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import components.datenbank.Datenbank;
+import components.sql.SQLParser;
+import essentials.database.Databases;
+import essentials.player.PlayerSQLHelper;
+import essentials.utilities.ItemStackJSONUtilities;
+import essentials.utilities.conditions.Condition;
+import essentials.utilities.permissions.PermissionHelper;
 
 public class WarpManager {
 
@@ -85,7 +90,7 @@ public class WarpManager {
 				warp.autoLore = result.getBoolean("autoLore");
 				warp.hasPermission = result.getBoolean("tPermission");
 				warp.itemStack = (ItemStack) ItemStackJSONUtilities.toObject(result.getString("itemStack"));
-				warp.cost = result.getInt("cost");
+				warp.condition = new Condition(result.getString("condition"), result.getString("executes"));
 				warp.location = PlayerSQLHelper.StringToLocation(result.getString("location"));
 				warp.showWithoutPermission = result.getBoolean("showWithoutPermission");
 				warp.pos = result.getInt("pos");
@@ -131,8 +136,8 @@ public class WarpManager {
 
 	public static void teleport(Entity entity, Warp warp) {
 		if (entity == null || warp == null) return;
-		if (warp.cost != 0 && !EconomyManager.removeMoney(entity.getUniqueId(), warp.cost, true)) return;
 		if (warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
+		if(entity instanceof Player && !warp.condition.checkAndExecute((Player) entity)) return;
 		entity.teleport(warp.location);
 	}
 
