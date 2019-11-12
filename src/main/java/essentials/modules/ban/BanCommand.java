@@ -12,6 +12,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
+import essentials.modules.commands.tabcompleter.STabCompleter;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.TimeUtilities;
 import essentials.utilities.permissions.PermissionHelper;
@@ -61,7 +62,18 @@ public class BanCommand implements TabExecutor {
 				break;
 			}
 			case "checkban": {
-				//TODO
+				
+				if(args.length < 2) break;
+				
+				Player player = Bukkit.getPlayer(args[1]);
+				if(player == null) break;
+				
+				if(BanManager.isPlayerBanned(player.getUniqueId())) {
+					LanguageConfig.sendMessage(sender, "ban.notbanned", player.getName());
+				} else {
+					LocalDateTime time = BanManager.getBanUntil(player.getUniqueId());
+					LanguageConfig.sendMessage(sender, "ban.pisbanned", player.getName(), TimeUtilities.timeToString(time), TimeUtilities.timeToString(LocalDateTime.now(), time));
+				}
 			}
 		}
 		
@@ -76,6 +88,7 @@ public class BanCommand implements TabExecutor {
 			returnArguments.add("unban");
 			returnArguments.add("ban");
 			returnArguments.add("tempban");
+			returnArguments.add("checkban");
 
 		} else {
 			
@@ -93,18 +106,21 @@ public class BanCommand implements TabExecutor {
 				case "tempban":
 					
 					if(args.length == 2) {
-						for(Player player : Bukkit.getOnlinePlayers())
-							returnArguments.add(player.getName());
+						returnArguments.addAll(STabCompleter.getPlayersList());
 					} else if(args.length == 3) {
 						returnArguments.add("0y0h0d0w0h0m0s");
 						returnArguments.add("1m");
-					} else
+					} else {
 						returnArguments.add("<Reason>");
+					}
 					
 					break;
 					
 				case "unban":
 					returnArguments.add("<Player>");
+					break;
+				case "checkban":
+					returnArguments.addAll(STabCompleter.getPlayersList());
 					break;
 			}
 			
