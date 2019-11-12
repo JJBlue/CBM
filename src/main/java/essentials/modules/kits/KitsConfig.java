@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
+import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.utilities.ConfigUtilities;
 import essentials.utilities.conditions.Condition;
@@ -22,6 +23,8 @@ public class KitsConfig {
 	
 	public static void load() {
 		file = new File(MainConfig.getDataFolder() + "/kits.yml");
+		if(!file.exists())
+			ConfigHelper.extractDefaultConfigs("kits", "kits.yml");
 		configuration = YamlConfiguration.loadConfiguration(file);
 		saved = true;
 	}
@@ -51,9 +54,8 @@ public class KitsConfig {
 			kit.showItemStack = ConfigUtilities.readItemStack(kitSection.getConfigurationSection("showItem"));
 			
 			kit.claimOneTime = kitSection.getBoolean("claimOnlyOne");
-			kit.commandrun = kitSection.getStringList("command-run");
 			kit.cooldown = kitSection.getInt("cooldown");
-			kit.condition = new Condition(kitSection.getString("conditions"), kitSection.getString("execute"));
+			kit.condition = new Condition(kitSection.getString("condition"), kitSection.getString("execute"));
 			kit.items = getItemStacks(kitSection.getConfigurationSection("items"));
 			kit.permission = kitSection.getBoolean("permission");
 			
@@ -74,9 +76,8 @@ public class KitsConfig {
 		kit.showItemStack = ConfigUtilities.readItemStack(kitSection.getConfigurationSection("showItem"));
 		
 		kitSection.set("claimOnlyOne", kit.claimOneTime);
-		kitSection.set("command-run", kit.commandrun);
 		kitSection.set("cooldown", kit.cooldown);
-		kitSection.set("conditions", kit.condition.getConditionToString());
+		kitSection.set("condition", kit.condition.getConditionToString());
 		kitSection.set("execute", kit.condition.getExecuteToString());
 		kitSection.getBoolean("permission", kit.permission);
 		setItemStacks(kit.items, kitSection.createSection("items"));

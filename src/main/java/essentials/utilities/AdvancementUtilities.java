@@ -42,7 +42,13 @@ public class AdvancementUtilities {
 	}
 	
 	public static boolean removeAdvancement(Advancement advancement) {
-		//TODO
+		Iterator<Advancement> adIterator = Bukkit.advancementIterator();
+		while(adIterator.hasNext()) {
+			if(advancement == adIterator.next()) {
+				adIterator.remove();
+				return true;
+			}
+		}
 		return false;
 	}
 	

@@ -42,6 +42,28 @@ public class TimeUtilities {
 		return builder.toString();
 	}
 	
+	public static String timeToString(LocalDateTime time) {
+		if(time == null) return null;
+		
+		LocalDateTime now = LocalDateTime.now();
+		StringBuilder builder = new StringBuilder();
+		
+		if (time.getYear() != now.getYear())
+			builder.append(time.getYear()).append(' ').append(LanguageConfig.getString("time.year")).append(' ');
+
+		if (time.getMonthValue() != now.getMonthValue())
+			builder.append(time.getMonthValue()).append(' ').append(LanguageConfig.getString("time.month")).append(' ');
+
+		if (time.getDayOfMonth() != now.getDayOfMonth())
+			builder.append(time.getDayOfMonth()).append(' ').append(LanguageConfig.getString("time.day-short")).append(' ');
+
+		builder.append(time.getHour()).append(' ').append(LanguageConfig.getString("time.hour-short")).append(' ');
+		builder.append(time.getMinute()).append(' ').append(LanguageConfig.getString("time.minute-short")).append(' ');
+		builder.append(time.getSecond()).append(' ').append(LanguageConfig.getString("time.second-short")).append(' ');
+
+		return builder.toString();
+	}
+	
 	public static LocalDateTime parseAddTime(String timeString) {
 		LocalDateTime time = LocalDateTime.now();
 		

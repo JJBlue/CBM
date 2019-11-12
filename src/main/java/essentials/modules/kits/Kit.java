@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.utilities.commands.CommandAusfuehren;
 import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
@@ -19,7 +18,6 @@ public class Kit {
 	boolean permission = false;
 	boolean claimOneTime = false;
 	int cooldown = -1;
-	List<String> commandrun;
 	List<ItemStack> items;
 	
 	//Bedingungen
@@ -48,11 +46,6 @@ public class Kit {
 		}
 		
 		//TODO claimed
-		
-		for(String command : commandrun) {
-			CommandAusfuehren.Command(player, command);
-		}
-		
 		return true;
 	}
 }

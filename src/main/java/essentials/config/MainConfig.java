@@ -44,11 +44,11 @@ public class MainConfig {
 
 		//Server
 		configuration.addDefault(MainConfigEnum.FullSize.value, -1);
-		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4Der Server ist voll"); //TODO: Change to Language
+		configuration.addDefault(MainConfigEnum.FullMessage.value, "§4The Server is full");
 		configuration.addDefault(MainConfigEnum.enableOperators.value, false);
 
 		List<String> list = new LinkedList<>();
-		list.add("#UUID (could join when onlinePlayers < showPlayerAmount)"); //TODO: Change to Language
+		list.add("#UUID (could join when onlinePlayers < showPlayerAmount)");
 		configuration.addDefault(MainConfigEnum.JoinPlayersWhenFull.value, list);
 
 		list = new LinkedList<>();
@@ -56,7 +56,7 @@ public class MainConfig {
 		configuration.addDefault(MainConfigEnum.CouldOperators.value, list);
 
 		configuration.addDefault(MainConfigEnum.MotdEnable.value, false);
-		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing"); //TODO: Change to Language
+		configuration.addDefault(MainConfigEnum.Motd.value, "§4Error 404 Message is missing");
 
 		List<String> stringsTmp = new LinkedList<>();
 		stringsTmp.add("stop");

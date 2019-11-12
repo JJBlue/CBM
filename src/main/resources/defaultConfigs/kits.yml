@@ -11,9 +11,8 @@ kits:
     claimOnlyOne: false
     # permission: cbm.kid.<Name>
     permissions: false
-    money: -1
-    exp: -1
-    command-run: -1
+    condition: '{"money":0,"exp":0}'
+    execute: '{"sendmessage":"§6You claimed the default kit"}'
     # items of the kids.
     items:
       # Key name of a itemstack (for example a), only be used to identify different itemstacks in the items section

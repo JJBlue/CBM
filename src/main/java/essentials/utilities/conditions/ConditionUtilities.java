@@ -72,53 +72,62 @@ public class ConditionUtilities {
 			Bukkit.broadcastMessage(PlaceholderFormatter.setPlaceholders(player, json.getString("broadcast")));
 		}
 		
-		//TODO
+		//Add here more executes
 		
 		return true;
 	}
 	
 	public static boolean checkCondition(Player player, JSONObject conditions) {
-		if(conditions.contains("money") && !EconomyManager.hasMoney(player.getUniqueId(), conditions.getDouble("money"))) {
-			return false;
+		boolean result = true;
+		
+		if(result && conditions.contains("money") && !EconomyManager.hasMoney(player.getUniqueId(), conditions.getDouble("money"))) {
+			result = false;
 		}
 		
-		if(conditions.contains("level") && player.getLevel() < conditions.getInt("level")) {
-			return false;
+		if(result && conditions.contains("level") && player.getLevel() < conditions.getInt("level")) {
+			result = false;
 		}
 		
-		if(conditions.contains("exp") && player.getExp() < conditions.getFloat("exp")) {
-			return false;
+		if(result && conditions.contains("exp") && player.getExp() < conditions.getFloat("exp")) {
+			result = false;
 		}
 		
-		if(conditions.contains("advancement")) {
+		if(result && conditions.contains("advancement")) {
 			JSONArray array = (JSONArray) conditions.get("advancement");
 			
 			for(String advancement : array.toListString()) {
 				if(!AdvancementUtilities.isAdvancementComplete(player, AdvancementUtilities.getAdvancement(advancement))) {
-					return false;
+					result = false;
 				}
 			}
 		}
 		
-		if(conditions.contains("permissions")) {
+		if(result && conditions.contains("permissions")) {
 			JSONArray array = (JSONArray) conditions.get("permissions");
 			
 			for(String perm : array.toListString()) {
 				if(!player.hasPermission(perm)) {
-					return false;
+					result = false;
 				}
 			}
 		}
 		
-		//TODO
-		if(conditions.contains("conditions")) {
-			//and or or
-			return checkCondition(player, (JSONObject) conditions.get("conditions"));
+		//Add here more conditions
+		
+		//And bind more, so its could bevor or
+		if(result && conditions.contains("and")) {
+			boolean cond = checkCondition(player, (JSONObject) conditions.get("and"));
+			if(cond) return true;
 		}
 		
-		//TODO
+		if(result) return true;
 		
-		return true;
+		if(!result && conditions.contains("or")) {
+			boolean cond = checkCondition(player, (JSONObject) conditions.get("or"));
+			if(cond) return true;
+		}
+		
+		return result;
 	}
 	
 	//TODO language
@@ -134,7 +143,7 @@ public class ConditionUtilities {
 		}
 		
 		if(conditions.contains("exp")) {
-			list.add("Cost exp" + conditions.getFloat("exp"));
+			list.add("Cost exp: " + conditions.getFloat("exp"));
 		}
 		
 		if(conditions.contains("advancement")) {
@@ -153,7 +162,7 @@ public class ConditionUtilities {
 			}
 		}
 		
-		//TODO
+		//Add here more strings to list
 		
 		return list;
 	}
