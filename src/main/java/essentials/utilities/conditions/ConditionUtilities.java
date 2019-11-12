@@ -1,4 +1,4 @@
-package essentials.utilities;
+package essentials.utilities.conditions;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import components.json.JSONArray;
 import components.json.JSONObject;
 import essentials.economy.EconomyManager;
+import essentials.utilities.AdvancementUtilities;
 import essentials.utilities.placeholder.PlaceholderFormatter;
 
 public class ConditionUtilities {

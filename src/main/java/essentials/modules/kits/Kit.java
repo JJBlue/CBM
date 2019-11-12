@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import components.json.JSONObject;
-import essentials.utilities.ConditionUtilities;
 import essentials.utilities.commands.CommandAusfuehren;
+import essentials.utilities.conditions.ConditionUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class Kit {
