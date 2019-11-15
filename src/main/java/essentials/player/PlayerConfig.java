@@ -3,9 +3,11 @@ package essentials.player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import components.datenbank.DatabaseSyntax;
@@ -29,6 +31,41 @@ public class PlayerConfig extends DatabaseConfig {
 		uuid = UUID.fromString(uuidS);
 	}
 
+	public void set(PlayerConfigKey key, Object value) {
+		set(key.toString(), value, false, false);
+	}
+
+	public Object get(PlayerConfigKey key) {
+		return get(key.toString());
+	}
+
+	public boolean getBoolean(PlayerConfigKey key) {
+		return getBoolean(key.toString());
+	}
+
+	public double getDouble(PlayerConfigKey key) {
+		return getDouble(key.toString());
+	}
+
+	public int getInt(PlayerConfigKey key) {
+		return getInt(key.toString());
+	}
+
+	public long getLong(PlayerConfigKey key) {
+		return getLong(key.toString());
+	}
+
+	public String getString(PlayerConfigKey key) {
+		return getString(key.toString());
+	}
+
+	public Location getLocation(PlayerConfigKey key) {
+		return getLocation(key.toString());
+	}
+
+	public LocalDateTime getLocalDateTime(PlayerConfigKey key) {
+		return getLocalDateTime(key.toString());
+	}
 	@Override
 	protected ResultSet getDataInformation(String key) {
 		PreparedStatement statement = null;
@@ -61,6 +98,11 @@ public class PlayerConfig extends DatabaseConfig {
 	@Override
 	protected void saveSetWhereClause(int index, PreparedStatement preparedStatement) throws SQLException {
 		preparedStatement.setString(index++, uuid.toString());
+	}
+	
+	@Override
+	public boolean isAutomaticExtension() {
+		return true;
 	}
 
 	@Override

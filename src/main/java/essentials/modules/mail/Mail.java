@@ -1,4 +1,4 @@
-package essentials.player;
+package essentials.modules.mail;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 //TODO old
-public class Mail {
+public class Mail { //TODO
 	private static String suffix = "[Mail]";
 
 	public static void load(Player p) {

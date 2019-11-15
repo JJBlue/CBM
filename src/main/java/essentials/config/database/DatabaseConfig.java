@@ -16,11 +16,9 @@ import org.bukkit.Location;
 import components.datenbank.DatabaseSyntax;
 import components.datenbank.Datenbank;
 import components.datenbank.async.AsyncDatabase;
-import essentials.player.PlayerConfigKey;
 
 public abstract class DatabaseConfig {
 
-	protected static boolean automaticExtension = true;
 	public Map<String, DatabaseConfigValue> buffer = Collections.synchronizedMap(new HashMap<>());
 	
 	public abstract DatabaseConfigManager<?, ?> getDatabaseConfig();
@@ -28,10 +26,6 @@ public abstract class DatabaseConfig {
 	
 	public boolean containsLoadedKey(String key) {
 		return buffer.containsKey(key);
-	}
-
-	public void set(PlayerConfigKey key, Object value) {
-		set(key.toString(), value, false, false);
 	}
 
 	public void set(String key, Object value) {
@@ -70,10 +64,6 @@ public abstract class DatabaseConfig {
 		buffer.remove(key);
 	}
 
-	public Object get(PlayerConfigKey key) {
-		return get(key.toString());
-	}
-
 	public Object get(String key) {
 		DatabaseConfigValue value = buffer.get(key);
 		if (value != null)
@@ -88,10 +78,6 @@ public abstract class DatabaseConfig {
 		}
 
 		return null;
-	}
-
-	public boolean getBoolean(PlayerConfigKey key) {
-		return getBoolean(key.toString());
 	}
 
 	public boolean getBoolean(String key) {
@@ -115,10 +101,6 @@ public abstract class DatabaseConfig {
 		return false;
 	}
 
-	public double getDouble(PlayerConfigKey key) {
-		return getDouble(key.toString());
-	}
-
 	public double getDouble(String key) {
 		DatabaseConfigValue value = buffer.get(key);
 		if (value != null) {
@@ -137,10 +119,6 @@ public abstract class DatabaseConfig {
 		} catch (SQLException e) {}
 
 		return 0;
-	}
-
-	public int getInt(PlayerConfigKey key) {
-		return getInt(key.toString());
 	}
 
 	public int getInt(String key) {
@@ -163,10 +141,6 @@ public abstract class DatabaseConfig {
 		return 0;
 	}
 
-	public long getLong(PlayerConfigKey key) {
-		return getLong(key.toString());
-	}
-
 	public long getLong(String key) {
 		DatabaseConfigValue value = buffer.get(key);
 		if (value != null) {
@@ -185,10 +159,6 @@ public abstract class DatabaseConfig {
 		} catch (SQLException e) {}
 
 		return 0;
-	}
-
-	public String getString(PlayerConfigKey key) {
-		return getString(key.toString());
 	}
 
 	public String getString(String key) {
@@ -213,10 +183,6 @@ public abstract class DatabaseConfig {
 		return null;
 	}
 
-	public Location getLocation(PlayerConfigKey key) {
-		return getLocation(key.toString());
-	}
-
 	public Location getLocation(String key) {
 		DatabaseConfigValue value = buffer.get(key);
 		if (value != null) {
@@ -235,10 +201,6 @@ public abstract class DatabaseConfig {
 		} catch (SQLException e) {}
 
 		return null;
-	}
-
-	public LocalDateTime getLocalDateTime(PlayerConfigKey key) {
-		return getLocalDateTime(key.toString());
 	}
 
 	public LocalDateTime getLocalDateTime(String key) {
@@ -268,9 +230,11 @@ public abstract class DatabaseConfig {
 		synchronized (buffer) {
 			if(buffer.isEmpty()) return;
 			
-			List<String> coloumns = getDatabaseConfig().getColumns();
+			List<String> coloumns = null;
 
-			if (automaticExtension) {
+			if (isAutomaticExtension()) {
+				coloumns = getDatabaseConfig().getColumns(); //set directly of update sql should not error with coloumn not found
+				
 				for (String key : buffer.keySet()) {
 					DatabaseConfigValue value = buffer.get(key);
 					if (value.isSaved() || value.isTmp()) continue;
@@ -351,6 +315,10 @@ public abstract class DatabaseConfig {
 	protected abstract String getTableName();
 	protected abstract String saveWhereClause();
 	protected abstract void saveSetWhereClause(int index, PreparedStatement preparedStatement) throws SQLException;
+	
+	public boolean isAutomaticExtension() {
+		return false;
+	}
 	
 	public void saveAsync() {
 		AsyncDatabase.add(() -> save());

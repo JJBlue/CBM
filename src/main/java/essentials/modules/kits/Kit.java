@@ -1,11 +1,13 @@
 package essentials.modules.kits;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.player.PlayerManager;
+import essentials.modules.kits.player.KitPlayerConfig;
+import essentials.modules.kits.player.KitPlayerManager;
 import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
@@ -36,9 +38,24 @@ public class Kit {
 			return false;
 		}
 		
-//		PlayerManager manager = PlayerManager.getConfig(player);
-		
-		//TODO cooldown
+		KitPlayerConfig config = null;
+
+		if(claimOneTime || cooldown > 0) {
+			config = KitPlayerManager.getConfig(player);
+			LocalDateTime claimTime = config.getLocalDateTime(ID); //Last time claimed
+			
+			if(claimTime != null) {
+				if(claimOneTime)
+					return false;
+				
+				
+				claimTime = LocalDateTime.from(claimTime);
+				claimTime.plusSeconds(cooldown);
+				
+				if(claimTime.isAfter(LocalDateTime.now()))
+					return false;
+			}
+		}
 		
 		if(!condition.checkAndExecute(player)) {
 			return false;
@@ -48,7 +65,10 @@ public class Kit {
 			player.getInventory().addItem(itemStack); //TODO if full
 		}
 		
-		//TODO claimed
+		if(claimOneTime || cooldown > 0) {
+			config.set(ID, LocalDateTime.now());
+		}
+		
 		return true;
 	}
 }
