@@ -25,7 +25,7 @@ public class BanManager {
 	}
 	
 	public static boolean isPlayerBanned(UUID uuid) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
+		PlayerConfig config = PlayerManager.getConfig(uuid);
 		LocalDateTime banUntil = config.getLocalDateTime("banUntil");
 		if(banUntil == null) return false;
 		if(banUntil.isEqual(LocalDateTime.of(1, 1, 1, 0, 0))) return true;
@@ -44,7 +44,7 @@ public class BanManager {
 	}
 	
 	public static void banPlayer(UUID uuid, String reason, LocalDateTime localDateTime) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
+		PlayerConfig config = PlayerManager.getConfig(uuid);
 		config.set("banUntil", localDateTime);
 		config.set("banReason", reason);
 		config.saveAsync();
@@ -59,7 +59,7 @@ public class BanManager {
 	}
 	
 	public static LocalDateTime getBanUntil(UUID uuid) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
+		PlayerConfig config = PlayerManager.getConfig(uuid);
 		LocalDateTime time = config.getLocalDateTime("banUntil");
 		if(time == null || LocalDateTime.now().isAfter(time)) return null;
 		return time;
@@ -76,7 +76,7 @@ public class BanManager {
 	}
 	
 	public static String getReason(UUID uuid) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
+		PlayerConfig config = PlayerManager.getConfig(uuid);
 		return getReason(config);
 	}
 	

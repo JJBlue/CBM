@@ -363,7 +363,7 @@ jail_reason_[jailName]_[cellId]
 
 		PlayerConfig config = null;
 		if (player != null)
-			config = PlayerManager.getPlayerConfig(player);
+			config = PlayerManager.getConfig(player);
 
 		Entity entity = null;
 		if (commandSender instanceof Entity)

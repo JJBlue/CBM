@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.utilities.ConfigUtilities;
+import essentials.utilities.StringUtilities;
 import essentials.utilities.conditions.Condition;
 
 public class KitsConfig {
@@ -51,7 +52,7 @@ public class KitsConfig {
 			kit.saved = true;
 			
 			kit.name = kitSection.getString("name");
-			kit.showItemStack = ConfigUtilities.readItemStack(kitSection.getConfigurationSection("showItem"));
+			kit.showItemStack = ConfigUtilities.readItemStack(kitSection, "showItem");
 			
 			kit.claimOneTime = kitSection.getBoolean("claimOnlyOne");
 			kit.cooldown = kitSection.getInt("cooldown");
@@ -73,7 +74,7 @@ public class KitsConfig {
 		ConfigurationSection kitSection = kitsSection.getConfigurationSection(kit.ID);
 		
 		kitSection.set("name", kit.name);
-		kit.showItemStack = ConfigUtilities.readItemStack(kitSection.getConfigurationSection("showItem"));
+		kit.showItemStack = ConfigUtilities.readItemStack(kitSection, "showItem");
 		
 		kitSection.set("claimOnlyOne", kit.claimOneTime);
 		kitSection.set("cooldown", kit.cooldown);
@@ -98,7 +99,7 @@ public class KitsConfig {
 		List<ItemStack> itemStacks = new LinkedList<>();
 		
 		for(String key : items.getKeys(false)) {
-			ItemStack itemStack = ConfigUtilities.readItemStack(items.getConfigurationSection(key));
+			ItemStack itemStack = ConfigUtilities.readItemStack(items, key);
 			itemStacks.add(itemStack);
 		}
 		
@@ -106,7 +107,23 @@ public class KitsConfig {
 	}
 	
 	public static void setItemStacks(List<ItemStack> items, ConfigurationSection section) {
-		//TODO
+		int type = -1;
+		
+		//Clear all old itemstacks
+		for(String key : section.getKeys(false)) {
+			if(type == -1) {
+				type = ConfigUtilities.getItemStackSaveType(section, key);
+			}
+			section.set(key, null);
+		}
+		
+		//Set new Itemstacks
+		String ID = null;
+		
+		for(ItemStack itemStack : items) {
+			ID = StringUtilities.nextLetterString(ID);
+			ConfigUtilities.setItemStack(itemStack, section, ID, type);
+		}
 	}
 	
 	public static void save() {

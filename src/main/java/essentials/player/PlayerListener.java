@@ -21,12 +21,12 @@ public class PlayerListener implements Listener {
 	}
 
 	public static void join(Player player) {
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
+		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 		playerConfig.set(PlayerConfigKey.loginTime, LocalDateTime.now());
 	}
 
 	public static void quit(Player player) {
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
+		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 
 		LocalDateTime logoutTime = LocalDateTime.now();
 		playerConfig.set(PlayerConfigKey.logoutTime, logoutTime);

@@ -27,7 +27,7 @@ public class MPCommand implements TabExecutor {
 				if (args.length < 2) return true;
 				if (!(sender instanceof Player)) break;
 
-				PlayerConfig config = PlayerManager.getPlayerConfig((Player) sender);
+				PlayerConfig config = PlayerManager.getConfig((Player) sender);
 				config.setTmp("mapPaintImage", args[1]);
 				sender.sendMessage("§6Click on a Block");
 

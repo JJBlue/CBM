@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 
 import components.datenbank.Datenbank;
 import components.sql.SQLParser;
+import essentials.config.database.SQLHelper;
 import essentials.database.Databases;
-import essentials.player.PlayerSQLHelper;
 import essentials.utilities.ItemStackJSONUtilities;
 import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
@@ -52,7 +52,7 @@ public class WarpManager {
 			Datenbank database = Databases.getWorldDatabase();
 			PreparedStatement preparedStatement = database.prepareStatement("INSERT OR IGNORE INTO warps (name, location) VALUES (?, ?)");
 			preparedStatement.setString(1, warp.name);
-			preparedStatement.setString(2, PlayerSQLHelper.LocationToString(warp.location));
+			preparedStatement.setString(2, SQLHelper.LocationToString(warp.location));
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,7 +91,7 @@ public class WarpManager {
 				warp.hasPermission = result.getBoolean("tPermission");
 				warp.itemStack = (ItemStack) ItemStackJSONUtilities.toObject(result.getString("itemStack"));
 				warp.condition = new Condition(result.getString("condition"), result.getString("executes"));
-				warp.location = PlayerSQLHelper.StringToLocation(result.getString("location"));
+				warp.location = SQLHelper.StringToLocation(result.getString("location"));
 				warp.showWithoutPermission = result.getBoolean("showWithoutPermission");
 				warp.pos = result.getInt("pos");
 				warp.saved = true;

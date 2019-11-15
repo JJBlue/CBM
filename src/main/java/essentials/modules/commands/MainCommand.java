@@ -388,7 +388,7 @@ public class MainCommand implements TabExecutor {
 
 				if (p1 == null) break;
 
-				PlayerConfig config = PlayerManager.getPlayerConfig(p1);
+				PlayerConfig config = PlayerManager.getConfig(p1);
 				boolean nV = !config.getBoolean(PlayerConfigKey.tGod);
 				config.set(PlayerConfigKey.tGod, nV);
 
@@ -525,7 +525,7 @@ public class MainCommand implements TabExecutor {
 			
 			case "joinsilent": {
 				
-				PlayerConfig config = PlayerManager.getPlayerConfig(p);
+				PlayerConfig config = PlayerManager.getConfig(p);
 				boolean value = !config.getBoolean(PlayerConfigKey.joinSilent);
 				config.set(PlayerConfigKey.joinSilent, value);
 				
@@ -639,7 +639,7 @@ public class MainCommand implements TabExecutor {
 					Player p1 = PlayerUtilities.getOfflinePlayer(args[1]).getPlayer();
 					if (p1 == null) return true;
 
-					PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p1);
+					PlayerConfig playerConfig = PlayerManager.getConfig(p1);
 
 					if (!playerConfig.getBoolean(PlayerConfigKey.tMute)) {
 						playerConfig.set(PlayerConfigKey.tMute, true);
@@ -813,7 +813,7 @@ public class MainCommand implements TabExecutor {
 					OfflinePlayer offlinePlayer = PlayerUtilities.getOfflinePlayer(args[1]);
 					if (offlinePlayer == null) break;
 
-					PlayerConfig config = PlayerManager.getPlayerConfig(offlinePlayer.getUniqueId(), false);
+					PlayerConfig config = PlayerManager.getConfig(offlinePlayer.getUniqueId(), false);
 					if (config == null) break;
 
 					if (offlinePlayer.isOnline()) {

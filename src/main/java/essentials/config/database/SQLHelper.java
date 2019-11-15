@@ -1,4 +1,4 @@
-package essentials.player;
+package essentials.config.database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class PlayerSQLHelper {
+public class SQLHelper {
 
 	public static String LocationToString(Location location) {
 		return location.getWorld().getName() +

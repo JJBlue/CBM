@@ -20,7 +20,7 @@ public class ArmorstandListener implements Listener {
 		if (!(event.getRightClicked() instanceof ArmorStand)) return;
 
 		Player player = event.getPlayer();
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		if (!config.getBoolean("armorstandEditorListener")) return;
 
@@ -98,7 +98,7 @@ public class ArmorstandListener implements Listener {
 	public void damage(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player) && !(event.getEntity() instanceof ArmorStand)) return;
 		Player player = (Player) event.getDamager();
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		if (!config.getBoolean("armorstandEditorListener")) return;
 		ArmorStand armorStand = (ArmorStand) event.getEntity();
@@ -204,7 +204,7 @@ public class ArmorstandListener implements Listener {
 	@EventHandler
 	public void exit(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.getBoolean("armorstandEditorListener")) return;
 
 		config.removeBuffer("armorstandEditorListener");

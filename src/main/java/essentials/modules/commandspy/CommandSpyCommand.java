@@ -20,7 +20,7 @@ public class CommandSpyCommand implements TabExecutor {
 		if (args.length < 1 || !(sender instanceof Player)) return true;
 
 		Player player = (Player) sender;
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		switch (args[0].toLowerCase()) {
 			case "value":

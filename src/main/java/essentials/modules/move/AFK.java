@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class AFK implements Listener {
 	
 	public static void change(Player player) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if(config.containsLoadedKey("afk")) {
 			setAfk(player, !config.getBoolean("afk"));
 			return;
@@ -28,7 +28,7 @@ public class AFK implements Listener {
 	}
 	
 	public static void setAfk(Player player, boolean value) {
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
+		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 		playerConfig.setTmp("afk", value);
 		
 		if(!value) {
@@ -41,7 +41,7 @@ public class AFK implements Listener {
 	}
 	
 	public static boolean isAfk(Player player) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if(config.containsLoadedKey("afk"))
 			return config.getBoolean("afk");
 		return false;
@@ -53,7 +53,7 @@ public class AFK implements Listener {
 		
 		Player player = (Player) event.getEntity();
 		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
+		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk"))
 			return;
 		
@@ -66,7 +66,7 @@ public class AFK implements Listener {
 		
 		Player player = (Player) event.getEntity();
 		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
+		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk"))
 			return;
 		
@@ -77,7 +77,7 @@ public class AFK implements Listener {
 	private void Move(PlayerMoveEvent event) {
 		Player p = event.getPlayer();
 		
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
+		PlayerConfig playerConfig = PlayerManager.getConfig(p);
 		if (!playerConfig.containsLoadedKey("afk") || !playerConfig.getBoolean("afk"))
 			return;
 		
@@ -88,7 +88,7 @@ public class AFK implements Listener {
 	private void chat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.containsLoadedKey("afk") || !config.getBoolean("afk"))
 			return;
 		
@@ -99,7 +99,7 @@ public class AFK implements Listener {
 	private void interact(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.containsLoadedKey("afk") || !config.getBoolean("afk"))
 			return;
 		

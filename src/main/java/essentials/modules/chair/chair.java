@@ -17,7 +17,7 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class chair implements Listener {
 	public static boolean toggle(Player player) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		if (!config.containsLoadedKey("chair")) {
 			config.setTmp("chair", true);
@@ -68,7 +68,7 @@ public class chair implements Listener {
 		if (e.getClickedBlock() == null) return;
 		if (!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
 
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.containsLoadedKey("chair") || !config.getBoolean("chair")) return;
 
 		Block b = e.getClickedBlock();
@@ -81,7 +81,7 @@ public class chair implements Listener {
 	private void Interact(PlayerInteractAtEntityEvent e) {
 		Player player = e.getPlayer();
 
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.containsLoadedKey("chair") || !config.getBoolean("chair")) return;
 		sitEntity(player, e.getRightClicked());
 	}

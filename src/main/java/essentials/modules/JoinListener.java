@@ -49,7 +49,7 @@ public class JoinListener implements Listener, TabExecutor {
 		boolean joinSilent = section.getBoolean("silent");
 		
 		if(!joinSilent) {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			joinSilent = config.getBoolean(PlayerConfigKey.joinSilent);
 		}
 		

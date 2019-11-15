@@ -45,7 +45,7 @@ public class ArmorstandCommands implements TabExecutor {
 
 				new ArmorstandInventory(armorStand).openInventory(p);
 
-				PlayerConfig config = PlayerManager.getPlayerConfig(p);
+				PlayerConfig config = PlayerManager.getConfig(p);
 				config.setTmp("armorstandEditor", armorStand);
 
 				break;
@@ -60,14 +60,14 @@ public class ArmorstandCommands implements TabExecutor {
 
 				new ArmorstandInventory(armorStand).openInventory(p);
 
-				config = PlayerManager.getPlayerConfig(p);
+				config = PlayerManager.getConfig(p);
 				config.setTmp("armorstandEditor", armorStand);
 
 				break;
 
 			case "last":
 
-				config = PlayerManager.getPlayerConfig(p);
+				config = PlayerManager.getConfig(p);
 				armorStand = (ArmorStand) config.get("armorstandEditor");
 				if (armorStand != null)
 					new ArmorstandInventory(armorStand).openInventory(p);

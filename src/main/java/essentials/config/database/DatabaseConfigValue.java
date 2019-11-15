@@ -1,24 +1,24 @@
-package essentials.player;
+package essentials.config.database;
 
-public class PlayerConfigValue {
+public class DatabaseConfigValue {
 	private boolean isSaved;
 	private boolean isTmp;
 	private Object value;
 	private int type;
 
-	public PlayerConfigValue(Object value, boolean saved) {
+	public DatabaseConfigValue(Object value, boolean saved) {
 		setSaved(saved);
 		this.value = value;
 		this.isTmp = false;
 	}
 
-	public PlayerConfigValue(Object value, boolean saved, boolean isTmp) {
+	public DatabaseConfigValue(Object value, boolean saved, boolean isTmp) {
 		setSaved(saved);
 		this.value = value;
 		this.isTmp = isTmp;
 	}
 	
-	public PlayerConfigValue(Object value, int type, boolean saved, boolean isTmp) {
+	public DatabaseConfigValue(Object value, int type, boolean saved, boolean isTmp) {
 		setSaved(saved);
 		this.value = value;
 		this.setType(type);

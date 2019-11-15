@@ -45,7 +45,7 @@ public class PlayerUtilities {
 	}
 	
 	public static String getName(Player player) {
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if(config == null) return player.getName();
 		
 		if(config.containsLoadedKey("nick"))

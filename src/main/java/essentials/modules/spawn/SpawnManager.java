@@ -14,9 +14,9 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import components.datenbank.Datenbank;
 import components.sql.SQLParser;
+import essentials.config.database.SQLHelper;
 import essentials.database.Databases;
 import essentials.modules.teleport.TeleportManager;
-import essentials.player.PlayerSQLHelper;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class SpawnManager {
@@ -92,7 +92,7 @@ public class SpawnManager {
 			preparedStatement.setString(1, name);
 			ResultSet result = preparedStatement.executeQuery();
 			if(result.next()) {
-				Location location = PlayerSQLHelper.StringToLocation(result.getString("location"));
+				Location location = SQLHelper.StringToLocation(result.getString("location"));
 				spawns.put(result.getInt("ID"), location);
 				spawnIDs.put(name, result.getInt("ID"));
 				return location;
@@ -113,7 +113,7 @@ public class SpawnManager {
 			preparedStatement.setInt(1, id);
 			ResultSet result = preparedStatement.executeQuery();
 			if(result.next()) {
-				Location location = PlayerSQLHelper.StringToLocation(result.getString("location"));
+				Location location = SQLHelper.StringToLocation(result.getString("location"));
 				spawns.put(id, location);
 				return location;
 			}
@@ -164,7 +164,7 @@ public class SpawnManager {
 		try {
 			preparedStatement.setInt(1, id);
 			preparedStatement.setString(2, name);
-			preparedStatement.setString(3, PlayerSQLHelper.LocationToString(location));
+			preparedStatement.setString(3, SQLHelper.LocationToString(location));
 			
 			preparedStatement.execute();
 			return true;

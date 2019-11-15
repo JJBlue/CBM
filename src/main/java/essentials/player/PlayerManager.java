@@ -1,102 +1,82 @@
 package essentials.player;
 
-import components.datenbank.Datenbank;
-import essentials.database.Databases;
+import java.sql.ResultSet;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.*;
+import components.datenbank.Datenbank;
+import essentials.config.database.DatabaseConfigManager;
+import essentials.database.Databases;
 
 public class PlayerManager {
 	private PlayerManager() {}
 
-	protected static Map<UUID, PlayerConfig> players = Collections.synchronizedMap(new HashMap<>());
-
-	public synchronized static void unload() {
-		unloadAll();
+	static PlayerConfigManager playerManager;
+	
+	static {
+		playerManager = new PlayerConfigManager();
 	}
 
-	public static PlayerConfig getPlayerConfig(Player player) {
-		return getPlayerConfig(player.getUniqueId());
+	public static void unload() {
+		playerManager.unloadAll();
+	}
+	
+	public static void unload(UUID uuid) {
+		playerManager.unload(uuid);
 	}
 
-	public static synchronized PlayerConfig getPlayerConfig(UUID uuid) {
-		return getPlayerConfig(uuid, true);
+	public static PlayerConfig getConfig(Player player) {
+		return getConfig(player.getUniqueId());
+	}
+	
+	public static PlayerConfig getConfig(UUID uuid) {
+		return getConfig(uuid, true);
 	}
 
-	public static synchronized PlayerConfig getPlayerConfig(UUID uuid, boolean buffer) {
-		PlayerConfig playerConfig = players.get(uuid);
+	public static PlayerConfig getConfig(UUID id, boolean buffer) {
+		return playerManager.getConfig(id, buffer);
+	}
 
-		if (playerConfig != null)
-			return playerConfig;
+	public static void unloadAll() {
+		playerManager.unloadAll();
+	}
+	
+	public static PlayerConfigManager getManager() {
+		return playerManager;
+	}
+	
+	static class PlayerConfigManager extends DatabaseConfigManager<UUID, PlayerConfig> {
+		@Override
+		public synchronized void unloadAll() {
+			for (Player player : Bukkit.getOnlinePlayers())
+				PlayerListener.quit(player);
+			super.unloadAll();
+		}
 
-		if (buffer) {
+		@Override
+		protected void insertOrIgnoreData(UUID uuid) {
 			Datenbank database = Databases.getPlayerDatabase();
 			database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
+		}
 
+		@Override
+		protected boolean shouldAddToBuffer(UUID uuid) {
 			Player player = Bukkit.getPlayer(uuid);
-			if (player != null && player.isOnline())
-				return load(uuid, true);
+			return (player != null) && player.isOnline();
 		}
 
-		return load(uuid, false);
-	}
-
-	synchronized static PlayerConfig load(UUID uuid, boolean buffer) {
-		PlayerConfig playerConfig = new PlayerConfig(uuid);
-		if (buffer)
-			players.put(uuid, playerConfig);
-		return playerConfig;
-	}
-
-	synchronized static void unload(UUID uuid) {
-		PlayerConfig playerConfig = players.remove(uuid);
-		playerConfig.save();
-	}
-
-	public synchronized static void unloadAll() {
-		for (Player player : Bukkit.getOnlinePlayers())
-			PlayerListener.quit(player);
-
-		for (PlayerConfig pcv : players.values())
-			pcv.save();
-
-		players.clear();
-	}
-
-	static boolean hasColumn(String column, ResultSet resultSet) {
-		try {
-			ResultSetMetaData metaData = resultSet.getMetaData();
-			int columnCount = metaData.getColumnCount();
-
-			for (int i = 1; i <= columnCount; i++) {
-				if (metaData.getColumnName(i).equalsIgnoreCase(column))
-					return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		@Override
+		public PlayerConfig createConfig(UUID uuid) {
+			return new PlayerConfig(uuid);
 		}
-		return false;
-	}
 
-	static List<String> getColumns() {
-		List<String> columns = new LinkedList<>();
-
-		Datenbank database = Databases.getPlayerDatabase();
-		ResultSet resultSet = database.getResult("SELECT * FROM players LIMIT 1");
-		try {
-			ResultSetMetaData metaData = resultSet.getMetaData();
-			int columnCount = metaData.getColumnCount();
-
-			for (int i = 1; i <= columnCount; i++)
-				columns.add(metaData.getColumnName(i));
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+		@Override
+		protected ResultSet queryToReadColoumns() {
+			Datenbank database = Databases.getPlayerDatabase();
+			return database.getResult("SELECT * FROM players LIMIT 1");
 		}
-		return columns;
 	}
+
 }

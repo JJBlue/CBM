@@ -43,7 +43,7 @@ public class DebugStickListener implements Listener {
 		event.setCancelled(true);
 
 		Block block = event.getClickedBlock();
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		switch (event.getAction()) {
 			case LEFT_CLICK_BLOCK:
@@ -107,7 +107,7 @@ public class DebugStickListener implements Listener {
 			return;
 		}
 
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		DebugStickEntityChanges debugStickBlockChanges = (DebugStickEntityChanges) config.get("DebugStickEntityChangesCurrent");
 		if (debugStickBlockChanges == null) return;
@@ -137,7 +137,7 @@ public class DebugStickListener implements Listener {
 			return;
 		}
 
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 
 		List<DebugStickEntityChanges> list = DebugStickEntities.getPossibleEntityStateChanges(entity);
 		if (list.isEmpty()) return;

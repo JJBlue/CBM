@@ -20,7 +20,7 @@ public class MPListener implements Listener {
 	public void Interact(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 
-		PlayerConfig config = PlayerManager.getPlayerConfig(p);
+		PlayerConfig config = PlayerManager.getConfig(p);
 		if (!config.containsLoadedKey("mapPaintImage")) return;
 
 		String filename = config.getString("mapPaintImage");

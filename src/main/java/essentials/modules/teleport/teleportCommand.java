@@ -32,7 +32,7 @@ public class teleportCommand implements TabExecutor {
 
 				if (p == null) break;
 
-				PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
+				PlayerConfig playerConfig = PlayerManager.getConfig(p);
 
 				if (playerConfig.getBoolean(PlayerConfigKey.tTp)) {
 					playerConfig.set(PlayerConfigKey.tTp, false);
@@ -47,7 +47,7 @@ public class teleportCommand implements TabExecutor {
 			case "tpall":
 
 				for (Player p1 : Bukkit.getOnlinePlayers()) {
-					playerConfig = PlayerManager.getPlayerConfig(p1);
+					playerConfig = PlayerManager.getConfig(p1);
 
 					if (playerConfig.getBoolean(PlayerConfigKey.tTp))
 						p1.teleport(l);
@@ -61,7 +61,7 @@ public class teleportCommand implements TabExecutor {
 
 				Player p1 = Bukkit.getPlayer(args[0]);
 				if (p1 == null) break;
-				playerConfig = PlayerManager.getPlayerConfig(p1);
+				playerConfig = PlayerManager.getConfig(p1);
 
 				if (playerConfig.getBoolean(PlayerConfigKey.tTp))
 					sender.sendMessage("Er hat Tptoggle aktiv");
@@ -190,7 +190,7 @@ public class teleportCommand implements TabExecutor {
 			case "back":
 
 				if (p == null) break;
-				playerConfig = PlayerManager.getPlayerConfig(p);
+				playerConfig = PlayerManager.getConfig(p);
 				Location location = playerConfig.getLocation(PlayerConfigKey.tpLocation);
 				if (location != null)
 					p.teleport(location);

@@ -59,11 +59,10 @@ public class CustomRecipe {
 				String keyID = id.toLowerCase();
 				NamespacedKey key = NamespacedKey.minecraft(keyID);
 				ConfigurationSection recipeSection = section.getConfigurationSection(id);
-				ConfigurationSection resultSection = recipeSection.getConfigurationSection("result");
 				
 				if(!recipeSection.getBoolean("enable")) continue;
 				
-				ItemStack result = ConfigUtilities.readItemStack(resultSection);
+				ItemStack result = ConfigUtilities.readItemStack(recipeSection, "result");
 				
 				float experience = (float) recipeSection.getDouble("experience");
 				int cookingTime = recipeSection.getInt("cookingTime");

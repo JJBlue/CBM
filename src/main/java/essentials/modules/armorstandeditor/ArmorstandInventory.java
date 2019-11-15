@@ -88,7 +88,7 @@ public class ArmorstandInventory {
 		head.setDisplayName("Move Head"); //TODO: Replace with Language
 		head.setLore(usage);
 		head.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.HEAD);
 			armorstand.setMarker(false);
@@ -100,7 +100,7 @@ public class ArmorstandInventory {
 		body.setDisplayName("Move Body"); //TODO: Replace with Language
 		body.setLore(usage);
 		body.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.BODY);
 			armorstand.setMarker(false);
@@ -112,7 +112,7 @@ public class ArmorstandInventory {
 		leftArm.setDisplayName("Move Left Arm"); //TODO: Replace with Language
 		leftArm.setLore(usage);
 		leftArm.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.LEFT_ARM);
 			armorstand.setMarker(false);
@@ -124,7 +124,7 @@ public class ArmorstandInventory {
 		rightArm.setDisplayName("Move Right Arm"); //TODO: Replace with Language
 		rightArm.setLore(usage);
 		rightArm.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_ARM);
 			armorstand.setMarker(false);
@@ -136,7 +136,7 @@ public class ArmorstandInventory {
 		leftLeg.setDisplayName("Move Left Leg"); //TODO: Replace with Language
 		leftLeg.setLore(usage);
 		leftLeg.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.LEFT_LEG);
 			armorstand.setMarker(false);
@@ -148,7 +148,7 @@ public class ArmorstandInventory {
 		rightLeg.setDisplayName("Move Right Leg"); //TODO: Replace with Language
 		rightLeg.setLore(usage);
 		rightLeg.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.RIGHT_LEG);
 			armorstand.setMarker(false);
@@ -160,7 +160,7 @@ public class ArmorstandInventory {
 		position.setDisplayName("Move Position"); //TODO: Replace with Language
 		position.setLore(usage);
 		position.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.POSITION);
 			armorstand.setMarker(false);
@@ -179,7 +179,7 @@ public class ArmorstandInventory {
 		usage.add("§4Warning this deaktivate Marker");
 		rotation.setLore(usage);
 		rotation.setOnClick((event, item) -> {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			config.setTmp("armorstandEditorListener", true);
 			config.setTmp("armorstandEditorEnum", ArmorstandBodyParts.ROTATION);
 			armorstand.setMarker(false);

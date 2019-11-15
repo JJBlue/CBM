@@ -131,4 +131,36 @@ public class StringUtilities {
 		String[] array = new String[list.size()];
 		return list.toArray(array);
 	}
+	
+	public static String nextLetterString(String ID) {
+		if(ID == null || ID.isEmpty()) return "a";
+		
+		char[] idarray = ID.toCharArray();
+		int pos = ID.length() - 1;
+		boolean add = false;
+		
+		while(pos >= 0) {
+			char c = idarray[pos];
+			
+			if(c != 'z') {
+				idarray[pos] = nextLetter(idarray[pos]);
+				break;
+			} else {
+				add = true;
+				idarray[pos] = nextLetter(idarray[pos]);
+			}
+			
+			pos--;
+		}
+		
+		if(add)
+			return new String(idarray) + "a";
+		return new String(idarray);
+	}
+	
+	public static char nextLetter(char c) {
+		if(c == 'z')
+			return 'a';
+		return ++c;
+	}
 }

@@ -56,7 +56,7 @@ public class CommandListener implements Listener {
 		
 		Block block = e.getClickedBlock();
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(p);
+		PlayerConfig config = PlayerManager.getConfig(p);
 		if(
 			config.containsLoadedKey("cob_last_location") &&
 			config.getString("cob_last_location").equals(block.getX() + ":" + block.getY() + ":" + block.getZ()) &&

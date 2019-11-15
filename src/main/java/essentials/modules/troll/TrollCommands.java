@@ -96,7 +96,7 @@ public class TrollCommands implements TabExecutor {
 
 				if(p == null) break;
 				
-				PlayerConfig config = PlayerManager.getPlayerConfig(p);
+				PlayerConfig config = PlayerManager.getConfig(p);
 				try {
 					config.setTmp("trollTrappedMaterial", Material.valueOf(args[1].toUpperCase()));
 					LanguageConfig.sendMessage(sender, "text.commandExecuted");

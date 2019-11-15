@@ -123,7 +123,7 @@ public class Tablist {
 		if (!groupEnabled && !defaultEnabled) return;
 		
 		if(!configuration.getBoolean("Update.onAfk")) {
-			PlayerConfig config = PlayerManager.getPlayerConfig(player);
+			PlayerConfig config = PlayerManager.getConfig(player);
 			if(config.containsLoadedKey("afk")) return;
 		}
 

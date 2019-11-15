@@ -31,7 +31,7 @@ public class MainListener implements Listener {
 	@EventHandler
 	private void Chat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(p);
+		PlayerConfig playerConfig = PlayerManager.getConfig(p);
 
 		if (playerConfig.getBoolean(PlayerConfigKey.tMute))
 			e.setCancelled(true);
@@ -99,7 +99,7 @@ public class MainListener implements Listener {
 		boolean leaveSilent = section.getBoolean("silent");
 		
 		if(!leaveSilent) {
-			PlayerConfig config = PlayerManager.getPlayerConfig(event.getPlayer());
+			PlayerConfig config = PlayerManager.getConfig(event.getPlayer());
 			leaveSilent = config.getBoolean(PlayerConfigKey.joinSilent);
 		}
 		
@@ -154,7 +154,7 @@ public class MainListener implements Listener {
 		if (!(entity instanceof Player)) return;
 
 		Player player = (Player) entity;
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.containsLoadedKey("afk") || !config.getBoolean("afk") || !config.getBoolean(PlayerConfigKey.tGod))
 			return;
 

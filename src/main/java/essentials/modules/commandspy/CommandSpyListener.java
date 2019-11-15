@@ -20,7 +20,7 @@ public class CommandSpyListener implements Listener {
 
 		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 			if (onlinePlayer == player) continue;
-			PlayerConfig config = PlayerManager.getPlayerConfig(onlinePlayer);
+			PlayerConfig config = PlayerManager.getConfig(onlinePlayer);
 
 			if (config.getBoolean("commandSpyOperator")) {
 				onlinePlayer.sendMessage("§oCSpy: §6§o[" + player.getName() + "]: " + event.getMessage());
@@ -61,7 +61,7 @@ public class CommandSpyListener implements Listener {
 	@EventHandler
 	public void spyCommandsServer(ServerCommandEvent event) {
 		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-			PlayerConfig config = PlayerManager.getPlayerConfig(onlinePlayer);
+			PlayerConfig config = PlayerManager.getConfig(onlinePlayer);
 
 			if (config.getBoolean("commandSpyOperator"))
 				onlinePlayer.sendMessage("§oCSpy: §6§o[Server]: " + event.getCommand());

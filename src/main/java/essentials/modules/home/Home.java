@@ -1,10 +1,10 @@
-package essentials.player;
+package essentials.modules.home;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Home {
+public class Home { //TODO
 	private static void sethome(Player p, String name) {
 
 	}

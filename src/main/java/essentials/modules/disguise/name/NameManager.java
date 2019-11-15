@@ -12,7 +12,7 @@ public class NameManager {
 		Player toPlayer = name != null ? Bukkit.getPlayer(name) : null;
 		String playerListName = null;
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if(name != null)
 			config.setTmp("nick", name);
 		else {

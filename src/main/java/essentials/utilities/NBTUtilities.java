@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
+import components.json.JSONObject;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
 import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
@@ -98,5 +99,26 @@ public class NBTUtilities {
 				return NBTUtilities_v1_14.parse(s);
 		}
 		return NBTUtilitiesReflections.parse(s);
+	}
+	
+	public static String nbtToJson(NBTTag nbt) {
+		return nbtToJsonObject(nbt).toJSONString();
+	}
+	
+	public static JSONObject nbtToJsonObject(NBTTag nbt) {
+		JSONObject json = new JSONObject();
+		
+		for(String key : nbt.getKeys()) {
+			Object value = nbt.getValue(key);
+			
+			if(value instanceof NBTTag) {
+				JSONObject obj = nbtToJsonObject(nbt);
+				json.add(key, obj);
+			} else {
+				json.add(key, value);
+			}
+		}
+		
+		return json;
 	}
 }

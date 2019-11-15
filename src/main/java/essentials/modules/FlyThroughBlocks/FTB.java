@@ -14,7 +14,7 @@ import essentials.player.PlayerManager;
 
 public class FTB implements Listener {
 	public static boolean toogle(Player player) {
-		PlayerConfig playerConfig = PlayerManager.getPlayerConfig(player);
+		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 
 		boolean newValue = !playerConfig.getBoolean(PlayerConfigKey.tWallGhost);
 		playerConfig.set(PlayerConfigKey.tWallGhost, newValue);
@@ -30,7 +30,7 @@ public class FTB implements Listener {
 		if (player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR) return;
 		if(e.getFrom().getX() == e.getTo().getX() && e.getFrom().getY() == e.getTo().getY() && e.getFrom().getZ() == e.getTo().getZ()) return;
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(player);
+		PlayerConfig config = PlayerManager.getConfig(player);
 		if (!config.getBoolean(PlayerConfigKey.tWallGhost))
 			return;
 		

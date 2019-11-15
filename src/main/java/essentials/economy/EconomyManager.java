@@ -43,7 +43,7 @@ public class EconomyManager {
 		if(MainConfig.getConfiguration().getBoolean(MainConfigEnum.useVaultEconomy.value))
 			return EconomyVault.setMoney(Bukkit.getOfflinePlayer(uuid), money);
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
+		PlayerConfig config = PlayerManager.getConfig(uuid);
 		config.set(PlayerConfigKey.balance.toString(), money);
 		
 		Player player = Bukkit.getPlayer(uuid);
@@ -57,7 +57,7 @@ public class EconomyManager {
 		if(MainConfig.getConfiguration().getBoolean(MainConfigEnum.useVaultEconomy.value))
 			return EconomyVault.getMoney(Bukkit.getOfflinePlayer(uuid));
 		
-		PlayerConfig config = PlayerManager.getPlayerConfig(uuid);
+		PlayerConfig config = PlayerManager.getConfig(uuid);
 		return config.getDouble(PlayerConfigKey.balance.toString());
 	}
 

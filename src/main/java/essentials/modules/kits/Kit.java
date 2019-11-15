@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import essentials.player.PlayerManager;
 import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
@@ -34,6 +35,8 @@ public class Kit {
 		if(permission && !player.hasPermission(PermissionHelper.getPermission("kit." + ID))) {
 			return false;
 		}
+		
+//		PlayerManager manager = PlayerManager.getConfig(player);
 		
 		//TODO cooldown
 		
