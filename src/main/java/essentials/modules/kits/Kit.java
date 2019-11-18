@@ -8,6 +8,9 @@ import org.bukkit.inventory.ItemStack;
 
 import essentials.modules.kits.player.KitPlayerConfig;
 import essentials.modules.kits.player.KitPlayerManager;
+import essentials.player.PlayerConfig;
+import essentials.player.PlayerManager;
+import essentials.utilities.PlayerUtilities;
 import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
@@ -33,6 +36,7 @@ public class Kit {
 		this.ID = ID;
 	}
 	
+	//Not thread safe
 	public boolean giveKit(Player player) {
 		if(permission && !player.hasPermission(PermissionHelper.getPermission("kit." + ID))) {
 			return false;
@@ -41,8 +45,8 @@ public class Kit {
 		KitPlayerConfig config = null;
 
 		if(claimOneTime || cooldown > 0) {
-			config = KitPlayerManager.getConfig(player);
-			LocalDateTime claimTime = config.getLocalDateTime(ID); //Last time claimed
+			config = KitPlayerManager.getConfig(player, ID);
+			LocalDateTime claimTime = config.getLocalDateTime("claim"); //Last time claimed
 			
 			if(claimTime != null) {
 				if(claimOneTime)
@@ -61,14 +65,17 @@ public class Kit {
 			return false;
 		}
 		
-		for(ItemStack itemStack : items) {
-			player.getInventory().addItem(itemStack); //TODO if full
-		}
+		PlayerUtilities.addItems(player, items);
 		
 		if(claimOneTime || cooldown > 0) {
-			config.set(ID, LocalDateTime.now());
+			config.set("claim", LocalDateTime.now());
 		}
 		
 		return true;
+	}
+	
+	protected LocalDateTime getDeathTime(Player player) {
+		PlayerConfig config = PlayerManager.getConfig(player);
+		return config.getLocalDateTime("deathTime");
 	}
 }

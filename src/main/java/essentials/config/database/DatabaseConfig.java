@@ -21,7 +21,7 @@ public abstract class DatabaseConfig {
 
 	public Map<String, DatabaseConfigValue> buffer = Collections.synchronizedMap(new HashMap<>());
 	
-	public abstract DatabaseConfigManager<?, ?> getDatabaseConfig();
+	public abstract AbstractDatabaseConfig<?> getDatabaseConfig();
 	public abstract Datenbank getDatabase();
 	
 	public boolean containsLoadedKey(String key) {

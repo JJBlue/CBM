@@ -3,6 +3,7 @@ package essentials.player;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -20,6 +21,12 @@ public class PlayerListener implements Listener {
 		quit(event.getPlayer());
 	}
 
+	@EventHandler
+	public void death(PlayerDeathEvent event) {
+		PlayerConfig playerConfig = PlayerManager.getConfig(event.getEntity());
+		playerConfig.set("deathTime", LocalDateTime.now());
+	}
+	
 	public static void join(Player player) {
 		PlayerConfig playerConfig = PlayerManager.getConfig(player);
 		playerConfig.set(PlayerConfigKey.loginTime, LocalDateTime.now());

@@ -24,4 +24,17 @@ kits:
         unbreakable: true
         nbt: '{Enchantments:[{id:sharpness,lvl:1},{id:knockback,lvl:2},{id:fire_aspect,lvl:1},{id:sweeping,lvl:3},{id:unbreaking,lvl:3},{id:mending,lvl:1}]}'
   vip:
+    permissions: true
+    condition: '{"money":0,"exp":0}'
+    execute: '{"sendmessage":"§6You claimed the vip kit"}'
+    items:
+      # Key name of a itemstack (for example a), only be used to identify different itemstacks in the items section
+      a:
+        material: SUNFLOWER
+        lore:
+        - "Powerful flower"
+        displayname: "The best"
+        unbreakable: true
+        nbt: '{Enchantments:[{id:sharpness,lvl:10},{id:knockback,lvl:10},{id:fire_aspect,lvl:10},{id:sweeping,lvl:30},{id:unbreaking,lvl:30}]}'
+
 

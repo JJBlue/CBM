@@ -9,49 +9,63 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class DatabaseConfigManager<I extends Object, D extends DatabaseConfig> implements AbstractDatabaseConfig<I> {
+public abstract class DatabaseMapConfigManager<I extends Object, DI extends Object, D extends DatabaseConfig> implements AbstractDatabaseConfig<I> {
 	
-	protected Map<I, D> configs = Collections.synchronizedMap(new HashMap<>());
+	protected Map<I, Map<DI, D>> configs = Collections.synchronizedMap(new HashMap<>());
 
 	public synchronized void unload() {
 		unloadAll();
 	}
 
-	public synchronized D getConfig(I uuid) {
-		return getConfig(uuid, true);
+	public synchronized D getConfig(I uuid, DI did) {
+		return getConfig(uuid, did, true);
 	}
 
-	public synchronized D getConfig(I id, boolean buffer) {
-		D config = configs.get(id);
+	public synchronized D getConfig(I id, DI did, boolean buffer) {
+		Map<DI, D> config = configs.get(id);
 
-		if (config != null)
-			return config;
-
-		insertOrIgnoreData(id);
-		
-		if (buffer) {
-			if(shouldAddToBuffer(id))
-				return load(id, true);
+		if (config != null && config.containsKey(did)) {
+			return config.get(did);
 		}
 
-		return load(id, false);
+		insertOrIgnoreData(id, did);
+		
+		if (buffer) {
+			if(shouldAddToBuffer(id, did))
+				return load(id, did, true);
+		}
+
+		return load(id, did, false);
 	}
 	
-	synchronized D load(I id, boolean buffer) {
-		D playerConfig = createConfig(id);
-		if (buffer)
-			configs.put(id, playerConfig);
+	synchronized D load(I id, DI did, boolean buffer) {
+		D playerConfig = createConfig(id, did);
+		if (buffer) {
+			Map<DI, D> config = configs.get(id);
+			if(config == null) {
+				config = Collections.synchronizedMap(new HashMap<>());
+				configs.put(id, config);
+			}
+			
+			config.put(did, playerConfig);
+		}
 		return playerConfig;
 	}
 
 	public synchronized void unload(I uuid) {
-		D config = configs.remove(uuid);
-		config.save();
+		Map<DI, D> config = configs.remove(uuid);
+		
+		for(D pcv : config.values()) {
+			pcv.save();
+		}
 	}
 
 	public synchronized void unloadAll() {
-		for (D pcv : configs.values())
-			pcv.save();
+		for (Map<DI, D> map : configs.values()) {
+			for(D pcv : map.values()) {
+				pcv.save();
+			}
+		}
 
 		configs.clear();
 	}
@@ -87,8 +101,8 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 		return columns;
 	}
 	
-	public abstract D createConfig(I id);
-	protected abstract void insertOrIgnoreData(I id);
-	protected abstract boolean shouldAddToBuffer(I id);
+	public abstract D createConfig(I id, DI did);
+	protected abstract void insertOrIgnoreData(I id, DI did);
+	protected abstract boolean shouldAddToBuffer(I id, DI did);
 	protected abstract ResultSet queryToReadColoumns();
 }

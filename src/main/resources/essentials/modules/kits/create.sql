@@ -1,0 +1,8 @@
+
+CREATE TABLE IF NOT EXISTS kitsPlayer(
+	kitID TEXT PRIMARY KEY NOT NULL,
+	uuid TEXT NOT NULL,
+	claim TIMESTAMP NOT NULL,
+	
+	UNIQUE (player, kitID)
+);

@@ -7,15 +7,17 @@ import java.util.UUID;
 
 import components.datenbank.DatabaseSyntax;
 import components.datenbank.Datenbank;
+import essentials.config.database.AbstractDatabaseConfig;
 import essentials.config.database.DatabaseConfig;
-import essentials.config.database.DatabaseConfigManager;
 import essentials.database.Databases;
 
 public class KitPlayerConfig extends DatabaseConfig {
 	
 	public final UUID uuid;
+	public final String kit;
 
-	public KitPlayerConfig(UUID uuid) {
+	public KitPlayerConfig(String kit, UUID uuid) {
+		this.kit = kit;
 		this.uuid = uuid;
 	}
 
@@ -40,27 +42,27 @@ public class KitPlayerConfig extends DatabaseConfig {
 	
 	@Override
 	protected String getTableName() {
-		return "kit";
+		return "kitsPlayer";
 	}
 
 	@Override
 	protected String saveWhereClause() {
-		return DatabaseSyntax.where("uuid");
+		return DatabaseSyntax.where("ID", "uuid");
 	}
 
 	@Override
 	protected void saveSetWhereClause(int index, PreparedStatement preparedStatement) throws SQLException {
+		preparedStatement.setString(index++, kit);
 		preparedStatement.setString(index++, uuid.toString());
 	}
 
 	@Override
-	public DatabaseConfigManager<?, ?> getDatabaseConfig() {
-		return null; //TODO
+	public AbstractDatabaseConfig<?> getDatabaseConfig() {
+		return KitPlayerManager.manager;
 	}
 
 	@Override
 	public Datenbank getDatabase() {
 		return Databases.getPlayerDatabase();
 	}
-	
 }

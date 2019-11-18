@@ -7,16 +7,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import components.datenbank.Datenbank;
-import essentials.config.database.DatabaseConfigManager;
+import components.sql.SQLParser;
+import essentials.config.database.DatabaseMapConfigManager;
 import essentials.database.Databases;
 
 public class KitPlayerManager {
 	private KitPlayerManager() {}
 
-	static KitPlayerConfigManager manager; //TODO save on quit player
+	static KitPlayerConfigManager manager;
 	
 	static {
 		manager = new KitPlayerConfigManager();
+		
+		for(String update : SQLParser.getResources("/sql/create.sql", KitPlayerManager.class))
+			Databases.getPlayerDatabase().execute(update);
 	}
 
 	public static void unload() {
@@ -27,16 +31,16 @@ public class KitPlayerManager {
 		manager.unload(uuid);
 	}
 
-	public static KitPlayerConfig getConfig(Player player) {
-		return getConfig(player.getUniqueId());
+	public static KitPlayerConfig getConfig(Player player, String did) {
+		return getConfig(player.getUniqueId(), did);
 	}
 	
-	public static KitPlayerConfig getConfig(UUID uuid) {
-		return getConfig(uuid, true);
+	public static KitPlayerConfig getConfig(UUID uuid, String did) {
+		return getConfig(uuid, did, true);
 	}
 
-	public static KitPlayerConfig getConfig(UUID id, boolean buffer) {
-		return manager.getConfig(id, buffer);
+	public static KitPlayerConfig getConfig(UUID id, String did, boolean buffer) {
+		return manager.getConfig(id, did, buffer);
 	}
 
 	public static void unloadAll() {
@@ -47,28 +51,28 @@ public class KitPlayerManager {
 		return manager;
 	}
 	
-	static class KitPlayerConfigManager extends DatabaseConfigManager<UUID, KitPlayerConfig> {
+	static class KitPlayerConfigManager extends DatabaseMapConfigManager<UUID, String, KitPlayerConfig> {
 		@Override
-		protected void insertOrIgnoreData(UUID uuid) {
+		protected void insertOrIgnoreData(UUID uuid, String did) { //TODO
 			Datenbank database = Databases.getPlayerDatabase();
-			database.execute("INSERT OR IGNORE INTO kit (uuid) VALUES ('" + uuid.toString() + "')");
+			database.execute("INSERT OR IGNORE INTO kitsPlayer (uuid) VALUES ('" + uuid.toString() + "')");
 		}
 
 		@Override
-		protected boolean shouldAddToBuffer(UUID uuid) {
+		protected boolean shouldAddToBuffer(UUID uuid, String did) { //TODO
 			Player player = Bukkit.getPlayer(uuid);
 			return (player != null) && player.isOnline();
 		}
 
 		@Override
-		public KitPlayerConfig createConfig(UUID uuid) {
-			return new KitPlayerConfig(uuid);
+		public KitPlayerConfig createConfig(UUID uuid, String did) {
+			return new KitPlayerConfig(did, uuid);
 		}
 
 		@Override
 		protected ResultSet queryToReadColoumns() {
 			Datenbank database = Databases.getPlayerDatabase();
-			return database.getResult("SELECT * FROM kit LIMIT 1");
+			return database.getResult("SELECT * FROM kitsPlayer LIMIT 1");
 		}
 	}
 }
