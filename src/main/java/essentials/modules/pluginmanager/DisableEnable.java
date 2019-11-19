@@ -1,10 +1,5 @@
 package essentials.modules.pluginmanager;
 
-import components.reflections.SimpleReflection;
-import org.bukkit.Bukkit;
-import org.bukkit.command.*;
-import org.bukkit.plugin.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
@@ -12,6 +7,22 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginLoader;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.UnknownDependencyException;
+
+import components.reflections.SimpleReflection;
 
 public class DisableEnable implements TabExecutor {
 	@Override
@@ -93,6 +104,8 @@ public class DisableEnable implements TabExecutor {
 
 	private boolean unloadPlugin(Plugin plugin) throws Exception {
 		if (plugin == null) return false;
+		
+		HandlerList.unregisterAll(plugin);
 
 		PluginManager manager = Bukkit.getServer().getPluginManager();
 		SimplePluginManager spmanager = (SimplePluginManager) manager;
@@ -105,47 +118,37 @@ public class DisableEnable implements TabExecutor {
 		if (plugins != null)
 			plugins.remove((Object) plugin);
 
-		Map<?, ?> lookupNames = (Map<?, ?>) SimpleReflection.getObject("lookupNames", spmanager);
+		@SuppressWarnings("unchecked")
+		Map<String, Plugin> lookupNames = (Map<String, Plugin>) SimpleReflection.getObject("lookupNames", spmanager);
 
 		if (lookupNames != null) {
-			lookupNames.remove(plugin.getName());
-
-			List<Object> deleteList = new LinkedList<>();
-
-			lookupNames.forEach((a, b) -> {
-				if (b == plugin)
-					deleteList.add(a);
-			});
-			for (Object obj : deleteList)
-				lookupNames.remove(obj);
+			lookupNames.values().removeIf(p -> p == plugin);
 		}
 
-		Map<?, ?> fileAssociations = (Map<?, ?>) SimpleReflection.getObject("fileAssociations", spmanager);
+		PluginLoader loader = plugin.getPluginLoader();
+		ClassLoader classLoader = (ClassLoader) SimpleReflection.callMethod(plugin, "getClassLoader");
+		
+		try {
+			((Map<?, ?>) SimpleReflection.getObject("classes", loader)).clear();
 
-		if (fileAssociations != null) {
-			fileAssociations.forEach((a, b) -> {
-				try {
-					((Map<?, ?>) SimpleReflection.getObject("classes", b)).clear();
-
-					List<?> loaders = (List<?>) SimpleReflection.getObject("loaders", b);
-					List<Object> deleteList = new LinkedList<>();
-
-					for (Object a1 : loaders) {
-						if (a1 == plugin.getClass().getClassLoader()) {
-							deleteList.add(a1);
-							((URLClassLoader) a1).close();
-						}
+			List<?> loaders = (List<?>) SimpleReflection.getObject("loaders", loader);
+			loaders.removeIf(a1 -> {
+				plugin.getPluginLoader();
+				
+				if(a1 == classLoader) {
+					try {
+						((URLClassLoader) a1).close();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-
-					for (Object obj : deleteList)
-						loaders.remove(obj);
-
-				} catch (IOException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
+					return true;
 				}
+				return false;
 			});
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
 		}
-
+		
 		SimpleCommandMap commandMap = (SimpleCommandMap) SimpleReflection.getObject("commandMap", spmanager);
 		Map<?, ?> knownCommands = (Map<?, ?>) SimpleReflection.getObject("knownCommands", commandMap);
 
