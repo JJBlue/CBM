@@ -54,11 +54,14 @@ public class KitsConfig {
 			kit.name = kitSection.getString("name");
 			kit.showItemStack = ConfigUtilities.readItemStack(kitSection, "showItem");
 			
-			kit.claimOneTime = kitSection.getBoolean("claimOnlyOne");
-			kit.cooldown = kitSection.getInt("cooldown");
-			kit.condition = new Condition(kitSection.getString("condition"), kitSection.getString("execute"));
+			kit.settings.setClaimOneTime(kitSection.getBoolean("claimOnlyOne"));
+			kit.settings.setCooldown(kitSection.getInt("cooldown"));
+			kit.settings.setCondition(new Condition(
+				kitSection.getString("condition"),
+				kitSection.getString("execute")
+			));
 			kit.items = getItemStacks(kitSection.getConfigurationSection("items"));
-			kit.permission = kitSection.getBoolean("permission");
+			kit.settings.setPermission(kitSection.getBoolean("permission"));
 			
 			kits.add(kit);
 		}
@@ -76,11 +79,13 @@ public class KitsConfig {
 		kitSection.set("name", kit.name);
 		kit.showItemStack = ConfigUtilities.readItemStack(kitSection, "showItem");
 		
-		kitSection.set("claimOnlyOne", kit.claimOneTime);
-		kitSection.set("cooldown", kit.cooldown);
-		kitSection.set("condition", kit.condition.getConditionToString());
-		kitSection.set("execute", kit.condition.getExecuteToString());
-		kitSection.getBoolean("permission", kit.permission);
+		kitSection.set("claimOnlyOne", kit.settings.isClaimOneTime());
+		kitSection.set("cooldown", kit.settings.getCooldown());
+		if(kit.settings.getCondition() != null){
+			kitSection.set("condition", kit.settings.getCondition().getConditionToString());
+			kitSection.set("execute", kit.settings.getCondition().getExecuteToString());
+		}
+		kitSection.getBoolean("permission", kit.settings.isPermission());
 		setItemStacks(kit.items, kitSection.createSection("items"));
 		
 		kit.saved = true;

@@ -11,7 +11,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import essentials.main.Main;
-import essentials.modules.ChatVerbesserung.ChatVerbesserungModule;
 import essentials.modules.FlyThroughBlocks.FTBModule;
 import essentials.modules.MapPaint.MapPaintModule;
 import essentials.modules.alias.CustomAliasModule;
@@ -23,6 +22,7 @@ import essentials.modules.commandspy.CommandSpyModule;
 import essentials.modules.costumerecipes.CustomRecipeModule;
 import essentials.modules.debugstick.DebugStickModule;
 import essentials.modules.display.DisplayModule;
+import essentials.modules.kits.KitsModule;
 import essentials.modules.operator.OpModule;
 import essentials.modules.spawn.SpawnModule;
 import essentials.modules.sudo.SudoModule;
@@ -75,12 +75,13 @@ public class ModuleManager {
 		addModule(new DisplayModule());
 		addModule(new TradeModule());
 		addModule(new UpdaterModule());
-		addModule(new ChatVerbesserungModule());
+//		addModule(new ChatVerbesserungModule());
 		addModule(new OpModule());
 		addModule(new TimerModule());
 		addModule(new MapPaintModule());
 		addModule(new CustomAliasModule());
 		addModule(new CustomRecipeModule());
+		addModule(new KitsModule());
 	}
 	
 	public static void unload() {

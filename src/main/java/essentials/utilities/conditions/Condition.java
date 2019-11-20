@@ -15,13 +15,14 @@ public class Condition {
 	public Condition(String condition, String execute) {
 		if(condition != null && !condition.isEmpty())
 			this.condition = (JSONObject) JSONParser.parse(condition);
-		else
-			this.condition = new JSONObject();
 		
-		if(execute != null && !condition.isEmpty())
+		if(execute != null && !execute.isEmpty())
 			this.execute = (JSONObject) JSONParser.parse(execute);
-		else
-			this.execute = new JSONObject();
+	}
+	
+	public Condition(JSONObject condition, JSONObject execute) {
+		this.condition = condition;
+		this.execute = execute;
 	}
 	
 	public boolean check(Player player) {
@@ -55,5 +56,13 @@ public class Condition {
 	
 	public String getExecuteToString() {
 		return execute.toJSONString();
+	}
+	
+	public boolean hasCondition() {
+		return condition != null;
+	}
+	
+	public boolean hasExecute() {
+		return execute != null;
 	}
 }

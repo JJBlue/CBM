@@ -8,8 +8,6 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 
-import essentials.main.Main;
-
 public class AdvancementUtilities {
 	public static Advancement getMinecraftAdvancement(String key) {
 		return Bukkit.getServer().getAdvancement(NamespacedKey.minecraft(key));
@@ -36,9 +34,7 @@ public class AdvancementUtilities {
 	}
 	
 	public static Advancement addAdvancement(String key) {
-		Advancement advancement = Bukkit.getServer().getAdvancement(new NamespacedKey(Main.getPlugin(), key));
-		//TODO
-		return advancement;
+		throw new UnsupportedOperationException(); //TODO
 	}
 	
 	public static boolean removeAdvancement(Advancement advancement) {

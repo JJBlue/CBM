@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class KitManager {
 	static Map<String, Kit> kits;
+	static KitSettings defaultKitSettings;
 	
 	public static void load() {
 		KitsConfig.load();
@@ -14,6 +15,9 @@ public class KitManager {
 		for(Kit kit : KitsConfig.loadKit()) {
 			kits.put(kit.ID, kit);
 		}
+		
+		//TODO load defaultKitSettings
+		defaultKitSettings = new KitSettings();
 	}
 	
 	public static void unload() {

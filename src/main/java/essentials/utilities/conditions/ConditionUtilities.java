@@ -15,6 +15,8 @@ import essentials.utilities.placeholder.PlaceholderFormatter;
 
 public class ConditionUtilities {
 	public static boolean execute(Player player, JSONObject json) {
+		if(json == null) return true;
+		
 		if(json.contains("money")) {
 			EconomyManager.removeMoney(player.getUniqueId(), json.getDouble("money"));
 		}
@@ -78,6 +80,8 @@ public class ConditionUtilities {
 	}
 	
 	public static boolean checkCondition(Player player, JSONObject conditions) {
+		if(conditions == null) return true;
+		
 		boolean result = true;
 		
 		if(result && conditions.contains("money") && !EconomyManager.hasMoney(player.getUniqueId(), conditions.getDouble("money"))) {

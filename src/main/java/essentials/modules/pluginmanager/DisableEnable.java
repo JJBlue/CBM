@@ -1,7 +1,6 @@
 package essentials.modules.pluginmanager;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -13,11 +12,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.UnknownDependencyException;
@@ -104,20 +101,41 @@ public class DisableEnable implements TabExecutor {
 
 	private boolean unloadPlugin(Plugin plugin) throws Exception {
 		if (plugin == null) return false;
-		
-		HandlerList.unregisterAll(plugin);
 
+		System.out.println("Try disable Plugin " + plugin.getName());
 		PluginManager manager = Bukkit.getServer().getPluginManager();
 		SimplePluginManager spmanager = (SimplePluginManager) manager;
 		if (spmanager == null) return false;
+		
+		System.out.println("Remove commands of Plugin " + plugin.getName());
+		SimpleCommandMap commandMap = (SimpleCommandMap) SimpleReflection.getObject("commandMap", spmanager);
+		Map<?, ?> knownCommands = (Map<?, ?>) SimpleReflection.getObject("knownCommands", commandMap);
 
+		plugin.getDescription().getCommands().forEach((a, b) -> knownCommands.remove(a));
+
+		/*	List<PluginClassLoader>
+			((Map<?, ?>) SimpleReflection.getObject("classes", loader)).clear();
+			-> should be automatically removed by manager.disablePlugin(Plugin plugin);
+			
+			disable:
+			HandlerList.unregisterAll(plugin);
+			plugin.getPluginLoader().disablePlugin(plugin);
+			server.getScheduler().cancelTasks(plugin);
+			server.getServicesManager().unregisterAll(plugin);
+			server.getMessenger().unregisterIncomingPluginChannel(plugin);
+            server.getMessenger().unregisterOutgoingPluginChannel(plugin);
+            world.removePluginChunkTickets(plugin);
+		 */
 		manager.disablePlugin(plugin);
 
-		List<?> plugins = (List<?>) SimpleReflection.getObject("plugins", spmanager);
+		@SuppressWarnings("unchecked")
+		List<Plugin> plugins = (List<Plugin>) SimpleReflection.getObject("plugins", spmanager);
 
-		if (plugins != null)
-			plugins.remove((Object) plugin);
+		if (plugins != null) {
+			plugins.remove(plugin);
+		}
 
+		System.out.println("Removing lookup Name of Plugin " + plugin.getName());
 		@SuppressWarnings("unchecked")
 		Map<String, Plugin> lookupNames = (Map<String, Plugin>) SimpleReflection.getObject("lookupNames", spmanager);
 
@@ -125,35 +143,14 @@ public class DisableEnable implements TabExecutor {
 			lookupNames.values().removeIf(p -> p == plugin);
 		}
 
-		PluginLoader loader = plugin.getPluginLoader();
-		ClassLoader classLoader = (ClassLoader) SimpleReflection.callMethod(plugin, "getClassLoader");
-		
-		try {
-			((Map<?, ?>) SimpleReflection.getObject("classes", loader)).clear();
-
-			List<?> loaders = (List<?>) SimpleReflection.getObject("loaders", loader);
-			loaders.removeIf(a1 -> {
-				plugin.getPluginLoader();
-				
-				if(a1 == classLoader) {
-					try {
-						((URLClassLoader) a1).close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					return true;
-				}
-				return false;
-			});
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
+//		PluginLoader loader = plugin.getPluginLoader();
+		ClassLoader classLoader = (ClassLoader) SimpleReflection.callMethod(plugin, "getClassLoader"); //Warning sometimes fail when dependency was unloaded
+		if(classLoader instanceof URLClassLoader) {
+			((URLClassLoader) classLoader).close();
 		}
+
+		System.gc();
 		
-		SimpleCommandMap commandMap = (SimpleCommandMap) SimpleReflection.getObject("commandMap", spmanager);
-		Map<?, ?> knownCommands = (Map<?, ?>) SimpleReflection.getObject("knownCommands", commandMap);
-
-		plugin.getDescription().getCommands().forEach((a, b) -> knownCommands.remove(a));
-
 		return true;
 	}
 

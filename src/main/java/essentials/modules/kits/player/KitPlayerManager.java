@@ -53,13 +53,13 @@ public class KitPlayerManager {
 	
 	static class KitPlayerConfigManager extends DatabaseMapConfigManager<UUID, String, KitPlayerConfig> {
 		@Override
-		protected void insertOrIgnoreData(UUID uuid, String did) { //TODO
+		protected void insertOrIgnoreData(UUID uuid, String did) {
 			Datenbank database = Databases.getPlayerDatabase();
-			database.execute("INSERT OR IGNORE INTO kitsPlayer (uuid) VALUES ('" + uuid.toString() + "')");
+			database.execute("INSERT OR IGNORE INTO kitsPlayer (kitID, uuid) VALUES ('" + did + "', '" + uuid.toString() + "')");
 		}
 
 		@Override
-		protected boolean shouldAddToBuffer(UUID uuid, String did) { //TODO
+		protected boolean shouldAddToBuffer(UUID uuid, String did) {
 			Player player = Bukkit.getPlayer(uuid);
 			return (player != null) && player.isOnline();
 		}

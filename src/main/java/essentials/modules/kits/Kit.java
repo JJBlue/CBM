@@ -11,7 +11,6 @@ import essentials.modules.kits.player.KitPlayerManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.PlayerUtilities;
-import essentials.utilities.conditions.Condition;
 import essentials.utilities.permissions.PermissionHelper;
 
 public class Kit {
@@ -21,13 +20,9 @@ public class Kit {
 	String name;
 	ItemStack showItemStack;
 	
-	boolean permission = false;
-	boolean claimOneTime = false;
-	int cooldown = -1;
-	List<ItemStack> items;
+	KitSettings settings = new KitSettings();
 	
-	//Bedingungen
-	Condition condition;
+	List<ItemStack> items;
 	
 	//TMP
 	boolean saved = false;
@@ -38,36 +33,40 @@ public class Kit {
 	
 	//Not thread safe
 	public boolean giveKit(Player player) {
-		if(permission && !player.hasPermission(PermissionHelper.getPermission("kit." + ID))) {
+		if(settings.isPermission() && !player.hasPermission(PermissionHelper.getPermission("kit." + ID))) {
 			return false;
 		}
 		
 		KitPlayerConfig config = null;
 
-		if(claimOneTime || cooldown > 0) {
+		if(settings.isClaimOneTime() || settings.getCooldown() > 0 || settings.isClaimOneTimeAfterDieing()) {
 			config = KitPlayerManager.getConfig(player, ID);
 			LocalDateTime claimTime = config.getLocalDateTime("claim"); //Last time claimed
 			
 			if(claimTime != null) {
-				if(claimOneTime)
+				if(settings.isClaimOneTime()) {
 					return false;
+				}
 				
+				if(settings.isClaimOneTimeAfterDieing() &&claimTime.isAfter(getDeathTime(player))) {
+					return false;
+				}
 				
 				claimTime = LocalDateTime.from(claimTime);
-				claimTime.plusSeconds(cooldown);
+				claimTime.plusSeconds(settings.getCooldown());
 				
 				if(claimTime.isAfter(LocalDateTime.now()))
 					return false;
 			}
 		}
 		
-		if(!condition.checkAndExecute(player)) {
+		if(settings.getCondition() != null && !settings.getCondition().checkAndExecute(player)) {
 			return false;
 		}
 		
 		PlayerUtilities.addItems(player, items);
 		
-		if(claimOneTime || cooldown > 0) {
+		if(settings.isClaimOneTime() || settings.getCooldown() > 0) {
 			config.set("claim", LocalDateTime.now());
 		}
 		
