@@ -5,37 +5,35 @@ import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
 
 import components.reflections.SimpleReflection;
-import essentials.main.Main;
 import essentials.utilities.player.EnumHandUtil;
-import essentials.utilities.player.PlayerUtilities;
-import net.minecraft.server.v1_14_R1.DimensionManager;
-import net.minecraft.server.v1_14_R1.EntityHuman;
-import net.minecraft.server.v1_14_R1.EntityPlayer;
-import net.minecraft.server.v1_14_R1.EnumGamemode;
-import net.minecraft.server.v1_14_R1.EnumHand;
-import net.minecraft.server.v1_14_R1.EnumItemSlot;
-import net.minecraft.server.v1_14_R1.MobEffect;
-import net.minecraft.server.v1_14_R1.Packet;
-import net.minecraft.server.v1_14_R1.PacketPlayInArmAnimation;
-import net.minecraft.server.v1_14_R1.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEffect;
-import net.minecraft.server.v1_14_R1.PacketPlayOutEntityEquipment;
-import net.minecraft.server.v1_14_R1.PacketPlayOutHeldItemSlot;
-import net.minecraft.server.v1_14_R1.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_14_R1.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_14_R1.PacketPlayOutPosition;
-import net.minecraft.server.v1_14_R1.PacketPlayOutRespawn;
-import net.minecraft.server.v1_14_R1.PacketPlayOutUpdateHealth;
-import net.minecraft.server.v1_14_R1.PlayerConnection;
+import net.minecraft.server.v1_15_R1.DimensionManager;
+import net.minecraft.server.v1_15_R1.EntityHuman;
+import net.minecraft.server.v1_15_R1.EntityPlayer;
+import net.minecraft.server.v1_15_R1.EnumGamemode;
+import net.minecraft.server.v1_15_R1.EnumHand;
+import net.minecraft.server.v1_15_R1.EnumItemSlot;
+import net.minecraft.server.v1_15_R1.MobEffect;
+import net.minecraft.server.v1_15_R1.Packet;
+import net.minecraft.server.v1_15_R1.PacketPlayInArmAnimation;
+import net.minecraft.server.v1_15_R1.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_15_R1.PacketPlayOutEntityEffect;
+import net.minecraft.server.v1_15_R1.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_15_R1.PacketPlayOutHeldItemSlot;
+import net.minecraft.server.v1_15_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_15_R1.PacketPlayOutPosition;
+import net.minecraft.server.v1_15_R1.PacketPlayOutRespawn;
+import net.minecraft.server.v1_15_R1.PacketPlayOutUpdateHealth;
+import net.minecraft.server.v1_15_R1.PlayerConnection;
 
-public class PlayerUtilities_v1_14 {
+public class PlayerUtilities_v1_15 {
 	public static void sendPacket(Player player, Object packet) {
 		sendPacket(player, (Packet<?>) packet);
 	}
@@ -73,7 +71,7 @@ public class PlayerUtilities_v1_14 {
 	
 	public static void setHeldItemSlot(Player player, int number) {
 		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
-		PlayerUtilities.sendPacket(player, animation);
+		sendPacket(player, animation);
 	}
 	
 	public static void setGameProfile(Player player, GameProfile gameProfile) {
@@ -133,7 +131,7 @@ public class PlayerUtilities_v1_14 {
 				Location location = player.getLocation();
 
 				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0);
-				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(dimensionManager, entityPlayer.getWorld().worldData.getType(), EnumGamemode.valueOf(player.getGameMode().name()));
+				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(dimensionManager, 0, entityPlayer.getWorld().worldData.getType(), EnumGamemode.valueOf(player.getGameMode().name()));
 
 				playerConnection.sendPacket(packetPlayOutRespawn);
 				playerConnection.sendPacket(packetPlayOutPosition);
@@ -149,10 +147,10 @@ public class PlayerUtilities_v1_14 {
 				entityPlayer.lastSentExp = -1;
 				player.updateInventory();
 				
-				Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
-					if (flying)
-						Bukkit.getPlayer(player.getName()).setFlying(true);
-				}, 1l);
+//				Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+				if (flying)
+					Bukkit.getPlayer(player.getName()).setFlying(true);
+//				}, 1l);
 				
 				continue;
 			}

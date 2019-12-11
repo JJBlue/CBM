@@ -1,15 +1,16 @@
 package essentials.utilitiesvr.chat;
 
-import components.json.JSONArray;
-import components.json.JSONObject;
-import net.minecraft.server.v1_14_R1.ChatMessageType;
-import net.minecraft.server.v1_14_R1.IChatBaseComponent;
-import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class ChatUtilities_v1_14 {
+import components.json.JSONArray;
+import components.json.JSONObject;
+import net.minecraft.server.v1_15_R1.ChatMessageType;
+import net.minecraft.server.v1_15_R1.IChatBaseComponent;
+import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
+
+public class ChatUtilities_v1_15 {
 	public static void sendChatMessage(Player player, String message, JSONArray array) {
 		JSONObject mainJson = new JSONObject();
 		mainJson.add("text", message);

@@ -30,6 +30,13 @@
             <version>1.15-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Libs -->
+        <dependency>
+            <groupId>jjblue</groupId>
+            <artifactId>CBM-lib</artifactId>
+            <version>0.5.5.BETA-prerelease</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

@@ -7,7 +7,7 @@ import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
 import net.minecraft.server.v1_14_R1.BlockPosition;
 import net.minecraft.server.v1_14_R1.PacketPlayOutBlockBreakAnimation;
 
-public class BlockUtilities {
+public class BlockUtilities_v1_14 {
 	public static void blockBreak(Entity entity, int x, int y, int z) {
 		blockBreak(entity, x, y, z, 0);
 	}
