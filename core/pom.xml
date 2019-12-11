@@ -8,10 +8,14 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
-    <groupId>jjblue</groupId>
+    
     <artifactId>CBM-core</artifactId>
-    <version>0.5.5.BETA-prerelease</version>
+    
+    <parent>
+        <groupId>jjblue</groupId>
+        <artifactId>CBM</artifactId>
+        <version>0.5.5.BETA-prerelease</version>
+    </parent>
 
     <developers>
         <developer>
