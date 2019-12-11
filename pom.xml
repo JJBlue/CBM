@@ -10,6 +10,7 @@
         <module>core</module>
         <module>CBM_1_14</module>
         <module>CBM_1_15</module>
+        <module>CBM_lib</module>
     </modules>
 
     <repositories>
