@@ -8,13 +8,13 @@ import org.bukkit.entity.Player;
 public class SudoPlayerManager {
 	public static CommandSender getSudoPlayer(CommandSender commandSender) {
 		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
-			return new SudoPlayer_v1_14(commandSender);
+			return SudoPlayer_v1_14.createSudoPlayer(commandSender);
 		return SudoPlayerProxy.create(commandSender);
 	}
 
 	public static Player getSudoPlayer(CommandSender usedSudo, Player player) {
 		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
-			return new SudoPlayer_v1_14(usedSudo, player);
+			return SudoPlayer_v1_14.createSudoPlayer(usedSudo, player);
 
 		try {
 			/*
