@@ -14,7 +14,6 @@ import com.mojang.authlib.GameProfile;
 import components.reflections.SimpleReflection;
 import essentials.main.Main;
 import essentials.utilities.player.EnumHandUtil;
-import essentials.utilities.player.PlayerUtilities;
 import net.minecraft.server.v1_14_R1.DimensionManager;
 import net.minecraft.server.v1_14_R1.EntityHuman;
 import net.minecraft.server.v1_14_R1.EntityPlayer;
@@ -73,7 +72,7 @@ public class PlayerUtilities_v1_14 {
 	
 	public static void setHeldItemSlot(Player player, int number) {
 		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
-		PlayerUtilities.sendPacket(player, animation);
+		sendPacket(player, animation);
 	}
 	
 	public static void setGameProfile(Player player, GameProfile gameProfile) {
