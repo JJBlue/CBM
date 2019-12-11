@@ -9,6 +9,7 @@
     <modules>
         <module>core</module>
         <module>CBM_1_14</module>
+        <module>CBM_1_15</module>
     </modules>
 
     <repositories>
