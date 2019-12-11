@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import com.mojang.authlib.GameProfile;
 
 import components.reflections.SimpleReflection;
-import essentials.main.Main;
 import essentials.utilities.player.EnumHandUtil;
 import net.minecraft.server.v1_14_R1.DimensionManager;
 import net.minecraft.server.v1_14_R1.EntityHuman;
@@ -148,10 +147,10 @@ public class PlayerUtilities_v1_14 {
 				entityPlayer.lastSentExp = -1;
 				player.updateInventory();
 				
-				Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
-					if (flying)
-						Bukkit.getPlayer(player.getName()).setFlying(true);
-				}, 1l);
+//				Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+				if (flying)
+					Bukkit.getPlayer(player.getName()).setFlying(true);
+//				}, 1l);
 				
 				continue;
 			}
