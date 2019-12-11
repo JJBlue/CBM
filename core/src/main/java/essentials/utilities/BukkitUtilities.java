@@ -1,8 +1,8 @@
 package essentials.utilities;
 
-import essentials.utilitiesvr.ReflectionsUtilities;
-import essentials.utilitiesvr.bukkit.BukkitUtilitiesReflection;
-import essentials.utilitiesvr.bukkit.BukkitUtilities_v1_14;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,8 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.plugin.Plugin;
 
-import java.util.LinkedList;
-import java.util.List;
+import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilitiesvr.bukkit.BukkitUtilitiesReflection;
+import essentials.utilitiesvr.bukkit.BukkitUtilities_v1_14;
+import essentials.utilitiesvr.bukkit.BukkitUtilities_v1_15;
 
 public class BukkitUtilities {
 	public static List<String> getAvailableCommands(CommandSender sender) {
@@ -56,8 +58,13 @@ public class BukkitUtilities {
 	}
 
 	public static SimpleCommandMap getSimpleCommandMap() {
-		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
-			return BukkitUtilities_v1_14.getSimpleCommandMap();
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return BukkitUtilities_v1_14.getSimpleCommandMap();
+			case "v1_15_R1":
+				return BukkitUtilities_v1_15.getSimpleCommandMap();
+		}
+			
 		return BukkitUtilitiesReflection.getSimpleCommandMap();
 	}
 

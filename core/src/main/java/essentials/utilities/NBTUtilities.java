@@ -9,6 +9,7 @@ import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
 import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
 import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
+import essentials.utilitiesvr.nbt.NBTUtilities_v1_15;
 
 public class NBTUtilities {
 	private NBTUtilities() {}
@@ -18,14 +19,24 @@ public class NBTUtilities {
 	 * @return NBTTagCompound
 	 */
 	public static Object getNBTTagCompound(ItemStack itemstack) {
-		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
-			return NBTUtilities_v1_14.getNBTTagCompound(itemstack);
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return NBTUtilities_v1_14.getNBTTagCompound(itemstack);
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.getNBTTagCompound(itemstack);
+		}
+		
 		return NBTUtilitiesReflections.getNBTTagCompound(itemstack);
 	}
 
 	public static NBTTag getNBTTag(ItemStack itemstack) {
-		if (ReflectionsUtilities.getPackageVersionName().equalsIgnoreCase("v1_14_R1"))
-			return new NBTUtilities_v1_14(itemstack);
+		switch (ReflectionsUtilities.getPackageVersionName()) {
+			case "v1_14_R1":
+				return new NBTUtilities_v1_14(itemstack);
+			case "v1_15_R1":
+				return new NBTUtilities_v1_15(itemstack);
+		}
+		
 		return new NBTUtilitiesReflections(itemstack);
 	}
 
@@ -38,6 +49,9 @@ public class NBTUtilities {
 			case "v1_14_R1":
 				NBTUtilities_v1_14.setNBTTagCompound(itemstack, nbtTagCompound);
 				return;
+			case "v1_15_R1":
+				NBTUtilities_v1_15.setNBTTagCompound(itemstack, nbtTagCompound);
+				return;
 		}
 		NBTUtilitiesReflections.getNBTTagCompound(itemstack);
 	}
@@ -49,6 +63,8 @@ public class NBTUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.createNBTTagCompound();
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.createNBTTagCompound();
 		}
 		return NBTUtilitiesReflections.createNBTTagCompound();
 	}
@@ -57,6 +73,8 @@ public class NBTUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.createNBTTag();
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.createNBTTag();
 		}
 		return NBTUtilitiesReflections.createNBTTag();
 	}
@@ -68,6 +86,8 @@ public class NBTUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.createNBTTagList();
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.createNBTTagList();
 		}
 		return NBTUtilitiesReflections.createNBTTagList();
 	}
@@ -76,6 +96,8 @@ public class NBTUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.createNBTBase(value);
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.createNBTBase(value);
 		}
 		return NBTUtilitiesReflections.createNBTBase(value);
 	}
@@ -89,6 +111,8 @@ public class NBTUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.getValue(nbtbase);
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.getValue(nbtbase);
 		}
 		return NBTUtilitiesReflections.getValue(nbtbase);
 	}
@@ -97,6 +121,8 @@ public class NBTUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				return NBTUtilities_v1_14.parse(s);
+			case "v1_15_R1":
+				return NBTUtilities_v1_15.parse(s);
 		}
 		return NBTUtilitiesReflections.parse(s);
 	}

@@ -78,6 +78,12 @@
         </dependency>
         <dependency>
             <groupId>jjblue</groupId>
+            <artifactId>CBM-1.15</artifactId>
+            <version>0.5.5.BETA-prerelease</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>jjblue</groupId>
             <artifactId>CBM-lib</artifactId>
             <version>0.5.5.BETA-prerelease</version>
             <scope>compile</scope>

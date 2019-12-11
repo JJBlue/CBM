@@ -14,6 +14,7 @@ import essentials.player.PlayerManager;
 import essentials.utilitiesvr.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
+import essentials.utilitiesvr.player.PlayerUtilities_v1_15;
 
 public class PlayerUtilities {
 	@SuppressWarnings("deprecation")
@@ -40,6 +41,9 @@ public class PlayerUtilities {
 			case "v1_14_R1":
 				PlayerUtilities_v1_14.updatePlayer(p);
 				return;
+			case "v1_15_R1":
+				PlayerUtilities_v1_15.updatePlayer(p);
+				return;
 		}
 		PlayerUtilitiesReflections.updatePlayer(p);
 	}
@@ -59,6 +63,9 @@ public class PlayerUtilities {
 			case "v1_14_R1":
 				PlayerUtilities_v1_14.sendPacket(player, packet);
 				return;
+			case "v1_15_R1":
+				PlayerUtilities_v1_15.sendPacket(player, packet);
+				return;
 		}
 		
 		try {
@@ -73,6 +80,9 @@ public class PlayerUtilities {
 			case "v1_14_R1":
 				PlayerUtilities_v1_14.setArmSwing(player, hand);
 				return;
+			case "v1_15_R1":
+				PlayerUtilities_v1_15.setArmSwing(player, hand);
+				return;
 		}
 		
 		PlayerUtilitiesReflections.setArmSwing(player, hand);
@@ -82,6 +92,9 @@ public class PlayerUtilities {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
 				PlayerUtilities_v1_14.setHeldItemSlot(player, number);
+				return;
+			case "v1_15_R1":
+				PlayerUtilities_v1_15.setHeldItemSlot(player, number);
 				return;
 		}
 		
@@ -93,6 +106,9 @@ public class PlayerUtilities {
 			case "v1_14_R1":
 				PlayerUtilities_v1_14.setGameProfile(player, gameProfile);
 				return;
+			case "v1_15_R1":
+				PlayerUtilities_v1_15.setGameProfile(player, gameProfile);
+				return;
 		}
 		
 		PlayerUtilitiesReflections.setGameProfile(player, gameProfile);
@@ -101,6 +117,8 @@ public class PlayerUtilities {
 	public static GameProfile getGameProfile(Player player) {
 		switch (ReflectionsUtilities.getPackageVersionName()) {
 			case "v1_14_R1":
+				return PlayerUtilities_v1_14.getGameProfile(player);
+			case "v1_15_R1":
 				return PlayerUtilities_v1_14.getGameProfile(player);
 		}
 		
