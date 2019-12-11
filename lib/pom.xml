@@ -9,7 +9,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-    <artifactId>CBM-1.14</artifactId>
+    <artifactId>CBM-lib</artifactId>
 
     <parent>
         <groupId>jjblue</groupId>
@@ -21,32 +21,18 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.15-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.15-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- Libs -->
-        <dependency>
-            <groupId>jjblue</groupId>
-            <artifactId>CBM-lib</artifactId>
-            <version>0.5.5.BETA-prerelease</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
     <build>
-    	<resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
