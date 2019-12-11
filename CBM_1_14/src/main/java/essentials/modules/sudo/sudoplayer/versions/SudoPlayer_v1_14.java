@@ -16,11 +16,11 @@ import java.util.Set;
 
 public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface {
 
-	public static SudoPlayerInterface createSudoPlayer(CommandSender usedSudo, Player player) {
+	public static Player createSudoPlayer(CommandSender usedSudo, Player player) {
 		return new SudoPlayer_v1_14(usedSudo, player);
 	}
 	
-	public static SudoPlayerInterface createSudoPlayer(CommandSender usedSudo) {
+	public static Player createSudoPlayer(CommandSender usedSudo) {
 		return new SudoPlayer_v1_14(usedSudo);
 	}
 	
