@@ -14,7 +14,7 @@ import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
 
 import java.util.Set;
 
-public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface {
+public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface, CommandSender, Player {
 
 	public final CommandSender usedSudo;
 	public final Player player;
