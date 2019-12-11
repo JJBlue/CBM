@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaMessage;
-import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -17,7 +16,6 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Soundbank;
-import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
 import essentials.modules.player.utils.MetaMessageType;
@@ -38,15 +36,14 @@ public class MidiPlayerOldHelperDoNotRemove {
     }
     
     public static void main(String[] args) throws Exception {
-    	File file = null;
+//    	File file = new File("SuperMario64-Medley\\SuperMario64-Medley.mid");
+    	File file = new File(".\\midi\\Simpsons.mid");
     	
     	Soundbank soundbank2 = MidiSystem.getSoundbank(file);
-//    	System.out.println(soundbank2.getInstruments().length);
-    	Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
-//    	System.out.println(soundbank.getInstruments().length);
-    	Sequence sequence = MidiSystem.getSequence(file);
+    	System.out.println(soundbank2.getInstruments().length);
     	
-//    	play(file);
+    	Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
+    	Sequence sequence = MidiSystem.getSequence(file);
 
     	int trackNumber = 0;
     	for (Track track : sequence.getTracks()) {
