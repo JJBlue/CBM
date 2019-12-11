@@ -26,7 +26,11 @@ import net.minecraft.server.v1_14_R1.NBTTagShort;
 import net.minecraft.server.v1_14_R1.NBTTagString;
 
 public class NBTUtilities_v1_14 implements NBTTag {
-	public static NBTTagCompound getNBTTagCompound(ItemStack itemstack) {
+	/**
+	 * 
+	 * @return NBTTagCompound
+	 */
+	public static Object getNBTTagCompound(ItemStack itemstack) {
 		return CraftItemStack.asNMSCopy(itemstack).getTag();
 	}
 	
@@ -34,7 +38,12 @@ public class NBTUtilities_v1_14 implements NBTTag {
 		return ((CraftEntity) entity).getHandle().save(new NBTTagCompound());
 	}
 	
-	public static NBTTagCompound parse(String s) {
+	/**
+	 * 
+	 * @param s as json
+	 * @return NBTTagCompound
+	 */
+	public static Object parse(String s) {
 		try {
 			return MojangsonParser.parse(s);
 		} catch (CommandSyntaxException e) {
@@ -55,8 +64,12 @@ public class NBTUtilities_v1_14 implements NBTTag {
 		is.setTag((NBTTagCompound) nbtTagCompound);
 		itemstack.setItemMeta(CraftItemStack.getItemMeta(is));
 	}
-
-	public static NBTTagCompound createNBTTagCompound() {
+	
+	/**
+	 * 
+	 * @return NBTTagCompound
+	 */
+	public static Object createNBTTagCompound() {
 		return new NBTTagCompound();
 	}
 	
@@ -64,11 +77,19 @@ public class NBTUtilities_v1_14 implements NBTTag {
 		return new NBTUtilities_v1_14(new NBTTagCompound());
 	}
 
-	public static NBTTagList createNBTTagList() {
+	/**
+	 * 
+	 * @return NBTTagList
+	 */
+	public static List<?> createNBTTagList() {
 		return new NBTTagList();
 	}
 	
-	public static NBTBase createNBTBase(Object value) {
+	/**
+	 * 
+	 * @return NBTBase
+	 */
+	public static Object createNBTBase(Object value) {
 		if(value instanceof Byte)
 			return new NBTTagByte((byte) value);
 		else if(value instanceof byte[])
@@ -125,9 +146,9 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	private NBTTagCompound nbtTagCompound;
 
 	public NBTUtilities_v1_14(ItemStack itemStack) {
-		nbtTagCompound = getNBTTagCompound(itemStack);
+		nbtTagCompound = (NBTTagCompound) getNBTTagCompound(itemStack);
 		if(nbtTagCompound == null)
-			nbtTagCompound = createNBTTagCompound();
+			nbtTagCompound = (NBTTagCompound) createNBTTagCompound();
 	}
 	
 	public NBTUtilities_v1_14(Object nbtTagCompound) {
