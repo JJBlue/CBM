@@ -15,7 +15,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
-import org.bukkit.block.ShulkerBox;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,9 +23,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -58,7 +55,6 @@ import essentials.modules.eventsfinder.EventFinderInventory;
 import essentials.modules.holograms.HologramCommand;
 import essentials.modules.move.AFK;
 import essentials.modules.nbt.NBTCommands;
-import essentials.modules.player.BukkitMidiPlayerManager;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
 import essentials.modules.tablist.Tablist;
@@ -148,35 +144,35 @@ public class MainCommand implements TabExecutor {
 			return true;
 		
 		switch (args[0]) {
-			case "test": {
-				File file = new File(args[1]);
-				try {
-					int ID = BukkitMidiPlayerManager.play(file);
-					Bukkit.broadcastMessage("start " + ID);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				break;
-			}
-			case "test2": {
-				BukkitMidiPlayerManager.stop(Integer.parseInt(args[1]));
-				Bukkit.broadcastMessage("stop");
-				break;
-			}
-			case "a": {
-				ItemStack itemStack = p.getInventory().getItemInMainHand();
-				BlockStateMeta blockStateMeta = (BlockStateMeta) itemStack.getItemMeta();
-				ShulkerBox shulkerBox = (ShulkerBox) blockStateMeta.getBlockState();
-				
-				Inventory inventory = Bukkit.createInventory(
-					null,
-					shulkerBox.getInventory().getSize(),
-					shulkerBox.getCustomName() == null ? "ShulkerBox" : shulkerBox.getCustomName()
-				);
-				inventory.setContents(shulkerBox.getInventory().getContents());
-				p.openInventory(inventory);
-			}
+//			case "test": {
+//				File file = new File(args[1]);
+//				try {
+//					int ID = BukkitMidiPlayerManager.play(file);
+//					Bukkit.broadcastMessage("start " + ID);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				
+//				break;
+//			}
+//			case "test2": {
+//				BukkitMidiPlayerManager.stop(Integer.parseInt(args[1]));
+//				Bukkit.broadcastMessage("stop");
+//				break;
+//			}
+//			case "a": {
+//				ItemStack itemStack = p.getInventory().getItemInMainHand();
+//				BlockStateMeta blockStateMeta = (BlockStateMeta) itemStack.getItemMeta();
+//				ShulkerBox shulkerBox = (ShulkerBox) blockStateMeta.getBlockState();
+//				
+//				Inventory inventory = Bukkit.createInventory(
+//					null,
+//					shulkerBox.getInventory().getSize(),
+//					shulkerBox.getCustomName() == null ? "ShulkerBox" : shulkerBox.getCustomName()
+//				);
+//				inventory.setContents(shulkerBox.getInventory().getContents());
+//				p.openInventory(inventory);
+//			}
 			case "boot":
 
 				if (p == null) return true;
