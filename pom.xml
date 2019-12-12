@@ -61,6 +61,12 @@
 			</dependency>
 			<dependency>
 				<groupId>jjblue</groupId>
+				<artifactId>CBM-core</artifactId>
+				<version>${revision}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>jjblue</groupId>
 				<artifactId>CBM-lib</artifactId>
 				<version>${revision}</version>
 				<scope>compile</scope>
