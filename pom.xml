@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>${gid}</groupId>
-	<artifactId>${aid}</artifactId>
+	<groupId>jjblue</groupId>
+	<artifactId>CBM</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
@@ -17,8 +17,6 @@
 
 	<properties>
 		<revision>0.5.5.BETA-prerelease</revision>
-		<gid>jjblue</gid>
-		<aid>CBM</aid>
 	</properties>
 
 	<developers>

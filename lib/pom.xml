@@ -12,7 +12,7 @@
     <artifactId>CBM-lib</artifactId>
 
     <parent>
-        <groupId>${gid}</groupId>
+        <groupId>jjblue</groupId>
         <artifactId>CBM</artifactId>
         <version>${revision}</version>
     </parent>
