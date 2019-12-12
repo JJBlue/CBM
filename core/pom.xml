@@ -14,15 +14,8 @@
     <parent>
         <groupId>jjblue</groupId>
         <artifactId>CBM</artifactId>
-        <version>0.5.5.BETA-prerelease</version>
+        <version>${revision}</version>
     </parent>
-
-    <developers>
-        <developer>
-            <id>JJBlue</id>
-            <timezone>Germany/Berlin</timezone>
-        </developer>
-    </developers>
 
     <repositories>
         <repository>
@@ -73,19 +66,16 @@
         <dependency>
             <groupId>jjblue</groupId>
             <artifactId>CBM-1.14</artifactId>
-            <version>0.5.5.BETA-prerelease</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jjblue</groupId>
             <artifactId>CBM-1.15</artifactId>
-            <version>0.5.5.BETA-prerelease</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jjblue</groupId>
             <artifactId>CBM-lib</artifactId>
-            <version>0.5.5.BETA-prerelease</version>
             <scope>compile</scope>
         </dependency>
         <!-- Bstats -->

@@ -1,26 +1,58 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>jjblue</groupId>
-    <artifactId>CBM</artifactId>
-    <version>0.5.5.BETA-prerelease</version>
-    <packaging>pom</packaging>
+	<groupId>jjblue</groupId>
+	<artifactId>CBM</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>core</module>
-        <module>CBM_1_14</module>
-        <module>CBM_1_15</module>
-        <module>lib</module>
-    </modules>
+	<modules>
+		<module>core</module>
+		<module>CBM_1_14</module>
+		<module>CBM_1_15</module>
+		<module>lib</module>
+	</modules>
+	
+	<properties>
+		<revision>0.5.5.BETA-prerelease</revision>
+	</properties>
+	
+	<developers>
+        <developer>
+            <id>JJBlue</id>
+            <timezone>Germany/Berlin</timezone>
+        </developer>
+    </developers>
 
-    <repositories>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>CodeMC</id>
+			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>jjblue</groupId>
+				<artifactId>CBM-1.14</artifactId>
+				<version>0.5.5.BETA-prerelease</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>jjblue</groupId>
+				<artifactId>CBM-1.15</artifactId>
+				<version>0.5.5.BETA-prerelease</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>jjblue</groupId>
+				<artifactId>CBM-lib</artifactId>
+				<version>0.5.5.BETA-prerelease</version>
+				<scope>compile</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
