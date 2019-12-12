@@ -490,7 +490,7 @@ jail_reason_[jailName]_[cellId]
 				break;
 			case "location_biome_name":
 				if (location != null)
-					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY()).name();
+					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY(), location.getBlockZ()).name();
 				break;
 
 			case "server_online":

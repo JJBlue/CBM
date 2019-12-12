@@ -344,7 +344,7 @@ server_time_[timeFormat]
 				break;
 			case "location_biome_name":
 				if (location != null)
-					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY()).name();
+					return location.getWorld().getBiome(location.getBlockX(), location.getBlockY(), location.getBlockZ()).name();
 				break;
 
 			case "user_fly":
