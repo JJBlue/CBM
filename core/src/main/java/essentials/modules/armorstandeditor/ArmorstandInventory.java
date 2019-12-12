@@ -1,5 +1,14 @@
 package essentials.modules.armorstandeditor;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
+import org.bukkit.util.EulerAngle;
+
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.inventory.InventoryFactory;
@@ -7,14 +16,6 @@ import essentials.utilities.inventory.InventoryItem;
 import essentials.utilities.inventory.InventoryPage;
 import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
 import essentials.utilities.inventory.itemtypes.InventoryObjectField;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Player;
-import org.bukkit.util.EulerAngle;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class ArmorstandInventory {
 	private final ArmorStand armorstand;

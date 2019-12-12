@@ -1,17 +1,18 @@
 package essentials.modules.debugstick.blocks;
 
-import essentials.utilities.inventory.InventoryFactory;
-import essentials.utilities.inventory.InventoryItem;
-import essentials.utilities.inventory.InventoryPage;
-import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
-import essentials.utilities.inventory.itemtypes.InventoryObjectField;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedList;
-import java.util.List;
+import essentials.utilities.inventory.InventoryFactory;
+import essentials.utilities.inventory.InventoryItem;
+import essentials.utilities.inventory.InventoryPage;
+import essentials.utilities.inventory.itemtypes.InventoryItemTypes;
+import essentials.utilities.inventory.itemtypes.InventoryObjectField;
 
 public class DebugStickBlockInventory {
 	public static void openInventory(Player player, Block block) {

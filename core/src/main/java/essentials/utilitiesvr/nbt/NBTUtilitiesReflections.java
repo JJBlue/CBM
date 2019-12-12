@@ -82,7 +82,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 	 */
 	public static Object createNBTBase(Object value) {
 		try {
-			if(value instanceof Byte)
+			if(value instanceof Byte)//TODO since 1.15 it is the static method a
 				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByte"), value);
 			else if(value instanceof byte[])
 				return SimpleReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByteArray"), value);
