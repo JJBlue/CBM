@@ -48,7 +48,7 @@ public class Kit {
 					return false;
 				}
 				
-				if(settings.isClaimOneTimeAfterDieing() &&claimTime.isAfter(getDeathTime(player))) {
+				if(settings.isClaimOneTimeAfterDieing() && claimTime.isAfter(getDeathTime(player))) {
 					return false;
 				}
 				

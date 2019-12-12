@@ -75,6 +75,10 @@ public class SudoCommand implements TabExecutor {
 				
 				break;
 			}
+			case "silent": {
+				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
+				break;
+			}
 		}
 		
 		return true;
@@ -89,6 +93,7 @@ public class SudoCommand implements TabExecutor {
 			returnArguments.add("sudo");
 			returnArguments.add("sudo+");
 			returnArguments.add("sudo-");
+			returnArguments.add("silent");
 
 		} else {
 			switch(args[0].toLowerCase()) {
@@ -111,6 +116,10 @@ public class SudoCommand implements TabExecutor {
 						return tabCompleter.onTabComplete(sender, pluginCommand, args[2], Arrays.copyOfRange(args, 3, args.length));
 					}
 					
+					break;
+					
+				case "silent":
+					returnArguments.addAll(BukkitUtilities.getAvailableCommands(sender));
 					break;
 			}
 		}

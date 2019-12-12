@@ -61,10 +61,8 @@ import essentials.modules.nbt.NBTCommands;
 import essentials.modules.player.BukkitMidiPlayerManager;
 import essentials.modules.pluginmanager.DisableEnable;
 import essentials.modules.skull.SkullInventory;
-import essentials.modules.sudo.SudoManager;
 import essentials.modules.tablist.Tablist;
 import essentials.modules.teleport.teleportCommand;
-import essentials.modules.troll.TrollCommands;
 import essentials.modules.updater.SpigotPluginUpdater;
 import essentials.modules.visible.HideState;
 import essentials.modules.visible.VisibleManager;
@@ -803,11 +801,6 @@ public class MainCommand implements TabExecutor {
 				
 				break;
 			}
-			case "silent":
-
-				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
-				break;
-
 			case "seen": {
 				try {
 					OfflinePlayer offlinePlayer = PlayerUtilities.getOfflinePlayer(args[1]);
@@ -1001,7 +994,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("reload");
 			returnArguments.add("shakeoff");
 			returnArguments.add("seen");
-			returnArguments.add("silent");
 			returnArguments.add("sit");
 			returnArguments.add("sign");
 			returnArguments.add("skin");
@@ -1124,11 +1116,6 @@ public class MainCommand implements TabExecutor {
 					
 					break;
 					
-				case "silent":
-
-					returnArguments.addAll(BukkitUtilities.getAvailableCommands(sender));
-					break;
-
 				case "skin":
 				case "undisguise":
 				case "unskin":
@@ -1150,8 +1137,6 @@ public class MainCommand implements TabExecutor {
 					returnArguments.add("all");
 					
 					break;
-				case "troll":
-					return TrollCommands.trollCommands.onTabComplete(sender, cmd, cmdLabel, Arrays.copyOfRange(args, 1, args.length));
 					
 				case "info":
 

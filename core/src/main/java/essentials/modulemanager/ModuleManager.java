@@ -60,28 +60,29 @@ public class ModuleManager {
 	}
 	
 	public static void addDefaultModules() {
-		addModule(new DebugStickModule());
-		addModule(new CommandSpyModule());
-		addModule(new SpawnModule());
-		addModule(new WarpModule());
-		addModule(new BanModule());
-		addModule(new SudoModule());
-		addModule(new TablistModule());
-		addModule(new FTBModule());
-		addModule(new TrollModule());
 		addModule(new ArmorstandModule());
+		addModule(new BanModule());
 		addModule(new CoBModule());
 		addModule(new CoIModule());
-		addModule(new DisplayModule());
-		addModule(new TradeModule());
-		addModule(new UpdaterModule());
-//		addModule(new ChatVerbesserungModule());
-		addModule(new OpModule());
-		addModule(new TimerModule());
-		addModule(new MapPaintModule());
+		addModule(new CommandSpyModule());
 		addModule(new CustomAliasModule());
 		addModule(new CustomRecipeModule());
+		addModule(new DebugStickModule());
+		addModule(new DisplayModule());
+		addModule(new FTBModule());
 		addModule(new KitsModule());
+		addModule(new MapPaintModule());
+		addModule(new OpModule());
+		addModule(new SpawnModule());
+		addModule(new SudoModule());
+		addModule(new TablistModule());
+		addModule(new TimerModule());
+		addModule(new TradeModule());
+		addModule(new TrollModule());
+		addModule(new UpdaterModule());
+		addModule(new WarpModule());
+		
+//		addModule(new ChatVerbesserungModule());
 	}
 	
 	public static void unload() {

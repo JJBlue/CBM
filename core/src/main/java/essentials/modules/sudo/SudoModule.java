@@ -13,6 +13,7 @@ public class SudoModule extends EModule {
 		CommandManager.register("sudo", new RedirectTabExecutor(new SudoCommand(), 0));
 		CommandManager.setAlias("sudo-", "sudo");
 		CommandManager.setAlias("sudo+", "sudo");
+		CommandManager.setAlias("silent", "sudo");
 		return true;
 	}
 

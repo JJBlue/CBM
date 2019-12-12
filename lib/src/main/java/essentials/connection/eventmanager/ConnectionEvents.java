@@ -1,4 +1,4 @@
-package essentials.connection.events;
+package essentials.connection.eventmanager;
 
 public enum ConnectionEvents {
 	UNKNOWN;

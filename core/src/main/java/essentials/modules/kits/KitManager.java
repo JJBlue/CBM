@@ -21,12 +21,13 @@ public class KitManager {
 	}
 	
 	public static void unload() {
-		if(kits != null) {
-			synchronized (kits) {
-				for(Kit kit : kits.values()) {
-					if(!kit.saved) {
-						KitsConfig.saveKit(kit);
-					}
+		if(kits == null)
+			return;
+		
+		synchronized (kits) {
+			for(Kit kit : kits.values()) {
+				if(!kit.saved) {
+					KitsConfig.saveKit(kit);
 				}
 			}
 		}
