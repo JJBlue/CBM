@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
 
 public class NBTUtilitiesReflections implements NBTTag {
 	/**

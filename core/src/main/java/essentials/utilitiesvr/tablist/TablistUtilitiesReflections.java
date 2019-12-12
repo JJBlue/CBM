@@ -1,7 +1,7 @@
 package essentials.utilitiesvr.tablist;
 
 import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
 import essentials.utilitiesvr.chat.ChatUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import org.bukkit.entity.Player;

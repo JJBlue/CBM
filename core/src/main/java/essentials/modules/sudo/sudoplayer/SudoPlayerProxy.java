@@ -1,7 +1,8 @@
 package essentials.modules.sudo.sudoplayer;
 
 import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

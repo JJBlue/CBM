@@ -25,6 +25,7 @@ import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.utilities.ConfigUtilities;
 import essentials.utilities.RecipeUtilities;
+import essentials.utilities.minecraft.MinecraftVersions;
 
 public class CustomRecipe {
 	static File file;
@@ -144,12 +145,20 @@ public class CustomRecipe {
 	}
 	
 	public static void unregisterAllRecipes() {
+		if(recipesIDs == null)
+			return;
+		
 		try {
 			Iterator<Recipe> recipes = RecipeUtilities.recipeIterator();
 			
 			while(recipes.hasNext()) {
 				Recipe recipe = recipes.next();
 				NamespacedKey key = getNamespacedKey(recipe);
+				if(key == null) {
+					System.out.println(recipe);
+					continue;
+				}
+				
 				if(recipesIDs.contains(key.getKey())) {
 					recipes.remove();
 				}
@@ -207,7 +216,21 @@ public class CustomRecipe {
 		} else if(recipe instanceof ShapelessRecipe) {
 			return ((ShapelessRecipe) recipe).getKey();
 		}
-		return CustomRecipeSince_1_14.getNamespacedKey(recipe); //TODO only 1.14 and above
+		
+		NamespacedKey key;
+		
+		switch (MinecraftVersions.getMinecraftVersion()) {
+			case v1_15:
+				key = CustomRecipeSince_1_15.getNamespacedKey(recipe);
+				if(key != null) return key;
+			case v1_14:
+				key = CustomRecipeSince_1_14.getNamespacedKey(recipe);
+				if(key != null) return key;
+			default:
+				break;
+		}
+		
+		return null;
 	}
 
 	public static String[] splitShape(String shape) {

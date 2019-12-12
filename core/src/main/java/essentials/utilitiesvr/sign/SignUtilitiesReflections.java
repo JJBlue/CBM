@@ -2,7 +2,7 @@ package essentials.utilitiesvr.sign;
 
 import components.reflections.SimpleReflection;
 import essentials.utilities.SignUtilities;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;

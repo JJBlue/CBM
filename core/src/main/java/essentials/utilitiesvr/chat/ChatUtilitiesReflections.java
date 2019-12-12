@@ -3,7 +3,7 @@ package essentials.utilitiesvr.chat;
 import components.json.JSONArray;
 import components.json.JSONObject;
 import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
 import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import org.bukkit.entity.Player;
 

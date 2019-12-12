@@ -26,6 +26,7 @@ public class CustomRecipeSince_1_14 {
 		return new CampfireRecipe(key, result, input, experience, cookingTime);
 	}
 	
+	//CraftComplexRecipe
 	public static NamespacedKey getNamespacedKey(Recipe recipe) {
 		if(recipe instanceof StonecuttingRecipe) {
 			return ((StonecuttingRecipe) recipe).getKey();

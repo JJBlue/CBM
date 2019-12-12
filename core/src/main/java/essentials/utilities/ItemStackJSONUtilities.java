@@ -6,7 +6,8 @@ import components.json.JSONValue;
 import components.json.abstractJSON;
 import components.json.parser.JSONParser;
 import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
+
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;

@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.bukkit.inventory.ItemStack;
 
 import components.reflections.SimpleReflection;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.ReflectionsUtilities;
 
 public class ItemStackUtilitiesReflections {
 	public static Object craftItemStackAsNMSCopy(ItemStack itemstack) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {

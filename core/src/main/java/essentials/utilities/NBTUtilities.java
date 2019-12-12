@@ -5,7 +5,7 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 
 import components.json.JSONObject;
-import essentials.utilitiesvr.ReflectionsUtilities;
+import essentials.utilities.minecraft.MinecraftVersions;
 import essentials.utilitiesvr.nbt.NBTTag;
 import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
 import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
@@ -19,10 +19,10 @@ public class NBTUtilities {
 	 * @return NBTTagCompound
 	 */
 	public static Object getNBTTagCompound(ItemStack itemstack) {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.getNBTTagCompound(itemstack);
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.getNBTTagCompound(itemstack);
 		}
 		
@@ -30,10 +30,10 @@ public class NBTUtilities {
 	}
 
 	public static NBTTag getNBTTag(ItemStack itemstack) {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return new NBTUtilities_v1_14(itemstack);
-			case "v1_15_R1":
+			case v1_15_R1:
 				return new NBTUtilities_v1_15(itemstack);
 		}
 		
@@ -45,11 +45,11 @@ public class NBTUtilities {
 	 * @param NBTTagCompound nbtTagCompound
 	 */
 	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				NBTUtilities_v1_14.setNBTTagCompound(itemstack, nbtTagCompound);
 				return;
-			case "v1_15_R1":
+			case v1_15_R1:
 				NBTUtilities_v1_15.setNBTTagCompound(itemstack, nbtTagCompound);
 				return;
 		}
@@ -60,20 +60,20 @@ public class NBTUtilities {
 	 * NBTTagCompound
 	 */
 	public static Object createNBTTagCompound() {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.createNBTTagCompound();
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.createNBTTagCompound();
 		}
 		return NBTUtilitiesReflections.createNBTTagCompound();
 	}
 	
 	public static NBTTag createNBTTag() {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.createNBTTag();
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.createNBTTag();
 		}
 		return NBTUtilitiesReflections.createNBTTag();
@@ -83,20 +83,20 @@ public class NBTUtilities {
 	 * @return NBTTagList
 	 */
 	public static List<?> createNBTTagList() {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.createNBTTagList();
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.createNBTTagList();
 		}
 		return NBTUtilitiesReflections.createNBTTagList();
 	}
 	
 	public static Object createNBTBase(Object value) {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.createNBTBase(value);
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.createNBTBase(value);
 		}
 		return NBTUtilitiesReflections.createNBTBase(value);
@@ -108,20 +108,20 @@ public class NBTUtilities {
 	 * @return
 	 */
 	public static Object getValue(Object nbtbase) {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.getValue(nbtbase);
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.getValue(nbtbase);
 		}
 		return NBTUtilitiesReflections.getValue(nbtbase);
 	}
 	
 	public static Object parse(String s) {
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
+		switch (MinecraftVersions.getMinecraftVersionExact()) {
+			case v1_14_R1:
 				return NBTUtilities_v1_14.parse(s);
-			case "v1_15_R1":
+			case v1_15_R1:
 				return NBTUtilities_v1_15.parse(s);
 		}
 		return NBTUtilitiesReflections.parse(s);

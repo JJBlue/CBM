@@ -1,4 +1,4 @@
-package essentials.utilitiesvr;
+package essentials.utilities.minecraft;
 
 import essentials.main.Main;
 
