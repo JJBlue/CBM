@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import essentials.language.LanguageConfig;
 import essentials.player.PlayerConfig;
@@ -16,7 +15,7 @@ import essentials.player.PlayerManager;
 
 public class CommandSpyCommand implements TabExecutor {
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1 || !(sender instanceof Player)) return true;
 
 		Player player = (Player) sender;
@@ -54,7 +53,7 @@ public class CommandSpyCommand implements TabExecutor {
 	}
 
 	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {

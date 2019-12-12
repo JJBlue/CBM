@@ -14,7 +14,7 @@
     <parent>
         <groupId>jjblue</groupId>
         <artifactId>CBM</artifactId>
-        <version>0.5.5.BETA-prerelease</version>
+        <version>${revision}</version>
     </parent>
 
     <dependencies>

@@ -1,5 +1,19 @@
 package essentials.modules.commandonobject;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+
 import essentials.language.LanguageConfig;
 import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
@@ -7,22 +21,12 @@ import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 import essentials.utilities.permissions.PermissionHelper;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.command.*;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 
 public class CoBCommands implements TabExecutor {
 
 	//MoveEvent Listener ist im MoveEvents
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, @NotNull String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		Player p = null;
 
 		if (sender instanceof Player)
@@ -129,7 +133,7 @@ public class CoBCommands implements TabExecutor {
 	}
 
 	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String cmdLabel, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		List<String> result = null;
 		boolean finished = false;
 		List<String> returnArguments = new LinkedList<>();
