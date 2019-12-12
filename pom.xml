@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>jjblue</groupId>
-	<artifactId>CBM</artifactId>
+	<groupId>${gid}</groupId>
+	<artifactId>${aid}</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
@@ -14,17 +14,19 @@
 		<module>CBM_1_15</module>
 		<module>lib</module>
 	</modules>
-	
+
 	<properties>
 		<revision>0.5.5.BETA-prerelease</revision>
+		<gid>jjblue</gid>
+		<aid>CBM</aid>
 	</properties>
-	
+
 	<developers>
-        <developer>
-            <id>JJBlue</id>
-            <timezone>Germany/Berlin</timezone>
-        </developer>
-    </developers>
+		<developer>
+			<id>JJBlue</id>
+			<timezone>Germany/Berlin</timezone>
+		</developer>
+	</developers>
 
 	<repositories>
 		<repository>
@@ -35,6 +37,18 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.spigotmc</groupId>
+				<artifactId>spigot-api</artifactId>
+				<version>1.15-R0.1-SNAPSHOT</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.bukkit</groupId>
+				<artifactId>craftbukkit</artifactId>
+				<version>1.15-R0.1-SNAPSHOT</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>jjblue</groupId>
 				<artifactId>CBM-1.14</artifactId>

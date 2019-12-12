@@ -12,7 +12,7 @@
     <artifactId>CBM-1.14</artifactId>
 
     <parent>
-        <groupId>jjblue</groupId>
+        <groupId>${gid}</groupId>
         <artifactId>CBM</artifactId>
         <version>${revision}</version>
     </parent>
@@ -21,18 +21,18 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.14.4-R0.1-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.14.4-R0.1-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
             <scope>provided</scope>
         </dependency>
         <!-- Libs -->
         <dependency>
-            <groupId>jjblue</groupId>
+            <groupId>${gid}</groupId>
             <artifactId>CBM-lib</artifactId>
             <scope>compile</scope>
         </dependency>
