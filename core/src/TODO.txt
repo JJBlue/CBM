@@ -7,7 +7,7 @@ Futures:
 	- bossbar
 	- disableenchantments
 	- homes
-	- kids
+	- kits
 	- mail
 	- Noteblock Editor
 	- Oneline Player Tab -> Design
