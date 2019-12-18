@@ -415,7 +415,7 @@ public class Static {
 			if (tmp == null) tmp = new StringBuilder(s);
 			else tmp.append("\n").append(s);
 		}
-		return tmp.toString();
+		return tmp != null ? tmp.toString() : "";
 	}
 
 	public static String[] toArray(String args) {
@@ -468,7 +468,7 @@ public class Static {
 		}
 	}
 
-	public static void runWithTimeout(Callable<Object> callable, long timeout, String message) {
+	public static void runWithTimeout(Callable<Object> callable, long timeout) {
 		try {
 			runWithTimeout(callable, timeout, TimeUnit.SECONDS, false);
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {

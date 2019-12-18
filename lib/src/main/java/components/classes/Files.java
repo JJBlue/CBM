@@ -180,7 +180,7 @@ public class Files {
 					s.append("\n").append(sCurrentLine);
 			}
 
-			return s.toString();
+			return s != null ? s.toString() : null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

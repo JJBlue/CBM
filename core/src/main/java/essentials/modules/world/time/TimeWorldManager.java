@@ -117,10 +117,8 @@ public class TimeWorldManager {
 			}
 		}
 
-		if (bossBar != null) {
-			bossBar.setTitle("Player sleeping: " + currentPlayer + "/" + maxPlayer);
-			bossBar.setProgress((1d / maxPlayer) * currentPlayer);
-		}
+		bossBar.setTitle("Player sleeping: " + currentPlayer + "/" + maxPlayer);
+		bossBar.setProgress((1d / maxPlayer) * currentPlayer);
 	}
 
 	public static void addBossBarPlayer(World world, Player player) {

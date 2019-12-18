@@ -182,7 +182,8 @@ public class Downloader {
 
 			if (max != conn.getContentLengthLong()) {
 				max = conn.getContentLengthLong();
-				writer.write("\n" + file.getAbsolutePath() + ": Downloding file... Update Size(compressed): " + max + " Bytes");
+				if (writer != null)
+					writer.write("\n" + file.getAbsolutePath() + ": Downloding file... Update Size(compressed): " + max + " Bytes");
 			}
 
 			if (System.currentTimeMillis() - waiting >= 3000) {

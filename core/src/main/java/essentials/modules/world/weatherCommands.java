@@ -40,6 +40,8 @@ public class weatherCommands implements CommandExecutor, TabCompleter {
 		switch (args[0].toLowerCase()) {
 			case "sun":
 
+				if(l == null) break;
+				
 				world.setStorm(false);
 				world.setThundering(false);
 				LanguageConfig.sendMessage(sender, "weather.changeTo-sun", l.getWorld().getName());
@@ -48,6 +50,8 @@ public class weatherCommands implements CommandExecutor, TabCompleter {
 
 			case "rain":
 
+				if(l == null) break;
+				
 				world.setStorm(true);
 				world.setThundering(false);
 				LanguageConfig.sendMessage(sender, "weather.changeTo-rain", l.getWorld().getName());
@@ -55,6 +59,8 @@ public class weatherCommands implements CommandExecutor, TabCompleter {
 				break;
 
 			case "storm":
+				
+				if(l == null) break;
 
 				world.setStorm(true);
 				world.setThundering(true);

@@ -67,6 +67,8 @@ public class CoBCommands implements TabExecutor {
 
 			case "clear":
 
+				if(p == null) break;
+				
 				targetblock = p.getTargetBlock(null, 50);
 				CommandOnBlock.clear(targetblock.getLocation());
 				LanguageConfig.sendMessage(sender, "cob.clear");
@@ -75,7 +77,7 @@ public class CoBCommands implements TabExecutor {
 
 			case "add":
 
-				if (args.length < 2) break;
+				if (args.length < 2 || p == null) break;
 
 				targetblock = p.getTargetBlock(null, 50);
 				if(targetblock == null) break;
@@ -94,7 +96,7 @@ public class CoBCommands implements TabExecutor {
 
 			case "remove":
 
-				if (args.length < 2) break;
+				if (args.length < 2 || p == null) break;
 
 				targetblock = p.getTargetBlock(null, 50);
 				if(targetblock == null) break;

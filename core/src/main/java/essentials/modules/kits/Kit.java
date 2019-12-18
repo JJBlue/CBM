@@ -67,7 +67,8 @@ public class Kit {
 		PlayerUtilities.addItems(player, items);
 		
 		if(settings.isClaimOneTime() || settings.getCooldown() > 0) {
-			config.set("claim", LocalDateTime.now());
+			if(config != null)
+				config.set("claim", LocalDateTime.now());
 		}
 		
 		return true;

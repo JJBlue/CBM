@@ -120,7 +120,7 @@ public class StringUtilities {
 			}
 		}
 		
-		if(builder.length() > 0) {
+		if(builder != null && builder.length() > 0) {
 			list.add(builder.toString());
 		}
 		

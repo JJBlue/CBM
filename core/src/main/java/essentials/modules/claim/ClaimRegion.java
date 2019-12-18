@@ -42,8 +42,8 @@ public class ClaimRegion {
 		
 		ProtectedCuboidRegion region = new ProtectedCuboidRegion(
 			id,
-			BukkitAdapter.asBlockVector(new Location(world, minX, 0, minZ)),
-			BukkitAdapter.asBlockVector(new Location(world, maxX, 255, maxZ))
+			BukkitAdapter.asBlockVector(new Location(world, minX, minY, minZ)),
+			BukkitAdapter.asBlockVector(new Location(world, maxX, maxY, maxZ))
 		);
 
 		if(player != null) {
@@ -71,7 +71,7 @@ public class ClaimRegion {
 			if(id.contains("plot")) {
 				ProtectedRegion region = manager.getRegion(id);
 				DefaultDomain owners = region.getOwners();
-				if(owners.contains(player.getUniqueId()) || player == null) {
+				if(owners.contains(player.getUniqueId())) {
 					deletedRegion = true;
 					manager.removeRegion(id);
 					Bukkit.broadcastMessage("Deleted Region " + id); //TODO

@@ -70,6 +70,9 @@ public class ClaimCommands implements TabExecutor {
 					player = (Player) sender;
 				}
 				
+				if(player == null)
+					break;
+				
 				Chunk chunk = player.getLocation().getChunk();
 				boolean success = ClaimRegion.unclaimChunk(player, chunk);
 				

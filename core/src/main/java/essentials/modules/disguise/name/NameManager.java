@@ -22,7 +22,7 @@ public class NameManager {
 		
 		if(toPlayer != null)
 			playerListName = Tablist.getTablistName(toPlayer);
-		else if(playerListName == null)
+		else
 			playerListName = Tablist.getTablistName(player);
 		
 		if(playerListName == null || playerListName.isEmpty())

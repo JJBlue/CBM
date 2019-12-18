@@ -74,6 +74,8 @@ public class teleportCommand implements TabExecutor {
 
 			case "tpa": //TODO
 
+				if(p == null) break;
+				
 				p1 = Bukkit.getPlayer(args[0]);
 
 				if (tpa.contains(p1.getUniqueId().toString() + "," + p.getUniqueId().toString())) {
@@ -88,6 +90,8 @@ public class teleportCommand implements TabExecutor {
 
 			case "tpaccept": //TODO
 
+				if(p == null) break;
+				
 				if (args.length == 0) {
 					p1 = null;
 
@@ -133,6 +137,8 @@ public class teleportCommand implements TabExecutor {
 
 			case "tpdeny": //TODO
 
+				if(p == null) break;
+				
 				if (args.length == 0) {
 					p1 = null;
 
@@ -177,6 +183,8 @@ public class teleportCommand implements TabExecutor {
 
 			case "tpaall":
 
+				if(p == null) break;
+				
 				for (Player p2 : Bukkit.getOnlinePlayers()) {
 					if (!tpa.contains(p2.getUniqueId().toString() + "," + p.getUniqueId().toString())) {
 						tpa.add(p2.getUniqueId().toString() + "," + p.getUniqueId().toString());
@@ -190,6 +198,7 @@ public class teleportCommand implements TabExecutor {
 			case "back":
 
 				if (p == null) break;
+				
 				playerConfig = PlayerManager.getConfig(p);
 				Location location = playerConfig.getLocation(PlayerConfigKey.tpLocation);
 				if (location != null)

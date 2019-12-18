@@ -519,6 +519,8 @@ public class MainCommand implements TabExecutor {
 			
 			case "joinsilent": {
 				
+				if(p == null) break;
+				
 				PlayerConfig config = PlayerManager.getConfig(p);
 				boolean value = !config.getBoolean(PlayerConfigKey.joinSilent);
 				config.set(PlayerConfigKey.joinSilent, value);
