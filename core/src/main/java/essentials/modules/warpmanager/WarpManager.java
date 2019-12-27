@@ -28,8 +28,15 @@ public class WarpManager {
 	public static void load() {
 		Datenbank database = Databases.getWorldDatabase();
 
-		for (String s : SQLParser.getResources("sql/create.sql", WarpManager.class))
+		for (String s : SQLParser.getResources("sql/create.sql", WarpManager.class)) {
 			database.execute(s);
+		}
+		
+		for (String s : SQLParser.getResources("sql/updateVersionTable.sql", WarpManager.class)) {
+			try {
+				database.executeWithException(s);
+			} catch (SQLException e) {}
+		}
 	}
 
 	public synchronized static void unload() {
@@ -137,7 +144,7 @@ public class WarpManager {
 	public static void teleport(Entity entity, Warp warp) {
 		if (entity == null || warp == null) return;
 		if (warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
-		if(entity instanceof Player && !warp.condition.checkAndExecute((Player) entity)) return;
+		if(entity instanceof Player && !warp.checkAndExecute((Player) entity)) return;
 		entity.teleport(warp.location);
 	}
 

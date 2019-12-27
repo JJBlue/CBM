@@ -1,5 +1,6 @@
 package essentials.modulemanager;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -156,5 +157,9 @@ public class ModuleManager {
 		for(Listener listener : list) {
 			HandlerList.unregisterAll(listener);
 		}
+	}
+
+	public static Collection<Module> getModules() {
+		return modules.values();
 	}
 }

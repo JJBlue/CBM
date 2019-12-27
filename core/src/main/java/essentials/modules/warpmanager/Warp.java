@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import components.datenbank.Datenbank;
+import components.json.JSONObject;
 import essentials.config.database.SQLHelper;
 import essentials.database.Databases;
 import essentials.utilities.ItemStackJSONUtilities;
@@ -53,12 +55,18 @@ public class Warp {
 			preparedStatement.setBoolean(5, autoLore);
 			preparedStatement.setInt(6, pos);
 			preparedStatement.setString(7, name);
-			preparedStatement.setString(8, condition.getConditionToString());
-			preparedStatement.setString(9, condition.getExecuteToString());
+			preparedStatement.setString(8, condition != null ? condition.getConditionToString() : null);
+			preparedStatement.setString(9, condition != null ? condition.getExecuteToString() : null);
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean checkAndExecute(Player player) {
+		if(condition == null)
+			return true;
+		return condition.checkAndExecute(player);
 	}
 
 	public ItemStack getResultItemStack() {
@@ -127,12 +135,11 @@ public class Warp {
 		this.showWithoutPermission = showWithoutPermission;
 		saved = false;
 	}
-
-	public int getCost() {
-		return condition.getCondition().getInt("money");
-	}
-
+	
 	public void setCost(int cost) {
+		if(condition == null)
+			condition = new Condition(new JSONObject(), new JSONObject());
+		
 		condition.getCondition().add("money", cost);
 		saved = false;
 	}

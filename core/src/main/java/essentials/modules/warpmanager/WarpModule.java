@@ -9,7 +9,7 @@ public class WarpModule extends EModule {
 	@Override
 	public boolean load() {
 		WarpManager.load();
-		CommandManager.register("warp", new RedirectTabExecutor(new warpCommands()));
+		CommandManager.register("warp", new RedirectTabExecutor(new warpCommands(), 0));
 		CommandManager.setAlias("setwarp", "warp");
 		CommandManager.setAlias("delwarp", "warp");
 		CommandManager.setAlias("editwarp", "warp");

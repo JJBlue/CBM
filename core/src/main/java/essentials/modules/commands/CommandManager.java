@@ -42,8 +42,10 @@ public class CommandManager {
 	}
 	
 	public static boolean setAlias(String command, String alia) {
-		if(!commands.containsKey(command) || alias.containsKey(alia)) return false;
-		alias.put(alia, command);
+		System.out.println("try alias");
+		if(commands.containsKey(command)) return false;
+		System.out.println(command + " " + alia);
+		alias.put(command, alia);
 		return true;
 	}
 	

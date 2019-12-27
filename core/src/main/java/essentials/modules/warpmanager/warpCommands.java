@@ -18,6 +18,9 @@ public class warpCommands implements TabExecutor {
 		Player p = null;
 		if (sender instanceof Player)
 			p = (Player) sender;
+		
+		if(args.length < 1)
+			return true;
 
 		switch (args[0].toLowerCase()) {
 			case "warp":

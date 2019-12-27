@@ -179,6 +179,15 @@ public class Datenbank {
 		}
 		return false;
 	}
+	
+	public synchronized boolean executeWithException(String update) throws SQLException {
+		checkConnection();
+		Statement st = getStatement();
+
+		if (st != null)
+			return st.execute(update);
+		return false;
+	}
 
 	public void setPoolable(boolean value) {
 		checkConnection();

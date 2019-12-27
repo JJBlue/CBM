@@ -278,11 +278,12 @@ public abstract class DatabaseConfig {
 
 				try {
 					preparedStatement = getDatabase().prepareStatementWE(builder.toString());
-					if (preparedStatement == null) return;
 				} catch (SQLException e) {
 					System.out.println(builder.toString());
 					e.printStackTrace();
 				}
+				
+				if (preparedStatement == null) return;
 			}
 
 			try {
