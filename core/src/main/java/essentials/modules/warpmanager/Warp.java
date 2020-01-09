@@ -87,7 +87,7 @@ public class Warp {
 			if (hasPermission)
 				lore.add("Permission: " + PermissionHelper.getPermission("warp." + name));
 
-			if(condition != null)
+			if(condition != null && condition.hasCondition())
 				lore.addAll(condition.getConditiontoList());
 			
 			itemMeta.setLore(lore);

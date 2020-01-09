@@ -138,6 +138,9 @@ public class ConditionUtilities {
 	public static List<String> conditionsToString(JSONObject conditions) {
 		final List<String> list = new LinkedList<>();
 		
+		if(conditions == null)
+			return list;
+		
 		if(conditions.contains("money")) {
 			list.add("Cost: " + conditions.getDouble("money"));
 		}

@@ -23,7 +23,6 @@ import essentials.modules.commandspy.CommandSpyModule;
 import essentials.modules.costumerecipes.CustomRecipeModule;
 import essentials.modules.debugstick.DebugStickModule;
 import essentials.modules.display.DisplayModule;
-import essentials.modules.kits.KitsModule;
 import essentials.modules.operator.OpModule;
 import essentials.modules.spawn.SpawnModule;
 import essentials.modules.sudo.SudoModule;
@@ -71,7 +70,7 @@ public class ModuleManager {
 		addModule(new DebugStickModule());
 		addModule(new DisplayModule());
 		addModule(new FTBModule());
-		addModule(new KitsModule());
+//		addModule(new KitsModule());
 		addModule(new MapPaintModule());
 		addModule(new OpModule());
 		addModule(new SpawnModule());
