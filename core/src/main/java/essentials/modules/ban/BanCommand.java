@@ -16,7 +16,7 @@ import essentials.modules.commands.tabcompleter.STabCompleter;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.TimeUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class BanCommand implements TabExecutor {
 	@Override

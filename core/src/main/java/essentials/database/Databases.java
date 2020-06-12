@@ -1,7 +1,9 @@
 package essentials.database;
 
-import components.datenbank.Datenbank;
-import components.datenbank.Datenbanken;
+import java.sql.SQLException;
+
+import components.database.Datenbank;
+import components.database.Datenbanken;
 import components.sql.SQLParser;
 import essentials.config.MainConfig;
 import essentials.player.PlayerManager;
@@ -14,8 +16,13 @@ public class Databases {
 		playerDatabase = new Datenbank(null, null, MainConfig.getDataFolder() + "players.db");
 		playerDatabase.connect(Datenbanken.SQLLite);
 
-		for (String s : SQLParser.getResources("sql/create.sql", PlayerManager.class))
-			playerDatabase.execute(s);
+		for (String s : SQLParser.getResources("sql/create.sql", PlayerManager.class)) {
+			try {
+				playerDatabase.execute(s);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 		worldDatabase = new Datenbank(null, null, MainConfig.getDataFolder() + "worlds.db");
 		worldDatabase.connect(Datenbanken.SQLLite);

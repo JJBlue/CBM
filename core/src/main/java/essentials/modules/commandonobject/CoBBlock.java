@@ -1,16 +1,20 @@
 package essentials.modules.commandonobject;
 
-import components.datenbank.async.AsyncDatabase;
-import components.sql.SQLParser;
-import essentials.database.Databases;
-import essentials.utilities.commands.CommandAusfuehren;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.*;
+import components.database.async.AsyncDatabase;
+import components.sql.SQLParser;
+import essentials.database.Databases;
+import essentials.utilities.commands.CommandAusfuehren;
 
 public class CoBBlock {
 	private int ID;
@@ -83,8 +87,9 @@ public class CoBBlock {
 	public void removeCommand(final CoBCommandInfo ci) {
 		if (isIDSet) {
 			AsyncDatabase.add(() -> {
-				PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommand.sql", CoBBlock.class));
 				try {
+					PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommand.sql", CoBBlock.class));
+				
 					preparedStatement.setInt(1, ID);
 					preparedStatement.setString(2, ci.action.name());
 					preparedStatement.setString(3, ci.command);
@@ -95,8 +100,9 @@ public class CoBBlock {
 			});
 		} else {
 			AsyncDatabase.add(() -> {
-				PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommandLocation.sql", CoBBlock.class));
 				try {
+					PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/removeCommandLocation.sql", CoBBlock.class));
+				
 					preparedStatement.setString(1, location.getWorld().getName());
 					preparedStatement.setInt(2, location.getBlockX());
 					preparedStatement.setInt(3, location.getBlockY());
@@ -117,8 +123,9 @@ public class CoBBlock {
 		if (location == null) return result;
 
 		if (!isIDSet) {
-			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addBlock.sql", CoBBlock.class));
 			try {
+				PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addBlock.sql", CoBBlock.class));
+			
 				preparedStatement.setString(1, location.getWorld().getName());
 				preparedStatement.setInt(2, location.getBlockX());
 				preparedStatement.setInt(3, location.getBlockY());
@@ -139,8 +146,9 @@ public class CoBBlock {
 			PreparedStatement preparedStatement;
 
 			if (!isIDSet) {
-				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommandToBlock.sql", CoBBlock.class));
 				try {
+					preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommandToBlock.sql", CoBBlock.class));
+				
 					preparedStatement.setString(index++, location.getWorld().getName());
 					preparedStatement.setInt(index++, location.getBlockX());
 					preparedStatement.setInt(index++, location.getBlockY());
@@ -151,8 +159,9 @@ public class CoBBlock {
 				}
 
 			} else {
-				preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommand.sql", CoBBlock.class));
 				try {
+					preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addCommand.sql", CoBBlock.class));
+				
 					preparedStatement.setInt(index++, ID);
 				} catch (SQLException e) {
 					e.printStackTrace();

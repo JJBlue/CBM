@@ -9,7 +9,7 @@ import org.bukkit.World;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import essentials.utilities.BukkitUtilities;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class STabCompleter {
 	public static List<String> sortAndRemove(List<String> list, String arg){

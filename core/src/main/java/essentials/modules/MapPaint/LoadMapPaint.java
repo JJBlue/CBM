@@ -1,23 +1,29 @@
 package essentials.modules.MapPaint;
 
-import components.datenbank.Datenbank;
-import components.sql.SQLParser;
-import essentials.database.Databases;
-import essentials.utilities.image.imageManger;
-
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import components.database.Datenbank;
+import components.sql.SQLParser;
+import essentials.database.Databases;
+import essentials.utilities.image.imageManger;
 
 public class LoadMapPaint {
 
 	public static void load() {
 		Datenbank database = Databases.getWorldDatabase();
 
-		for (String s : SQLParser.getResources("sql/create.sql", LoadMapPaint.class))
-			database.execute(s);
+		for (String s : SQLParser.getResources("sql/create.sql", LoadMapPaint.class)) {
+			try {
+				database.execute(s);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static Image getMapPaint(int id) {
@@ -49,9 +55,9 @@ public class LoadMapPaint {
 	}
 
 	public static MPInformation getMpInformation(int id) {
-		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getPaintInformation.sql", LoadMapPaint.class));
-
 		try {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getPaintInformation.sql", LoadMapPaint.class));
+		
 			preparedStatement.setInt(1, id);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -75,10 +81,11 @@ public class LoadMapPaint {
 
 	public static int get(String pfad, String filename, int x, int y) {
 		if (pfad == null || filename == null) return -1;
-
-		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getMapID.sql", LoadMapPaint.class));
-
+		
 		try {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getMapID.sql", LoadMapPaint.class));
+
+		
 			preparedStatement.setInt(1, x);
 			preparedStatement.setInt(2, y);
 			preparedStatement.setString(3, pfad);
@@ -98,9 +105,9 @@ public class LoadMapPaint {
 	public static void setMapPaint(int id, String pfad, String filename, int x, int y) {
 		if (pfad == null || filename == null) return;
 
-		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addFile.sql", LoadMapPaint.class));
-
 		try {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/addFile.sql", LoadMapPaint.class));
+		
 			preparedStatement.setString(1, pfad);
 			preparedStatement.setString(2, filename);
 			preparedStatement.execute();
@@ -108,9 +115,9 @@ public class LoadMapPaint {
 			e.printStackTrace();
 		}
 
-		preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/setPaint.sql", LoadMapPaint.class));
-
 		try {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/setPaint.sql", LoadMapPaint.class));
+
 			preparedStatement.setInt(1, id);
 			preparedStatement.setInt(2, x);
 			preparedStatement.setInt(3, y);
@@ -125,9 +132,9 @@ public class LoadMapPaint {
 	}
 
 	public static void removeID(int id) {
-		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deletePaint.sql", LoadMapPaint.class));
-
 		try {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deletePaint.sql", LoadMapPaint.class));
+		
 			preparedStatement.setInt(1, id);
 			preparedStatement.execute();
 		} catch (SQLException e) {
@@ -136,9 +143,9 @@ public class LoadMapPaint {
 	}
 
 	public static boolean contains(int id) {
-		PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getPaintInformation.sql", LoadMapPaint.class));
-
 		try {
+			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getPaintInformation.sql", LoadMapPaint.class));
+		
 			preparedStatement.setInt(1, id);
 
 			ResultSet resultSet = preparedStatement.executeQuery();

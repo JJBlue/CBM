@@ -16,13 +16,6 @@ public class SudoPlayerManager {
 				return SudoPlayer_v1_15.createSudoPlayer(commandSender);
 		}
 		
-		switch (ReflectionsUtilities.getPackageVersionName()) {
-			case "v1_14_R1":
-				
-			case "v1_15_R1":
-				
-		}
-		
 		return SudoPlayerProxy.create(commandSender);
 	}
 

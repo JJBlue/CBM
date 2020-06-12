@@ -10,7 +10,7 @@ import com.mojang.authlib.properties.Property;
 
 import essentials.language.LanguageConfig;
 import essentials.modules.disguise.gameprofile.GameProfileBuilder;
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class Skin {
 	

@@ -65,15 +65,15 @@ import essentials.modules.visible.VisibleManager;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.ItemUtilies;
 import essentials.utilities.MathUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.TimeUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.permissions.PermissionHelper;
-import essentials.utilities.player.PlayerUtilities;
 import essentials.utilities.system.SystemStatus;
+import essentials.utilitiesvr.BukkitUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class MainCommand implements TabExecutor {
 	

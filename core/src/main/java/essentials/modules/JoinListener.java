@@ -27,7 +27,7 @@ import essentials.player.PlayersYMLConfig;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class JoinListener implements Listener, TabExecutor {
 	private static ArrayList<String> tempPlayer = new ArrayList<>();

@@ -22,14 +22,9 @@ public class SystemStatus {
 	}
 
 	public static String getArchitecture() {
-//		return System.getenv("PROCESSOR_ARCHITECTURE").toLowerCase();
 		return System.getProperty("os.arch");
 	}
-
-//	public static long getAllProcesses() {
-//		return ProcessHandle.allProcesses().count();
-//	}
-
+	
 	public static double getCPUUsage() {
 		OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		return operatingSystemMXBean.getProcessCpuLoad() * 100;

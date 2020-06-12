@@ -177,7 +177,7 @@ public class DebugStickBlockGetValue {
 			case FACE:
 				if (!(blockData instanceof Switch)) break;
 				Switch switch1 = (Switch) blockData;
-				return switch1.getFace();
+				return switch1.getAttachedFace();
 
 			case FACE_NORTH:
 				if (!(blockData instanceof RedstoneWire)) break;

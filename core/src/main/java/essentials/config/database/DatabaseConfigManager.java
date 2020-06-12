@@ -27,7 +27,12 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 		if (config != null)
 			return config;
 
-		insertOrIgnoreData(id);
+		try {
+			insertOrIgnoreData(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
 		if (buffer) {
 			if(shouldAddToBuffer(id))
@@ -73,8 +78,8 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 	public List<String> getColumns() {
 		List<String> columns = new LinkedList<>();
 
-		ResultSet resultSet = queryToReadColoumns();
 		try {
+			ResultSet resultSet = queryToReadColoumns();
 			ResultSetMetaData metaData = resultSet.getMetaData();
 			int columnCount = metaData.getColumnCount();
 
@@ -88,7 +93,7 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 	}
 	
 	public abstract D createConfig(I id);
-	protected abstract void insertOrIgnoreData(I id);
+	protected abstract void insertOrIgnoreData(I id) throws SQLException;
 	protected abstract boolean shouldAddToBuffer(I id);
-	protected abstract ResultSet queryToReadColoumns();
+	protected abstract ResultSet queryToReadColoumns() throws SQLException;
 }

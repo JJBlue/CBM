@@ -16,24 +16,31 @@
 		<artifactId>CBM</artifactId>
 		<version>${revision}</version>
 	</parent>
+	
+	<repositories>
+		<repository>
+			<id>CodeMC</id>
+			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.14.4-R0.1-SNAPSHOT</version><!--$NO-MVN-MAN-VER$ -->
+			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.14.4-R0.1-SNAPSHOT</version><!--$NO-MVN-MAN-VER$ -->
+			<artifactId>bukkit</artifactId>
+			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Libs -->
 		<dependency>
 			<groupId>jjblue</groupId>
-			<artifactId>CBM-lib</artifactId>
+			<artifactId>CBM-core</artifactId>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import com.mojang.authlib.GameProfile;
 
 import components.reflections.SimpleReflection;
-import essentials.utilities.player.EnumHandUtil;
 import net.minecraft.server.v1_15_R1.DimensionManager;
 import net.minecraft.server.v1_15_R1.EntityHuman;
 import net.minecraft.server.v1_15_R1.EntityPlayer;

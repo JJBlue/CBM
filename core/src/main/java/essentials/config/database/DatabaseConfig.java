@@ -13,9 +13,9 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
-import components.datenbank.DatabaseSyntax;
-import components.datenbank.Datenbank;
-import components.datenbank.async.AsyncDatabase;
+import components.database.DatabaseSyntax;
+import components.database.Datenbank;
+import components.database.async.AsyncDatabase;
 
 public abstract class DatabaseConfig {
 
@@ -240,10 +240,10 @@ public abstract class DatabaseConfig {
 					if (value.isSaved() || value.isTmp()) continue;
 
 					if (!coloumns.contains(key)) {
-						PreparedStatement statement = getDatabase().prepareStatement("ALTER TABLE " + getTableName() + " ADD COLUMN " + key + " " + SQLHelper.getSQLDataType(value.getObject()));
-						coloumns.add(key);
-
 						try {
+							PreparedStatement statement = getDatabase().prepareStatement("ALTER TABLE " + getTableName() + " ADD COLUMN " + key + " " + SQLHelper.getSQLDataType(value.getObject()));
+							coloumns.add(key);
+
 							statement.execute();
 						} catch (SQLException e) {
 							e.printStackTrace();
@@ -277,7 +277,7 @@ public abstract class DatabaseConfig {
 				builder.append(saveWhereClause());
 
 				try {
-					preparedStatement = getDatabase().prepareStatementWE(builder.toString());
+					preparedStatement = getDatabase().prepareStatement(builder.toString());
 				} catch (SQLException e) {
 					System.out.println(builder.toString());
 					e.printStackTrace();

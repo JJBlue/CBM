@@ -24,8 +24,8 @@ import org.bukkit.inventory.ShapelessRecipe;
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.utilities.ConfigUtilities;
-import essentials.utilities.RecipeUtilities;
 import essentials.utilities.minecraft.MinecraftVersions;
+import essentials.utilitiesvr.RecipeUtilities;
 
 public class CustomRecipe {
 	static File file;

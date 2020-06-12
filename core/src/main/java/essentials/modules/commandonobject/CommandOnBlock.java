@@ -12,8 +12,8 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import components.datenbank.Datenbank;
-import components.datenbank.async.AsyncDatabase;
+import components.database.Datenbank;
+import components.database.async.AsyncDatabase;
 import components.sql.SQLParser;
 import essentials.database.Databases;
 
@@ -25,8 +25,13 @@ public class CommandOnBlock {
 	public static void load() {
 		Datenbank database = Databases.getWorldDatabase();
 
-		for (String s : SQLParser.getResources("sql/create.sql", CommandOnBlock.class))
-			database.execute(s);
+		for (String s : SQLParser.getResources("sql/create.sql", CommandOnBlock.class)) {
+			try {
+				database.execute(s);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void unload() {
@@ -81,10 +86,10 @@ public class CommandOnBlock {
 		chunkBuffer.put(chunk, blocks);
 		
 		AsyncDatabase.add(() -> {
-			PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getBlocksInChunk.sql", CommandOnBlock.class));
-			Location location = chunk.getBlock(0, 64, 0).getLocation();
-	
 			try {
+				PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/getBlocksInChunk.sql", CommandOnBlock.class));
+				Location location = chunk.getBlock(0, 64, 0).getLocation();
+			
 				preparedStatement.setString(1, chunk.getWorld().getName());
 				preparedStatement.setInt(2, location.getBlockX());
 				preparedStatement.setInt(3, location.getBlockX() + 15);
@@ -151,8 +156,9 @@ public class CommandOnBlock {
 		
 		if(map.remove(location) != null) {
 			AsyncDatabase.add(() -> {
-				PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deleteBlock.sql", CommandOnBlock.class));
 				try {
+					PreparedStatement preparedStatement = Databases.getWorldDatabase().prepareStatement(SQLParser.getResource("sql/deleteBlock.sql", CommandOnBlock.class));
+				
 					preparedStatement.setString(1, location.getWorld().getName());
 					preparedStatement.setInt(2, location.getBlockX());
 					preparedStatement.setInt(3, location.getBlockY());

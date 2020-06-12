@@ -12,7 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import components.datenbank.Datenbank;
+import components.database.Datenbank;
 import components.sql.SQLParser;
 import essentials.config.database.SQLHelper;
 import essentials.database.Databases;
@@ -32,8 +32,13 @@ public class SpawnManager {
 	public static void load() {
 		Datenbank database = getDatabase();
 		
-		for(String s : SQLParser.getResources("sql/create.sql", SpawnManager.class))
-			database.execute(s);
+		for(String s : SQLParser.getResources("sql/create.sql", SpawnManager.class)) {
+			try {
+				database.execute(s);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static void teleportToSpawn(Entity entity) {
@@ -213,7 +218,12 @@ public class SpawnManager {
 	}
 	
 	public static PreparedStatement getPreparedStatement(String s) {
-		return getDatabase().prepareStatement(s);
+		try {
+			return getDatabase().prepareStatement(s);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static Datenbank getDatabase() {

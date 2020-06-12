@@ -1,12 +1,13 @@
 package essentials.player;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import components.datenbank.Datenbank;
+import components.database.Datenbank;
 import essentials.config.database.DatabaseConfigManager;
 import essentials.database.Databases;
 
@@ -56,7 +57,7 @@ public class PlayerManager {
 		}
 
 		@Override
-		protected void insertOrIgnoreData(UUID uuid) {
+		protected void insertOrIgnoreData(UUID uuid) throws SQLException {
 			Datenbank database = Databases.getPlayerDatabase();
 			database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
 		}
@@ -73,9 +74,9 @@ public class PlayerManager {
 		}
 
 		@Override
-		protected ResultSet queryToReadColoumns() {
+		protected ResultSet queryToReadColoumns() throws SQLException {
 			Datenbank database = Databases.getPlayerDatabase();
-			return database.getResult("SELECT * FROM players LIMIT 1");
+			return database.executeQuery("SELECT * FROM players LIMIT 1");
 		}
 	}
 

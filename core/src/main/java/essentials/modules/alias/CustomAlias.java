@@ -22,9 +22,9 @@ import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
 import essentials.main.Main;
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.permissions.PermissionHelper;
 import essentials.utilities.placeholder.PlaceholderFormatter;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class CustomAlias {
 	static File file;

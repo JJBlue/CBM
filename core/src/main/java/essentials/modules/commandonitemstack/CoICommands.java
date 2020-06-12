@@ -14,12 +14,12 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import essentials.language.LanguageConfig;
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.chat.ChatUtilities;
 import essentials.utilities.chat.ClickAction;
 import essentials.utilities.chat.HoverAction;
 import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class CoICommands implements TabExecutor {
 	@Override

@@ -134,7 +134,7 @@ public class ItemStackJSONUtilities {
 			Map<String, Object> map = new HashMap<>();
 			String className = null;
 
-			for (String key : jsonObject.getMap().keySet()) {
+			for (String key : jsonObject.getKeys()) {
 				abstractJSON valueAJson = jsonObject.get(key);
 
 				if (valueAJson instanceof JSONValue) {

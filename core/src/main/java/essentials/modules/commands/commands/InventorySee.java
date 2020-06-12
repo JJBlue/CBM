@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class InventorySee implements TabExecutor {
 	@Override

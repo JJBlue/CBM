@@ -220,7 +220,7 @@ public class PlaceCommandholderFormatter {
 			value = commandSender.getName();
 		} else if(value instanceof List) {
 			//TODO
-			Bukkit.broadcastMessage(Arrays.toString(((List) value).toArray()));
+			Bukkit.broadcastMessage(Arrays.toString(((List<?>) value).toArray()));
 		}
 		
 		if(value instanceof String)

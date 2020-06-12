@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import components.datenbank.DatabaseSyntax;
-import components.datenbank.Datenbank;
+import components.database.DatabaseSyntax;
+import components.database.Datenbank;
 import essentials.config.database.AbstractDatabaseConfig;
 import essentials.config.database.DatabaseConfig;
 import essentials.database.Databases;
@@ -25,7 +25,7 @@ public class KitPlayerConfig extends DatabaseConfig {
 	protected ResultSet getDataInformation(String key) {
 		PreparedStatement statement = null;
 		try {
-			statement = Databases.getPlayerDatabase().prepareStatementWE(DatabaseSyntax.selectFromWhere(key, getTableName(), "uuid"));
+			statement = Databases.getPlayerDatabase().prepareStatement(DatabaseSyntax.selectFromWhere(key, getTableName(), "uuid"));
 		} catch (SQLException e1) {} //No Such Coloum Exception
 		if (statement == null) return null;
 

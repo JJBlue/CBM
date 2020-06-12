@@ -4,6 +4,7 @@ import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.*;
 import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.FaceAttachable.AttachedFace;
 import org.bukkit.block.data.type.*;
 
 import java.util.Set;
@@ -314,8 +315,8 @@ public class DebugStickNextBlockStates {
 				if (!(blockData instanceof Switch)) break;
 				Switch switch1 = (Switch) blockData;
 
-				switch1.setFace(nextPosition(switch1.getFace(), next, Switch.Face.values()));
-
+				switch1.setAttachedFace(nextPosition(switch1.getAttachedFace(), next, AttachedFace.values()));
+				
 				break;
 			case FACE_NORTH:
 				if (!(blockData instanceof RedstoneWire)) break;

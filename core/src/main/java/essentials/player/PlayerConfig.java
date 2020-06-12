@@ -10,8 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
-import components.datenbank.DatabaseSyntax;
-import components.datenbank.Datenbank;
+import components.database.DatabaseSyntax;
+import components.database.Datenbank;
 import essentials.config.database.DatabaseConfig;
 import essentials.config.database.DatabaseConfigManager;
 import essentials.database.Databases;
@@ -70,7 +70,7 @@ public class PlayerConfig extends DatabaseConfig {
 	protected ResultSet getDataInformation(String key) {
 		PreparedStatement statement = null;
 		try {
-			statement = Databases.getPlayerDatabase().prepareStatementWE(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
+			statement = Databases.getPlayerDatabase().prepareStatement(DatabaseSyntax.selectFromWhere(key, "players", "uuid"));
 		} catch (SQLException e1) {} //No Such Coloum Exception
 		if (statement == null) return null;
 

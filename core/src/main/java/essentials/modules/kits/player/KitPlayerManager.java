@@ -1,12 +1,13 @@
 package essentials.modules.kits.player;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import components.datenbank.Datenbank;
+import components.database.Datenbank;
 import components.sql.SQLParser;
 import essentials.config.database.DatabaseMapConfigManager;
 import essentials.database.Databases;
@@ -19,8 +20,13 @@ public class KitPlayerManager {
 	static {
 		manager = new KitPlayerConfigManager();
 		
-		for(String update : SQLParser.getResources("/sql/create.sql", KitPlayerManager.class))
-			Databases.getPlayerDatabase().execute(update);
+		for(String update : SQLParser.getResources("/sql/create.sql", KitPlayerManager.class)) {
+			try {
+				Databases.getPlayerDatabase().execute(update);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void unload() {
@@ -53,7 +59,7 @@ public class KitPlayerManager {
 	
 	static class KitPlayerConfigManager extends DatabaseMapConfigManager<UUID, String, KitPlayerConfig> {
 		@Override
-		protected void insertOrIgnoreData(UUID uuid, String did) {
+		protected void insertOrIgnoreData(UUID uuid, String did) throws SQLException {
 			Datenbank database = Databases.getPlayerDatabase();
 			database.execute("INSERT OR IGNORE INTO kitsPlayer (kitID, uuid) VALUES ('" + did + "', '" + uuid.toString() + "')");
 		}
@@ -70,9 +76,9 @@ public class KitPlayerManager {
 		}
 
 		@Override
-		protected ResultSet queryToReadColoumns() {
+		protected ResultSet queryToReadColoumns() throws SQLException {
 			Datenbank database = Databases.getPlayerDatabase();
-			return database.getResult("SELECT * FROM kitsPlayer LIMIT 1");
+			return database.executeQuery("SELECT * FROM kitsPlayer LIMIT 1");
 		}
 	}
 }

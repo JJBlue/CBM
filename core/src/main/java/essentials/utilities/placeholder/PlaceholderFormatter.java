@@ -17,7 +17,7 @@ import essentials.player.CountTime;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerConfigKey;
 import essentials.player.PlayerManager;
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class PlaceholderFormatter {
 	public static String setPlaceholders(CommandSender sender, String text) {

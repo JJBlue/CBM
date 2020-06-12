@@ -17,19 +17,19 @@ public class ConditionUtilities {
 	public static boolean execute(Player player, JSONObject json) {
 		if(json == null) return true;
 		
-		if(json.contains("money")) {
+		if(json.containsKey("money")) {
 			EconomyManager.removeMoney(player.getUniqueId(), json.getDouble("money"));
 		}
 		
-		if(json.contains("level")) {
+		if(json.containsKey("level")) {
 			player.setLevel(player.getLevel() + json.getInt("level"));
 		}
 		
-		if(json.contains("exp")) {
+		if(json.containsKey("exp")) {
 			player.setExp(player.getExp() + json.getFloat("exp"));
 		}
 		
-		if(json.contains("add-criteria")) {
+		if(json.containsKey("add-criteria")) {
 			JSONArray array = (JSONArray) json.get("add-criteria");
 			
 			for(Object opair : array.getList()) {
@@ -39,7 +39,7 @@ public class ConditionUtilities {
 			}
 		}
 		
-		if(json.contains("remove-criteria")) {
+		if(json.containsKey("remove-criteria")) {
 			JSONArray array = (JSONArray) json.get("remove-criteria");
 			
 			for(Object opair : array.getList()) {
@@ -49,28 +49,28 @@ public class ConditionUtilities {
 			}
 		}
 		
-		if(json.contains("reset-advancements")) {
+		if(json.containsKey("reset-advancements")) {
 			JSONArray array = (JSONArray) json.get("reset-advancements");
 			
-			for(String name : array.toListString()) {
+			for(String name : array.toStringList()) {
 				Advancement advancement = AdvancementUtilities.getAdvancement(name);
 				AdvancementUtilities.resetAdvancement(player, advancement);
 			}
 		}
 		
-		if(json.contains("run")) {
+		if(json.containsKey("run")) {
 			player.performCommand(PlaceholderFormatter.setPlaceholders(player, json.getString("run")));
 		}
 		
-		if(json.contains("run-server")) {
+		if(json.containsKey("run-server")) {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderFormatter.setPlaceholders(player, json.getString("run-server")));
 		}
 		
-		if(json.contains("sendmessage")) {
+		if(json.containsKey("sendmessage")) {
 			player.sendMessage(PlaceholderFormatter.setPlaceholders(player, json.getString("sendmessage")));
 		}
 		
-		if(json.contains("broadcast")) {
+		if(json.containsKey("broadcast")) {
 			Bukkit.broadcastMessage(PlaceholderFormatter.setPlaceholders(player, json.getString("broadcast")));
 		}
 		
@@ -84,32 +84,32 @@ public class ConditionUtilities {
 		
 		boolean result = true;
 		
-		if(result && conditions.contains("money") && !EconomyManager.hasMoney(player.getUniqueId(), conditions.getDouble("money"))) {
+		if(result && conditions.containsKey("money") && !EconomyManager.hasMoney(player.getUniqueId(), conditions.getDouble("money"))) {
 			result = false;
 		}
 		
-		if(result && conditions.contains("level") && player.getLevel() < conditions.getInt("level")) {
+		if(result && conditions.containsKey("level") && player.getLevel() < conditions.getInt("level")) {
 			result = false;
 		}
 		
-		if(result && conditions.contains("exp") && player.getExp() < conditions.getFloat("exp")) {
+		if(result && conditions.containsKey("exp") && player.getExp() < conditions.getFloat("exp")) {
 			result = false;
 		}
 		
-		if(result && conditions.contains("advancement")) {
+		if(result && conditions.containsKey("advancement")) {
 			JSONArray array = (JSONArray) conditions.get("advancement");
 			
-			for(String advancement : array.toListString()) {
+			for(String advancement : array.toStringList()) {
 				if(!AdvancementUtilities.isAdvancementComplete(player, AdvancementUtilities.getAdvancement(advancement))) {
 					result = false;
 				}
 			}
 		}
 		
-		if(result && conditions.contains("permissions")) {
+		if(result && conditions.containsKey("permissions")) {
 			JSONArray array = (JSONArray) conditions.get("permissions");
 			
-			for(String perm : array.toListString()) {
+			for(String perm : array.toStringList()) {
 				if(!player.hasPermission(perm)) {
 					result = false;
 				}
@@ -119,14 +119,14 @@ public class ConditionUtilities {
 		//Add here more conditions
 		
 		//And bind more, so its could bevor or
-		if(result && conditions.contains("and")) {
+		if(result && conditions.containsKey("and")) {
 			boolean cond = checkCondition(player, (JSONObject) conditions.get("and"));
 			if(cond) return true;
 		}
 		
 		if(result) return true;
 		
-		if(!result && conditions.contains("or")) {
+		if(!result && conditions.containsKey("or")) {
 			boolean cond = checkCondition(player, (JSONObject) conditions.get("or"));
 			if(cond) return true;
 		}
@@ -141,30 +141,30 @@ public class ConditionUtilities {
 		if(conditions == null)
 			return list;
 		
-		if(conditions.contains("money")) {
+		if(conditions.containsKey("money")) {
 			list.add("Cost: " + conditions.getDouble("money"));
 		}
 		
-		if(conditions.contains("level")) {
+		if(conditions.containsKey("level")) {
 			list.add("Cost Exp-Level: " + conditions.getInt("level"));
 		}
 		
-		if(conditions.contains("exp")) {
+		if(conditions.containsKey("exp")) {
 			list.add("Cost exp: " + conditions.getFloat("exp"));
 		}
 		
-		if(conditions.contains("advancement")) {
+		if(conditions.containsKey("advancement")) {
 			JSONArray array = (JSONArray) conditions.get("advancement");
 			
-			for(String advancement : array.toListString()) {
+			for(String advancement : array.toStringList()) {
 				list.add("Advancements: " + advancement);
 			}
 		}
 		
-		if(conditions.contains("permissions")) {
+		if(conditions.containsKey("permissions")) {
 			JSONArray array = (JSONArray) conditions.get("permissions");
 			
-			for(String perm : array.toListString()) {
+			for(String perm : array.toStringList()) {
 				list.add("Permissions: " + perm);
 			}
 		}

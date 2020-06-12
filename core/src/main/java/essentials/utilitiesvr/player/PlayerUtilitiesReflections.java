@@ -15,7 +15,6 @@ import com.mojang.authlib.GameProfile;
 import components.reflections.SimpleReflection;
 import essentials.main.Main;
 import essentials.utilities.minecraft.ReflectionsUtilities;
-import essentials.utilities.player.EnumHandUtil;
 import essentials.utilitiesvr.itemstack.ItemStackUtilitiesReflections;
 
 public class PlayerUtilitiesReflections {

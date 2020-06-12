@@ -193,7 +193,7 @@ public class ArmorstandInventory {
 
 		// 0 1 2 | 3 | 4 5 6 7 8
 		page.addItem(0, nothing);
-		page.addItem(1, armorstand.getHelmet());
+		page.addItem(1, armorstand.getEquipment().getHelmet());
 		page.addItem(2, nothing);
 		page.addItem(3, nothing);
 		page.addItem(4, basePlateField);
@@ -204,7 +204,7 @@ public class ArmorstandInventory {
 
 		// 9 10 11 | 12 | 13 14 15 16 17
 		page.addItem(9, armorstand.getEquipment().getItemInMainHand());
-		page.addItem(10, armorstand.getChestplate());
+		page.addItem(10, armorstand.getEquipment().getChestplate());
 		page.addItem(11, armorstand.getEquipment().getItemInOffHand());
 		page.addItem(12, nothing);
 		page.addItem(13, customNameVisible);
@@ -215,7 +215,7 @@ public class ArmorstandInventory {
 
 		// 18 19 20 | 21 | 22 23 24 25 26
 		page.addItem(18, nothing);
-		page.addItem(19, armorstand.getLeggings());
+		page.addItem(19, armorstand.getEquipment().getLeggings());
 		page.addItem(20, nothing);
 		page.addItem(21, nothing);
 		page.addItem(22, nothing);
@@ -226,7 +226,7 @@ public class ArmorstandInventory {
 
 		// 27 28 29 | 30 | 31 32 33 34 35
 		page.addItem(27, nothing);
-		page.addItem(28, armorstand.getBoots());
+		page.addItem(28, armorstand.getEquipment().getBoots());
 		page.addItem(29, nothing);
 		page.addItem(30, nothing);
 		page.addItem(31, nothing);
@@ -262,22 +262,22 @@ public class ArmorstandInventory {
 
 			switch (slot) {
 				case 1:
-					armorstand.setHelmet(event.getCursor());
+					armorstand.getEquipment().setHelmet(event.getCursor());
 					break;
 				case 9:
 					armorstand.getEquipment().setItemInMainHand(event.getCursor());
 					break;
 				case 10:
-					armorstand.setChestplate(event.getCursor());
+					armorstand.getEquipment().setChestplate(event.getCursor());
 					break;
 				case 11:
 					armorstand.getEquipment().setItemInOffHand(event.getCursor());
 					break;
 				case 19:
-					armorstand.setLeggings(event.getCursor());
+					armorstand.getEquipment().setLeggings(event.getCursor());
 					break;
 				case 28:
-					armorstand.setBoots(event.getCursor());
+					armorstand.getEquipment().setBoots(event.getCursor());
 					break;
 			}
 		});

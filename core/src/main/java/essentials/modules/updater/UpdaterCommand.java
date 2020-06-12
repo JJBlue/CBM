@@ -10,9 +10,9 @@ import org.bukkit.command.TabExecutor;
 
 import components.thread.AsyncExecute;
 import essentials.language.LanguageConfig;
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class UpdaterCommand implements TabExecutor {
 	@Override

@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import essentials.config.MainConfig;
 import essentials.config.MainConfigEnum;
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class OpListener implements Listener, TabExecutor {
 	@EventHandler

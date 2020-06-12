@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import components.json.JSONObject;
 import components.json.abstractJSON;
 import components.json.parser.JSONParser;
-import essentials.utilities.NBTUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
+import essentials.utilitiesvr.nbt.NBTUtilities;
 
 public class NBTManager {
 	public static void listNBT(CommandSender sender, ItemStack itemStack) {
@@ -88,7 +88,7 @@ public class NBTManager {
 				
 				if(aJSON instanceof JSONObject) {
 					JSONObject jsonObject = (JSONObject) aJSON;
-					if(jsonObject.getMap().size() == 1  && jsonObject.getString("text") != null)
+					if(jsonObject.size() == 1  && jsonObject.getString("text") != null)
 						builder.append("§f" + jsonObject.getString("text"));
 				}
 				

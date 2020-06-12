@@ -1,4 +1,4 @@
-package essentials.utilities.player;
+package essentials.utilitiesvr.player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -12,7 +12,6 @@ import com.mojang.authlib.GameProfile;
 import essentials.player.PlayerConfig;
 import essentials.player.PlayerManager;
 import essentials.utilities.minecraft.ReflectionsUtilities;
-import essentials.utilitiesvr.player.PlayerUtilitiesReflections;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_14;
 import essentials.utilitiesvr.player.PlayerUtilities_v1_15;
 

@@ -5,6 +5,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import essentials.utilitiesvr.nbt.NBTUtilities;
+
 public class ConfigUtilities {
 	public static ItemStack readItemStack(ConfigurationSection section, String key) {
 		if(section == null) return null;

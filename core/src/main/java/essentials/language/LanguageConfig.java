@@ -10,8 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import essentials.config.ConfigHelper;
 import essentials.config.MainConfig;
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class LanguageConfig {
 	private LanguageConfig() {}

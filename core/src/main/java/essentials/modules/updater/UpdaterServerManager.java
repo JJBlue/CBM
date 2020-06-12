@@ -10,8 +10,8 @@ import java.util.Map;
 import components.classes.Files;
 import essentials.config.MainConfig;
 import essentials.language.LanguageConfig;
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.permissions.PermissionHelper;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class UpdaterServerManager {
 	private UpdaterServerManager() {}

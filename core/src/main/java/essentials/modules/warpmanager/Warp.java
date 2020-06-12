@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import components.datenbank.Datenbank;
+import components.database.Datenbank;
 import components.json.JSONObject;
 import essentials.config.database.SQLHelper;
 import essentials.database.Databases;
@@ -43,8 +43,9 @@ public class Warp {
 
 		Datenbank database = Databases.getWorldDatabase();
 		//TODO create database
-		PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ?, condition = ?, executes = ? WHERE name = ?");
 		try {
+			PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ?, condition = ?, executes = ? WHERE name = ?");
+		
 			preparedStatement.setString(1, SQLHelper.LocationToString(location));
 			if (itemStack != null && !itemStack.getType().equals(Material.AIR))
 				preparedStatement.setString(2, ItemStackJSONUtilities.toString(itemStack));

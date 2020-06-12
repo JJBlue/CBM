@@ -28,7 +28,12 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 			return config.get(did);
 		}
 
-		insertOrIgnoreData(id, did);
+		try {
+			insertOrIgnoreData(id, did);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
 		if (buffer) {
 			if(shouldAddToBuffer(id, did))
@@ -87,8 +92,8 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 	public List<String> getColumns() {
 		List<String> columns = new LinkedList<>();
 
-		ResultSet resultSet = queryToReadColoumns();
 		try {
+			ResultSet resultSet = queryToReadColoumns();
 			ResultSetMetaData metaData = resultSet.getMetaData();
 			int columnCount = metaData.getColumnCount();
 
@@ -102,7 +107,7 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 	}
 	
 	public abstract D createConfig(I id, DI did);
-	protected abstract void insertOrIgnoreData(I id, DI did);
+	protected abstract void insertOrIgnoreData(I id, DI did) throws SQLException;
 	protected abstract boolean shouldAddToBuffer(I id, DI did);
-	protected abstract ResultSet queryToReadColoumns();
+	protected abstract ResultSet queryToReadColoumns() throws SQLException;
 }

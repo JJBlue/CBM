@@ -6,9 +6,9 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.utilities.NBTUtilities;
 import essentials.utilities.commands.CommandAusfuehren;
 import essentials.utilitiesvr.nbt.NBTTag;
+import essentials.utilitiesvr.nbt.NBTUtilities;
 
 public class CoIManager {
 	public static void addCommand(ItemStack itemStack, CoIAction action, String command) {

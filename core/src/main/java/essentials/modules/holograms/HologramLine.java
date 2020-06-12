@@ -7,8 +7,8 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import essentials.utilities.NBTUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
+import essentials.utilitiesvr.nbt.NBTUtilities;
 
 public class HologramLine {
 	private ArmorStand armorStand;

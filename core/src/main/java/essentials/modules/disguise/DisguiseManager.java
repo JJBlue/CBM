@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import essentials.modules.disguise.gameprofile.GameProfileBuilder;
 import essentials.modules.disguise.name.NameManager;
-import essentials.utilities.player.PlayerUtilities;
+import essentials.utilitiesvr.player.PlayerUtilities;
 
 public class DisguiseManager {
 	public static void disguise(Player player, String name) {

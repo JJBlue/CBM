@@ -13,8 +13,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import essentials.utilities.BukkitUtilities;
 import essentials.utilities.StringUtilities;
+import essentials.utilitiesvr.BukkitUtilities;
 
 public class SudoCommand implements TabExecutor {
 	@Override

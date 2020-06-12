@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import essentials.language.LanguageConfig;
-import essentials.utilities.NBTUtilities;
 import essentials.utilities.StringUtilities;
 import essentials.utilitiesvr.nbt.NBTTag;
+import essentials.utilitiesvr.nbt.NBTUtilities;
 
 public class NBTCommands implements TabExecutor {
 	@Override

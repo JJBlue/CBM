@@ -1,4 +1,4 @@
-package essentials.utilities;
+package essentials.utilitiesvr.nbt;
 
 import java.util.List;
 
@@ -6,8 +6,6 @@ import org.bukkit.inventory.ItemStack;
 
 import components.json.JSONObject;
 import essentials.utilities.minecraft.MinecraftVersions;
-import essentials.utilitiesvr.nbt.NBTTag;
-import essentials.utilitiesvr.nbt.NBTUtilitiesReflections;
 import essentials.utilitiesvr.nbt.NBTUtilities_v1_14;
 import essentials.utilitiesvr.nbt.NBTUtilities_v1_15;
 

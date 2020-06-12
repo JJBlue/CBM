@@ -13,7 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import components.datenbank.Datenbank;
+import components.database.Datenbank;
 import components.sql.SQLParser;
 import essentials.config.database.SQLHelper;
 import essentials.database.Databases;
@@ -29,12 +29,16 @@ public class WarpManager {
 		Datenbank database = Databases.getWorldDatabase();
 
 		for (String s : SQLParser.getResources("sql/create.sql", WarpManager.class)) {
-			database.execute(s);
+			try {
+				database.execute(s);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		for (String s : SQLParser.getResources("sql/updateVersionTable.sql", WarpManager.class)) {
 			try {
-				database.executeWithException(s);
+				database.executeQuery(s);
 			} catch (SQLException e) {}
 		}
 	}
