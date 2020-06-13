@@ -62,7 +62,6 @@ public class NBTCommands implements TabExecutor {
 							value = Long.parseLong(args[3]);
 							break;
 						case "intarray":
-							
 							int[] ia = new int[args.length - 3];
 							
 							for(int i = 3; i < args.length; i++)
@@ -71,9 +70,7 @@ public class NBTCommands implements TabExecutor {
 							value = ia;
 							
 							break;
-							
 						case "longarray":
-							
 							long[] la = new long[args.length - 3];
 							
 							for(int i = 3; i < args.length; i++)
@@ -82,9 +79,7 @@ public class NBTCommands implements TabExecutor {
 							value = la;
 							
 							break;
-							
 						case "doublearray":
-							
 							double[] da = new double[args.length - 3];
 							
 							for(int i = 3; i < args.length; i++)
@@ -93,9 +88,7 @@ public class NBTCommands implements TabExecutor {
 							value = da;
 							
 							break;
-							
 						case "floatarray":
-							
 							float[] fa = new float[args.length - 3];
 							
 							for(int i = 3; i < args.length; i++)
@@ -104,11 +97,8 @@ public class NBTCommands implements TabExecutor {
 							value = fa;
 							
 							break;
-							
 						case "String":
-							
 							value = StringUtilities.arrayToStringRange(args, 3, args.length);
-							
 							break;
 					}
 					

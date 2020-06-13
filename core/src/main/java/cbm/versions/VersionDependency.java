@@ -14,7 +14,7 @@ public class VersionDependency<T> {
 	public static void init() {
 		try {
 			Class<?> classy = Class.forName("cbm." + MinecraftVersions.getMinecraftVersionExact() + ".MainVersion");
-			Method init = classy.getMethod("init", classy);
+			Method init = classy.getMethod("init");
 			init.invoke(null, new Object[0]);
 			System.out.print("[CBM] Found Dependency for this MC Version (" + MinecraftVersions.getMinecraftVersionExact() + ")");
 		} catch (ClassNotFoundException e) {

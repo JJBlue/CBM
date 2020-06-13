@@ -315,7 +315,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 	@Override
 	public long getLong(String key) {
 		try {
-			return (int) MethodReflection.callMethod(nbtTagCompound, "getLong", key);
+			return (long) MethodReflection.callMethod(nbtTagCompound, "getLong", key);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

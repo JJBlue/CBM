@@ -43,7 +43,7 @@ public class NBTUtilities {
 		if(vd != null)
 			vd.setNBTTagCompound(itemstack, nbtTagCompound);
 		else
-			NBTUtilitiesReflections.getNBTTagCompound(itemstack);
+			NBTUtilitiesReflections.setNBTTagCompound(itemstack, nbtTagCompound);
 	}
 
 	/**
