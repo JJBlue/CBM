@@ -96,7 +96,7 @@ public class ItemStackJSONUtilities {
 			else if (value instanceof List)
 				jsonObject.add(key, toJsonArray((List<?>) value));
 			else
-				System.out.println("Missing Class! : " + value.getClass().getName());
+				System.out.print("Missing Class! : " + value.getClass().getName());
 		}
 
 		return jsonObject;
@@ -115,7 +115,7 @@ public class ItemStackJSONUtilities {
 			else if (value instanceof List)
 				l.add(value);
 			else
-				System.out.println("Missing Class! : " + value.getClass().getName());
+				System.out.print("Missing Class! : " + value.getClass().getName());
 		}
 
 		return array;
@@ -164,7 +164,7 @@ public class ItemStackJSONUtilities {
 					}
 				}
 			} else
-				System.out.println("Missing Class! # 2");
+				System.out.print("Missing Class! # 2");
 
 		} else if (aJson instanceof JSONArray) {
 			JSONArray array = (JSONArray) aJson;
@@ -179,7 +179,7 @@ public class ItemStackJSONUtilities {
 				} else if (valueAJson instanceof JSONObject || valueAJson instanceof JSONArray) {
 					list.add(toObject(valueAJson));
 				} else
-					System.out.println("Missing Class! #4");
+					System.out.print("Missing Class! #4");
 			}
 
 			return list;

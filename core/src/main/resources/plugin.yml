@@ -1,7 +1,7 @@
 name: CBM
 version: ${project.version}
 author: JJ
-main: essentials.main.Main
+main: cbm.main.Main
 api-version: 1.13
 softdepend: [PlaceholderAPI, Vault, WorldGuard]
 

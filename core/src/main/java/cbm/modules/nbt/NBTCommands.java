@@ -121,8 +121,9 @@ public class NBTCommands implements TabExecutor {
 				} catch (IllegalArgumentException e) {
 					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
 				}
+				
+				break;
 			}
-			
 			case "remove": //remove <Key>
 				
 				if(args.length < 2 || !(sender instanceof Player)) break;
@@ -166,7 +167,7 @@ public class NBTCommands implements TabExecutor {
 						returnArguments.add("longarray");
 						returnArguments.add("doublearray");
 						returnArguments.add("floatarray");
-						returnArguments.add("bytStringe");
+						returnArguments.add("String");
 					} else if(args.length == 3)
 						returnArguments.add("<Key>");
 					else if(args.length == 4)

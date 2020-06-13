@@ -144,7 +144,7 @@
                   <relocations>
                       <relocation>
                           <pattern>org.bstats.bukkit</pattern>
-                          <shadedPattern>essentials.bStats</shadedPattern>
+                          <shadedPattern>cbm.bStats</shadedPattern>
                       </relocation>
                   </relocations>
               </configuration>

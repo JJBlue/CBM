@@ -7,7 +7,7 @@ public class MinecraftVersions {
 		try {
 			return PackageVersion.valueOf(packagename);
 		} catch (Exception e) {
-			System.out.println("Minecraft Version unknown: " + packagename);
+			System.out.print("Minecraft Version unknown: " + packagename);
 			return null;
 		}
 	}

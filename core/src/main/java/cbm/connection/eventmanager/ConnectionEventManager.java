@@ -48,7 +48,7 @@ public class ConnectionEventManager {
 							m.invoke(l, event);
 						} catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
 							e.printStackTrace();
-							System.out.println("Class: " + l.getClass().getName());
+							System.out.print("Class: " + l.getClass().getName());
 						}
 					}
 				}

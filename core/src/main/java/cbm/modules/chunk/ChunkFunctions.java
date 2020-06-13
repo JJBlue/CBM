@@ -25,7 +25,7 @@ public class ChunkFunctions {
 				;
 		}
 
-		System.out.println(world.getLoadedChunks().length);
+		System.out.print(world.getLoadedChunks().length);
 	}
 
 	/**

@@ -36,22 +36,22 @@ public class Main extends JavaPlugin {
 	private static LocalDateTime online;
 
 	public void onEnable() {
-		System.out.println("[CBM] is starting");
+		System.out.print("[CBM] is starting");
 		plugin = this;
 		online = LocalDateTime.now();
 		
 		VersionDependency.init();
 
-		System.out.println("[CBM] loading important configs");
+		System.out.print("[CBM] loading important configs");
 		MainConfig.reload();
 		LanguageConfig.load();
 		Databases.load();
 		
-		System.out.println("[CBM] load important Commands & Modules");
+		System.out.print("[CBM] load important Commands & Modules");
 		CommandManager.load();
 		ModuleManager.load();
 
-		System.out.println("[CBM] loading Listeners");
+		System.out.print("[CBM] loading Listeners");
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
@@ -71,7 +71,7 @@ public class Main extends JavaPlugin {
 			this.getCommand("cbm").setTabCompleter(mainCommand);
 		}
 
-		System.out.println("[CBM] loading configs");
+		System.out.print("[CBM] loading configs");
 		BookCommand.saveDefaultBook();
 
 		for (Player player : Bukkit.getOnlinePlayers())
@@ -81,7 +81,7 @@ public class Main extends JavaPlugin {
 			bStats.enableBStats();
 
 		reload();
-		System.out.println("[CBM] start complete");
+		System.out.print("[CBM] start complete");
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Main extends JavaPlugin {
 		try {
 			runnable.run();
 		} catch (NoClassDefFoundError e) {
-			System.out.println(Main.getPlugin().getName() + ": NoClassDefFoundError by unloading (did you overwrite .jar file)?");
+			System.out.print(Main.getPlugin().getName() + ": NoClassDefFoundError by unloading (did you overwrite .jar file)?");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

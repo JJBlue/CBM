@@ -135,10 +135,10 @@ public class CustomRecipe {
 				if(added) {
 					recipesIDs.add(keyID);
 				} else {
-					System.out.println("[CBM] Recipe (" + id + ") could not be added");
+					System.out.print("[CBM] Recipe (" + id + ") could not be added");
 				}
 			} catch (Exception e) {
-				System.out.println("Some problems in the CustomRecipe config");
+				System.out.print("Some problems in the CustomRecipe config");
 				e.printStackTrace();
 			}
 		}
@@ -155,7 +155,7 @@ public class CustomRecipe {
 				Recipe recipe = recipes.next();
 				NamespacedKey key = getNamespacedKey(recipe);
 				if(key == null) {
-					System.out.println(recipe);
+					System.out.print(recipe);
 					continue;
 				}
 				
@@ -166,7 +166,7 @@ public class CustomRecipe {
 			
 			recipesIDs.clear();
 		} catch (Exception e) {
-			System.out.println("Could not remove recipes");
+			System.out.print("Could not remove recipes");
 			e.printStackTrace();
 		}
 	}

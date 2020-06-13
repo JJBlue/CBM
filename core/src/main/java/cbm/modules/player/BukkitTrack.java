@@ -142,7 +142,7 @@ public class BukkitTrack {
     				case ShortMessage.TUNE_REQUEST:
     					break;
     				default: {
-    					System.out.println("Command:" + sm.getCommand());
+    					System.out.print("Command:" + sm.getCommand());
     				}
 				}
 

@@ -16,10 +16,11 @@ public class VersionDependency<T> {
 			Class<?> classy = Class.forName("cbm." + MinecraftVersions.getMinecraftVersionExact() + ".MainVersion");
 			Method init = classy.getMethod("init", classy);
 			init.invoke(null, new Object[0]);
+			System.out.print("[CBM] Found Dependency for this MC Version (" + MinecraftVersions.getMinecraftVersionExact() + ")");
 		} catch (ClassNotFoundException e) {
-			System.out.println("[CBM] No Dependency for this MC Version found");
+			System.out.print("[CBM] No Dependency for this MC Version found");
 		} catch (NoSuchMethodException e) {
-			System.out.println("[CBM] Dependency Method init not found");
+			System.out.print("[CBM] Dependency Method init not found");
 		} catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

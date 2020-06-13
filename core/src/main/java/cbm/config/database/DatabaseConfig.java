@@ -279,7 +279,7 @@ public abstract class DatabaseConfig {
 				try {
 					preparedStatement = getDatabase().prepareStatement(builder.toString());
 				} catch (SQLException e) {
-					System.out.println(builder.toString());
+					System.out.print(builder.toString());
 					e.printStackTrace();
 				}
 				

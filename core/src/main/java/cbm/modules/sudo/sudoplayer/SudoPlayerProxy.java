@@ -29,7 +29,7 @@ public class SudoPlayerProxy {
 
 	public static Player create(CommandSender usedPlayer, Player player) {
 		if (craftPlayer == null) {
-			System.out.println("Error CraftPlayer could not be found. SudoPlayerProxy #1");
+			System.out.print("Error CraftPlayer could not be found. SudoPlayerProxy #1");
 			return player;
 		}
 
@@ -66,7 +66,7 @@ public class SudoPlayerProxy {
 
 	public static CommandSender create(CommandSender commandSender) {
 		if (craftPlayer == null) {
-			System.out.println("Error CraftPlayer could not be found. SudoPlayerProxy #2");
+			System.out.print("Error CraftPlayer could not be found. SudoPlayerProxy #2");
 			return commandSender;
 		}
 

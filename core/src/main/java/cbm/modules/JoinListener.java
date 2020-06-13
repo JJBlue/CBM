@@ -94,7 +94,7 @@ public class JoinListener implements Listener, TabExecutor {
 			return false;
 		}
 
-		System.out.println("Spieler mit der UUID: " + event.getPlayer().getUniqueId() + " versuchte zu joinen!");
+		System.out.print("Spieler mit der UUID: " + event.getPlayer().getUniqueId() + " versuchte zu joinen!");
 		event.getPlayer().kickPlayer(MainConfig.getFullMessage());
 		event.setJoinMessage(null);
 		return true;

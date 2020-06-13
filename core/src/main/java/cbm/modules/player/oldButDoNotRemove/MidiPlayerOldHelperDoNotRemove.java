@@ -40,7 +40,7 @@ public class MidiPlayerOldHelperDoNotRemove {
     	File file = new File(".\\midi\\Simpsons.mid");
     	
     	Soundbank soundbank2 = MidiSystem.getSoundbank(file);
-    	System.out.println(soundbank2.getInstruments().length);
+    	System.out.print(soundbank2.getInstruments().length);
     	
     	Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
     	Sequence sequence = MidiSystem.getSequence(file);
@@ -49,7 +49,7 @@ public class MidiPlayerOldHelperDoNotRemove {
     	for (Track track : sequence.getTracks()) {
     		trackNumber++;
 
-    		System.out.println("Track " + trackNumber + ": size = " + track.size());
+    		System.out.print("Track " + trackNumber + ": size = " + track.size());
     		System.out.println();
 
     		for (int i = 0; i < track.size(); i++) { 
@@ -70,7 +70,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					int note = key % 12;
 	    					String noteName = NOTE_NAMES[note];
 	    					int velocity = sm.getData2();
-	    					System.out.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity);
+	    					System.out.print("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity);
 	    				}
 	    				case ShortMessage.NOTE_OFF: {
 	    					int key = sm.getData1();
@@ -78,7 +78,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					int note = key % 12;
 	    					String noteName = NOTE_NAMES[note];
 	    					int velocity = sm.getData2();
-	    					System.out.println("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
+	    					System.out.print("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
 	    				}
 	    				case ShortMessage.ACTIVE_SENSING:
 	    					break;
@@ -97,7 +97,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    				case ShortMessage.POLY_PRESSURE:
 	    					break;
 	    				case ShortMessage.PROGRAM_CHANGE:
-	    					System.out.println("Instrument: " + soundbank.getInstruments()[sm.getData1()].getName());
+	    					System.out.print("Instrument: " + soundbank.getInstruments()[sm.getData1()].getName());
 	    					break;
 	    				case ShortMessage.SONG_POSITION_POINTER:
 	    					break;
@@ -114,7 +114,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    				case ShortMessage.TUNE_REQUEST:
 	    					break;
 	    				default: {
-	    					System.out.println("Command:" + sm.getCommand());
+	    					System.out.print("Command:" + sm.getCommand());
 	    				}
     				}
 
@@ -124,40 +124,40 @@ public class MidiPlayerOldHelperDoNotRemove {
     				
     				switch (metaMessage.getType()) {
     					case MetaMessageType.sequence_number:
-    						System.out.println("MetaMessage: sequence_number");
+    						System.out.print("MetaMessage: sequence_number");
     						break;
     					case MetaMessageType.text:
-    						System.out.println("MetaMessage: text: " + MetaMessageType.getText(metaMessage));
+    						System.out.print("MetaMessage: text: " + MetaMessageType.getText(metaMessage));
     						break;
 	    				case MetaMessageType.copyright:
-	    					System.out.println("MetaMessage: copyright: " + MetaMessageType.getCopyright(metaMessage));
+	    					System.out.print("MetaMessage: copyright: " + MetaMessageType.getCopyright(metaMessage));
 	    					break;
 	    				case MetaMessageType.track_name:
-	    					System.out.println("MetaMessage: track_name " + MetaMessageType.getTrackName(metaMessage));
+	    					System.out.print("MetaMessage: track_name " + MetaMessageType.getTrackName(metaMessage));
 	    					break;
 	    				case MetaMessageType.instrument_name:
-	    					System.out.println("MetaMessage: instrument_name " + MetaMessageType.getInstrumentName(metaMessage));
+	    					System.out.print("MetaMessage: instrument_name " + MetaMessageType.getInstrumentName(metaMessage));
 	    					break;
 	    				case MetaMessageType.lyrics:
-	    					System.out.println("MetaMessage: lyrics");
+	    					System.out.print("MetaMessage: lyrics");
 	    					break;
 	    				case MetaMessageType.marker:
-	    					System.out.println("MetaMessage: marker");
+	    					System.out.print("MetaMessage: marker");
 	    					break;
 	    				case MetaMessageType.cue_marker:
-	    					System.out.println("MetaMessage: cue_marker");
+	    					System.out.print("MetaMessage: cue_marker");
 	    					break;
 	    				case MetaMessageType.device_name:
-	    					System.out.println("MetaMessage: device_name " + MetaMessageType.getDeviceName(metaMessage));
+	    					System.out.print("MetaMessage: device_name " + MetaMessageType.getDeviceName(metaMessage));
 	    					break;
 	    				case MetaMessageType.channel_prefix:
-	    					System.out.println("MetaMessage: channel_prefix");
+	    					System.out.print("MetaMessage: channel_prefix");
 	    					break;
 	    				case MetaMessageType.midi_port:
-	    					System.out.println("MetaMessage: midi_port");
+	    					System.out.print("MetaMessage: midi_port");
 	    					break;
 	    				case MetaMessageType.end_of_track:
-	    					System.out.println("MetaMessage: end_of_track");
+	    					System.out.print("MetaMessage: end_of_track");
 	    					break;
 	    				case MetaMessageType.set_tempo:
 	        				int tempo = MetaMessageType.getTempo(metaMessage);
@@ -170,23 +170,23 @@ public class MidiPlayerOldHelperDoNotRemove {
 	        				
 	        				double sleep = 60 / ((bpm/60d) * MetaMessageType.getClocksPerClick(metaMessage));
 	        				
-	        				System.out.println("MetaMessage: set_tempo " + tempo + " " + bpm  + " " + sleep);
+	        				System.out.print("MetaMessage: set_tempo " + tempo + " " + bpm  + " " + sleep);
 	    					break;
 	    				case MetaMessageType.smpte_offset:
-	    					System.out.println("MetaMessage: smpte_offset " + Arrays.toString(metaMessage.getData()));
+	    					System.out.print("MetaMessage: smpte_offset " + Arrays.toString(metaMessage.getData()));
 	    					break;
 	    				case MetaMessageType.time_signature:
-	    					System.out.println("MetaMessage: time_signature");
+	    					System.out.print("MetaMessage: time_signature");
 	    					break;
 	    				case MetaMessageType.key_signature:
-	    					System.out.println("MetaMessage: key_signature");
+	    					System.out.print("MetaMessage: key_signature");
 	    					break;
 	    				case MetaMessageType.sequencer_specific:
-	    					System.out.println("MetaMessage: sequencer_specific");
+	    					System.out.print("MetaMessage: sequencer_specific");
 	    					break;
     				}
     			} else {
-    				System.out.println("Other message: " + message.getClass());
+    				System.out.print("Other message: " + message.getClass());
     			}
     		}
 

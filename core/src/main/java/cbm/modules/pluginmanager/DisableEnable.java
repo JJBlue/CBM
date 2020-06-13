@@ -104,12 +104,12 @@ public class DisableEnable implements TabExecutor {
 	private boolean unloadPlugin(Plugin plugin) throws Exception {
 		if (plugin == null) return false;
 
-		System.out.println("Try disable Plugin " + plugin.getName());
+		System.out.print("Try disable Plugin " + plugin.getName());
 		PluginManager manager = Bukkit.getServer().getPluginManager();
 		SimplePluginManager spmanager = (SimplePluginManager) manager;
 		if (spmanager == null) return false;
 		
-		System.out.println("Remove commands of Plugin " + plugin.getName());
+		System.out.print("Remove commands of Plugin " + plugin.getName());
 		
 		SimpleCommandMap commandMap = BukkitUtilities.getSimpleCommandMap();
 		Map<?, ?> knownCommands = (Map<?, ?>) ObjectReflection.getObject("knownCommands", commandMap);
@@ -125,7 +125,7 @@ public class DisableEnable implements TabExecutor {
 			plugins.remove(plugin);
 		}
 
-		System.out.println("Removing lookup Name of Plugin " + plugin.getName());
+		System.out.print("Removing lookup Name of Plugin " + plugin.getName());
 		@SuppressWarnings("unchecked")
 		Map<String, Plugin> lookupNames = (Map<String, Plugin>) ObjectReflection.getObject("lookupNames", spmanager);
 

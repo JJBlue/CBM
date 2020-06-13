@@ -38,7 +38,7 @@ public class BanManager {
 	}
 	
 	public static void banPlayer(UUID uuid, String reason, String time) {
-		System.out.println(TimeUtilities.parseAddTime(time));
+		System.out.print(TimeUtilities.parseAddTime(time));
 		
 		banPlayer(uuid, reason, TimeUtilities.parseAddTime(time));
 	}
