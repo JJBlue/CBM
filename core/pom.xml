@@ -78,7 +78,13 @@
             <artifactId>ComponentsLib-Json</artifactId>
             <version>0.0.1</version>
             <scope>compile</scope>
-	    </dependency>
+        </dependency>
+        <dependency>
+            <groupId>JJProducts</groupId>
+            <artifactId>ComponentsLib-Reflections</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>JJProducts</groupId>
             <artifactId>ComponentsLib-Utils</artifactId>
