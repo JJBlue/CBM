@@ -54,6 +54,11 @@
             <artifactId>bukkit</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- ComponentsLib -->
         <dependency>
             <groupId>JJProducts</groupId>

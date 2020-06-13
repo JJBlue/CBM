@@ -1,20 +1,21 @@
-package essentials.utilitiesvr.recipes;
+package cbm.v1_14_R1.utilitiesvr.recipes;
 
+import java.util.Iterator;
+import java.util.Map;
+
+import org.bukkit.inventory.Recipe;
+
+import cbm.utilitiesvr.recipes.RecipeIterator;
 import net.minecraft.server.v1_14_R1.CraftingManager;
 import net.minecraft.server.v1_14_R1.IRecipe;
 import net.minecraft.server.v1_14_R1.MinecraftKey;
 import net.minecraft.server.v1_14_R1.MinecraftServer;
 
-import org.bukkit.inventory.Recipe;
-
-import java.util.Iterator;
-import java.util.Map;
-
-public class RecipeIterator_v1_14 implements RecipeIterator {
+public class RecipeIterator_v implements RecipeIterator {
 	Iterator<? extends Map<MinecraftKey, IRecipe<?>>> iterator;
 	Iterator<IRecipe<?>> currentIterator;
 
-	public RecipeIterator_v1_14() {
+	public RecipeIterator_v() {
 		iterator = getCraftingManager().recipes.values().iterator();
 	}
 

@@ -1,4 +1,4 @@
-package essentials.utilitiesvr.player;
+package cbm.v1_14_R1.utilitiesvr.player;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
 
-import components.reflections.SimpleReflection;
+import cbm.utilitiesvr.player.EnumHandUtil;
+import cbm.utilitiesvr.player.PlayerUtilities_Interface;
+import components.reflection.ObjectReflection;
 import net.minecraft.server.v1_14_R1.DimensionManager;
 import net.minecraft.server.v1_14_R1.EntityHuman;
 import net.minecraft.server.v1_14_R1.EntityPlayer;
@@ -32,8 +34,9 @@ import net.minecraft.server.v1_14_R1.PacketPlayOutRespawn;
 import net.minecraft.server.v1_14_R1.PacketPlayOutUpdateHealth;
 import net.minecraft.server.v1_14_R1.PlayerConnection;
 
-public class PlayerUtilities_v1_14 {
-	public static void sendPacket(Player player, Object packet) {
+public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
+	@Override
+	public void sendPacket(Player player, Object packet) {
 		sendPacket(player, (Packet<?>) packet);
 	}
 	
@@ -53,7 +56,8 @@ public class PlayerUtilities_v1_14 {
 		return ((CraftPlayer) player).getHandle();
 	}
 	
-	public static void setArmSwing(Player player, EnumHandUtil hand) {
+	@Override
+	public void setArmSwing(Player player, EnumHandUtil hand) {
 		switch (hand) {
 			case MAIN_HAND:
 				setArmSwing(player, EnumHand.MAIN_HAND);
@@ -64,18 +68,20 @@ public class PlayerUtilities_v1_14 {
 		}
 	}
 	
-	public static void setArmSwing(Player player, EnumHand hand) {
+	public void setArmSwing(Player player, EnumHand hand) {
 		((CraftPlayer) player).getHandle().playerConnection.a(new PacketPlayInArmAnimation(hand));
 	}
 	
-	public static void setHeldItemSlot(Player player, int number) {
+	@Override
+	public void setHeldItemSlot(Player player, int number) {
 		PacketPlayOutHeldItemSlot animation = new PacketPlayOutHeldItemSlot(number);
 		sendPacket(player, animation);
 	}
 	
-	public static void setGameProfile(Player player, GameProfile gameProfile) {
+	@Override
+	public void setGameProfile(Player player, GameProfile gameProfile) {
 		try {
-			Field field = SimpleReflection.getField("bW", EntityHuman.class);
+			Field field = ObjectReflection.getField("bW", EntityHuman.class);
 			field.setAccessible(true);
 			field.set(((CraftPlayer) player).getHandle(), gameProfile);
 		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
@@ -83,11 +89,13 @@ public class PlayerUtilities_v1_14 {
 		}
 	}
 	
-	public static GameProfile getGameProfile(Player player) {
+	@Override
+	public GameProfile getGameProfile(Player player) {
 		return ((CraftPlayer) player).getHandle().getProfile();
 	}
 	
-	public static void updatePlayer(final Player player) {
+	@Override
+	public void updatePlayer(final Player player) {
 		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
 		boolean flying = player.isFlying();

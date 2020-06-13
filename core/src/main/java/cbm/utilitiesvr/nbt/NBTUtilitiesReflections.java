@@ -83,26 +83,26 @@ public class NBTUtilitiesReflections implements NBTTag {
 	 */
 	public static Object createNBTBase(Object value) {
 		try {
-			if(value instanceof Byte)//TODO since 1.15 it is the static method a
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByte"), value);
+			if(value instanceof Byte)
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByte"), "a", value);
 			else if(value instanceof byte[])
 				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagByteArray"), value);
 			else if(value instanceof Double)
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagDouble"), value);
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagDouble"), "a", value);
 			else if(value instanceof Float)
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagFloat"), value);
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagFloat"), "a", value);
 			else if(value instanceof Integer)
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagInt"), value);
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagInt"), "a", value);
 			else if(value instanceof int[])
 				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagIntArray"), value);
 			else if(value instanceof Long)
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLong"), value);
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLong"), "a", value);
 			else if(value instanceof long[])
 				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagLongArray"), value);
 			else if(value instanceof Short)
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagShort"), value);
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagShort"), "a", value);
 			else if(value instanceof String)
-				return ConstructorReflection.createObject(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagString"), value);
+				return MethodReflection.callStaticMethod(Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".NBTTagString"), "a", value);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

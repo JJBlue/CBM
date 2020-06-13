@@ -13,6 +13,7 @@ import com.mojang.authlib.GameProfile;
 
 import cbm.utilitiesvr.player.EnumHandUtil;
 import cbm.utilitiesvr.player.PlayerUtilities_Interface;
+import components.reflection.ObjectReflection;
 import net.minecraft.server.v1_15_R1.DimensionManager;
 import net.minecraft.server.v1_15_R1.EntityHuman;
 import net.minecraft.server.v1_15_R1.EntityPlayer;
@@ -32,7 +33,6 @@ import net.minecraft.server.v1_15_R1.PacketPlayOutPosition;
 import net.minecraft.server.v1_15_R1.PacketPlayOutRespawn;
 import net.minecraft.server.v1_15_R1.PacketPlayOutUpdateHealth;
 import net.minecraft.server.v1_15_R1.PlayerConnection;
-import reflection.ObjectReflection;
 
 public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 	@Override

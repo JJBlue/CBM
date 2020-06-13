@@ -12,7 +12,7 @@
 		<module>core</module>
 		<module>CBM_1_14</module>
 		<module>CBM_1_15</module>
-		<module>lib</module>
+		<module>release</module>
 	</modules>
 
 	<properties>
@@ -44,6 +44,12 @@
 			<dependency>
 				<groupId>org.bukkit</groupId>
 				<artifactId>bukkit</artifactId>
+				<version>1.15.2-R0.1-SNAPSHOT</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.bukkit</groupId>
+				<artifactId>craftbukkit</artifactId>
 				<version>1.15.2-R0.1-SNAPSHOT</version>
 				<scope>provided</scope>
 			</dependency>

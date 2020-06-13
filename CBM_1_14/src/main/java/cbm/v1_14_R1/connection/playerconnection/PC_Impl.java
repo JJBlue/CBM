@@ -1,14 +1,65 @@
-package essentials.connection.playerconnection;
+package cbm.v1_14_R1.connection.playerconnection;
 
-import essentials.connection.eventmanager.ConnectionEvent;
-import essentials.connection.eventmanager.ConnectionEventManager;
-import net.minecraft.server.v1_14_R1.*;
+import org.bukkit.craftbukkit.v1_14_R1.CraftServer;
 
-public class PC_v1_14 extends PlayerConnection implements PacketListenerPlayIn {
+import cbm.connection.eventmanager.ConnectionEvent;
+import cbm.connection.eventmanager.ConnectionEventManager;
+import net.minecraft.server.v1_14_R1.EntityPlayer;
+import net.minecraft.server.v1_14_R1.MinecraftServer;
+import net.minecraft.server.v1_14_R1.NetworkManager;
+import net.minecraft.server.v1_14_R1.Packet;
+import net.minecraft.server.v1_14_R1.PacketListenerPlayIn;
+import net.minecraft.server.v1_14_R1.PacketPlayInAbilities;
+import net.minecraft.server.v1_14_R1.PacketPlayInAdvancements;
+import net.minecraft.server.v1_14_R1.PacketPlayInArmAnimation;
+import net.minecraft.server.v1_14_R1.PacketPlayInAutoRecipe;
+import net.minecraft.server.v1_14_R1.PacketPlayInBEdit;
+import net.minecraft.server.v1_14_R1.PacketPlayInBeacon;
+import net.minecraft.server.v1_14_R1.PacketPlayInBlockDig;
+import net.minecraft.server.v1_14_R1.PacketPlayInBlockPlace;
+import net.minecraft.server.v1_14_R1.PacketPlayInBoatMove;
+import net.minecraft.server.v1_14_R1.PacketPlayInChat;
+import net.minecraft.server.v1_14_R1.PacketPlayInClientCommand;
+import net.minecraft.server.v1_14_R1.PacketPlayInCloseWindow;
+import net.minecraft.server.v1_14_R1.PacketPlayInCustomPayload;
+import net.minecraft.server.v1_14_R1.PacketPlayInDifficultyChange;
+import net.minecraft.server.v1_14_R1.PacketPlayInDifficultyLock;
+import net.minecraft.server.v1_14_R1.PacketPlayInEnchantItem;
+import net.minecraft.server.v1_14_R1.PacketPlayInEntityAction;
+import net.minecraft.server.v1_14_R1.PacketPlayInEntityNBTQuery;
+import net.minecraft.server.v1_14_R1.PacketPlayInFlying;
+import net.minecraft.server.v1_14_R1.PacketPlayInHeldItemSlot;
+import net.minecraft.server.v1_14_R1.PacketPlayInItemName;
+import net.minecraft.server.v1_14_R1.PacketPlayInKeepAlive;
+import net.minecraft.server.v1_14_R1.PacketPlayInPickItem;
+import net.minecraft.server.v1_14_R1.PacketPlayInRecipeDisplayed;
+import net.minecraft.server.v1_14_R1.PacketPlayInResourcePackStatus;
+import net.minecraft.server.v1_14_R1.PacketPlayInSetCommandBlock;
+import net.minecraft.server.v1_14_R1.PacketPlayInSetCommandMinecart;
+import net.minecraft.server.v1_14_R1.PacketPlayInSetCreativeSlot;
+import net.minecraft.server.v1_14_R1.PacketPlayInSetJigsaw;
+import net.minecraft.server.v1_14_R1.PacketPlayInSettings;
+import net.minecraft.server.v1_14_R1.PacketPlayInSpectate;
+import net.minecraft.server.v1_14_R1.PacketPlayInSteerVehicle;
+import net.minecraft.server.v1_14_R1.PacketPlayInStruct;
+import net.minecraft.server.v1_14_R1.PacketPlayInTabComplete;
+import net.minecraft.server.v1_14_R1.PacketPlayInTeleportAccept;
+import net.minecraft.server.v1_14_R1.PacketPlayInTileNBTQuery;
+import net.minecraft.server.v1_14_R1.PacketPlayInTrSel;
+import net.minecraft.server.v1_14_R1.PacketPlayInTransaction;
+import net.minecraft.server.v1_14_R1.PacketPlayInUpdateSign;
+import net.minecraft.server.v1_14_R1.PacketPlayInUseEntity;
+import net.minecraft.server.v1_14_R1.PacketPlayInUseItem;
+import net.minecraft.server.v1_14_R1.PacketPlayInVehicleMove;
+import net.minecraft.server.v1_14_R1.PacketPlayInWindowClick;
+import net.minecraft.server.v1_14_R1.PlayerConnection;
+
+public class PC_Impl extends PlayerConnection implements PacketListenerPlayIn {
+
 	public final MinecraftServer minecraftServer;
-	public final org.bukkit.craftbukkit.v1_14_R1.CraftServer server;
+	public final CraftServer server;
 
-	public PC_v1_14(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
+	public PC_Impl(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
 		super(minecraftserver, networkmanager, entityplayer);
 
 		this.minecraftServer = minecraftserver;
@@ -166,50 +217,6 @@ public class PC_v1_14 extends PlayerConnection implements PacketListenerPlayIn {
 		if (callPacketEvent(packetplayinupdatesign))
 			return;
 		super.a(packetplayinupdatesign);
-
-//		PlayerConnectionUtils.ensureMainThread(packetplayinupdatesign, this, this.player.getWorldServer());
-////        if (this.player.isFrozen()) return; // CraftBukkit
-//        this.player.resetIdleTimer();
-//        WorldServer worldserver = this.minecraftServer.getWorldServer(this.player.dimension);
-//        BlockPosition blockposition = packetplayinupdatesign.b();
-//
-//        if (worldserver.isLoaded(blockposition)) {
-//            IBlockData iblockdata = worldserver.getType(blockposition);
-//            TileEntity tileentity = worldserver.getTileEntity(blockposition);
-//
-//            if (!(tileentity instanceof TileEntitySign))
-//                return;
-//
-//            TileEntitySign tileentitysign = (TileEntitySign) tileentity;
-//
-//            if (!tileentitysign.d() || tileentitysign.f() != this.player) {
-//                this.minecraftServer.warning("Player " + this.player.getDisplayName().getString() + " just tried to change non-editable sign");
-//                this.sendPacket(tileentity.getUpdatePacket()); // CraftBukkit
-//                return;
-//            }
-//
-//            String[] astring = packetplayinupdatesign.c();
-//
-//            Player player = this.server.getPlayer(this.player);
-//            int x = packetplayinupdatesign.b().getX();
-//            int y = packetplayinupdatesign.b().getY();
-//            int z = packetplayinupdatesign.b().getZ();
-//            String[] lines = new String[4];
-//
-//            for (int i = 0; i < astring.length; ++i)
-//                lines[i] = EnumChatFormat.b(new ChatComponentText(EnumChatFormat.b(astring[i])).getString());
-//            
-//            SignChangeEvent event = new SignChangeEvent((org.bukkit.craftbukkit.v1_14_R1.block.CraftBlock) player.getWorld().getBlockAt(x, y, z), this.server.getPlayer(this.player), lines);
-//            this.server.getPluginManager().callEvent(event);
-//
-//            if (!event.isCancelled()) {
-//                System.arraycopy(org.bukkit.craftbukkit.v1_14_R1.block.CraftSign.sanitizeLines(event.getLines()), 0, tileentitysign.lines, 0, 4);
-//                tileentitysign.isEditable = false;
-//            }
-//
-//            tileentitysign.update();
-//            worldserver.notify(blockposition, iblockdata, iblockdata, 3);
-//        }
 	}
 
 	@Override

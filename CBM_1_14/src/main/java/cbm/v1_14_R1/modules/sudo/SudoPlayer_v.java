@@ -1,4 +1,6 @@
-package essentials.modules.sudo;
+package cbm.v1_14_R1.modules.sudo;
+
+import java.util.Set;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -10,18 +12,16 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-import essentials.modules.sudo.sudoplayer.SudoPlayerInterface;
+import cbm.modules.sudo.sudoplayer.SudoPlayerInterface;
 
-import java.util.Set;
-
-public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface {
+public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	public static Player createSudoPlayer(CommandSender usedSudo, Player player) {
-		return new SudoPlayer_v1_14(usedSudo, player);
+		return new SudoPlayer_v(usedSudo, player);
 	}
 	
 	public static Player createSudoPlayer(CommandSender usedSudo) {
-		return new SudoPlayer_v1_14(usedSudo);
+		return new SudoPlayer_v(usedSudo);
 	}
 	
 	public final CommandSender usedSudo;
@@ -29,7 +29,7 @@ public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface
 	public boolean silentOutputMessage;
 	public GameMode gameMode;
 
-	public SudoPlayer_v1_14(CommandSender usedSudo, Player player) {
+	public SudoPlayer_v(CommandSender usedSudo, Player player) {
 		super(
 				(CraftServer) usedSudo.getServer(),
 				((CraftPlayer) player).getHandle()
@@ -38,7 +38,7 @@ public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface
 		this.player = player;
 	}
 
-	public SudoPlayer_v1_14(CommandSender usedSudo) {
+	public SudoPlayer_v(CommandSender usedSudo) {
 		super(
 				(CraftServer) usedSudo.getServer(),
 				((CraftPlayer) usedSudo).getHandle()
@@ -153,7 +153,7 @@ public class SudoPlayer_v1_14 extends CraftPlayer implements SudoPlayerInterface
 		return super.getGameMode();
 	}
 
-	public SudoPlayer_v1_14 setSilentOutputMessage(boolean silent) {
+	public SudoPlayer_v setSilentOutputMessage(boolean silent) {
 		this.silentOutputMessage = silent;
 		return this;
 	}

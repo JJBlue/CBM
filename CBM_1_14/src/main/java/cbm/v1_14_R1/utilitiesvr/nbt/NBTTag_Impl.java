@@ -1,16 +1,11 @@
-package essentials.utilitiesvr.nbt;
+package cbm.v1_14_R1.utilitiesvr.nbt;
 
-import java.util.List;
 import java.util.Set;
 
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
-import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
-import net.minecraft.server.v1_14_R1.MojangsonParser;
+import cbm.utilitiesvr.nbt.NBTTag;
+import cbm.utilitiesvr.nbt.NBTUtilities;
 import net.minecraft.server.v1_14_R1.NBTBase;
 import net.minecraft.server.v1_14_R1.NBTTagByte;
 import net.minecraft.server.v1_14_R1.NBTTagByteArray;
@@ -25,133 +20,16 @@ import net.minecraft.server.v1_14_R1.NBTTagLongArray;
 import net.minecraft.server.v1_14_R1.NBTTagShort;
 import net.minecraft.server.v1_14_R1.NBTTagString;
 
-public class NBTUtilities_v1_14 implements NBTTag {
-	/**
-	 * 
-	 * @return NBTTagCompound
-	 */
-	public static Object getNBTTagCompound(ItemStack itemstack) {
-		return CraftItemStack.asNMSCopy(itemstack).getTag();
-	}
-	
-	public static NBTTagCompound getNbtTagCompound(Entity entity) {
-		return ((CraftEntity) entity).getHandle().save(new NBTTagCompound());
-	}
-	
-	/**
-	 * 
-	 * @param s as json
-	 * @return NBTTagCompound
-	 */
-	public static Object parse(String s) {
-		try {
-			return MojangsonParser.parse(s);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	/**
-	 * @param itemstack
-	 * @param NBTTagCompound nbtTagCompound
-	 */
-	public static void setNBTTagCompound(ItemStack itemstack, Object nbtTagCompound) {
-		if (!(nbtTagCompound instanceof NBTTagCompound)) 
-			throw new IllegalArgumentException();
-		
-		net.minecraft.server.v1_14_R1.ItemStack is = CraftItemStack.asNMSCopy(itemstack);
-		is.setTag((NBTTagCompound) nbtTagCompound);
-		itemstack.setItemMeta(CraftItemStack.getItemMeta(is));
-	}
-	
-	/**
-	 * 
-	 * @return NBTTagCompound
-	 */
-	public static Object createNBTTagCompound() {
-		return new NBTTagCompound();
-	}
-	
-	public static NBTTag createNBTTag() {
-		return new NBTUtilities_v1_14(new NBTTagCompound());
-	}
-
-	/**
-	 * 
-	 * @return NBTTagList
-	 */
-	public static List<?> createNBTTagList() {
-		return new NBTTagList();
-	}
-	
-	/**
-	 * 
-	 * @return NBTBase
-	 */
-	public static Object createNBTBase(Object value) {
-		if(value instanceof Byte)
-			return new NBTTagByte((byte) value);
-		else if(value instanceof byte[])
-			return new NBTTagByteArray((byte[]) value);
-		else if(value instanceof Double)
-			return new NBTTagDouble((double) value);
-		else if(value instanceof Float)
-			return new NBTTagFloat((float) value);
-		else if(value instanceof Integer)
-			return new NBTTagInt((int) value);
-		else if(value instanceof int[])
-			return new NBTTagIntArray((int[]) value);
-		else if(value instanceof Long)
-			return new NBTTagLong((long) value);
-		else if(value instanceof long[])
-			return new NBTTagLongArray((long[]) value);
-		else if(value instanceof Short)
-			return new NBTTagShort((short) value);
-		else if(value instanceof String)
-			return new NBTTagString((String) value);
-		return null;
-	}
-	
-	public static Object getValue(Object base) {
-		if(base instanceof NBTTagByte)
-			return ((NBTTagByte) base).asByte();
-		else if(base instanceof NBTTagCompound)
-			return new NBTUtilities_v1_14(base);
-		else if(base instanceof NBTTagList)
-			return (List<?>) base;
-		else if(base instanceof NBTTagByteArray)
-			return ((NBTTagByteArray) base).getBytes();
-		else if(base instanceof NBTTagDouble)
-			return ((NBTTagDouble) base).asDouble();
-		else if(base instanceof NBTTagFloat)
-			return ((NBTTagFloat) base).asFloat();
-		else if(base instanceof NBTTagInt)
-			return ((NBTTagInt) base).asInt();
-		else if(base instanceof NBTTagIntArray)
-			return ((NBTTagIntArray) base).getInts();
-		else if(base instanceof NBTTagLong)
-			return ((NBTTagLong) base).asLong();
-		else if(base instanceof NBTTagLongArray)
-			return ((NBTTagLongArray) base).getLongs();
-		else if(base instanceof NBTTagShort)
-			return ((NBTTagShort) base).asShort();
-		else if(base instanceof NBTTagString)
-			return ((NBTTagString) base).asString();
-		return null;
-	}
-	
-	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+public class NBTTag_Impl implements NBTTag {
 	private NBTTagCompound nbtTagCompound;
 
-	public NBTUtilities_v1_14(ItemStack itemStack) {
-		nbtTagCompound = (NBTTagCompound) getNBTTagCompound(itemStack);
+	public NBTTag_Impl(ItemStack itemStack) {
+		nbtTagCompound = (NBTTagCompound) NBTUtilities.getNBTTagCompound(itemStack);
 		if(nbtTagCompound == null)
-			nbtTagCompound = (NBTTagCompound) createNBTTagCompound();
+			nbtTagCompound = (NBTTagCompound) NBTUtilities.createNBTTagCompound();
 	}
 	
-	public NBTUtilities_v1_14(Object nbtTagCompound) {
+	public NBTTag_Impl(Object nbtTagCompound) {
 		if(!(nbtTagCompound instanceof NBTTagCompound))
 			throw new IllegalArgumentException();
 		
@@ -196,7 +74,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 	
 	@Override
 	public NBTTag getCompoundAsNBTTag(String key) {
-		return new NBTUtilities_v1_14(getCompound(key));
+		return new NBTTag_Impl(getCompound(key));
 	}
 
 	@Override
@@ -301,7 +179,7 @@ public class NBTUtilities_v1_14 implements NBTTag {
 
 	@Override
 	public void setToItemStack(ItemStack itemStack) {
-		setNBTTagCompound(itemStack, nbtTagCompound);
+		NBTUtilities.setNBTTagCompound(itemStack, nbtTagCompound);
 	}
 
 	@Override
@@ -321,9 +199,9 @@ public class NBTUtilities_v1_14 implements NBTTag {
 		if(base instanceof NBTTagByte)
 			return getByte(key);
 		else if(base instanceof NBTTagCompound)
-			return new NBTUtilities_v1_14(base);
+			return new NBTTag_Impl(base);
 		else if(base instanceof NBTTagList)
-			return (List<?>) base;
+			return base;
 		else if(base instanceof NBTTagByteArray)
 			return getByteArray(key);
 		else if(base instanceof NBTTagDouble)

@@ -1,13 +1,14 @@
-package essentials.utilitiesvr.bukkit;
+package cbm.v1_14_R1.utilitiesvr.bukkit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.craftbukkit.v1_14_R1.CraftServer;
 
-public class BukkitUtilities_v1_14 {
-	private BukkitUtilities_v1_14() {}
+import cbm.utilitiesvr.bukkit.BukkitUtilities_Interface;
 
-	public static SimpleCommandMap getSimpleCommandMap() {
+public class BukkitUtilities_Impl implements BukkitUtilities_Interface {
+	@Override
+	public SimpleCommandMap getSimpleCommandMap() {
 		return getCraftServer().getCommandMap();
 	}
 

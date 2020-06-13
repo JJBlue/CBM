@@ -18,11 +18,11 @@
 	</parent>
 	
 	<repositories>
-		<repository>
-			<id>CodeMC</id>
-			<url>https://repo.codemc.org/repository/maven-public</url>
-		</repository>
-	</repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
 
 	<dependencies>
 		<dependency>
@@ -37,11 +37,17 @@
 			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
+			<version>1.14.4-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- Libs -->
 		<dependency>
 			<groupId>jjblue</groupId>
 			<artifactId>CBM-core</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
