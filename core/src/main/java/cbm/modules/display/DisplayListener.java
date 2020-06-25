@@ -20,7 +20,8 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import cbm.language.LanguageConfig;
 import cbm.utilities.MathUtilities;
-import cbm.utilities.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.ChatMessageType;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -96,7 +97,7 @@ public class DisplayListener implements Listener {
 			counts.put(player, 0);
 		}
 		
-		ChatUtilities.sendHotbarMessage(player, "§e" + LanguageConfig.getString("text.speed") + ": §6" + MathUtilities.round(player.getVelocity().length() * 20 * 3.6, 2) + "§e km/h");
+		ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§e" + LanguageConfig.getString("text.speed") + ": §6" + MathUtilities.round(player.getVelocity().length() * 20 * 3.6, 2) + "§e km/h"), ChatMessageType.CHAT);
 	}
 	
 	@EventHandler

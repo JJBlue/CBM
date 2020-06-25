@@ -4,9 +4,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import cbm.utilities.chat.ChatUtilities;
 import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilities.placeholder.PlaceholderFormatter;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 public class ColorListener implements Listener {
 	@EventHandler

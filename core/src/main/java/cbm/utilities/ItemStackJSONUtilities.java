@@ -105,7 +105,7 @@ public class ItemStackJSONUtilities {
 	public static JSONArray toJsonArray(List<?> list) {
 		JSONArray array = new JSONArray();
 		List<Object> l = new LinkedList<>();
-		array.setArray(l);
+		array.setList(l);
 
 		for (Object value : list) {
 			if (value instanceof String || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof Float)

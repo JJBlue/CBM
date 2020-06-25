@@ -23,8 +23,9 @@ import cbm.modules.debugstick.entity.DebugStickEntityChanges;
 import cbm.modules.debugstick.entity.DebugStickEntityInventory;
 import cbm.player.PlayerConfig;
 import cbm.player.PlayerManager;
-import cbm.utilities.chat.ChatUtilities;
 import cbm.utilities.permissions.PermissionHelper;
+import cbm.utilitiesvr.chat.ChatMessageType;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 public class DebugStickListener implements Listener {
 
@@ -68,7 +69,7 @@ public class DebugStickListener implements Listener {
 				}
 
 				config.setTmp("DebugStickBlockChangesCurrent", debugStickBlockChanges);
-				ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("Selected: " + debugStickBlockChanges.name()), ChatMessageType.CHAT);
 
 				break;
 			case RIGHT_CLICK_BLOCK:
@@ -76,7 +77,7 @@ public class DebugStickListener implements Listener {
 				if (debugStickBlockChanges == null) break;
 
 				DebugStickBlocks.setNextBlockState(block, debugStickBlockChanges, !player.isSneaking());
-				ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickBlocks.getBlockDataValue(block, debugStickBlockChanges));
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("Set Value to " + DebugStickBlocks.getBlockDataValue(block, debugStickBlockChanges)), ChatMessageType.CHAT);
 
 				break;
 			case LEFT_CLICK_AIR:
@@ -100,7 +101,7 @@ public class DebugStickListener implements Listener {
 		
 		if (player.isSneaking() && entity.isInvulnerable()) {
 			entity.setInvulnerable(false);
-			ChatUtilities.sendHotbarMessage(player, "Invulnerable is toggled off");
+			ChatUtilities.sendMessage(player, ChatUtilities.createMessage("Invulnerable is toggled off"), ChatMessageType.CHAT);
 			return;
 		} else if(player.isSneaking() && (entity instanceof Minecart || entity instanceof Boat)) {
 			DebugStickEntities.openEntityStateEditor(player, entity);
@@ -116,7 +117,7 @@ public class DebugStickListener implements Listener {
 		config.setTmp("DebugStickEntityChangesTimeout", System.currentTimeMillis());
 
 		DebugStickEntities.setNextEntityState(entity, debugStickBlockChanges, !player.isSneaking());
-		ChatUtilities.sendHotbarMessage(player, "Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges));
+		ChatUtilities.sendMessage(player, ChatUtilities.createMessage("Set Value to " + DebugStickEntities.getEntityStateValue(entity, debugStickBlockChanges)), ChatMessageType.CHAT);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -155,12 +156,6 @@ public class DebugStickListener implements Listener {
 		}
 
 		config.setTmp("DebugStickEntityChangesCurrent", debugStickBlockChanges);
-		ChatUtilities.sendHotbarMessage(player, "Selected: " + debugStickBlockChanges.name());
+		ChatUtilities.sendMessage(player, ChatUtilities.createMessage("Selected: " + debugStickBlockChanges.name()), ChatMessageType.CHAT);
 	}
-	
-//	@EventHandler
-//    public void onMinecartCollision(VehicleEntityCollisionEvent event) {
-//        Entity vehicle = event.getVehicle();
-//        ((Minecart) vehicle).setMaxSpeed(0);
-//    }
 }

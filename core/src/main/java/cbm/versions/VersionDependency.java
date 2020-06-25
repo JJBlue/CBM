@@ -27,6 +27,7 @@ public class VersionDependency<T> {
 	}
 	
 	public T get(PackageVersion version) {
+		if(version == null) return null;
 		return get(version.name());
 	}
 	
@@ -36,6 +37,7 @@ public class VersionDependency<T> {
 	}
 	
 	public void add(PackageVersion version, T ver) {
+		if(version == null) return;
 		add(version.name(), ver);
 	}
 	

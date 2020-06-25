@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 
 import cbm.utilitiesvr.player.PlayerUtilitiesReflections;
 import cbm.versions.minecraft.ReflectionsUtilities;
-import components.json.JSONArray;
-import components.json.JSONObject;
 import components.reflection.ConstructorReflection;
 import components.reflection.MethodReflection;
 import components.reflection.ObjectReflection;
@@ -22,29 +20,27 @@ public class ChatUtilitiesReflections {
 	 *				)
 	 *			);
 	 */
-	public static void sendChatMessage(Player player, String message, JSONArray array) {
-		JSONObject mainJson = new JSONObject();
-		mainJson.add("text", message);
-		mainJson.add("extra", array);
-
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static void sendMessage(Player player, String json, ChatMessageType type) { // TODO changed since 1.16
 		try {
-			Object chat = getIChatBaseComponentA(mainJson.toJSONString());
-			Object packetPlayOutChat = ConstructorReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), chat);
+			Object chat = getIChatBaseComponentA(json);
+			Enum chatMessageType = null;
+			
+			switch (type) {
+				case CHAT:
+					chatMessageType = ObjectReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "CHAT");
+					break;
+				case GAME_INFO:
+					chatMessageType = ObjectReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "GAME_INFO");
+					break;
+				case SYSTEM:
+					chatMessageType = ObjectReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "SYSTEM");
+					break;
+			}
+			
+			Object packetPlayOutChat = ConstructorReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), chat, chatMessageType);
 			PlayerUtilitiesReflections.sendPacket(player, packetPlayOutChat);
 		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException | NoSuchFieldException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static void sendHotbarMessage(Player player, String message) {
-		try {
-			Object IChatBaseComponent = getIChatBaseComponentA("{\"text\": \"" + message + "\"}");
-			Enum ChatMessageType = ObjectReflection.getEnum((Class<Enum>) ReflectionsUtilities.getMCClass("ChatMessageType"), "GAME_INFO");
-			Object packetPlayOutChat = ConstructorReflection.createObject(ReflectionsUtilities.getMCClass("PacketPlayOutChat"), IChatBaseComponent, ChatMessageType);
-
-			PlayerUtilitiesReflections.sendPacket(player, packetPlayOutChat);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchFieldException | ClassNotFoundException | InstantiationException e) {
 			e.printStackTrace();
 		}
 	}

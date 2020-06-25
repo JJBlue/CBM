@@ -3,27 +3,18 @@ package cbm.v1_15_R1.utilitiesvr.chat;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import components.json.JSONArray;
-import components.json.JSONObject;
+import cbm.utilitiesvr.chat.ChatUtilities_Interface;
 import net.minecraft.server.v1_15_R1.ChatMessageType;
 import net.minecraft.server.v1_15_R1.IChatBaseComponent;
 import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
 
-public class ChatUtilities_Impl {
-	public static void sendChatMessage(Player player, String message, JSONArray array) {
-		JSONObject mainJson = new JSONObject();
-		mainJson.add("text", message);
-		mainJson.add("extra", array);
-
-		IChatBaseComponent chat = ChatSerializer.a(mainJson.toJSONString());
-		PacketPlayOutChat packet = new PacketPlayOutChat(chat);
+public class ChatUtilities_Impl implements ChatUtilities_Interface{
+	@Override
+	public void sendMessage(Player player, String json, cbm.utilitiesvr.chat.ChatMessageType type) {
+		IChatBaseComponent chat = ChatSerializer.a(json);
+		ChatMessageType chattype = ChatMessageType.valueOf(type.name());
+		PacketPlayOutChat packet = new PacketPlayOutChat(chat, chattype);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-	}
-
-	public static void sendHotbarMessage(Player player, String message) {
-		IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
-		PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, ChatMessageType.GAME_INFO);
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(ppoc);
 	}
 }

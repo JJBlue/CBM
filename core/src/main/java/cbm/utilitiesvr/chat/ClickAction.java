@@ -1,4 +1,4 @@
-package cbm.utilities.chat;
+package cbm.utilitiesvr.chat;
 
 public enum ClickAction {
 	CHANGE_PAGE("change_page"),

@@ -16,11 +16,12 @@ import org.bukkit.entity.Player;
 
 import cbm.language.LanguageConfig;
 import cbm.utilities.StringUtilities;
-import cbm.utilities.chat.ChatUtilities;
-import cbm.utilities.chat.ClickAction;
-import cbm.utilities.chat.HoverAction;
 import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilitiesvr.bukkit.BukkitUtilities;
+import cbm.utilitiesvr.chat.ChatMessageType;
+import cbm.utilitiesvr.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.ClickAction;
+import cbm.utilitiesvr.chat.HoverAction;
 
 public class CoBCommands implements TabExecutor {
 
@@ -54,12 +55,16 @@ public class CoBCommands implements TabExecutor {
 					p.sendMessage("§e  " + action.name() + ":");
 					
 					for(String commandS : commands) {
-						ChatUtilities.sendChatMessage(p, "§e  - /" + commandS + " ", ChatUtilities.createExtra(
-							ChatUtilities.createClickHoverMessage(
-								"§4[-]", HoverAction.SHOW_Text, "Remove", ClickAction.RUN_COMMAND,
-								"/" + PermissionHelper.getPluginDefaultCommand() + " cob remove " + action.name() + " " + commandS
+						String json = ChatUtilities.createMessage("§e  - /" + commandS + " ",
+							ChatUtilities.createExtra(
+								ChatUtilities.createClickHoverMessage(
+									"§4[-]", HoverAction.SHOW_Text, "Remove", ClickAction.RUN_COMMAND,
+									"/" + PermissionHelper.getPluginDefaultCommand() + " cob remove " + action.name() + " " + commandS
+								)
 							)
-						));
+						);
+						
+						ChatUtilities.sendMessage(p, json, ChatMessageType.GAME_INFO);
 					}
 				}
 

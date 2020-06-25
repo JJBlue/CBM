@@ -1,4 +1,4 @@
-package cbm.utilities.chat;
+package cbm.utilitiesvr.chat;
 
 public enum HoverAction {
 	SHOW_ACHIEVEMENT("show_achievement"),

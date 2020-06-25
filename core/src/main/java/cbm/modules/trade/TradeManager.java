@@ -5,9 +5,10 @@ import org.bukkit.entity.Player;
 
 import cbm.language.LanguageConfig;
 import cbm.main.Main;
-import cbm.utilities.chat.ChatUtilities;
-import cbm.utilities.chat.ClickAction;
 import cbm.utilities.permissions.PermissionHelper;
+import cbm.utilitiesvr.chat.ChatMessageType;
+import cbm.utilitiesvr.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.ClickAction;
 
 import java.util.*;
 
@@ -60,12 +61,14 @@ public class TradeManager {
 		} else {
 			tradesRequests.put(id, new TradeInformation(System.currentTimeMillis(), from));
 
-			ChatUtilities.sendChatMessage(to, LanguageConfig.getString("trade.sendTrade", from.getName()),
-					ChatUtilities.createExtra(
-							ChatUtilities.createClickHoverMessage(LanguageConfig.getString("trade.accept"), null, null, ClickAction.RUN_COMMAND, "/" + PermissionHelper.getPluginDefaultCommand() + " trade " + from.getName())
-					)
+			String json = ChatUtilities.createMessage(
+				LanguageConfig.getString("trade.sendTrade", from.getName()),
+				ChatUtilities.createExtra(
+						ChatUtilities.createClickHoverMessage(LanguageConfig.getString("trade.accept"), null, null, ClickAction.RUN_COMMAND, "/" + PermissionHelper.getPluginDefaultCommand() + " trade " + from.getName())
+				)
 			);
-
+			
+			ChatUtilities.sendMessage(to, json, ChatMessageType.CHAT);
 			LanguageConfig.sendMessage(from, "trade.gotTrade", to.getName());
 		}
 	}

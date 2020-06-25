@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import cbm.language.LanguageConfig;
 import cbm.utilities.StringUtilities;
-import cbm.utilities.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 public class HologramCommand implements TabExecutor {
 
