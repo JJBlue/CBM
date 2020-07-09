@@ -24,6 +24,7 @@ import cbm.modules.costumerecipes.CustomRecipeModule;
 import cbm.modules.debugstick.DebugStickModule;
 import cbm.modules.display.DisplayModule;
 import cbm.modules.operator.OpModule;
+import cbm.modules.player.MidiPlayerModule;
 import cbm.modules.spawn.SpawnModule;
 import cbm.modules.sudo.SudoModule;
 import cbm.modules.tablist.TablistModule;
@@ -62,6 +63,7 @@ public class ModuleManager {
 	public static void addDefaultModules() {
 		addModule(new ArmorstandModule());
 		addModule(new BanModule());
+		addModule(new MidiPlayerModule());
 		addModule(new CoBModule());
 		addModule(new CoIModule());
 		addModule(new CommandSpyModule());

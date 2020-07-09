@@ -21,9 +21,7 @@ public class BukkitMidiPlayerManager {
 			players.put(ID, player);
 			player.start();
 			return ID;
-		} catch (InvalidMidiDataException | IOException e) {
-			e.printStackTrace();
-		}
+		} catch (InvalidMidiDataException | IOException e) {}
 		
 		return -1;
 	}

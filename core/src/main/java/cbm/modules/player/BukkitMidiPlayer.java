@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.LockSupport;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -39,16 +40,16 @@ public class BukkitMidiPlayer {
 	
 	private void load() {
 		tracks = new LinkedList<>();
+		instruments = new HashMap<>();
 		
 		for (Track track : sequence.getTracks()) {
 			BukkitTrack bukkitTrack = new BukkitTrack(track);
     		tracks.add(bukkitTrack);
+    		instruments.put(bukkitTrack, Instrument.PIANO);
     		
     		if(bukkitTrack.maxTick > maxTicks)
     			maxTicks = bukkitTrack.maxTick;
 		}
-		
-		instruments = new HashMap<>();
 	}
 	
 	private void setAndNextTicks() {
@@ -58,8 +59,8 @@ public class BukkitMidiPlayer {
 		tick++;
 	}
 	
-	public void playNote(Note note) {
-		playNote(Instrument.PIANO, note); //TODO instrument
+	public void playNote(BukkitTrack track, Note note) {
+		playNote(instruments.get(track), note);
 	}
 	
 	public void playNote(Instrument instrument, Note note) {
@@ -72,18 +73,16 @@ public class BukkitMidiPlayer {
 	}
 	
 	public void setInstrument(BukkitTrack track, Instrument instrument) {
-		//TODO
-	}
-	
-	public void getInstrument() {
-		
+		instruments.put(track, instrument);
 	}
 	
 	public void changeTempo(int tempo) {
+		Bukkit.broadcastMessage("Changed tempo: " + tempo + " (" + (tempo / 1000000) + "ms)");
 		sleep = tempo;
 	}
 	
 	//TODO how get a thread, which does not use 8% and higher of the cpu
+	// /cbm midiplayer play midi/SuperMario64-Medley.mid
 	public synchronized void start() {
 		if(thread != null) return;
 		
@@ -91,11 +90,8 @@ public class BukkitMidiPlayer {
 		sleep = 500_000; //in nano, default value
 		
 		thread = new Thread(() -> {
-			long time = 0;
-			
 			while(running) {
-				if(System.nanoTime() - time < sleep) continue;
-				time = System.nanoTime();
+				LockSupport.parkNanos(sleep);
 				setAndNextTicks();
 			}
 			thread = null;

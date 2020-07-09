@@ -36,11 +36,10 @@ public class MidiPlayerOldHelperDoNotRemove {
     }
     
     public static void main(String[] args) throws Exception {
-//    	File file = new File("SuperMario64-Medley\\SuperMario64-Medley.mid");
-    	File file = new File(".\\midi\\Simpsons.mid");
+    	File file = new File(".\\midi\\SuperMario64-Medley.mid");
     	
     	Soundbank soundbank2 = MidiSystem.getSoundbank(file);
-    	System.out.print(soundbank2.getInstruments().length);
+    	System.out.println(soundbank2.getInstruments().length);
     	
     	Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
     	Sequence sequence = MidiSystem.getSequence(file);
@@ -49,12 +48,12 @@ public class MidiPlayerOldHelperDoNotRemove {
     	for (Track track : sequence.getTracks()) {
     		trackNumber++;
 
-    		System.out.print("Track " + trackNumber + ": size = " + track.size());
-    		System.out.println();
+    		System.out.println("Track " + trackNumber + ": size = " + track.size());
 
-    		for (int i = 0; i < track.size(); i++) { 
+    		for (int i = 0; i < track.size(); i++) {
     			MidiEvent event = track.get(i);
-    			System.out.print("@" + event.getTick() + " ");
+    			System.out.println();
+    			System.out.println("@" + event.getTick() + " ");
 
 //    			if(event.getTick() > 0) continue; //TODO
     			
@@ -71,6 +70,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					String noteName = NOTE_NAMES[note];
 	    					int velocity = sm.getData2();
 	    					System.out.print("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity);
+	    					break;
 	    				}
 	    				case ShortMessage.NOTE_OFF: {
 	    					int key = sm.getData1();
@@ -79,6 +79,7 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					String noteName = NOTE_NAMES[note];
 	    					int velocity = sm.getData2();
 	    					System.out.print("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
+	    					break;
 	    				}
 	    				case ShortMessage.ACTIVE_SENSING:
 	    					break;
@@ -115,9 +116,10 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					break;
 	    				default: {
 	    					System.out.print("Command:" + sm.getCommand());
+	    					break;
 	    				}
     				}
-
+    				
     			} else if(message instanceof MetaMessage) {
     				MetaMessage metaMessage = (MetaMessage) message;
     				metaMessage.getData();
@@ -189,7 +191,7 @@ public class MidiPlayerOldHelperDoNotRemove {
     				System.out.print("Other message: " + message.getClass());
     			}
     		}
-
+    		
     		System.out.println();
     	}
     }

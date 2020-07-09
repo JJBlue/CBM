@@ -80,7 +80,6 @@ public class CommandSpyCommand implements TabExecutor {
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;

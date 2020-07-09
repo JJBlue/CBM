@@ -116,7 +116,6 @@ public class BukkitTrack {
     				case ShortMessage.POLY_PRESSURE:
     					break;
     				case ShortMessage.PROGRAM_CHANGE:
-    					
 						try {
 							Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
 							javax.sound.midi.Instrument instrument = soundbank.getInstruments()[sm.getData1()];
@@ -125,7 +124,6 @@ public class BukkitTrack {
 						} catch (MidiUnavailableException e) {
 							e.printStackTrace();
 						}
-    					
     					break;
     				case ShortMessage.SONG_POSITION_POINTER:
     					break;
@@ -205,7 +203,7 @@ public class BukkitTrack {
 		
 		for(BukkitMidiValue value : ticks.get(tick)) {
 			if(value instanceof BukkitMidiNote) {
-				bukkitMidiPlayer.playNote(((BukkitMidiNote) value).note);
+				bukkitMidiPlayer.playNote(this, ((BukkitMidiNote) value).note);
 			} else if(value instanceof BukkitMidiInstrument) {
 				bukkitMidiPlayer.setInstrument(this, ((BukkitMidiInstrument) value).instrument);
 			} else if(value instanceof BukkitMidiTempo) {
