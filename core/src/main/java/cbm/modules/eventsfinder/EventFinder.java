@@ -20,8 +20,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 
-import cbm.utilities.chat.ChatUtilities;
-import cbm.utilities.chat.HoverAction;
+import cbm.utilitiesvr.chat.ChatMessageType;
+import cbm.utilitiesvr.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.HoverAction;
 
 public class EventFinder {
 	public static void print(CommandSender commandSender) {
@@ -73,9 +74,7 @@ public class EventFinder {
 				}
 				
 				if(commandSender instanceof Player) {
-					ChatUtilities.sendChatMessage(
-						(Player) commandSender,
-						"",
+					String json = ChatUtilities.createMessage("",
 						ChatUtilities.createExtra(
 							ChatUtilities.createClickHoverMessage("  " + eventsInformation.event.getSimpleName() + " (x" + methods.size() + ")",
 								HoverAction.SHOW_Text,
@@ -85,6 +84,8 @@ public class EventFinder {
 							)
 						)
 					);
+					
+					ChatUtilities.sendMessage((Player) commandSender, json, ChatMessageType.CHAT);
 				}
 			}
 		}

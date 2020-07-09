@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import cbm.depend.vault.Vault;
 import cbm.player.PlayersYMLConfig;
-import cbm.utilities.chat.ChatUtilities;
 import cbm.utilities.placeholder.PlaceholderFormatter;
+import cbm.utilitiesvr.chat.ChatUtilities;
 import cbm.utilitiesvr.player.PlayerUtilities;
 
 public class Depend {

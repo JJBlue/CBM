@@ -2,10 +2,12 @@ package cbm.v1_15_R1;
 
 import cbm.modules.sudo.sudoplayer.SudoPlayerManager;
 import cbm.utilitiesvr.bukkit.BukkitUtilities;
+import cbm.utilitiesvr.chat.ChatUtilities;
 import cbm.utilitiesvr.nbt.NBTUtilities;
 import cbm.utilitiesvr.player.PlayerUtilities;
 import cbm.v1_15_R1.modules.sudo.SudoPlayer_Impl;
 import cbm.v1_15_R1.utilitiesvr.bukkit.BukkitUtilities_Impl;
+import cbm.v1_15_R1.utilitiesvr.chat.ChatUtilities_Impl;
 import cbm.v1_15_R1.utilitiesvr.nbt.NBTUtilities_Impl;
 import cbm.v1_15_R1.utilitiesvr.player.PlayerUtilities_Impl;
 import cbm.versions.minecraft.MinecraftVersions;
@@ -20,5 +22,6 @@ public class MainVersion {
 		PlayerUtilities.version_dependency.add(version, new PlayerUtilities_Impl());
 		BukkitUtilities.version_dependency.add(version, new BukkitUtilities_Impl());
 		SudoPlayerManager.version_dependency.add(version, new SudoPlayer_Impl());
+		ChatUtilities.version_dependency.add(version, new ChatUtilities_Impl());
 	}
 }

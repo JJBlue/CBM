@@ -68,10 +68,10 @@ import cbm.utilities.ItemUtilies;
 import cbm.utilities.MathUtilities;
 import cbm.utilities.StringUtilities;
 import cbm.utilities.TimeUtilities;
-import cbm.utilities.chat.ChatUtilities;
 import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilities.system.SystemStatus;
 import cbm.utilitiesvr.bukkit.BukkitUtilities;
+import cbm.utilitiesvr.chat.ChatUtilities;
 import cbm.utilitiesvr.player.PlayerUtilities;
 import components.classes.Files;
 

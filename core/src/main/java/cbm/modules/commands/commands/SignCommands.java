@@ -16,8 +16,8 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import cbm.utilities.SignUtilities;
-import cbm.utilities.chat.ChatUtilities;
 import cbm.utilities.permissions.PermissionHelper;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 public class SignCommands implements TabExecutor {
 

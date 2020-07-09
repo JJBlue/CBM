@@ -13,7 +13,8 @@ import org.bukkit.util.EulerAngle;
 import cbm.player.PlayerConfig;
 import cbm.player.PlayerManager;
 import cbm.utilities.MathUtilities;
-import cbm.utilities.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.ChatMessageType;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 public class ArmorstandListener implements Listener {
 	@EventHandler
@@ -52,28 +53,28 @@ public class ArmorstandListener implements Listener {
 
 				switch (player.getInventory().getHeldItemSlot()) {
 					case 1:
-						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (0.1)); //TODO: Replace with Language
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move x " + (0.1)), ChatMessageType.GAME_INFO); //TODO: Replace with Language
 						armorStand.teleport(location.add(0.1, 0, 0));
 						break;
 					case 2:
-						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (0.1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move y " + (0.1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, 0.1, 0));
 						break;
 					case 3:
-						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (0.1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move z " + (0.1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, 0, 0.1));
 						break;
 
 					case 5:
-						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move x " + (1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(1, 0, 0));
 						break;
 					case 6:
-						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move y " + (1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, 1, 0));
 						break;
 					case 7:
-						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move z " + (1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, 0, 1));
 						break;
 				}
@@ -129,28 +130,28 @@ public class ArmorstandListener implements Listener {
 
 				switch (player.getInventory().getHeldItemSlot()) {
 					case 1:
-						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (-0.1)); //TODO: Replace with Language
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move x " + (-0.1)), ChatMessageType.GAME_INFO); //TODO: Replace with Language
 						armorStand.teleport(location.add(-0.1, 0, 0));
 						break;
 					case 2:
-						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (-0.1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move y " + (-0.1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, -0.1, 0));
 						break;
 					case 3:
-						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (-0.1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move z " + (-0.1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, 0, -0.1));
 						break;
 
 					case 5:
-						ChatUtilities.sendHotbarMessage(player, "§3Move x " + (-1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move x " + (-1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(-1, 0, 0));
 						break;
 					case 6:
-						ChatUtilities.sendHotbarMessage(player, "§3Move y " + (-1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move y " + (-1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, -1, 0));
 						break;
 					case 7:
-						ChatUtilities.sendHotbarMessage(player, "§3Move z " + (-1));
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move z " + (-1)), ChatMessageType.GAME_INFO);
 						armorStand.teleport(location.add(0, 0, -1));
 						break;
 				}
@@ -176,27 +177,27 @@ public class ArmorstandListener implements Listener {
 		switch (player.getInventory().getHeldItemSlot()) {
 			case 0:
 				int degrees = (sub ? -1 : 1);
-				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees); //TODO: Replace with Language
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move x " + degrees), ChatMessageType.GAME_INFO); //TODO: Replace with Language
 				return angle.add(MathUtilities.degreeToEuler(degrees), 0, 0);
 			case 1:
 				degrees = (sub ? -1 : 1);
-				ChatUtilities.sendHotbarMessage(player, "§3Move y " + degrees);
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move y " + degrees), ChatMessageType.GAME_INFO);
 				return angle.add(0, MathUtilities.degreeToEuler(degrees), 0);
 			case 2:
 				degrees = (sub ? -1 : 1);
-				ChatUtilities.sendHotbarMessage(player, "§3Move z " + degrees);
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move z " + degrees), ChatMessageType.GAME_INFO);
 				return angle.add(0, 0, MathUtilities.degreeToEuler(degrees));
 			case 4:
 				degrees = (sub ? -1 : 1) * 10;
-				ChatUtilities.sendHotbarMessage(player, "§3Move x " + degrees);
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move x " + degrees), ChatMessageType.GAME_INFO);
 				return angle.add(MathUtilities.degreeToEuler(degrees), 0, 0);
 			case 5:
 				degrees = (sub ? -1 : 1) * 10;
-				ChatUtilities.sendHotbarMessage(player, "§3Move y " + degrees);
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move y " + degrees), ChatMessageType.GAME_INFO);
 				return angle.add(0, MathUtilities.degreeToEuler(degrees), 0);
 			case 6:
 				degrees = (sub ? -1 : 1) * 10;
-				ChatUtilities.sendHotbarMessage(player, "§3Move z " + degrees);
+				ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§3Move z " + degrees), ChatMessageType.GAME_INFO);
 				return angle.add(0, 0, MathUtilities.degreeToEuler(degrees));
 		}
 		return angle;
@@ -210,7 +211,7 @@ public class ArmorstandListener implements Listener {
 
 		config.removeBuffer("armorstandEditorListener");
 		config.removeBuffer("armorstandEditorEnum");
-		ChatUtilities.sendHotbarMessage(player, "§4Exit"); //TODO: Replace with Language
+		ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§4Exit"), ChatMessageType.GAME_INFO); //TODO: Replace with Language
 		event.setCancelled(true);
 	}
 }

@@ -21,9 +21,9 @@ import cbm.player.PlayerConfig;
 import cbm.player.PlayerManager;
 import cbm.utilities.StringUtilities;
 import cbm.utilities.TablistUtilities;
-import cbm.utilities.chat.ChatUtilities;
 import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilities.placeholder.PlaceholderFormatter;
+import cbm.utilitiesvr.chat.ChatUtilities;
 
 public class Tablist {
 	private Tablist() {}

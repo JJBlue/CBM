@@ -12,11 +12,12 @@
 		<module>core</module>
 		<module>CBM_1_14</module>
 		<module>CBM_1_15</module>
+		<module>CBM_1_16</module>
 		<module>release</module>
 	</modules>
 
 	<properties>
-		<revision>0.5.6.BETA</revision>
+		<revision>0.5.7.BETA</revision>
 	</properties>
 
 	<developers>
@@ -38,19 +39,19 @@
 			<dependency>
 				<groupId>org.spigotmc</groupId>
 				<artifactId>spigot-api</artifactId>
-				<version>1.15.2-R0.1-SNAPSHOT</version>
+				<version>1.16.1-R0.1-SNAPSHOT</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.bukkit</groupId>
 				<artifactId>bukkit</artifactId>
-				<version>1.15.2-R0.1-SNAPSHOT</version>
+				<version>1.16.1-R0.1-SNAPSHOT</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.bukkit</groupId>
 				<artifactId>craftbukkit</artifactId>
-				<version>1.15.2-R0.1-SNAPSHOT</version>
+				<version>1.16.1-R0.1-SNAPSHOT</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -62,6 +63,12 @@
 			<dependency>
 				<groupId>jjblue</groupId>
 				<artifactId>CBM-1.15</artifactId>
+				<version>${revision}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>jjblue</groupId>
+				<artifactId>CBM-1.16</artifactId>
 				<version>${revision}</version>
 				<scope>compile</scope>
 			</dependency>
