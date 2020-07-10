@@ -1,4 +1,4 @@
-package cbm.modules.player.values;
+package cbm.modules.midiplayer.values;
 
 import org.bukkit.Note;
 

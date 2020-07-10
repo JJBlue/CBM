@@ -1,4 +1,4 @@
-package cbm.modules.player;
+package cbm.modules.midiplayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.sound.midi.InvalidMidiDataException;
 
 public class BukkitMidiPlayerManager {
-	private static Map<Integer, BukkitMidiPlayer> players = Collections.synchronizedMap(new HashMap<>());
-	private static int counter = 1;
+	protected static Map<Integer, BukkitMidiPlayer> players = Collections.synchronizedMap(new HashMap<>());
+	protected static int counter = 1;
 	
 	public static int play(File file) {
 		try {

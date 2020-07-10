@@ -1,9 +1,9 @@
-package cbm.modules.player;
+package cbm.modules.midiplayer;
 
 import cbm.modulemanager.EModule;
 import cbm.modules.commands.CommandManager;
 import cbm.modules.commands.tabexecutors.RedirectTabExecutor;
-import cbm.modules.player.commands.MidiPlayerCommands;
+import cbm.modules.midiplayer.commands.MidiPlayerCommands;
 
 public class MidiPlayerModule extends EModule {
 	@Override

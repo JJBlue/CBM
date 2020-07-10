@@ -1,4 +1,4 @@
-package cbm.modules.player;
+package cbm.modules.midiplayer;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,13 +16,14 @@ import javax.sound.midi.Track;
 
 import org.bukkit.Note;
 
-import cbm.modules.player.utils.BukkitNoteInstrumentConverter;
-import cbm.modules.player.utils.MetaMessageType;
-import cbm.modules.player.utils.MidiNote;
-import cbm.modules.player.values.BukkitMidiInstrument;
-import cbm.modules.player.values.BukkitMidiNote;
-import cbm.modules.player.values.BukkitMidiTempo;
-import cbm.modules.player.values.BukkitMidiValue;
+import cbm.modules.midiplayer.utils.BukkitNoteInstrumentConverter;
+import cbm.modules.midiplayer.utils.MetaMessageType;
+import cbm.modules.midiplayer.utils.MidiNote;
+import cbm.modules.midiplayer.values.BukkitMidiInstrument;
+import cbm.modules.midiplayer.values.BukkitMidiNote;
+import cbm.modules.midiplayer.values.BukkitMidiTempo;
+import cbm.modules.midiplayer.values.BukkitMidiTimeSignature;
+import cbm.modules.midiplayer.values.BukkitMidiValue;
 
 public class BukkitTrack {
 	
@@ -152,39 +153,61 @@ public class BukkitTrack {
 					case MetaMessageType.sequence_number:
 						break;
 					case MetaMessageType.text:
+						System.out.println("Text: " + MetaMessageType.getText(metaMessage));
 						break;
     				case MetaMessageType.copyright:
+    					System.out.println("Copyright: " + MetaMessageType.getCopyright(metaMessage));
     					break;
     				case MetaMessageType.track_name:
+    					System.out.println("track_name: " + MetaMessageType.getTrackName(metaMessage));
     					break;
     				case MetaMessageType.instrument_name:
+    					System.out.println("instrument_name: " + MetaMessageType.getInstrumentName(metaMessage));
     					break;
     				case MetaMessageType.lyrics:
+    					System.out.println("lyrics: " + MetaMessageType.getLyricsName(metaMessage));
     					break;
     				case MetaMessageType.marker:
+    					System.out.println("marker: " + MetaMessageType.getMarkerName(metaMessage));
     					break;
     				case MetaMessageType.cue_marker:
+    					System.out.println("cue_marker: " + MetaMessageType.getCueMarkerName(metaMessage));
     					break;
     				case MetaMessageType.device_name:
+    					System.out.println("device_name: " + MetaMessageType.getDeviceName(metaMessage));
     					break;
     				case MetaMessageType.channel_prefix:
+    					System.out.println("channel_prefix: " + MetaMessageType.getChannelPrefix(metaMessage));
     					break;
     				case MetaMessageType.midi_port:
     					break;
     				case MetaMessageType.end_of_track:
+//    					System.out.println("end_of_track");
     					break;
     				case MetaMessageType.set_tempo:
     					getOrCreateList(tick).add(new BukkitMidiTempo(MetaMessageType.getTempo(metaMessage)));
     					break;
     				case MetaMessageType.smpte_offset:
+    					System.out.println("smpte_offset: " + MetaMessageType.getSmpteOffset(metaMessage));
     					break;
     				case MetaMessageType.time_signature:
+    					getOrCreateList(tick).add(
+							new BukkitMidiTimeSignature(
+								MetaMessageType.getNumerator(metaMessage),
+								MetaMessageType.getDenominator(metaMessage),
+								MetaMessageType.getClocksPerClick(metaMessage),
+								MetaMessageType.getNotated32ndNotesPerBeat(metaMessage)
+							)
+    					);
     					break;
     				case MetaMessageType.key_signature:
     					break;
     				case MetaMessageType.sequencer_specific:
+    					System.out.println("sequencer_specific" + MetaMessageType.getSequencerSpecific(metaMessage));
     					break;
 				}
+			} else {
+				System.out.println("MidiMessage type is unknown");
 			}
 		}
 	}
@@ -201,14 +224,16 @@ public class BukkitTrack {
 	public void execute(long tick, BukkitMidiPlayer bukkitMidiPlayer) {
 		if(!ticks.containsKey(tick)) return;
 		
-		for(BukkitMidiValue value : ticks.get(tick)) {
+		ticks.get(tick).forEach(value -> {
 			if(value instanceof BukkitMidiNote) {
 				bukkitMidiPlayer.playNote(this, ((BukkitMidiNote) value).note);
 			} else if(value instanceof BukkitMidiInstrument) {
 				bukkitMidiPlayer.setInstrument(this, ((BukkitMidiInstrument) value).instrument);
 			} else if(value instanceof BukkitMidiTempo) {
-				bukkitMidiPlayer.changeTempo(((BukkitMidiTempo) value).tempo);
+				bukkitMidiPlayer.changeTempo(this, ((BukkitMidiTempo) value).tempo);
+			} else if(value instanceof BukkitMidiTimeSignature) {
+				bukkitMidiPlayer.setTimeSignature(this, (BukkitMidiTimeSignature) value);
 			}
-		}
+		});
 	}
 }

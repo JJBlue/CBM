@@ -1,4 +1,4 @@
-package cbm.modules.player;
+package cbm.modules.midiplayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +18,9 @@ import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.entity.Player;
 
+import cbm.modules.midiplayer.utils.MetaMessageType;
+import cbm.modules.midiplayer.values.BukkitMidiTimeSignature;
+
 public class BukkitMidiPlayer {
 	public final File file;
 	public final Sequence sequence;
@@ -27,7 +30,10 @@ public class BukkitMidiPlayer {
 	
 	private long tick;
 	private long maxTicks;
+	
 	private long sleep;
+	private int tempo;
+	private BukkitMidiTimeSignature time_signature;
 	
 	public List<BukkitTrack> tracks;
 	public Map<BukkitTrack, Instrument> instruments;
@@ -53,10 +59,17 @@ public class BukkitMidiPlayer {
 	}
 	
 	private void setAndNextTicks() {
-		for(BukkitTrack track : tracks)
-			track.execute(tick, this);
+		// TODO sequence.getResolution() -> sequence.getDivisionType() == 0 not 1
+		long ticks = (long) (sleep * (MetaMessageType.getBPM(tempo) * sequence.getResolution() / (60_000_000_000D)));
 		
-		tick++;
+		for(int i = 0; i < ticks; i++) {
+			activateTick(tick);
+			tick++;
+		}
+	}
+	
+	private void activateTick(long tick) {
+		tracks.forEach(track -> track.execute(tick, this));
 	}
 	
 	public void playNote(BukkitTrack track, Note note) {
@@ -76,13 +89,17 @@ public class BukkitMidiPlayer {
 		instruments.put(track, instrument);
 	}
 	
-	public void changeTempo(int tempo) {
-		Bukkit.broadcastMessage("Changed tempo: " + tempo + " (" + (tempo / 1000000) + "ms)");
-		sleep = tempo;
+	public void changeTempo(BukkitTrack track, int tempo) {
+		this.tempo = tempo;
+		sleep = 1_000_000_000 / time_signature.clocksperclick; // ns
+		System.out.println("Changed tempo (" + tracks.indexOf(track) + ") " + "Tempo: " + tempo + " BPM: " + MetaMessageType.getBPM(tempo) + " Sleep: " + sleep + " (" + (sleep / 1000000d) + "ms)");
 	}
 	
-	//TODO how get a thread, which does not use 8% and higher of the cpu
-	// /cbm midiplayer play midi/SuperMario64-Medley.mid
+	public void setTimeSignature(BukkitTrack track, BukkitMidiTimeSignature time_signature) {
+		this.time_signature = time_signature;
+		System.out.println(time_signature);
+	}
+	
 	public synchronized void start() {
 		if(thread != null) return;
 		
@@ -90,6 +107,9 @@ public class BukkitMidiPlayer {
 		sleep = 500_000; //in nano, default value
 		
 		thread = new Thread(() -> {
+			activateTick(tick);
+			tick++;
+			
 			while(running) {
 				LockSupport.parkNanos(sleep);
 				setAndNextTicks();
@@ -100,6 +120,7 @@ public class BukkitMidiPlayer {
 		thread.start();
 	}
 	
+	// TODO autostop
 	public synchronized void stop() {
 		if(thread == null) return;
 		

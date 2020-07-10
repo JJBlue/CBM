@@ -1,4 +1,4 @@
-package cbm.modules.player.values;
+package cbm.modules.midiplayer.values;
 
 public class BukkitMidiTempo implements BukkitMidiValue {
 	public int tempo;

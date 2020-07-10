@@ -1,4 +1,4 @@
-package cbm.modules.player.utils;
+package cbm.modules.midiplayer.utils;
 
 import org.bukkit.Instrument;
 import org.bukkit.Note;
@@ -6,8 +6,8 @@ import org.bukkit.Note.Tone;
 
 public class BukkitNoteInstrumentConverter {
 	public static Note getNote(int octave, MidiNote midiNote) {
-		if(octave < 0 || octave > 1)
-			octave = 0;
+		if(octave < 0) octave = 0;
+		if(octave > 1) octave = 1;
 		
 		switch (midiNote) {
 			case A:

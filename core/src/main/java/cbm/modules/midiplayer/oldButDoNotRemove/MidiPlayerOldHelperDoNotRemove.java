@@ -1,4 +1,4 @@
-package cbm.modules.player.oldButDoNotRemove;
+package cbm.modules.midiplayer.oldButDoNotRemove;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -18,7 +18,8 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Soundbank;
 import javax.sound.midi.Track;
 
-import cbm.modules.player.utils.MetaMessageType;
+import cbm.modules.midiplayer.utils.MetaMessageType;
+import cbm.modules.midiplayer.values.BukkitMidiTimeSignature;
 
 public class MidiPlayerOldHelperDoNotRemove {
 	
@@ -36,13 +37,15 @@ public class MidiPlayerOldHelperDoNotRemove {
     }
     
     public static void main(String[] args) throws Exception {
-    	File file = new File(".\\midi\\SuperMario64-Medley.mid");
+    	File file = new File(".", "midi\\SuperMario64-Medley.mid");	
     	
     	Soundbank soundbank2 = MidiSystem.getSoundbank(file);
     	System.out.println(soundbank2.getInstruments().length);
     	
     	Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
     	Sequence sequence = MidiSystem.getSequence(file);
+    	
+    	BukkitMidiTimeSignature timeSignature = null;
 
     	int trackNumber = 0;
     	for (Track track : sequence.getTracks()) {
@@ -52,10 +55,9 @@ public class MidiPlayerOldHelperDoNotRemove {
 
     		for (int i = 0; i < track.size(); i++) {
     			MidiEvent event = track.get(i);
-    			System.out.println();
-    			System.out.println("@" + event.getTick() + " ");
+    			System.out.print("@" + event.getTick() + " ");
 
-//    			if(event.getTick() > 0) continue; //TODO
+    			if(event.getTick() > 100_000) break; //TODO
     			
     			MidiMessage message = event.getMessage();
     			if (message instanceof ShortMessage) {
@@ -170,7 +172,8 @@ public class MidiPlayerOldHelperDoNotRemove {
 	        				// ticks per second = (ticks/quarter-note) * (quarter-note/beat) * (beats/minute) * (minute/second) = PPQN * (4/denominator) * (tempo/60)
 	        				// PPQN = (ticks per second) / ( (4/denominator) * (tempo/60) )
 	        				
-	        				double sleep = 60 / ((bpm/60d) * MetaMessageType.getClocksPerClick(metaMessage));
+//	        				double sleep = 60 / ((bpm/60d) * MetaMessageType.getClocksPerClick(metaMessage));
+	        				double sleep = (tempo / timeSignature.clocksperclick);
 	        				
 	        				System.out.print("MetaMessage: set_tempo " + tempo + " " + bpm  + " " + sleep);
 	    					break;
@@ -178,7 +181,8 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    					System.out.print("MetaMessage: smpte_offset " + Arrays.toString(metaMessage.getData()));
 	    					break;
 	    				case MetaMessageType.time_signature:
-	    					System.out.print("MetaMessage: time_signature");
+	    					timeSignature = new BukkitMidiTimeSignature(MetaMessageType.getNumerator(metaMessage), MetaMessageType.getDenominator(metaMessage), MetaMessageType.getClocksPerClick(metaMessage), MetaMessageType.getNotated32ndNotesPerBeat(metaMessage));
+	    					System.out.print("MetaMessage: time_signature " + MetaMessageType.getTimeSignature(metaMessage) + " " + timeSignature);
 	    					break;
 	    				case MetaMessageType.key_signature:
 	    					System.out.print("MetaMessage: key_signature");
@@ -186,10 +190,14 @@ public class MidiPlayerOldHelperDoNotRemove {
 	    				case MetaMessageType.sequencer_specific:
 	    					System.out.print("MetaMessage: sequencer_specific");
 	    					break;
+    					default:
+    						System.out.println("MetaMessage: " + metaMessage.getType());
     				}
     			} else {
     				System.out.print("Other message: " + message.getClass());
     			}
+    			
+    			System.out.println();
     		}
     		
     		System.out.println();

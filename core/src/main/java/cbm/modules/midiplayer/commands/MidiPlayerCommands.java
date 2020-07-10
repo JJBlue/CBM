@@ -1,4 +1,4 @@
-package cbm.modules.player.commands;
+package cbm.modules.midiplayer.commands;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
-import cbm.modules.player.BukkitMidiPlayerManager;
+import cbm.modules.midiplayer.BukkitMidiPlayerManager;
 
 public class MidiPlayerCommands implements TabExecutor {
 

@@ -1,4 +1,4 @@
-package cbm.modules.player.utils;
+package cbm.modules.midiplayer.utils;
 
 import javax.sound.midi.MetaMessage;
 
@@ -17,7 +17,7 @@ public class MetaMessageType {
 	public final static int end_of_track = 0x2f;
 	public final static int set_tempo = 0x51;
 	public final static int smpte_offset = 0x54;
-	public final static int time_signature = 0x58;
+	public final static int time_signature = 0x58; // numerator, denominator, clocks_per_click, notated_32nd_notes_per_beat, time
 	public final static int key_signature  = 0x59;
 	public final static int sequencer_specific = 0x7f;
 	
@@ -72,13 +72,17 @@ public class MetaMessageType {
 		byte[] data = message.getData();
 		int value = (data[0] & 0xff) << 16 | (data[1] & 0xff) << 8 | (data[2] & 0xff); //0-16777215
 		
-		if(value < 0 || value > 16777215)
+		if(value < 0 || value > 16_777_215)
 			return 500000;
 		return value;
 	}
 	
 	public static int getBPM(MetaMessage message) {
-		return 60000000 / getTempo(message);
+		return getBPM(getTempo(message));
+	}
+	
+	public static int getBPM(int tempo) {
+		return 60_000_000 / tempo;
 	}
 	
 	/*
