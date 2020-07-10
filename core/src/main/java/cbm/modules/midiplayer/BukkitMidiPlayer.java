@@ -92,12 +92,10 @@ public class BukkitMidiPlayer {
 	public void changeTempo(BukkitTrack track, int tempo) {
 		this.tempo = tempo;
 		sleep = 1_000_000_000 / time_signature.clocksperclick; // ns
-		System.out.println("Changed tempo (" + tracks.indexOf(track) + ") " + "Tempo: " + tempo + " BPM: " + MetaMessageType.getBPM(tempo) + " Sleep: " + sleep + " (" + (sleep / 1000000d) + "ms)");
 	}
 	
 	public void setTimeSignature(BukkitTrack track, BukkitMidiTimeSignature time_signature) {
 		this.time_signature = time_signature;
-		System.out.println(time_signature);
 	}
 	
 	public synchronized void start() {
