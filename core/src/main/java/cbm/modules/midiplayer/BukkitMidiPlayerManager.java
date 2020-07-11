@@ -2,9 +2,11 @@ package cbm.modules.midiplayer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -14,9 +16,10 @@ public class BukkitMidiPlayerManager {
 	
 	public static int play(File file) {
 		try {
-			BukkitMidiPlayer player = new BukkitMidiPlayer(file);
 			int ID = getFreeID();
 			if(ID < 0) return ID;
+			
+			BukkitMidiPlayer player = new BukkitMidiPlayer(ID, file);
 			
 			players.put(ID, player);
 			player.start();
@@ -26,13 +29,29 @@ public class BukkitMidiPlayerManager {
 		return -1;
 	}
 	
-	public static void stop(int ID) {
-		BukkitMidiPlayer player = players.remove(ID);
+	public static void remove(int id) {
+		players.remove(id);
+	}
+	
+	public static void stop(int id) {
+		BukkitMidiPlayer player = players.remove(id);
 		if(player == null) return;
 		player.stop();
 	}
 	
-	public synchronized static int getFreeID() {
+	public static void stopAll() {
+		players.values().forEach(player -> player.stop());
+	}
+	
+	public static Collection<Integer> getIDs() {
+		return players.keySet().stream().collect(Collectors.toList());
+	}
+	
+	public static BukkitMidiPlayer getBukkitMidiPlayer(int id) {
+		return players.get(id);
+	}
+	
+	protected synchronized static int getFreeID() {
 		if(players.size() >= Integer.MAX_VALUE) return -1;
 		
 		do {

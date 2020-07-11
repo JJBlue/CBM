@@ -152,12 +152,8 @@ public class ModuleManager {
 	
 	public static void unloadListeners(Module module) {
 		List<Listener> list = listeners.remove(module);
-		if(list == null)
-			return;
-		
-		for(Listener listener : list) {
-			HandlerList.unregisterAll(listener);
-		}
+		if(list == null) return;
+		list.forEach(listener -> HandlerList.unregisterAll(listener));
 	}
 
 	public static Collection<Module> getModules() {

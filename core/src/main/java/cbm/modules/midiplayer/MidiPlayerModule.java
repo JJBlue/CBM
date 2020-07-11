@@ -17,6 +17,12 @@ public class MidiPlayerModule extends EModule {
 		CommandManager.unregister("midiplayer");
 		return true;
 	}
+	
+	@Override
+	public boolean disable() {
+		BukkitMidiPlayerManager.stopAll();
+		return true;
+	}
 
 	@Override
 	public String getID() {

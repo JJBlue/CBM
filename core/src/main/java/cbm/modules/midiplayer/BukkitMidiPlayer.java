@@ -22,6 +22,8 @@ import cbm.modules.midiplayer.utils.MetaMessageType;
 import cbm.modules.midiplayer.values.BukkitMidiTimeSignature;
 
 public class BukkitMidiPlayer {
+	public final int id;
+	
 	public final File file;
 	public final Sequence sequence;
 	
@@ -38,7 +40,8 @@ public class BukkitMidiPlayer {
 	public List<BukkitTrack> tracks;
 	public Map<BukkitTrack, Instrument> instruments;
 	
-	public BukkitMidiPlayer(File file) throws InvalidMidiDataException, IOException {
+	public BukkitMidiPlayer(int id, File file) throws InvalidMidiDataException, IOException {
+		this.id = id;
 		this.file = file;
     	sequence = MidiSystem.getSequence(file);
     	load();
@@ -62,9 +65,14 @@ public class BukkitMidiPlayer {
 		// TODO sequence.getResolution() -> sequence.getDivisionType() == 0 not 1
 		long ticks = (long) (sleep * (MetaMessageType.getBPM(tempo) * sequence.getResolution() / (60_000_000_000D)));
 		
-		for(int i = 0; i < ticks; i++) {
+		for(int i = 0; i < ticks && tick <= maxTicks; i++) {
 			activateTick(tick);
 			tick++;
+		}
+		
+		if(tick > maxTicks) {
+			running = false;
+			BukkitMidiPlayerManager.remove(id);
 		}
 	}
 	
@@ -118,7 +126,6 @@ public class BukkitMidiPlayer {
 		thread.start();
 	}
 	
-	// TODO autostop
 	public synchronized void stop() {
 		if(thread == null) return;
 		
