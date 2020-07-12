@@ -1,5 +1,7 @@
 package cbm.modules.midiplayer.utils;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.sound.midi.MetaMessage;
 
 public class MetaMessageType {
@@ -190,6 +192,6 @@ public class MetaMessageType {
 	}
 	
 	public static String getString(MetaMessage message) {
-		return new String(message.getData());
+		return new String(message.getData(), StandardCharsets.UTF_8);
 	}
 }

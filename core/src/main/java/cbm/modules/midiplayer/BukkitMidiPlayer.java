@@ -85,8 +85,8 @@ public class BukkitMidiPlayer {
 	}
 	
 	public void playNote(Instrument instrument, Note note) {
-		for(Player player : Bukkit.getOnlinePlayers())
-			playNote(player, instrument, note);
+//		for(Player player : Bukkit.getOnlinePlayers())
+//			playNote(player, instrument, note);
 	}
 	
 	public void playNote(Player player, Instrument instrument, Note note) {
@@ -110,7 +110,7 @@ public class BukkitMidiPlayer {
 		if(thread != null) return;
 		
 		running = true;
-		sleep = 500_000; //in nano, default value
+		sleep = 500_000_000; //in nano, default value
 		
 		thread = new Thread(() -> {
 			activateTick(tick);

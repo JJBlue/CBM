@@ -156,7 +156,7 @@ public class BukkitTrack {
 						System.out.println("Text: " + MetaMessageType.getText(metaMessage));
 						break;
     				case MetaMessageType.copyright:
-    					System.out.println("Copyright: " + MetaMessageType.getCopyright(metaMessage));
+//    					System.out.println("Copyright: " + MetaMessageType.getCopyright(metaMessage));
     					break;
     				case MetaMessageType.track_name:
     					System.out.println("track_name: " + MetaMessageType.getTrackName(metaMessage));
@@ -164,20 +164,20 @@ public class BukkitTrack {
     				case MetaMessageType.instrument_name:
     					System.out.println("instrument_name: " + MetaMessageType.getInstrumentName(metaMessage));
     					break;
-    				case MetaMessageType.lyrics:
-    					System.out.println("lyrics: " + MetaMessageType.getLyricsName(metaMessage));
+    				case MetaMessageType.lyrics: // Song text
+//    					System.out.println("lyrics: " + MetaMessageType.getLyricsName(metaMessage));
     					break;
     				case MetaMessageType.marker:
-    					System.out.println("marker: " + MetaMessageType.getMarkerName(metaMessage));
+//    					System.out.println("marker: " + MetaMessageType.getMarkerName(metaMessage));
     					break;
     				case MetaMessageType.cue_marker:
-    					System.out.println("cue_marker: " + MetaMessageType.getCueMarkerName(metaMessage));
+//    					System.out.println("cue_marker: " + MetaMessageType.getCueMarkerName(metaMessage));
     					break;
     				case MetaMessageType.device_name:
-    					System.out.println("device_name: " + MetaMessageType.getDeviceName(metaMessage));
+//    					System.out.println("device_name: " + MetaMessageType.getDeviceName(metaMessage));
     					break;
     				case MetaMessageType.channel_prefix:
-    					System.out.println("channel_prefix: " + MetaMessageType.getChannelPrefix(metaMessage));
+//    					System.out.println("channel_prefix: " + MetaMessageType.getChannelPrefix(metaMessage));
     					break;
     				case MetaMessageType.midi_port:
     					break;
@@ -188,7 +188,7 @@ public class BukkitTrack {
     					getOrCreateList(tick).add(new BukkitMidiTempo(MetaMessageType.getTempo(metaMessage)));
     					break;
     				case MetaMessageType.smpte_offset:
-    					System.out.println("smpte_offset: " + MetaMessageType.getSmpteOffset(metaMessage));
+//    					System.out.println("smpte_offset: " + MetaMessageType.getSmpteOffset(metaMessage));
     					break;
     				case MetaMessageType.time_signature:
     					getOrCreateList(tick).add(
