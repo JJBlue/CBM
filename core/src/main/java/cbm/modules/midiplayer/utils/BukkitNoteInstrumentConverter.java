@@ -1,5 +1,9 @@
 package cbm.modules.midiplayer.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.Note.Tone;
@@ -253,8 +257,47 @@ Brush
 Orchestra
 		 */
 	
+	protected static Map<Pattern, Instrument> instruments;
+	
+	static {
+		instruments = new HashMap<>();
+		
+		addInstrument(".*piano.*", Instrument.PIANO);
+		addInstrument(".*banjo.*", Instrument.BANJO);
+		addInstrument(".*(drum|fantasia).*", Instrument.BASS_DRUM);
+		addInstrument(".*snare.*", Instrument.SNARE_DRUM);
+		addInstrument(".*bass.*guitare.*", Instrument.BASS_GUITAR); //TODO
+		addInstrument(".*guitare.*", Instrument.GUITAR);
+		addInstrument(".*cow.*bell.*", Instrument.COW_BELL); //TODO
+		addInstrument(".*bell.*", Instrument.BELL);
+		addInstrument(".*bit.*", Instrument.BIT);
+		addInstrument(".*chime.*", Instrument.CHIME);
+		addInstrument(".*didgeridoo.*", Instrument.DIDGERIDOO);
+		addInstrument(".*flute.*", Instrument.FLUTE);
+		addInstrument(".*pling.*", Instrument.PLING);
+		addInstrument(".*sticks.*", Instrument.STICKS);
+		addInstrument(".*iron.*xylophone.*", Instrument.IRON_XYLOPHONE); //TODO
+		addInstrument(".*xylophone.*", Instrument.XYLOPHONE);
+	}
+	
+	public static void addInstrument(String regex, Instrument instrument) {
+		Pattern pattern = Pattern.compile(regex);
+		instruments.put(pattern, instrument);
+	}
+	
+	public static Instrument getInstrument(String name) {
+		if(name == null) return Instrument.PIANO;
+		
+		String iname = name.toLowerCase();
+		
+		Pattern p = instruments.keySet().stream().parallel()
+			.filter(pattern -> pattern.matcher(iname).matches())
+			.findFirst().orElse(null);
+		
+		return p == null ? Instrument.PIANO : instruments.get(p);
+	}
+	
 	/*
-	 * 
 	 * Strings
 	 * Harp
 	 * PizzicatoStr
@@ -270,55 +313,7 @@ Orchestra
 	 * Timpani
 	 * percussions
 	 */
-	
 	public static Instrument getInstrument(javax.sound.midi.Instrument instrument) {
-		Instrument defauInstrument = Instrument.PIANO;
-		
-		if(instrument.getName() == null || instrument.getName().isEmpty())
-			return defauInstrument;
-		
-		String name = instrument.getName().toLowerCase();
-		
-		
-		
-		if(name.contains("piano"))
-			return Instrument.PIANO;
-		if(name.contains("banjo"))
-			return Instrument.BANJO;
-		
-		if(name.contains("drum") || name.contains("fantasia")) //TODO
-			return Instrument.BASS_DRUM;
-		if(name.contains("snare"))
-			return Instrument.SNARE_DRUM;
-		if(name.contains("bass") && name.contains("guitar"))
-			return Instrument.BASS_GUITAR;
-		if(name.contains("guitar"))
-			return Instrument.GUITAR;
-		
-		if(name.contains("cow") && name.contains("bell"))
-			return Instrument.COW_BELL;
-		if(name.contains("bell"))
-			return Instrument.BELL;
-		
-		if(name.contains("bit"))
-			return Instrument.BIT;
-		if(name.contains("chime"))
-			return Instrument.CHIME;
-		if(name.contains("didgeridoo"))
-			return Instrument.DIDGERIDOO;
-		if(name.contains("flute"))
-			return Instrument.FLUTE;
-		if(name.contains("pling"))
-			return Instrument.PLING;
-		if(name.contains("sticks"))
-			return Instrument.STICKS;
-		
-		if(name.contains("iron") && name.contains("xylophone"))
-			return Instrument.IRON_XYLOPHONE;
-		if(name.contains("xylophone"))
-			return Instrument.XYLOPHONE;
-		
-		
-		return defauInstrument; //TODO
+		return getInstrument(instrument.getName());
 	}
 }
