@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import cbm.config.database.DatabaseMapConfigManager;
 import cbm.database.Databases;
-import components.database.Datenbank;
+import components.database.Database;
 import components.sql.SQLParser;
 
 public class KitPlayerManager {
@@ -60,7 +60,7 @@ public class KitPlayerManager {
 	static class KitPlayerConfigManager extends DatabaseMapConfigManager<UUID, String, KitPlayerConfig> {
 		@Override
 		protected void insertOrIgnoreData(UUID uuid, String did) throws SQLException {
-			Datenbank database = Databases.getPlayerDatabase();
+			Database database = Databases.getPlayerDatabase();
 			database.execute("INSERT OR IGNORE INTO kitsPlayer (kitID, uuid) VALUES ('" + did + "', '" + uuid.toString() + "')");
 		}
 
@@ -77,7 +77,7 @@ public class KitPlayerManager {
 
 		@Override
 		protected ResultSet queryToReadColoumns() throws SQLException {
-			Datenbank database = Databases.getPlayerDatabase();
+			Database database = Databases.getPlayerDatabase();
 			return database.executeQuery("SELECT * FROM kitsPlayer LIMIT 1");
 		}
 	}

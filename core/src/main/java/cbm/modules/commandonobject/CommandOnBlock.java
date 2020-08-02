@@ -13,7 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import cbm.database.Databases;
-import components.database.Datenbank;
+import components.database.Database;
 import components.database.async.AsyncDatabase;
 import components.sql.SQLParser;
 
@@ -23,7 +23,7 @@ public class CommandOnBlock {
 	private static final Map<Chunk, Map<Location, CoBBlock>> chunkBuffer = Collections.synchronizedMap(new HashMap<>());
 
 	public static void load() {
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 
 		for (String s : SQLParser.getResources("sql/create.sql", CommandOnBlock.class)) {
 			try {

@@ -9,13 +9,13 @@ import java.sql.SQLException;
 
 import cbm.database.Databases;
 import cbm.utilities.image.imageManger;
-import components.database.Datenbank;
+import components.database.Database;
 import components.sql.SQLParser;
 
 public class LoadMapPaint {
 
 	public static void load() {
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 
 		for (String s : SQLParser.getResources("sql/create.sql", LoadMapPaint.class)) {
 			try {

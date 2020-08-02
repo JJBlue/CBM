@@ -13,8 +13,8 @@ import org.bukkit.OfflinePlayer;
 import cbm.config.database.DatabaseConfig;
 import cbm.config.database.DatabaseConfigManager;
 import cbm.database.Databases;
+import components.database.Database;
 import components.database.DatabaseSyntax;
-import components.database.Datenbank;
 
 public class PlayerConfig extends DatabaseConfig {
 
@@ -111,7 +111,7 @@ public class PlayerConfig extends DatabaseConfig {
 	}
 
 	@Override
-	public Datenbank getDatabase() {
+	public Database getDatabase() {
 		return Databases.getPlayerDatabase();
 	}
 }

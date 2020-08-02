@@ -13,8 +13,8 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
+import components.database.Database;
 import components.database.DatabaseSyntax;
-import components.database.Datenbank;
 import components.database.async.AsyncDatabase;
 
 public abstract class DatabaseConfig {
@@ -22,7 +22,7 @@ public abstract class DatabaseConfig {
 	public Map<String, DatabaseConfigValue> buffer = Collections.synchronizedMap(new HashMap<>());
 	
 	public abstract AbstractDatabaseConfig<?> getDatabaseConfig();
-	public abstract Datenbank getDatabase();
+	public abstract Database getDatabase();
 	
 	public boolean containsLoadedKey(String key) {
 		return buffer.containsKey(key);

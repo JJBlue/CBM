@@ -4,17 +4,17 @@ import java.sql.SQLException;
 
 import cbm.config.MainConfig;
 import cbm.player.PlayerManager;
-import components.database.Datenbank;
-import components.database.Datenbanken;
+import components.database.Database;
+import components.database.DatabaseType;
 import components.sql.SQLParser;
 
 public class Databases {
-	private static Datenbank playerDatabase;
-	private static Datenbank worldDatabase;
+	private static Database playerDatabase;
+	private static Database worldDatabase;
 
 	public static void load() {
-		playerDatabase = new Datenbank(null, null, MainConfig.getDataFolder() + "players.db");
-		playerDatabase.connect(Datenbanken.SQLLite);
+		playerDatabase = new Database(null, null, MainConfig.getDataFolder() + "players.db");
+		playerDatabase.connect(DatabaseType.SQLLite);
 
 		for (String s : SQLParser.getResources("sql/create.sql", PlayerManager.class)) {
 			try {
@@ -24,8 +24,8 @@ public class Databases {
 			}
 		}
 
-		worldDatabase = new Datenbank(null, null, MainConfig.getDataFolder() + "worlds.db");
-		worldDatabase.connect(Datenbanken.SQLLite);
+		worldDatabase = new Database(null, null, MainConfig.getDataFolder() + "worlds.db");
+		worldDatabase.connect(DatabaseType.SQLLite);
 	}
 
 	public static void unload() {
@@ -36,11 +36,11 @@ public class Databases {
 			worldDatabase.close();
 	}
 
-	public static Datenbank getWorldDatabase() {
+	public static Database getWorldDatabase() {
 		return worldDatabase;
 	}
 
-	public static Datenbank getPlayerDatabase() {
+	public static Database getPlayerDatabase() {
 		return playerDatabase;
 	}
 }

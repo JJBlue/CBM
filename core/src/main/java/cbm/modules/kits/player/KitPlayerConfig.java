@@ -9,7 +9,7 @@ import cbm.config.database.AbstractDatabaseConfig;
 import cbm.config.database.DatabaseConfig;
 import cbm.database.Databases;
 import components.database.DatabaseSyntax;
-import components.database.Datenbank;
+import components.database.Database;
 
 public class KitPlayerConfig extends DatabaseConfig {
 	
@@ -62,7 +62,7 @@ public class KitPlayerConfig extends DatabaseConfig {
 	}
 
 	@Override
-	public Datenbank getDatabase() {
+	public Database getDatabase() {
 		return Databases.getPlayerDatabase();
 	}
 }

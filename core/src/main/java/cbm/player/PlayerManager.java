@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import cbm.config.database.DatabaseConfigManager;
 import cbm.database.Databases;
-import components.database.Datenbank;
+import components.database.Database;
 
 public class PlayerManager {
 	private PlayerManager() {}
@@ -58,7 +58,7 @@ public class PlayerManager {
 
 		@Override
 		protected void insertOrIgnoreData(UUID uuid) throws SQLException {
-			Datenbank database = Databases.getPlayerDatabase();
+			Database database = Databases.getPlayerDatabase();
 			database.execute("INSERT OR IGNORE INTO players (uuid) VALUES ('" + uuid.toString() + "')");
 		}
 
@@ -75,7 +75,7 @@ public class PlayerManager {
 
 		@Override
 		protected ResultSet queryToReadColoumns() throws SQLException {
-			Datenbank database = Databases.getPlayerDatabase();
+			Database database = Databases.getPlayerDatabase();
 			return database.executeQuery("SELECT * FROM players LIMIT 1");
 		}
 	}

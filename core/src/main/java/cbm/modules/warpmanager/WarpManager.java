@@ -18,7 +18,7 @@ import cbm.database.Databases;
 import cbm.utilities.ItemStackJSONUtilities;
 import cbm.utilities.conditions.Condition;
 import cbm.utilities.permissions.PermissionHelper;
-import components.database.Datenbank;
+import components.database.Database;
 import components.sql.SQLParser;
 
 public class WarpManager {
@@ -26,7 +26,7 @@ public class WarpManager {
 	private static Map<String, Warp> warps = Collections.synchronizedMap(new HashMap<>());
 
 	public static void load() {
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 
 		for (String s : SQLParser.getResources("sql/create.sql", WarpManager.class)) {
 			try {
@@ -60,7 +60,7 @@ public class WarpManager {
 		warps.put(warp.name, warp);
 
 		try {
-			Datenbank database = Databases.getWorldDatabase();
+			Database database = Databases.getWorldDatabase();
 			PreparedStatement preparedStatement = database.prepareStatement("INSERT OR IGNORE INTO warps (name, location) VALUES (?, ?)");
 			preparedStatement.setString(1, warp.name);
 			preparedStatement.setString(2, SQLHelper.LocationToString(warp.location));
@@ -73,7 +73,7 @@ public class WarpManager {
 	}
 
 	public synchronized static void deleteWarp(String warp) {
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("DELETE FROM warps WHERE name = ?");
@@ -89,7 +89,7 @@ public class WarpManager {
 	public synchronized static void loadWarp(String warpName) {
 		if (warps.containsKey(warpName)) return;
 
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("SELECT * FROM warps WHERE name = ?");
@@ -117,7 +117,7 @@ public class WarpManager {
 	public static List<Warp> getWarps(int start, int length) {
 		List<Warp> list = new LinkedList<>();
 
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("SELECT name FROM warps ORDER BY pos ASC LIMIT " + length + " OFFSET " + start);
