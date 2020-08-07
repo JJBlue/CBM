@@ -121,6 +121,7 @@ public class BukkitTrack {
 							Soundbank soundbank = MidiSystem.getSynthesizer().getDefaultSoundbank();
 							javax.sound.midi.Instrument instrument = soundbank.getInstruments()[sm.getData1()];
 							
+							System.out.println("!" + instrument.getName() + ": " + BukkitNoteInstrumentConverter.getInstrument(instrument));
 							getOrCreateList(tick).add(new BukkitMidiInstrument(BukkitNoteInstrumentConverter.getInstrument(instrument)));
 						} catch (MidiUnavailableException e) {
 							e.printStackTrace();
