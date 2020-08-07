@@ -13,6 +13,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.entity.Player;
@@ -84,8 +85,8 @@ public class BukkitMidiPlayer {
 	}
 	
 	public void playNote(Instrument instrument, Note note) {
-//		for(Player player : Bukkit.getOnlinePlayers())
-//			playNote(player, instrument, note);
+		for(Player player : Bukkit.getOnlinePlayers())
+			playNote(player, instrument, note);
 	}
 	
 	public void playNote(Player player, Instrument instrument, Note note) {
