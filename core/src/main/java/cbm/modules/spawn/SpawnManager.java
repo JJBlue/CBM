@@ -16,7 +16,7 @@ import cbm.config.database.SQLHelper;
 import cbm.database.Databases;
 import cbm.modules.teleport.TeleportManager;
 import cbm.utilities.permissions.PermissionHelper;
-import components.database.Datenbank;
+import components.database.Database;
 import components.sql.SQLParser;
 
 public class SpawnManager {
@@ -30,7 +30,7 @@ public class SpawnManager {
 	}
 	
 	public static void load() {
-		Datenbank database = getDatabase();
+		Database database = getDatabase();
 		
 		for(String s : SQLParser.getResources("sql/create.sql", SpawnManager.class)) {
 			try {
@@ -226,7 +226,7 @@ public class SpawnManager {
 		return null;
 	}
 	
-	public static Datenbank getDatabase() {
+	public static Database getDatabase() {
 		return Databases.getWorldDatabase();
 	}
 }

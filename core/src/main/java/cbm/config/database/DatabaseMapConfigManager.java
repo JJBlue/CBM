@@ -13,6 +13,7 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 	
 	protected Map<I, Map<DI, D>> configs = Collections.synchronizedMap(new HashMap<>());
 
+	@Override
 	public synchronized void unload() {
 		unloadAll();
 	}
@@ -57,6 +58,7 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 		return playerConfig;
 	}
 
+	@Override
 	public synchronized void unload(I uuid) {
 		Map<DI, D> config = configs.remove(uuid);
 		
@@ -65,6 +67,7 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 		}
 	}
 
+	@Override
 	public synchronized void unloadAll() {
 		for (Map<DI, D> map : configs.values()) {
 			for(D pcv : map.values()) {
@@ -74,6 +77,7 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 
 		configs.clear();
 	}
+	@Override
 	public boolean hasColumn(String column, ResultSet resultSet) {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
@@ -89,6 +93,7 @@ public abstract class DatabaseMapConfigManager<I extends Object, DI extends Obje
 		return false;
 	}
 
+	@Override
 	public List<String> getColumns() {
 		List<String> columns = new LinkedList<>();
 

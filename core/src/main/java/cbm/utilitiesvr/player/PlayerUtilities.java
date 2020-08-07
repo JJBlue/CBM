@@ -81,22 +81,28 @@ public class PlayerUtilities {
 	
 	public static void setHeldItemSlot(Player player, int number) {
 		PlayerUtilities_Interface vd = version_dependency.get(MinecraftVersions.getMinecraftVersionExact());
-		if(vd != null)
+		if(vd != null) {
 			vd.setHeldItemSlot(player, number);
+			return;
+		}
+		
 		PlayerUtilitiesReflections.setHeldItemSlot(player, number);
 	}
 	
 	public static void setGameProfile(Player player, GameProfile gameProfile) {
 		PlayerUtilities_Interface vd = version_dependency.get(MinecraftVersions.getMinecraftVersionExact());
-		if(vd != null)
+		if(vd != null) {
 			vd.setGameProfile(player, gameProfile);
+			return;
+		}
+		
 		PlayerUtilitiesReflections.setGameProfile(player, gameProfile);
 	}
 	
 	public static GameProfile getGameProfile(Player player) {
 		PlayerUtilities_Interface vd = version_dependency.get(MinecraftVersions.getMinecraftVersionExact());
 		if(vd != null)
-			vd.getGameProfile(player);
+			return vd.getGameProfile(player);
 		return PlayerUtilitiesReflections.getGameProfile(player);
 	}
 }

@@ -30,6 +30,7 @@ public class Tablist {
 
 	static File file;
 	static FileConfiguration configuration;
+	static boolean init;
 
 	static boolean enabled;
 	static boolean groupEnabled;
@@ -47,6 +48,7 @@ public class Tablist {
 	static {
 		tablistListener = new TablistListener();
 		counterPageCurrent = Collections.synchronizedMap(new HashMap<>());
+		init = false;
 	}
 
 	public synchronized static void load() {
@@ -106,9 +108,12 @@ public class Tablist {
 			Bukkit.getPluginManager().registerEvents(tablistListener, Main.getPlugin());
 			TablistTimer.start();
 		}
+		
+		init = true;
 	}
 
 	public synchronized static void unload() {
+		init = false;
 		TablistTimer.stop();
 		HandlerList.unregisterAll(tablistListener);
 	}
@@ -260,5 +265,9 @@ public class Tablist {
 		}
 		
 		return biggestNumber;
+	}
+
+	public static boolean isLoaded() {
+		return init;
 	}
 }

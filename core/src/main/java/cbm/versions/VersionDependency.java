@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import cbm.main.Main;
 import cbm.versions.minecraft.MinecraftVersions;
 import cbm.versions.minecraft.PackageVersion;
 
@@ -16,11 +17,11 @@ public class VersionDependency<T> {
 			Class<?> classy = Class.forName("cbm." + MinecraftVersions.getMinecraftVersionExact() + ".MainVersion");
 			Method init = classy.getMethod("init");
 			init.invoke(null, new Object[0]);
-			System.out.print("[CBM] Found Dependency for this MC Version (" + MinecraftVersions.getMinecraftVersionExact() + ")");
+			Main.getPlugin().getLogger().info("Found Dependency for this MC Version (" + MinecraftVersions.getMinecraftVersionExact() + ")");
 		} catch (ClassNotFoundException e) {
-			System.out.print("[CBM] No Dependency for this MC Version found");
+			Main.getPlugin().getLogger().warning("No Dependency for this MC Version found");
 		} catch (NoSuchMethodException e) {
-			System.out.print("[CBM] Dependency Method init not found");
+			Main.getPlugin().getLogger().warning("Dependency Method init not found");
 		} catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

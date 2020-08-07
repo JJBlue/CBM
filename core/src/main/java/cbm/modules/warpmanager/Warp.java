@@ -16,7 +16,7 @@ import cbm.database.Databases;
 import cbm.utilities.ItemStackJSONUtilities;
 import cbm.utilities.conditions.Condition;
 import cbm.utilities.permissions.PermissionHelper;
-import components.database.Datenbank;
+import components.database.Database;
 import components.json.JSONObject;
 
 public class Warp {
@@ -41,7 +41,7 @@ public class Warp {
 		if (saved) return;
 		saved = true;
 
-		Datenbank database = Databases.getWorldDatabase();
+		Database database = Databases.getWorldDatabase();
 		//TODO create database
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ?, condition = ?, executes = ? WHERE name = ?");

@@ -77,7 +77,7 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 	@Override
 	public void setGameProfile(Player player, GameProfile gameProfile) {
 		try {
-			Field field = ObjectReflection.getField("bW", EntityHuman.class);
+			Field field = ObjectReflection.getField("bQ", EntityHuman.class);
 			field.setAccessible(true);
 			field.set(((CraftPlayer) player).getHandle(), gameProfile);
 		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {

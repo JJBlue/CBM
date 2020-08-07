@@ -35,23 +35,24 @@ public class Main extends JavaPlugin {
 	private static JavaPlugin plugin;
 	private static LocalDateTime online;
 
+	@Override
 	public void onEnable() {
-		System.out.print("[CBM] is starting");
+		getLogger().info("is starting");
 		plugin = this;
 		online = LocalDateTime.now();
 		
 		VersionDependency.init();
 
-		System.out.print("[CBM] loading important configs");
+		getLogger().info("loading important configs");
 		MainConfig.reload();
 		LanguageConfig.load();
 		Databases.load();
 		
-		System.out.print("[CBM] load important Commands & Modules");
+		getLogger().info("load important Commands & Modules");
 		CommandManager.load();
 		ModuleManager.load();
 
-		System.out.print("[CBM] loading Listeners");
+		getLogger().info("loading Listeners");
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
@@ -71,7 +72,7 @@ public class Main extends JavaPlugin {
 			this.getCommand("cbm").setTabCompleter(mainCommand);
 		}
 
-		System.out.print("[CBM] loading configs");
+		getLogger().info("[CBM] loading configs");
 		BookCommand.saveDefaultBook();
 
 		for (Player player : Bukkit.getOnlinePlayers())
@@ -81,7 +82,7 @@ public class Main extends JavaPlugin {
 			bStats.enableBStats();
 
 		reload();
-		System.out.print("[CBM] start complete");
+		getLogger().info("[CBM] start complete");
 	}
 
 	@Override

@@ -20,10 +20,12 @@ public class NameManager {
 			name = player.getName();
 		}
 		
-		if(toPlayer != null)
-			playerListName = Tablist.getTablistName(toPlayer);
-		else
-			playerListName = Tablist.getTablistName(player);
+		if(Tablist.isLoaded()) {
+			if(toPlayer != null)
+				playerListName = Tablist.getTablistName(toPlayer);
+			else
+				playerListName = Tablist.getTablistName(player);
+		}
 		
 		if(playerListName == null || playerListName.isEmpty())
 			playerListName = name;

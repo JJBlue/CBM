@@ -13,6 +13,7 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 	
 	protected Map<I, D> configs = Collections.synchronizedMap(new HashMap<>());
 
+	@Override
 	public synchronized void unload() {
 		unloadAll();
 	}
@@ -49,17 +50,21 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 		return playerConfig;
 	}
 
+	@Override
 	public synchronized void unload(I uuid) {
 		D config = configs.remove(uuid);
 		config.save();
 	}
 
+	@Override
 	public synchronized void unloadAll() {
 		for (D pcv : configs.values())
 			pcv.save();
 
 		configs.clear();
 	}
+	
+	@Override
 	public boolean hasColumn(String column, ResultSet resultSet) {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
@@ -75,6 +80,7 @@ public abstract class DatabaseConfigManager<I extends Object, D extends Database
 		return false;
 	}
 
+	@Override
 	public List<String> getColumns() {
 		List<String> columns = new LinkedList<>();
 

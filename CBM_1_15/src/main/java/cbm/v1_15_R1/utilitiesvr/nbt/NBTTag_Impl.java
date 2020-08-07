@@ -36,6 +36,7 @@ public class NBTTag_Impl implements NBTTag {
 		this.nbtTagCompound = (NBTTagCompound) nbtTagCompound;
 	}
 	
+	@Override
 	public boolean hasNBT() {
 		return nbtTagCompound != null;
 	}
