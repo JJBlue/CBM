@@ -1,19 +1,19 @@
 package cbm.modules.updater;
 
-import com.google.common.io.Files;
-
-import cbm.main.Main;
-import components.classes.Static;
-import components.downloader.Downloader;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+
+import com.google.common.io.Files;
+
+import cbm.main.Main;
+import components.classes.Static;
+import components.downloader.DownloadFile;
 
 public class SpigotPluginUpdater {
 
@@ -100,12 +100,9 @@ public class SpigotPluginUpdater {
 			UpdaterServerManager.getDownloadFolder().mkdirs();
 			lastDownloadedFile = new File(UpdaterServerManager.getDownloadFolder(), name + ".jar");
 
-			Downloader.downloadFile(
-				"https://api.spiget.org/v2/resources/" + getPluginID() + "/download",
-				lastDownloadedFile,
-				-1,
-				null
-			);
+			DownloadFile downloader = new DownloadFile("https://api.spiget.org/v2/resources/" + getPluginID() + "/download");
+			downloader.setFile(lastDownloadedFile);
+			downloader.download();
 			
 			return true;
 		} catch (IOException e) {

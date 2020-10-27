@@ -9,7 +9,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
-	<artifactId>CBM-1.15</artifactId>
+	<artifactId>CBM-1.16-R2</artifactId>
 	<version>1</version>
 
 	<parent>
@@ -22,19 +22,19 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.15.2-R0.1-SNAPSHOT</version>
+			<version>1.16.3-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.15.2-R0.1-SNAPSHOT</version>
+			<version>1.16.3-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.15.2-R0.1-SNAPSHOT</version>
+			<version>1.16.3-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Libs -->
@@ -46,7 +46,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>CBM-1-15</finalName>
+		<finalName>CBM-1-16</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

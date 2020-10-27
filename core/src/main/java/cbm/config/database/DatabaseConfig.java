@@ -14,8 +14,8 @@ import java.util.Map;
 import org.bukkit.Location;
 
 import components.database.Database;
-import components.database.DatabaseSyntax;
 import components.database.async.AsyncDatabase;
+import components.database.preparestatement.PrepareStatementBuilder;
 
 public abstract class DatabaseConfig {
 
@@ -255,8 +255,6 @@ public abstract class DatabaseConfig {
 			PreparedStatement preparedStatement = null;
 			{
 				StringBuilder builder = new StringBuilder();
-				builder.append("UPDATE " + getTableName());
-
 				List<String> conditions = new LinkedList<>();
 
 				for (String key : buffer.keySet()) {
@@ -267,12 +265,15 @@ public abstract class DatabaseConfig {
 					conditions.add(key);
 				}
 				
-				if(conditions.isEmpty()) return;
-
-				builder.append('\n');
 				String[] array = new String[conditions.size()];
 				conditions.toArray(array);
-				builder.append(DatabaseSyntax.setKeywordWithCondition("SET", array));
+				PrepareStatementBuilder prepare = new PrepareStatementBuilder()
+					.update(getTableName(), array);
+				
+				builder.append(prepare.build());
+				
+				if(conditions.isEmpty()) return;
+				
 				builder.append('\n');
 				builder.append(saveWhereClause());
 

@@ -8,8 +8,9 @@ import java.util.UUID;
 import cbm.config.database.AbstractDatabaseConfig;
 import cbm.config.database.DatabaseConfig;
 import cbm.database.Databases;
-import components.database.DatabaseSyntax;
 import components.database.Database;
+import components.database.preparestatement.PrepareStatementBuilder;
+import components.database.preparestatement.WhereStatement;
 
 public class KitPlayerConfig extends DatabaseConfig {
 	
@@ -25,7 +26,14 @@ public class KitPlayerConfig extends DatabaseConfig {
 	protected ResultSet getDataInformation(String key) {
 		PreparedStatement statement = null;
 		try {
-			statement = Databases.getPlayerDatabase().prepareStatement(DatabaseSyntax.selectFromWhere(key, getTableName(), "uuid"));
+			statement = Databases.getPlayerDatabase().prepareStatement(
+				new PrepareStatementBuilder()
+					.select(key)
+					.from(getTableName())
+					.where(new WhereStatement()
+						.object("uuid").equals()
+					).build()
+			);
 		} catch (SQLException e1) {} //No Such Coloum Exception
 		if (statement == null) return null;
 
@@ -47,7 +55,10 @@ public class KitPlayerConfig extends DatabaseConfig {
 
 	@Override
 	protected String saveWhereClause() {
-		return DatabaseSyntax.where("ID", "uuid");
+		return new WhereStatement()
+			.object("ID").equals()
+			.object("uuid").equals()
+			.build();
 	}
 
 	@Override

@@ -118,6 +118,7 @@ public class AbstractSudoPlayer implements SudoPlayerInterface {
 		return player.getGameMode();
 	}
 
+	@Override
 	public AbstractSudoPlayer setSilentOutputMessage(boolean silent) {
 		this.silentOutputMessage = silent;
 		return this;

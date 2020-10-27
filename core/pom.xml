@@ -14,7 +14,7 @@
     <parent>
         <groupId>jjblue</groupId>
         <artifactId>CBM</artifactId>
-        <version>${revision}</version>
+        <version>0.5.8.BETA</version>
     </parent>
 
     <repositories>

@@ -153,6 +153,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 			nbtTagCompound = createNBTTagCompound();
 	}
 	
+	@Override
 	public boolean hasNBT() {
 		return nbtTagCompound != null;
 	}
@@ -450,6 +451,8 @@ public class NBTUtilitiesReflections implements NBTTag {
 	@Override
 	public Object getValue(String key) {
 		Object nbtbase = get(key);
+		if(nbtbase == null) return null;
+		
 		Class<?> nbtBaseClass = nbtbase.getClass();
 		
 		try {
@@ -480,6 +483,7 @@ public class NBTUtilitiesReflections implements NBTTag {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 

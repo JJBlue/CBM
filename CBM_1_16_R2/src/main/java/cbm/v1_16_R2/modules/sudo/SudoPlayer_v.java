@@ -1,11 +1,11 @@
-package cbm.v1_16_R1.modules.sudo;
+package cbm.v1_16_R2.modules.sudo;
 
 import java.util.Set;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_16_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
@@ -155,6 +155,7 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 		return super.getGameMode();
 	}
 
+	@Override
 	public SudoPlayer_v setSilentOutputMessage(boolean silent) {
 		this.silentOutputMessage = silent;
 		return this;
