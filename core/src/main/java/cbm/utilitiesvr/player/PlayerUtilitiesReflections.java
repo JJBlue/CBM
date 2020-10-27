@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -81,10 +82,21 @@ public class PlayerUtilitiesReflections {
 	
 	public static void setGameProfile(Player player, GameProfile gameProfile) {
 		try {
-			Field field = ObjectReflection.getField("bW", Class.forName("net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + ".EntityHuman"));
-			field.setAccessible(true);
-			field.set(getEntityPlayer(player), gameProfile);
-		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | ClassNotFoundException | InvocationTargetException e) {
+			Object human = getEntityPlayer(player);
+			
+			Set<Field> fields = ObjectReflection.getAllFields(human);
+			fields.forEach(field -> {
+				try {
+					if(field.getType().equals(GameProfile.class)) {
+						field.setAccessible(true);
+						field.set(human, gameProfile);
+					}
+				} catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			});
+			
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 	}

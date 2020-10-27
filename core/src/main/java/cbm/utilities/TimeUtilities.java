@@ -9,10 +9,9 @@ import cbm.language.LanguageConfig;
 
 public class TimeUtilities {
 	private TimeUtilities() {}
-
+	
 	public static String timeToString(LocalDateTime from, LocalDateTime until) {
 		if(from == null || until == null) return null;
-		
 		
 		LocalDateTime fromc = LocalDateTime.from(from);
 		StringBuilder builder = new StringBuilder();
@@ -20,32 +19,32 @@ public class TimeUtilities {
 		long year = fromc.until(until, ChronoUnit.YEARS);
 		if (year != 0)
 			builder.append(year).append(' ').append(LanguageConfig.getString("time.years")).append(' ');
-		fromc.plusYears(year);
+		fromc = fromc.plusYears(year);
 		
 		long month = fromc.until(until, ChronoUnit.MONTHS);
 		if (month != 0)
 			builder.append(month).append(' ').append(LanguageConfig.getString("time.months")).append(' ');
-		fromc.plusMonths(month);
+		fromc = fromc.plusMonths(month);
 
 		long days = fromc.until(until, ChronoUnit.DAYS);
 		if (days != 0)
 			builder.append(days).append(' ').append(LanguageConfig.getString("time.day-short")).append(' ');
-		fromc.plusDays(days);
+		fromc = fromc.plusDays(days);
 		
 		long hours = fromc.until(until, ChronoUnit.HOURS);
 		if (hours != 0)
 			builder.append(hours).append(' ').append(LanguageConfig.getString("time.hour-short")).append(' ');
-		fromc.plusHours(hours);
+		fromc = fromc.plusHours(hours);
 		
 		long minutes = fromc.until(until, ChronoUnit.MINUTES);
 		if (minutes != 0)
 			builder.append(minutes).append(' ').append(LanguageConfig.getString("time.minute-short")).append(' ');
-		fromc.plusMinutes(minutes);
+		fromc = fromc.plusMinutes(minutes);
 		
 		long seconds = fromc.until(until, ChronoUnit.SECONDS);
 		if (seconds != 0)
 			builder.append(seconds).append(' ').append(LanguageConfig.getString("time.second-short")).append(' ');
-		fromc.plusSeconds(seconds);
+		fromc = fromc.plusSeconds(seconds);
 		
 		return builder.toString();
 	}

@@ -2,6 +2,7 @@ package cbm.v1_16_R2.utilitiesvr.player;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -76,13 +77,19 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 	
 	@Override
 	public void setGameProfile(Player player, GameProfile gameProfile) {
-		try {
-			Field field = ObjectReflection.getField("bQ", EntityHuman.class);
-			field.setAccessible(true);
-			field.set(((CraftPlayer) player).getHandle(), gameProfile);
-		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
-			e.printStackTrace();
-		}
+		EntityHuman human = ((CraftPlayer) player).getHandle();
+		
+		Set<Field> fields = ObjectReflection.getAllFields(human);
+		fields.forEach(field -> {
+			try {
+				if(field.getType().equals(GameProfile.class)) {
+					field.setAccessible(true);
+					field.set(human, gameProfile);
+				}
+			} catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 	
 	@Override
