@@ -97,7 +97,7 @@ public class DisplayListener implements Listener {
 			counts.put(player, 0);
 		}
 		
-		ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§e" + LanguageConfig.getString("text.speed") + ": §6" + MathUtilities.round(player.getVelocity().length() * 20 * 3.6, 2) + "§e km/h"), ChatMessageType.CHAT);
+		ChatUtilities.sendMessage(player, ChatUtilities.createMessage("§e" + LanguageConfig.getString("text.speed") + ": §6" + MathUtilities.round(player.getVelocity().length() * 20 * 3.6, 2) + "§e km/h"), ChatMessageType.GAME_INFO);
 	}
 	
 	@EventHandler
