@@ -64,7 +64,7 @@ public class CoBCommands implements TabExecutor {
 							)
 						);
 						
-						ChatUtilities.sendMessage(p, json, ChatMessageType.GAME_INFO);
+						ChatUtilities.sendMessage(p, json, ChatMessageType.CHAT);
 					}
 				}
 

@@ -102,7 +102,7 @@ public class CoICommands implements TabExecutor {
 							)
 						);
 						
-						ChatUtilities.sendMessage(player, json, ChatMessageType.GAME_INFO);
+						ChatUtilities.sendMessage(player, json, ChatMessageType.CHAT);
 					}
 				}
 				
