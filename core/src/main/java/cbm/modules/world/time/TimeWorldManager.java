@@ -9,6 +9,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 import cbm.main.Main;
+import cbm.modules.move.AFK;
 
 import java.time.LocalTime;
 import java.util.Collections;
@@ -151,45 +152,60 @@ public class TimeWorldManager {
 				if (twv == null) twv = defaultTWV;
 				if (twv == null) continue;
 
-				if (twv.isUseRealTime())
+				if (twv.isUseRealTime()) {
 					world.setTime(getRealTime());
-				else {
-
-					boolean isDay = world.getTime() > 1_000 && world.getTime() < 13_000;
-					long worldTime = world.getTime() - 1;
-
-					if (isDay)
-						worldTime += (1 * twv.getDaySpeedFactor());
-					else
-						worldTime += (1 * twv.getNightSpeedFactor());
-
-					//Sleep-Factor
-					if (!isDay && twv.getSleepSpeedFactor() != 1) {
-						int c = 0;
-						int g = 0;
-						for (Player player : world.getPlayers()) {
-							g++;
-
-							if (player.isSleeping())
-								c++;
-						}
-
-						if ((100d / g) * c < twv.getMinPlayerSleepingPercent()) {
-							removeBossBar(world);
-							continue;
-						}
-
-						long playerFactor = g != 0 ? (int) ((twv.getSleepSpeedFactor() / g) * c) : 0;
-						worldTime += playerFactor;
-
-						if (twv.isUseBossBar())
-							refreshSleepBossbar(world, c, g);
-
-					} else if (bossbars.containsKey(world))
-						removeBossBar(world);
-
-					world.setTime(worldTime);
+					continue;
 				}
+				
+				boolean isDay = world.getTime() > 1_000 && world.getTime() < 13_000;
+				long worldTime = world.getTime() - 1;
+
+				if (isDay)
+					worldTime += (1 * twv.getDaySpeedFactor());
+				else
+					worldTime += (1 * twv.getNightSpeedFactor());
+
+				//Sleep-Factor
+				if (!isDay && twv.getSleepSpeedFactor() != 1) {
+					int playerSleep = 0;
+					int maxplayers = 0;
+					
+					// Check players
+					for (Player player : world.getPlayers()) {
+						switch (player.getGameMode()) {
+							case CREATIVE:
+							case SPECTATOR: continue;
+							default: break;
+						}
+						
+						if(twv.isSleepWithAFK() && AFK.isAfk(player))
+							continue;
+						
+						maxplayers++;
+
+						if (player.isSleeping())
+							playerSleep++;
+					}
+
+					// Check amount of players
+					if ((100d / maxplayers) * playerSleep < twv.getMinPlayerSleepingPercent() || playerSleep == 0) {
+						removeBossBar(world);
+						continue;
+					}
+
+					// Change world speed
+					long playerFactor = maxplayers != 0 ? (int) ((twv.getSleepSpeedFactor() / maxplayers) * playerSleep) : 0;
+					worldTime += playerFactor;
+
+					if (twv.isUseBossBar()) {
+						refreshSleepBossbar(world, playerSleep, maxplayers);
+					}
+
+				} else if (bossbars.containsKey(world)) {
+					removeBossBar(world);
+				}
+
+				world.setTime(worldTime);
 			}
 		}, 0L, 1L);
 	}

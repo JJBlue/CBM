@@ -3,8 +3,9 @@ package cbm.modules.world.time;
 public class TimeWorldValues {
 	private boolean useRealTime;
 
-	private int minPlayerSleepingPercent;
-	private double sleepSpeedFactor = 1;
+	private boolean sleep_withAFK = true;
+	private int sleep_minPlayerPercent;
+	private double sleep_speedFactor = 1;
 
 	private double nightSpeedFactor = 1;
 	private double daySpeedFactor = 1;
@@ -38,11 +39,11 @@ public class TimeWorldValues {
 	}
 
 	public double getSleepSpeedFactor() {
-		return sleepSpeedFactor;
+		return sleep_speedFactor;
 	}
 
 	public void setSleepSpeedFactor(double sleepSpeedFactor) {
-		this.sleepSpeedFactor = sleepSpeedFactor;
+		this.sleep_speedFactor = sleepSpeedFactor;
 	}
 
 	public void setSpeedFactor(double factor) {
@@ -59,10 +60,18 @@ public class TimeWorldValues {
 	}
 
 	public int getMinPlayerSleepingPercent() {
-		return minPlayerSleepingPercent;
+		return sleep_minPlayerPercent;
 	}
 
 	public void setMinPlayerSleepingPercent(int minPlayerSleepingPercent) {
-		this.minPlayerSleepingPercent = minPlayerSleepingPercent;
+		this.sleep_minPlayerPercent = minPlayerSleepingPercent;
+	}
+
+	public boolean isSleepWithAFK() {
+		return sleep_withAFK;
+	}
+
+	public void setSleepWithAFK(boolean sleep_withAFK) {
+		this.sleep_withAFK = sleep_withAFK;
 	}
 }

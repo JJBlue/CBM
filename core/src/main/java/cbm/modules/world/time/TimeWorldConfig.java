@@ -16,15 +16,18 @@ public class TimeWorldConfig {
 			TimeWorldValues defaultTWV = new TimeWorldValues();
 			defaultTWV.setDaySpeedFactor(defaultSection.getDouble("day-speed"));
 			defaultTWV.setNightSpeedFactor(defaultSection.getDouble("night-speed"));
-			defaultTWV.setSleepSpeedFactor(defaultSection.getDouble("sleep-speed"));
-			defaultTWV.setMinPlayerSleepingPercent(defaultSection.getInt("min-player-percent-sleeping"));
 			defaultTWV.setUseRealTime(defaultSection.getBoolean("use-real-time"));
-			defaultTWV.setUseBossBar(defaultSection.getBoolean("use-Sleep-BossBar"));
+			
+			defaultTWV.setSleepSpeedFactor(defaultSection.getDouble("sleep.speed"));
+			defaultTWV.setMinPlayerSleepingPercent(defaultSection.getInt("sleep.min-player-percent"));
+			defaultTWV.setUseBossBar(defaultSection.getBoolean("sleep.showBossBar"));
+			defaultTWV.setSleepWithAFK(defaultSection.getBoolean("sleep.withAFK"));
 
 			TimeWorldManager.defaultTWV = defaultTWV;
-		} else
+		} else {
 			TimeWorldManager.defaultTWV = new TimeWorldValues();
-
+		}
+			
 		ConfigurationSection worldsSection = WorldConfig.getConfigurationSection("worlds");
 
 		if (worldsSection != null) {
@@ -39,10 +42,13 @@ public class TimeWorldConfig {
 				TimeWorldValues worldTWV = new TimeWorldValues();
 				worldTWV.setDaySpeedFactor(worldSection.getDouble("day-speed"));
 				worldTWV.setNightSpeedFactor(worldSection.getDouble("night-speed"));
-				worldTWV.setSleepSpeedFactor(worldSection.getDouble("sleep-speed"));
-				worldTWV.setMinPlayerSleepingPercent(worldSection.getInt("min-player-percent-sleeping"));
 				worldTWV.setUseRealTime(worldSection.getBoolean("use-real-time"));
-				worldTWV.setUseBossBar(worldSection.getBoolean("use-Sleep-BossBar"));
+				
+				worldTWV.setSleepSpeedFactor(worldSection.getDouble("sleep.speed"));
+				worldTWV.setMinPlayerSleepingPercent(worldSection.getInt("sleep.min-player-percent"));
+				worldTWV.setUseBossBar(worldSection.getBoolean("sleep.showBossBar"));
+				worldTWV.setSleepWithAFK(worldSection.getBoolean("sleep.withAFK"));
+				
 				TimeWorldManager.addWorld(world, worldTWV);
 			}
 		}
