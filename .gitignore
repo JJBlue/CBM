@@ -35,4 +35,7 @@ dependency-reduced-pom.xml
 
 #IntelliJ
 *.iml
+
+#Gradle
+build/
 /.gradle/
