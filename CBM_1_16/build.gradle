@@ -1,0 +1,11 @@
+dependencies {
+    api 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
+    api 'org.bukkit:bukkit:1.16.1-R0.1-SNAPSHOT'
+    api 'org.bukkit:craftbukkit:1.16.1-R0.1-SNAPSHOT'
+
+    api 'JJProducts:ComponentsLib-Reflections:0.0.1'
+
+    api project(':CBM-core')
+}
+
+description = 'CBM-1.16'

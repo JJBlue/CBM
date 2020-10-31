@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(':CBM-core')
+    implementation project(':CBM-1.16-R2')
+    implementation project(':CBM-1.16')
+    implementation project(':CBM-1.15')
+    implementation project(':CBM-1.14')
+}
+
+description = 'CBM-Release'

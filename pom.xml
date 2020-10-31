@@ -5,7 +5,7 @@
 
 	<groupId>jjblue</groupId>
 	<artifactId>CBM</artifactId>
-	<version>${revision}</version>
+	<version>0.5.8.BETA</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -16,10 +16,6 @@
 		<module>CBM_1_16_R2</module>
 		<module>release</module>
 	</modules>
-
-	<properties>
-		<revision>0.5.8.BETA</revision>
-	</properties>
 
 	<developers>
 		<developer>
@@ -83,7 +79,7 @@
 			<dependency>
 				<groupId>jjblue</groupId>
 				<artifactId>CBM-core</artifactId>
-				<version>${revision}</version>
+				<version>0.5.8.BETA</version>
 				<scope>compile</scope>
 			</dependency>
 		</dependencies>
