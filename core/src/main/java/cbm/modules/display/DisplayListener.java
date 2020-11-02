@@ -53,11 +53,11 @@ public class DisplayListener implements Listener {
 		}
 
 		double max = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-		double resultHealth = entity.getHealth() - event.getDamage();
+		double resultHealth = entity.getHealth() - event.getFinalDamage();
 		if(resultHealth < 0) resultHealth = 0;
 		else if(resultHealth > max) resultHealth = max;
 
-		bossBar.setTitle(entity.getName() + ": §e" + MathUtilities.round(resultHealth, 2) + "§f / §e" + max + "§f (§4-" + MathUtilities.round(event.getDamage(), 2) + "§f)");
+		bossBar.setTitle(entity.getName() + ": §e" + MathUtilities.round(resultHealth, 2) + "§f / §e" + max + "§f (§4-" + MathUtilities.round(event.getFinalDamage(), 2) + "§f)");
 		bossBar.setProgress((1 / max) * resultHealth);
 
 		DisplayBossBarTimer.addBossbar(bossBar, 5, () -> damgeBossbar.remove(player));
