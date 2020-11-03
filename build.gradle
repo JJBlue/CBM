@@ -8,6 +8,10 @@ subprojects {
 	version = '0.5.8.BETA'
 	java.sourceCompatibility = JavaVersion.VERSION_1_8
 
+	compileJava {
+		options.encoding = 'UTF-8'
+	}
+
 	repositories {
 		mavenCentral();
 		mavenLocal();
