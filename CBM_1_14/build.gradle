@@ -1,11 +1,11 @@
 dependencies {
-    api 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
-    api 'org.bukkit:bukkit:1.14.4-R0.1-SNAPSHOT'
-    api 'org.bukkit:craftbukkit:1.14.4-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
+    compileOnly 'org.bukkit:bukkit:1.14.4-R0.1-SNAPSHOT'
+    compileOnly 'org.bukkit:craftbukkit:1.14.4-R0.1-SNAPSHOT'
     
-    api 'JJProducts:ComponentsLib-Reflections:0.0.1'
+    compileOnly 'JJProducts:ComponentsLib-Reflections:0.0.1'
 
-    api project(':CBM-core')
+    compileOnly project(':CBM-core')
 }
 
 description = 'CBM-1.14'

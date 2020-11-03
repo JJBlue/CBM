@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':CBM-core')
+    implementation project(':CBM-1.16-R3')
     implementation project(':CBM-1.16-R2')
     implementation project(':CBM-1.16')
     implementation project(':CBM-1.15')
@@ -7,3 +8,9 @@ dependencies {
 }
 
 description = 'CBM-Release'
+
+jar {
+	from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
