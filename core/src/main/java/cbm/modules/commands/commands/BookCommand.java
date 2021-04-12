@@ -23,6 +23,7 @@ public class BookCommand implements TabExecutor {
 
 	//TODO commans in book
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		if (args.length < 1) return true;
 

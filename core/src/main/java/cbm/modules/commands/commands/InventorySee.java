@@ -21,12 +21,11 @@ public class InventorySee implements TabExecutor {
 		Player p = (Player) sender;
 
 		switch (args[0].toLowerCase()) {
-			case "workbench":
+			case "workbench": {
 				p.openWorkbench(p.getLocation(), true);
 				break;
-
-			case "enderchest":
-
+			}
+			case "enderchest": {
 				if (args.length <= 1)
 					p.openInventory(p.getEnderChest());
 				else {
@@ -36,12 +35,12 @@ public class InventorySee implements TabExecutor {
 				}
 
 				break;
-
-			case "entchanting":
+			}
+			case "entchanting": {
 				p.openEnchanting(p.getLocation(), true);
 				break;
-
-			case "inventory":
+			}
+			case "inventory": {
 
 				if (args.length < 2) return true;
 
@@ -50,6 +49,16 @@ public class InventorySee implements TabExecutor {
 				p.openInventory(p1.getInventory());
 
 				break;
+			}
+			case "armor": {
+				if (args.length < 2) return true;
+
+				Player p1 = (Player) PlayerUtilities.getOfflinePlayer(args[1]);
+				if (p1 == null) return true;
+//				p.openInventory(p1.get);
+				
+				break;
+			}
 		}
 
 		return true;
@@ -60,6 +69,7 @@ public class InventorySee implements TabExecutor {
 		List<String> returnArguments = new LinkedList<>();
 
 		if (args.length == 1) {
+			returnArguments.add("armor");
 			returnArguments.add("workbench");
 			returnArguments.add("enderchest");
 			returnArguments.add("entchanting");
