@@ -5,8 +5,8 @@ subprojects {
 	apply plugin: 'eclipse'
 
 	group = 'jjblue'
-	version = '0.5.8.BETA'
-	java.sourceCompatibility = JavaVersion.VERSION_1_8
+	version = '0.6.0.BETA'
+	java.sourceCompatibility = JavaVersion.VERSION_17
 
 	compileJava {
 		options.encoding = 'UTF-8'
@@ -40,7 +40,7 @@ subprojects {
 		}
 
 		maven {
-			url = uri('http://repo.extendedclip.com/content/repositories/placeholderapi/')
+			url = uri('https://repo.extendedclip.com/content/repositories/placeholderapi/')
 		}
 	}
 
