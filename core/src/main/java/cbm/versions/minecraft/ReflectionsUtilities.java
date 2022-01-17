@@ -10,7 +10,7 @@ public class ReflectionsUtilities {
 	public static String getPackageVersionName() {
 		if (versionPackageName != null)
 			return versionPackageName;
-
+		
 		String name = Main.getPlugin().getServer().getClass().getPackageName();
 		versionPackageName = name.substring(name.lastIndexOf('.') + 1);
 		return versionPackageName;

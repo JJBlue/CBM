@@ -19,7 +19,7 @@ public class MainConfig {
 
 	private static boolean isFirstTime;
 	private static String lastVerstionRun;
-	private static boolean useBStats;
+//	private static boolean useBStats;
 
 	public static void reload() {
 		configFile = new File(Main.getPlugin().getDataFolder(), "config.yml");
@@ -62,7 +62,7 @@ public class MainConfig {
 		configuration.addDefault(MainConfigEnum.Restart.value, stringsTmp);
 
 		//bstats
-		useBStats = configuration.getBoolean(MainConfigEnum.bStatsEnable.value);
+//		useBStats = configuration.getBoolean(MainConfigEnum.bStatsEnable.value);
 		configuration.addDefault(MainConfigEnum.bStatsEnable.value, true);
 
 		configuration.options().copyDefaults(true);
@@ -156,9 +156,9 @@ public class MainConfig {
 		return lastVerstionRun;
 	}
 
-	public static boolean useBStats() {
-		return useBStats;
-	}
+//	public static boolean useBStats() {
+//		return useBStats;
+//	}
 
 	public static void restart() {
 		List<String> restartList = configuration.getStringList(MainConfigEnum.Restart.value);

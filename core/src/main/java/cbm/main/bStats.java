@@ -17,16 +17,6 @@ public class bStats {
 		
 		metrics.addCustomChart(new SimplePie("language", LanguageConfig::getLanguage));
 		
-//		metrics.addCustomChart(new Metrics.SimpleBarChart("modules", () -> {
-//			Map<String, Integer> maps = new HashMap<>();
-//			
-//			for(Module module : ModuleManager.getModules()) {
-//				maps.put(module.getID(), 1);
-//			}
-//			
-//			return maps;
-//		}));
-		
 		metrics.addCustomChart(new AdvancedPie("modules", () -> {
 			Map<String, Integer> maps = new HashMap<>();
 			

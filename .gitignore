@@ -39,3 +39,6 @@ dependency-reduced-pom.xml
 #Gradle
 build/
 /.gradle/
+
+#Test Folder
+/test/

@@ -78,8 +78,8 @@ public class Main extends JavaPlugin {
 		for (Player player : Bukkit.getOnlinePlayers())
 			PlayerListener.join(player);
 
-		if (!MainConfig.isFirstTime() && MainConfig.useBStats())
-			bStats.enableBStats();
+//		if (!MainConfig.isFirstTime() && MainConfig.useBStats())
+//			bStats.enableBStats();
 
 		reload();
 		getLogger().info("[CBM] start complete");

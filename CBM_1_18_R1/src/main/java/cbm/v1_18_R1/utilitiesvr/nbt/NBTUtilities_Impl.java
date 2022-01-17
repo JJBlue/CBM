@@ -64,7 +64,7 @@ public class NBTUtilities_Impl implements NBTUtilities_Interface {
 			throw new IllegalArgumentException();
 		
 		net.minecraft.world.item.ItemStack is = CraftItemStack.asNMSCopy(itemstack);
-		is.b((NBTTagCompound) nbtTagCompound);
+		is.c((NBTTagCompound) nbtTagCompound);
 		itemstack.setItemMeta(CraftItemStack.getItemMeta(is));
 	}
 	

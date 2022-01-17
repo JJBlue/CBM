@@ -1,7 +1,6 @@
 package cbm.v1_18_R1.utilitiesvr.player;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -17,19 +16,14 @@ import components.reflection.ObjectReflection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInArmAnimation;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
-import net.minecraft.network.protocol.game.PacketPlayOutEntityEffect;
 import net.minecraft.network.protocol.game.PacketPlayOutHeldItemSlot;
 import net.minecraft.network.protocol.game.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.network.protocol.game.PacketPlayOutPlayerInfo;
-import net.minecraft.network.protocol.game.PacketPlayOutPosition;
-import net.minecraft.network.protocol.game.PacketPlayOutRespawn;
 import net.minecraft.network.protocol.game.PacketPlayOutUpdateHealth;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.PlayerConnection;
 import net.minecraft.world.EnumHand;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.EntityHuman;
-import net.minecraft.world.level.EnumGamemode;
 import net.minecraft.world.level.World;
 
 public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
