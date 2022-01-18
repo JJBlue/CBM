@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.bukkit.entity.Player;
 
+import cbm.language.LanguageConfig;
 import cbm.modules.disguise.gameprofile.GameProfileBuilder;
 import cbm.modules.disguise.name.NameManager;
 import cbm.utilitiesvr.player.PlayerUtilities;
@@ -15,7 +16,8 @@ public class DisguiseManager {
 			NameManager.nick(player, name);
 			PlayerUtilities.updatePlayer(player);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LanguageConfig.sendMessage(player, "skin.error-load");
+			return;
 		}
 	}
 	
@@ -25,7 +27,8 @@ public class DisguiseManager {
 			NameManager.unnick(player);
 			PlayerUtilities.updatePlayer(player);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LanguageConfig.sendMessage(player, "skin.error-load");
+			return;
 		}
 	}
 }

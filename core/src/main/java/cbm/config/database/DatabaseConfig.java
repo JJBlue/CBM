@@ -5,11 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Location;
 
@@ -19,7 +18,7 @@ import components.database.preparestatement.PrepareStatementBuilder;
 
 public abstract class DatabaseConfig {
 
-	public Map<String, DatabaseConfigValue> buffer = Collections.synchronizedMap(new HashMap<>());
+	public Map<String, DatabaseConfigValue> buffer = new ConcurrentHashMap<>();
 	
 	public abstract AbstractDatabaseConfig<?> getDatabaseConfig();
 	public abstract Database getDatabase();

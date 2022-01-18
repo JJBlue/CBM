@@ -10,7 +10,7 @@ public class InventoryItemTypes {
 	private InventoryItemTypes() {}
 
 	public static InventoryObjectField<Boolean> createCheckField(String displayName, boolean value) {
-		InventoryObjectField<Boolean> item = new InventoryObjectField<Boolean>(Material.BLACK_WOOL) {
+		InventoryObjectField<Boolean> item = new InventoryObjectField<>(Material.BLACK_WOOL) {
 			@Override
 			protected void change(Boolean oldValue, Boolean value) {
 				if (value)
@@ -31,7 +31,7 @@ public class InventoryItemTypes {
 	}
 
 	public static InventoryObjectField<Integer> createIntField(final String displayName, int min, int max, int cur) {
-		InventoryObjectField<Integer> item = new InventoryObjectField<Integer>(Material.BROWN_WOOL) {
+		InventoryObjectField<Integer> item = new InventoryObjectField<>(Material.BROWN_WOOL) {
 			@Override
 			protected void change(Integer oldValue, Integer value) {
 				this.setDisplayName(displayName + value);

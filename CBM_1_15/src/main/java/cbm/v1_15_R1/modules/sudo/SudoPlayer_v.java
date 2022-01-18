@@ -47,12 +47,14 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 		this.player = (Player) usedSudo;
 	}
 
+	@Override
 	public PermissionAttachment addAttachment(Plugin arg0) {
 		if (usedSudo == null)
 			return super.addAttachment(arg0);
 		return usedSudo.addAttachment(arg0);
 	}
 
+	@Override
 	public PermissionAttachment addAttachment(Plugin arg0, int arg1) {
 		if (usedSudo == null)
 			return super.addAttachment(arg0, arg1);
@@ -153,6 +155,7 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 		return super.getGameMode();
 	}
 
+	@Override
 	public SudoPlayer_v setSilentOutputMessage(boolean silent) {
 		this.silentOutputMessage = silent;
 		return this;

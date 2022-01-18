@@ -8,7 +8,6 @@ import net.minecraft.server.v1_16_R1.EntityPlayer;
 import net.minecraft.server.v1_16_R1.MinecraftServer;
 import net.minecraft.server.v1_16_R1.NetworkManager;
 import net.minecraft.server.v1_16_R1.Packet;
-import net.minecraft.server.v1_16_R1.PacketListenerPlayIn;
 import net.minecraft.server.v1_16_R1.PacketPlayInAbilities;
 import net.minecraft.server.v1_16_R1.PacketPlayInAdvancements;
 import net.minecraft.server.v1_16_R1.PacketPlayInArmAnimation;
@@ -54,7 +53,7 @@ import net.minecraft.server.v1_16_R1.PacketPlayInVehicleMove;
 import net.minecraft.server.v1_16_R1.PacketPlayInWindowClick;
 import net.minecraft.server.v1_16_R1.PlayerConnection;
 
-public class PC_Impl extends PlayerConnection implements PacketListenerPlayIn {
+public class PC_Impl extends PlayerConnection {
 
 	public final MinecraftServer minecraftServer;
 	public final CraftServer server;

@@ -1,6 +1,5 @@
 package cbm.modules.commands.commands;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,9 +14,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import cbm.utilities.SignUtilities;
 import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilitiesvr.chat.ChatUtilities;
+import cbm.utilitiesvr.sign.SignUtilities;
 
 public class SignCommands implements TabExecutor {
 
@@ -42,11 +41,7 @@ public class SignCommands implements TabExecutor {
 				if (p == null) break;
 
 				Block block = p.getTargetBlock(null, 50);
-				try {
-					SignUtilities.editSign(p, (Sign) block.getState());
-				} catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchFieldException | InvocationTargetException e1) {
-					e1.printStackTrace();
-				}
+				SignUtilities.editSign(p, (Sign) block.getState());
 
 				break;
 

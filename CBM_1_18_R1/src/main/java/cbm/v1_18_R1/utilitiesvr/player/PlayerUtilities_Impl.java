@@ -1,14 +1,19 @@
 package cbm.v1_18_R1.utilitiesvr.player;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
 
 import cbm.utilitiesvr.player.EnumHandUtil;
 import cbm.utilitiesvr.player.PlayerUtilities_Interface;
@@ -16,14 +21,21 @@ import components.reflection.ObjectReflection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInArmAnimation;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
+import net.minecraft.network.protocol.game.PacketPlayOutEntityEffect;
+import net.minecraft.network.protocol.game.PacketPlayOutEntityEquipment;
 import net.minecraft.network.protocol.game.PacketPlayOutHeldItemSlot;
 import net.minecraft.network.protocol.game.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.network.protocol.game.PacketPlayOutPlayerInfo;
+import net.minecraft.network.protocol.game.PacketPlayOutPosition;
+import net.minecraft.network.protocol.game.PacketPlayOutRespawn;
 import net.minecraft.network.protocol.game.PacketPlayOutUpdateHealth;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.PlayerConnection;
 import net.minecraft.world.EnumHand;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EnumItemSlot;
 import net.minecraft.world.entity.player.EntityHuman;
+import net.minecraft.world.level.EnumGamemode;
 import net.minecraft.world.level.World;
 
 public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
@@ -105,14 +117,18 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 		
 		PacketPlayOutEntityDestroy packetPlayOutEntityDestroy = new PacketPlayOutEntityDestroy(entityID);
 		PacketPlayOutNamedEntitySpawn packetPlayOutNamedEntitySpawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
-		
-//		final PacketPlayOutEntityEquipment headItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.HEAD, CraftItemStack.asNMSCopy(player.getInventory().getHelmet()));
-//		final PacketPlayOutEntityEquipment chestItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.CHEST, CraftItemStack.asNMSCopy(player.getInventory().getChestplate()));
-//		final PacketPlayOutEntityEquipment legsItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.LEGS, CraftItemStack.asNMSCopy(player.getInventory().getLeggings()));
-//		final PacketPlayOutEntityEquipment feetItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.FEET, CraftItemStack.asNMSCopy(player.getInventory().getBoots()));
-//		final PacketPlayOutEntityEquipment handItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(player.getInventory().getItemInMainHand()));
-//		final PacketPlayOutEntityEquipment offHandItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.OFFHAND, CraftItemStack.asNMSCopy(player.getInventory().getItemInOffHand()));
 
+		final PacketPlayOutEntityEquipment itemPacket = new PacketPlayOutEntityEquipment(entityID,
+			Stream.of(
+				Pair.of(EnumItemSlot.a, CraftItemStack.asNMSCopy(player.getInventory().getItemInMainHand())),
+				Pair.of(EnumItemSlot.b, CraftItemStack.asNMSCopy(player.getInventory().getItemInOffHand())),
+				Pair.of(EnumItemSlot.c, CraftItemStack.asNMSCopy(player.getInventory().getBoots())),
+				Pair.of(EnumItemSlot.d, CraftItemStack.asNMSCopy(player.getInventory().getLeggings())),
+				Pair.of(EnumItemSlot.e, CraftItemStack.asNMSCopy(player.getInventory().getChestplate())),
+				Pair.of(EnumItemSlot.f, CraftItemStack.asNMSCopy(player.getInventory().getHelmet()))
+			).collect(Collectors.toList())
+		);
+		
 		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 			final PlayerConnection playerConnection = PlayerUtilities_Impl.getPlayerConnection(player);
 			
@@ -121,26 +137,26 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 				playerConnection.a(packetAddPlayer);
 				Location location = player.getLocation();
 
-//				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0);
+				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0, false); // 0 = TeleportConfirm, false = Do not leave vehicle
 				
 				World world = entityPlayer.cA();
 				
-//				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(
-//					world.q_(),
-//					world.getDimensionKey(),
-//					0, // First 8 bytes of the SHA-256 hash of the world's seed.
-//					EnumGamemode.valueOf(player.getGameMode().name()),
-//					EnumGamemode.valueOf(player.getGameMode().name()),
-//					world.isDebugWorld(),
-//					false, // flat world?
-//					false // normal respawn? or changed dimension
-//				);
+				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(
+					world.q_(),
+					world.aa(),
+					0, // First 8 bytes of the SHA-256 hash of the world's seed.
+					EnumGamemode.valueOf(player.getGameMode().name()),
+					EnumGamemode.valueOf(player.getGameMode().name()),
+					false, // debug world?
+					false, // flat world?
+					false // normal respawn? or changed dimension
+				);
 				
-//				playerConnection.a(packetPlayOutRespawn);
-//				playerConnection.a(packetPlayOutPosition);
+				playerConnection.a(packetPlayOutRespawn);
+				playerConnection.a(packetPlayOutPosition);
 
-//				for (MobEffect mobEffect : entityPlayer.getEffects())
-//					playerConnection.a(new PacketPlayOutEntityEffect(entityID, mobEffect));
+				for (MobEffect mobEffect : entityPlayer.dW())
+					playerConnection.a(new PacketPlayOutEntityEffect(entityID, mobEffect));
 
 				PacketPlayOutUpdateHealth packetPlayOutUpdateHealth = new PacketPlayOutUpdateHealth((float) player.getHealth(), player.getFoodLevel(), player.getSaturation());
 				playerConnection.a(packetPlayOutUpdateHealth);
@@ -163,13 +179,7 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 			playerConnection.a(packetAddPlayer);
 			playerConnection.a(packetPlayOutEntityDestroy);
 			playerConnection.a(packetPlayOutNamedEntitySpawn);
-
-//			playerConnection.sendPacket(headItemPacket);
-//			playerConnection.sendPacket(chestItemPacket);
-//			playerConnection.sendPacket(legsItemPacket);
-//			playerConnection.sendPacket(feetItemPacket);
-//			playerConnection.sendPacket(handItemPacket);
-//			playerConnection.sendPacket(offHandItemPacket);
+			playerConnection.a(itemPacket);
 		}
 	}
 }

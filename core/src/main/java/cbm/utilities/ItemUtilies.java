@@ -2,7 +2,6 @@ package cbm.utilities;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemUtilies {
 	private ItemUtilies() {}
@@ -23,6 +22,6 @@ public class ItemUtilies {
 		Damageable damageable = getDamageAble(itemStack);
 		if (damageable == null) return;
 		damageable.setDamage(value);
-		itemStack.setItemMeta((ItemMeta) damageable);
+		itemStack.setItemMeta(damageable);
 	}
 }

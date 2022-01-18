@@ -3,13 +3,17 @@ package cbm.v1_16_R3.utilitiesvr.player;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
 
 import cbm.utilitiesvr.player.EnumHandUtil;
 import cbm.utilitiesvr.player.PlayerUtilities_Interface;
@@ -18,11 +22,13 @@ import net.minecraft.server.v1_16_R3.EntityHuman;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import net.minecraft.server.v1_16_R3.EnumGamemode;
 import net.minecraft.server.v1_16_R3.EnumHand;
+import net.minecraft.server.v1_16_R3.EnumItemSlot;
 import net.minecraft.server.v1_16_R3.MobEffect;
 import net.minecraft.server.v1_16_R3.Packet;
 import net.minecraft.server.v1_16_R3.PacketPlayInArmAnimation;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityEffect;
+import net.minecraft.server.v1_16_R3.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_16_R3.PacketPlayOutHeldItemSlot;
 import net.minecraft.server.v1_16_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_16_R3.PacketPlayOutPlayerInfo;
@@ -110,14 +116,18 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 		
 		PacketPlayOutEntityDestroy packetPlayOutEntityDestroy = new PacketPlayOutEntityDestroy(entityID);
 		PacketPlayOutNamedEntitySpawn packetPlayOutNamedEntitySpawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
-		
-//		final PacketPlayOutEntityEquipment headItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.HEAD, CraftItemStack.asNMSCopy(player.getInventory().getHelmet()));
-//		final PacketPlayOutEntityEquipment chestItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.CHEST, CraftItemStack.asNMSCopy(player.getInventory().getChestplate()));
-//		final PacketPlayOutEntityEquipment legsItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.LEGS, CraftItemStack.asNMSCopy(player.getInventory().getLeggings()));
-//		final PacketPlayOutEntityEquipment feetItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.FEET, CraftItemStack.asNMSCopy(player.getInventory().getBoots()));
-//		final PacketPlayOutEntityEquipment handItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(player.getInventory().getItemInMainHand()));
-//		final PacketPlayOutEntityEquipment offHandItemPacket = new PacketPlayOutEntityEquipment(entityID, EnumItemSlot.OFFHAND, CraftItemStack.asNMSCopy(player.getInventory().getItemInOffHand()));
 
+		final PacketPlayOutEntityEquipment itemPacket = new PacketPlayOutEntityEquipment(entityID,
+			Stream.of(
+				Pair.of(EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(player.getInventory().getItemInMainHand())),
+				Pair.of(EnumItemSlot.OFFHAND, CraftItemStack.asNMSCopy(player.getInventory().getItemInOffHand())),
+				Pair.of(EnumItemSlot.FEET, CraftItemStack.asNMSCopy(player.getInventory().getBoots())),
+				Pair.of(EnumItemSlot.LEGS, CraftItemStack.asNMSCopy(player.getInventory().getLeggings())),
+				Pair.of(EnumItemSlot.CHEST, CraftItemStack.asNMSCopy(player.getInventory().getChestplate())),
+				Pair.of(EnumItemSlot.HEAD, CraftItemStack.asNMSCopy(player.getInventory().getHelmet()))
+			).collect(Collectors.toList())
+		);
+		
 		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 			final PlayerConnection playerConnection = (((CraftPlayer) onlinePlayer).getHandle()).playerConnection;
 			
@@ -166,13 +176,7 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 			playerConnection.sendPacket(packetAddPlayer);
 			playerConnection.sendPacket(packetPlayOutEntityDestroy);
 			playerConnection.sendPacket(packetPlayOutNamedEntitySpawn);
-
-//			playerConnection.sendPacket(headItemPacket);
-//			playerConnection.sendPacket(chestItemPacket);
-//			playerConnection.sendPacket(legsItemPacket);
-//			playerConnection.sendPacket(feetItemPacket);
-//			playerConnection.sendPacket(handItemPacket);
-//			playerConnection.sendPacket(offHandItemPacket);
+			playerConnection.sendPacket(itemPacket);
 		}
 	}
 }

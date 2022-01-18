@@ -24,7 +24,6 @@ public class Skin {
         	skinop = GameProfileBuilder.fetch(PlayerUtilities.getOfflinePlayer(name).getUniqueId());
         } catch (IOException e) {
         	LanguageConfig.sendMessage(p, "skin.error-load");
-            e.printStackTrace();
             return;
         }
 
@@ -34,5 +33,6 @@ public class Skin {
         skingp.getProperties().putAll("textures", props);
         
         PlayerUtilities.updatePlayer(p);
+        LanguageConfig.sendMessage(p, "skin.change", name);
     }
 }

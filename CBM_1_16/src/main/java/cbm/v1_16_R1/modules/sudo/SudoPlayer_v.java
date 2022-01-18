@@ -155,6 +155,7 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 		return super.getGameMode();
 	}
 
+	@Override
 	public SudoPlayer_v setSilentOutputMessage(boolean silent) {
 		this.silentOutputMessage = silent;
 		return this;

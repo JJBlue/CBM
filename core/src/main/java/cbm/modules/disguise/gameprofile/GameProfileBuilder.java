@@ -8,13 +8,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import com.mojang.authlib.GameProfile;
@@ -59,7 +59,7 @@ public class GameProfileBuilder {
 	private static final String JSON_SKIN = "{\"timestamp\":%d,\"profileId\":\"%s\",\"profileName\":\"%s\",\"isPublic\":true,\"textures\":{\"SKIN\":{\"url\":\"%s\"}}}";
 	private static final String JSON_CAPE = "{\"timestamp\":%d,\"profileId\":\"%s\",\"profileName\":\"%s\",\"isPublic\":true,\"textures\":{\"SKIN\":{\"url\":\"%s\"},\"CAPE\":{\"url\":\"%s\"}}}";
 	
-	private static Map<UUID, CachedProfile> cache = Collections.synchronizedMap(new HashMap<UUID, CachedProfile>());
+	private static Map<UUID, CachedProfile> cache = new ConcurrentHashMap<>();
 	static long cacheTime = 60_000 * 60; //In Millis; 60_000 * 60 = 1h
 	
 	public static void setCacheTime(long time) {
@@ -95,14 +95,21 @@ public class GameProfileBuilder {
 			return result;
 		}
 		
-		if (!forceNew && cache.containsKey(uuid))
-				return setProfile(cache.get(uuid).profile, setUUID, name);
+		Bukkit.getServer().getLogger().info("GameProfile: " + connection.getResponseCode() + " " + connection.getResponseMessage() + " (" + url + ")");
 		
-		JSONObject error = (JSONObject) JSONParser.parse(readInput(connection.getErrorStream()));
-		throw new IOException(error.getString("error") + ": " + error.getString("errorMessage"));
+		if (!forceNew && cache.containsKey(uuid))
+			return setProfile(cache.get(uuid).profile, setUUID, name);
+		
+		var json = readInput(connection.getErrorStream());
+		if(json != null) {
+			JSONObject error = (JSONObject) JSONParser.parse(json);
+			throw new IOException(error.getString("error") + ": " + error.getString("errorMessage"));
+		}
+		throw new IOException(connection.getResponseCode() + " " + connection.getResponseMessage() + " (" + url + ")");
 	}
 	
 	protected static String readInput(InputStream inputStream) throws IOException {
+		if(inputStream == null) return null;
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 		
 		StringBuilder json = new StringBuilder();

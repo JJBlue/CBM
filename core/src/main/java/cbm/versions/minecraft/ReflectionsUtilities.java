@@ -17,7 +17,16 @@ public class ReflectionsUtilities {
 	}
 
 	public static String getMCString(String className) {
-		return "net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + "." + className;
+		switch(MinecraftVersions.getMinecraftVersion()) {
+			case v1_14:
+			case v1_15:
+			case v1_16:
+				return "net.minecraft.server." + ReflectionsUtilities.getPackageVersionName() + "." + className;
+			case v1_18:
+			case NOT_FOUND:
+			default:
+				return "net.minecraft.server." + className;
+		}
 	}
 
 	public static Class<?> getMCClass(String className) throws ClassNotFoundException {

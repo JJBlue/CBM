@@ -3,7 +3,6 @@ package cbm.modules.disguise.gameprofile;
 import com.mojang.authlib.GameProfile;
 
 public class CachedProfile {
-	
 	long timestamp = System.currentTimeMillis();
 	GameProfile profile;
 	

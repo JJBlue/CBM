@@ -31,6 +31,7 @@ public class SystemStatus {
 		return operatingSystemMXBean.getProcessCpuLoad() * 100;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static double getSystemCPUUsage() {
 		OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		return operatingSystemMXBean.getSystemCpuLoad() * 100;

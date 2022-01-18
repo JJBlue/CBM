@@ -843,11 +843,9 @@ public class MainCommand implements TabExecutor {
 					if(p == null) break;
 					
 					Skin.changeSkin(p, p.getName());
-					LanguageConfig.sendMessage(sender, "skin.change", p.getName());
 				} else {
 					Player p2 = Bukkit.getPlayer(args[1]);
 					Skin.changeSkin(p2, p2.getName());
-					LanguageConfig.sendMessage(p2, "skin.change", p2.getName());
 				}
 			}
 			case "skin": {
@@ -858,11 +856,9 @@ public class MainCommand implements TabExecutor {
 					if(p == null) break;
 					
 					Skin.changeSkin(p, args[1]);
-					LanguageConfig.sendMessage(sender, "skin.change", args[1]);
 				} else {
 					Player p2 = Bukkit.getPlayer(args[2]);
 					Skin.changeSkin(p2, args[1]);
-					LanguageConfig.sendMessage(p2, "skin.change", args[1]);
 				}
 				
 			}

@@ -88,7 +88,7 @@ public class chair implements Listener {
 	@EventHandler
 	private void exit(EntityDismountEvent event) {
 		Entity e = event.getDismounted();
-
+		
 		if (e.getCustomName() == null) return;
 		if (!e.getCustomName().equalsIgnoreCase("§4Chair")) return;
 

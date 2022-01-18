@@ -44,23 +44,21 @@ public class SpigotPluginUpdater {
 		return pluginID;
 	}
 
-	public String getOnlineVersion() {
-		Scanner scanner = null;
+	public String getOnlineVersion() {		
 		URLConnection connection = null;
 
 		try {
 			URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + getPluginID());
 			connection = url.openConnection();
-			scanner = new Scanner(connection.getInputStream());
-
-			if (scanner.hasNextLine())
-				return scanner.nextLine();
+			
+			try(Scanner scanner = new Scanner(connection.getInputStream())) {
+				if (scanner.hasNextLine())
+					return scanner.nextLine();
+			}
+			
 			return null;
 		} catch (IOException e) {
 		} finally {
-			if (scanner != null)
-				scanner.close();
-
 			if (connection != null) {
 				try {
 					if (connection.getInputStream() != null)
@@ -100,9 +98,10 @@ public class SpigotPluginUpdater {
 			UpdaterServerManager.getDownloadFolder().mkdirs();
 			lastDownloadedFile = new File(UpdaterServerManager.getDownloadFolder(), name + ".jar");
 
-			DownloadFile downloader = new DownloadFile("https://api.spiget.org/v2/resources/" + getPluginID() + "/download");
-			downloader.setFile(lastDownloadedFile);
-			downloader.download();
+			try(DownloadFile downloader = new DownloadFile("https://api.spiget.org/v2/resources/" + getPluginID() + "/download")) {
+				downloader.setFile(lastDownloadedFile);
+				downloader.download();
+			}
 			
 			return true;
 		} catch (IOException e) {

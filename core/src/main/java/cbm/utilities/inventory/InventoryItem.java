@@ -91,6 +91,7 @@ public class InventoryItem extends ItemStack {
 			onMove.run(event, this);
 	}
 
+	@Override
 	public InventoryItem clone() {
 		InventoryItem item = new InventoryItem(super.clone());
 		item.setOnClick(onClick);

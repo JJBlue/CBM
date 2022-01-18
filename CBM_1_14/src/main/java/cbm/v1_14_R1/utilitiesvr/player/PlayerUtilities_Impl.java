@@ -138,6 +138,7 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 				Location location = player.getLocation();
 
 				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0);
+				@SuppressWarnings("resource")
 				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(dimensionManager, entityPlayer.getWorld().worldData.getType(), EnumGamemode.valueOf(player.getGameMode().name()));
 
 				playerConnection.sendPacket(packetPlayOutRespawn);
