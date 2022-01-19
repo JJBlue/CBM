@@ -840,7 +840,7 @@ public class MainCommand implements TabExecutor {
 							)
 						), ChatMessageType.CHAT);
 					
-					LanguageConfig.sendMessage(sender, "seen.playTime", countTime.format("d h m s"));
+					LanguageConfig.sendMessage(sender, "seen.playTime", countTime.format("d") + " d " + countTime.format("h") + " h " +countTime.format("m") + " m " +countTime.format("s") + " s");
 					LanguageConfig.sendMessage(sender, "seen.joinSilent", config.getBoolean(PlayerConfigKey.joinSilent) + "");
 					LanguageConfig.sendMessage(sender, "seen.deathLocation", LocationUtilities.toString(config.getLocation(PlayerConfigKey.deathLocation)));
 					LanguageConfig.sendMessage(sender, "seen.commandSpy", config.getInt(PlayerConfigKey.commandSpy) + "");

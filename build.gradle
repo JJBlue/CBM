@@ -5,7 +5,7 @@ subprojects {
 	apply plugin: 'eclipse'
 
 	group = 'jjblue'
-	version = '0.6.0.BETA'
+	version = '0.6.1.BETA'
 	java.sourceCompatibility = JavaVersion.VERSION_17
 
 	compileJava {
