@@ -1,11 +1,13 @@
 package cbm.utilities.inventory;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class InventoryPage {
 
@@ -25,15 +27,17 @@ public class InventoryPage {
 		}
 	}
 
-	public void addItem(ItemStack item) {
-		synchronized (inv) {
-			for (int i = 0; i < Integer.MAX_VALUE; i++) {
-				if (!inv.containsKey(i)) {
-					inv.put(i, item);
-					break;
-				}
-			}
-		}
+	public void addItem(ItemStack item) {		
+		ItemStack old = null;
+		int pos = 0;
+		
+		do {
+			if(old != null)
+				inv.put(pos, old);
+			
+			pos = inv.keySet().parallelStream().mapToInt(i -> i).max().orElse(0);
+			old = inv.put(pos, item);
+		} while(old != null);
 	}
 
 	public void addItem(int pos, ItemStack item) {
@@ -43,22 +47,8 @@ public class InventoryPage {
 
 	public void removeItem(ItemStack delete) {
 		if (delete == null) return;
-
-		synchronized (inv) {
-			int posDelete = -1;
-
-			for (Integer pos : inv.keySet()) {
-				ItemStack item = inv.get(pos);
-
-				if (item.equals(delete)) {
-					posDelete = pos;
-					break;
-				}
-			}
-
-			if (posDelete > -1)
-				inv.remove(posDelete);
-		}
+		
+		inv.values().removeIf(item -> item.equals(delete));
 	}
 
 	public void removeItem(int pos) {
@@ -96,40 +86,25 @@ public class InventoryPage {
 	}
 
 	public InventoryItem getInventoryItem(ItemStack cursor) {
-		synchronized (inv) {
-			for (Integer pos : inv.keySet()) {
-				ItemStack item = inv.get(pos);
-
-				if (item.equals(cursor) && item instanceof InventoryItem)
-					return (InventoryItem) item;
-			}
-		}
-
-		return null;
+		return inv.values().parallelStream()
+				.filter(item -> item.equals(cursor) && item instanceof InventoryItem)
+				.map(item -> (InventoryItem) item)
+				.findAny()
+				.orElse(null);
 	}
 
-	public List<InventoryItem> getInventoryItemEquals(ItemStack clickedStack) {
-		List<InventoryItem> list = new LinkedList<>();
-
-		synchronized (inv) {
-			for (ItemStack item : inv.values()) {
-				if (item.equals(clickedStack) && item instanceof InventoryItem)
-					list.add((InventoryItem) item);
-			}
-		}
-
-		return list;
+	public Collection<InventoryItem> getInventoryItemEquals(ItemStack clickedStack) {
+		return inv.values().parallelStream()
+				.filter(item -> item.isSimilar(clickedStack) && item instanceof InventoryItem)
+				.map(item -> (InventoryItem) item)
+				.collect(Collectors.toList());
 	}
 
 	public ItemStack getInventoryItemEqualsFirst(ItemStack clickedStack) {
-		synchronized (inv) {
-			for (ItemStack item : inv.values()) {
-				if (item.equals(clickedStack))
-					return item;
-			}
-		}
-
-		return null;
+		return inv.values().parallelStream()
+				.filter(item -> item.equals(clickedStack))
+				.findAny()
+				.orElse(null);
 	}
 
 	public void fill(Inventory inventory) {

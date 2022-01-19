@@ -28,6 +28,8 @@ public class SQLHelper {
 	}
 
 	public static Location StringToLocation(String loc) {
+		if(loc == null) return null;
+		
 		String[] locSplit = loc.split(":");
 		if (locSplit.length < 4) return null;
 

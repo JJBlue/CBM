@@ -66,13 +66,16 @@ import cbm.player.PlayerConfig;
 import cbm.player.PlayerConfigKey;
 import cbm.player.PlayerManager;
 import cbm.utilities.ItemUtilies;
+import cbm.utilities.LocationUtilities;
 import cbm.utilities.MathUtilities;
 import cbm.utilities.StringUtilities;
 import cbm.utilities.TimeUtilities;
 import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilities.system.SystemStatus;
 import cbm.utilitiesvr.bukkit.BukkitUtilities;
+import cbm.utilitiesvr.chat.ChatMessageType;
 import cbm.utilitiesvr.chat.ChatUtilities;
+import cbm.utilitiesvr.chat.ClickAction;
 import cbm.utilitiesvr.player.PlayerUtilities;
 import components.classes.Files;
 
@@ -813,24 +816,33 @@ public class MainCommand implements TabExecutor {
 					LanguageConfig.sendMessage(sender, "seen.player", offlinePlayer.getName());
 					LanguageConfig.sendMessage(sender, "seen.nickname", config.getString(PlayerConfigKey.nickname) + "");
 					CountTime countTime = new CountTime(config.getString(PlayerConfigKey.playTime));
+					Location location = null;
 					
 					if (offlinePlayer.isOnline()) {
 						LocalDateTime loginTime = config.getLocalDateTime(PlayerConfigKey.loginTime);
 						countTime.add(config.getLocalDateTime(PlayerConfigKey.loginTime), LocalDateTime.now());
 						
-						LanguageConfig.sendMessage(sender, "seen.loginSince", offlinePlayer.getName(), TimeUtilities.timeToString(loginTime, LocalDateTime.now()));
-						LanguageConfig.sendMessage(sender, "seen.location", offlinePlayer.getPlayer().getLocation().toString());
+						LanguageConfig.sendMessage(sender, "seen.loginSince", TimeUtilities.timeToString(loginTime, LocalDateTime.now()));
+						location = offlinePlayer.getPlayer().getLocation();
 						
 					} else {
 						LocalDateTime logoutTime = config.getLocalDateTime(PlayerConfigKey.logoutTime);
 						
 						LanguageConfig.sendMessage(sender, "seen.logoutSince", TimeUtilities.timeToString(logoutTime, LocalDateTime.now()));
-						LanguageConfig.sendMessage(sender, "seen.location", config.getLocation(PlayerConfigKey.logoutLocation).toString());
+						location = config.getLocation(PlayerConfigKey.logoutLocation);
 					}
+
+					ChatUtilities.sendMessage((Player) sender, ChatUtilities.createMessage(
+							LanguageConfig.getString("seen.location", LocationUtilities.toString(location)),
+							ChatUtilities.createExtra(
+								ChatUtilities.createClickHoverMessage(" [" + LanguageConfig.getString("text.teleport") + "]", null, null, ClickAction.RUN_COMMAND,
+								"/tp " + offlinePlayer.getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ() + " " + location.getYaw() + " " + location.getPitch())
+							)
+						), ChatMessageType.CHAT);
 					
-					LanguageConfig.sendMessage(sender, "seen.playTime", countTime.toString());
+					LanguageConfig.sendMessage(sender, "seen.playTime", countTime.format("d h m s"));
 					LanguageConfig.sendMessage(sender, "seen.joinSilent", config.getBoolean(PlayerConfigKey.joinSilent) + "");
-					LanguageConfig.sendMessage(sender, "seen.deathLocation", config.getLocation(PlayerConfigKey.deathLocation) + "");
+					LanguageConfig.sendMessage(sender, "seen.deathLocation", LocationUtilities.toString(config.getLocation(PlayerConfigKey.deathLocation)));
 					LanguageConfig.sendMessage(sender, "seen.commandSpy", config.getInt(PlayerConfigKey.commandSpy) + "");
 					LanguageConfig.sendMessage(sender, "seen.commandSpyOperator", config.getInt(PlayerConfigKey.tCommandSpyOperator) + "");
 					LanguageConfig.sendMessage(sender, "seen.mute", config.getBoolean(PlayerConfigKey.tMute) + "");
@@ -844,8 +856,7 @@ public class MainCommand implements TabExecutor {
 				break;
 			}
 
-			case "sit":
-
+			case "sit": {
 				if (p == null) return false;
 
 				if (chair.toggle(p))
@@ -854,6 +865,7 @@ public class MainCommand implements TabExecutor {
 					sender.sendMessage("Chair: OFF");
 
 				break;
+			}
 			case "unskin": {
 				if(args.length == 1) {
 					if(p == null) break;
@@ -863,6 +875,8 @@ public class MainCommand implements TabExecutor {
 					Player p2 = Bukkit.getPlayer(args[1]);
 					Skin.changeSkin(p2, p2.getName());
 				}
+				
+				break;
 			}
 			case "skin": {
 				
@@ -877,6 +891,7 @@ public class MainCommand implements TabExecutor {
 					Skin.changeSkin(p2, args[1]);
 				}
 				
+				break;
 			}
 			case "status": {
 				
@@ -1135,6 +1150,7 @@ public class MainCommand implements TabExecutor {
 				case "clear":
 				case "fly":
 				case "uuid":
+				case "seen":
 
 					for(Player player : Bukkit.getOnlinePlayers())
 						returnArguments.add(player.getName());

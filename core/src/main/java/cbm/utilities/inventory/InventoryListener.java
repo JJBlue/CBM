@@ -1,10 +1,16 @@
 package cbm.utilities.inventory;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import cbm.utilities.inventory.runnables.RunnableInventoryClose;
 import cbm.utilities.inventory.runnables.RunnableInventoryOpen;
@@ -43,71 +49,84 @@ public class InventoryListener implements Listener {
 
 		Inventory inventory = event.getInventory();
 		Inventory clickedInventory = event.getClickedInventory();
-
+		Inventory topInventory = event.getWhoClicked().getOpenInventory().getTopInventory();
+		Inventory bottomInventory = event.getWhoClicked().getOpenInventory().getBottomInventory();
+		
 		switch (event.getClick()) {
-			case DOUBLE_CLICK:
-
-				ItemStack clickedStack = event.getCurrentItem();
-
-				for (Inventory inv : new Inventory[]{inventory, clickedInventory}) {
+			case DOUBLE_CLICK: {
+				var inventories = Stream.of(inventory, clickedInventory, topInventory, bottomInventory)
+						.distinct()
+						.filter(inv -> inv != null)
+						.collect(Collectors.toList());
+				
+				for (Inventory inv : inventories) {
 					if (inv == null) continue;
+					
 					InventoryFactory factory = InventoryManager.getInventoryFactory(inv);
 					if (factory == null) continue;
 
 					InventoryPage page = factory.getCurrentInventoryPage();
 					if (page == null) continue;
 
-					for (InventoryItem item : page.getInventoryItemEquals(clickedStack)) {
+					for (InventoryItem item : page.getInventoryItemEquals(event.getCurrentItem())) {
 						item.callOnClick(event);
 						factory.callOnClick(event, item);
 					}
 				}
 
 				return;
+			}
 			case SHIFT_LEFT:
-			case SHIFT_RIGHT:
-
-				//Solange wird das event gecanncelled
-				if (InventoryManager.hasInventory(clickedInventory) || InventoryManager.hasInventory(event.getWhoClicked().getInventory()))
-					event.setCancelled(true);
-
-				//TODO
-				return;
-			case NUMBER_KEY:
-
-				Inventory playerInv = event.getWhoClicked().getInventory();
-
-				for (Inventory inv : new Inventory[]{playerInv, clickedInventory}) {
-					InventoryFactory factory = InventoryManager.getInventoryFactory(inv);
-					if (factory == null) continue;
-
-					InventoryPage page = factory.getCurrentInventoryPage();
-					if (page == null) continue;
-
-					InventoryItem item = page.getInventoryItem(event.getHotbarButton() - 1);
-					if (item == null) {
-						factory.callOnClick(event, null);
-						continue;
-					}
+			case SHIFT_RIGHT: {
+				
+				Inventory destination_inv = (clickedInventory == topInventory ? bottomInventory : topInventory);
+				
+				InventoryFactory factory = InventoryManager.getInventoryFactory(destination_inv);
+				if (factory == null) break;
+				
+				InventoryPage page = factory.getCurrentInventoryPage();
+				if (page == null) break;
+				
+				boolean found = false;
+				for (InventoryItem item : page.getInventoryItemEquals(event.getCurrentItem())) {
+					found = true;
 					item.callOnClick(event);
 					factory.callOnClick(event, item);
 				}
-
-				return;
-			default:
+				
+				if(!found)
+					factory.callOnClick(event, null);
+				
 				break;
+			}
+			case NUMBER_KEY: {
+				Inventory destination_inv = event.getWhoClicked().getOpenInventory().getBottomInventory();
+				
+				InventoryFactory factory = InventoryManager.getInventoryFactory(destination_inv);
+				if (factory == null) break;
+				
+				InventoryItem item = InventoryManager.getInventoryItem(clickedInventory, event.getHotbarButton() - 1);
+				factory.callOnClick(event, item);
+				if (item == null) break;
+				
+				item.callOnClick(event);
+				
+				break;
+			}
+			default: break;
 		}
-
+		
 		if (clickedInventory == null) return;
+		
 		InventoryFactory factory = InventoryManager.getInventoryFactory(clickedInventory);
 		if (factory == null) return;
-
+		
 		InventoryItem item = InventoryManager.getInventoryItem(clickedInventory, event.getSlot());
 		factory.callOnClick(event, item);
-		
 		if (item == null) return;
+		
 		item.callOnClick(event);
-
+			
 		if (!item.equals(event.getCurrentItem()))
 			event.setCurrentItem(item);
 	}

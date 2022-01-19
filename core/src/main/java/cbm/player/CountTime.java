@@ -88,8 +88,7 @@ public class CountTime {
 			try {
 				current = LocalDateTime.of(Integer.parseInt(times[0]), Integer.parseInt(times[1]) + 1, Integer.parseInt(times[2]) + 1, Integer.parseInt(times[3]), Integer.parseInt(times[4]));
 				return;
-			} catch (NumberFormatException ignored) {
-			}
+			} catch (NumberFormatException ignored) {}
 		}
 
 		current = LocalDateTime.of(0, 1, 1, 0, 0, 0);

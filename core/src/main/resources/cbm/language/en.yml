@@ -8,6 +8,7 @@ text:
   save-complete: Save complete
   problem-detected: §eSorry, but a problem was been detected.
   speed: Speed
+  teleport: Teleport
 value:
   true: 'True'
   false: 'False'
@@ -101,19 +102,19 @@ nbt:
   add: '§eAdd NBT-Value Type: §6$1§e Key: §6$2§e, Value: §6$3§e'
   remove: '§eRemove NBT-Value with key: §6$1'
 seen:
-  player: '§ePlayer $1:'
-  nickname: 'nickname: $1'
-  location: 'location: $1'
-  loginSince: '  is online since $1'
-  logoutSince: '  is offline since $1'
-  joinSilent: 'join silent: $1'
-  deathLocation: 'death location: $1'
-  commandSpy: 'command spy: $1'
-  commandSpyOperator: 'command spy operator: $1'
-  playTime: 'play time: $1'
-  mute: 'mute: $1'
-  god: 'god: $1'
-  fly: 'fly: $1'
+  player: '§ePlayer §f$1:'
+  nickname: '  §enickname: §f$1'
+  location: '  §elocation: §f$1'
+  loginSince: '  §eis online since §f$1'
+  logoutSince: '  §eis offline since §f$1'
+  joinSilent: '  §ejoin silent: §f$1'
+  deathLocation: '  §edeath location: §f$1'
+  commandSpy: '  §ecommand spy: §f$1'
+  commandSpyOperator: '  §ecommand spy operator: §f$1'
+  playTime: '  §eplay time: §f$1'
+  mute: '  §emute: §f$1'
+  god: '  §egod: §f$1'
+  fly: '  §efly: §f$1'
 skin:
   error-load: §eSkin could not be loaded
   change: §eSkin changed to §6$1

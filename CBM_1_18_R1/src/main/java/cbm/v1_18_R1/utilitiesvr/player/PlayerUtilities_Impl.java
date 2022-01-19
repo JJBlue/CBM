@@ -35,7 +35,6 @@ import net.minecraft.world.EnumHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EnumItemSlot;
 import net.minecraft.world.entity.player.EntityHuman;
-import net.minecraft.world.level.EnumGamemode;
 import net.minecraft.world.level.World;
 
 public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
@@ -121,23 +120,20 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 			if (onlinePlayer == player) {
 				playerConnection.a(packetRemovePlayer);
 				playerConnection.a(packetAddPlayer);
-				Location location = player.getLocation();
-				
 				World world = entityPlayer.cA();
-				
 				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(
 					world.q_(),
 					world.aa(),
-					0, // First 8 bytes of the SHA-256 hash of the world's seed.
-					EnumGamemode.valueOf(player.getGameMode().name()),
-					EnumGamemode.valueOf(player.getGameMode().name()),
-					false, // debug world?
+					player.getWorld().getSeed(), // First 8 bytes of the SHA-256 hash of the world's seed.
+					entityPlayer.d.b(),
+					entityPlayer.d.b(),
+					world.ad(), // debug world?
 					false, // flat world?
 					false // normal respawn? or changed dimension
 				);
-				
 				playerConnection.a(packetPlayOutRespawn);
 				
+				Location location = player.getLocation();
 				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0, false); // 0 = TeleportConfirm, false = Do not leave vehicle
 				playerConnection.a(packetPlayOutPosition);
 
@@ -149,7 +145,6 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 				
 				setHeldItemSlot(player, heldItem);
 				
-//				entityPlayer.lastSentExp = -1;
 				player.updateInventory();
 				
 				if (flying)

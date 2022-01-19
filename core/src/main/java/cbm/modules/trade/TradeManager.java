@@ -11,13 +11,14 @@ import cbm.utilitiesvr.chat.ChatUtilities;
 import cbm.utilitiesvr.chat.ClickAction;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TradeManager {
 
 	private TradeManager() {}
 
 	private static int timeoutPerSecond = 30;
-	private static Map<String, TradeInformation> tradesRequests = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String, TradeInformation> tradesRequests = new ConcurrentHashMap<>();
 
 	static {
 		final List<String> delete = new LinkedList<>();
@@ -69,7 +70,7 @@ public class TradeManager {
 			);
 			
 			ChatUtilities.sendMessage(to, json, ChatMessageType.CHAT);
-			LanguageConfig.sendMessage(from, "trade.gotTrade", to.getName());
+			LanguageConfig.sendMessage(to, "trade.gotTrade", from.getName());
 		}
 	}
 

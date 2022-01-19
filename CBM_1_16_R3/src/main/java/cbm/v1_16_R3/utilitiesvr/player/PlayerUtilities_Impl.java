@@ -141,7 +141,7 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 				PacketPlayOutRespawn packetPlayOutRespawn = new PacketPlayOutRespawn(
 					entityPlayer.getWorld().getDimensionManager(),
 					entityPlayer.getWorld().getDimensionKey(),
-					0, // First 8 bytes of the SHA-256 hash of the world's seed.
+					player.getWorld().getSeed(), // First 8 bytes of the SHA-256 hash of the world's seed.
 					EnumGamemode.valueOf(player.getGameMode().name()),
 					EnumGamemode.valueOf(player.getGameMode().name()),
 					entityPlayer.getWorld().isDebugWorld(),
