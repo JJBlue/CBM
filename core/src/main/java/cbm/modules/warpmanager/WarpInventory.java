@@ -40,6 +40,7 @@ public class WarpInventory extends InventoryFactory {
 
 		factory.setDeleteOnExit();
 		factory.setOnClick((event, item) -> event.setCancelled(true));
+		factory.setOnMove((event, item) -> event.setCancelled(true));
 	}
 
 	private static int roundDoubleChestInventory(int size) {

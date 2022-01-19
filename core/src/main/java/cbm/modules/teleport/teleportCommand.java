@@ -1,19 +1,30 @@
 package cbm.modules.teleport;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.*;
+import org.bukkit.command.BlockCommandSender;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import cbm.player.PlayerConfig;
 import cbm.player.PlayerConfigKey;
 import cbm.player.PlayerManager;
-
-import java.util.*;
+import components.utils.tuple.Tuple;
 
 public class teleportCommand implements TabExecutor {
-
-	public ArrayList<String> tpa = new ArrayList<>(); //TODO better
+	// <To, From>
+	public Set<Tuple<UUID, UUID>> tpa = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
@@ -78,11 +89,12 @@ public class teleportCommand implements TabExecutor {
 				if(p == null) break;
 				
 				p1 = Bukkit.getPlayer(args[0]);
-
-				if (tpa.contains(p1.getUniqueId().toString() + "," + p.getUniqueId().toString())) {
+				var tuple = Tuple.of(p1.getUniqueId(), p.getUniqueId());
+				
+				if (tpa.contains(id)) {
 					sender.sendMessage("Du hast schon eine Anfrage geschickt");
 				} else {
-					tpa.add(p1.getUniqueId().toString() + "," + p.getUniqueId().toString());
+//					tpa.add(id);
 					sender.sendMessage("Sie haben eine Teleportsanfrage an " + p1.getName() + " gesendent");
 					p1.sendMessage("Sie haben eine Teleportsanfrage von " + p.getName() + " erhalten");
 				}
@@ -96,13 +108,13 @@ public class teleportCommand implements TabExecutor {
 				if (args.length == 0) {
 					p1 = null;
 
-					for (String pl : tpa) {
-						String[] s = pl.split(",");
-						if (s[0].equalsIgnoreCase(p.getUniqueId().toString())) {
-							p1 = Bukkit.getPlayer(UUID.fromString(s[1]));
-							break;
-						}
-					}
+//					for (String pl : tpa) {
+//						String[] s = pl.split(",");
+//						if (s[0].equalsIgnoreCase(p.getUniqueId().toString())) {
+//							p1 = Bukkit.getPlayer(UUID.fromString(s[1]));
+//							break;
+//						}
+//					}
 
 					if (p1 != null) {
 						if (p1.isOnline()) {
@@ -143,13 +155,13 @@ public class teleportCommand implements TabExecutor {
 				if (args.length == 0) {
 					p1 = null;
 
-					for (String pl : tpa) {
-						String[] s = pl.split(",");
-						if (s[0].equalsIgnoreCase(p.getUniqueId().toString())) {
-							p1 = Bukkit.getPlayer(UUID.fromString(s[1]));
-							break;
-						}
-					}
+//					for (String pl : tpa) {
+//						String[] s = pl.split(",");
+//						if (s[0].equalsIgnoreCase(p.getUniqueId().toString())) {
+//							p1 = Bukkit.getPlayer(UUID.fromString(s[1]));
+//							break;
+//						}
+//					}
 
 					if (p1 != null) {
 						if (p1.isOnline()) {
@@ -186,13 +198,13 @@ public class teleportCommand implements TabExecutor {
 
 				if(p == null) break;
 				
-				for (Player p2 : Bukkit.getOnlinePlayers()) {
-					if (!tpa.contains(p2.getUniqueId().toString() + "," + p.getUniqueId().toString())) {
-						tpa.add(p2.getUniqueId().toString() + "," + p.getUniqueId().toString());
-						sender.sendMessage("Sie haben eine Teleportsanfrage an " + p2.getName() + " gesendent");
-						p2.sendMessage("Sie haben eine Teleportsanfrage von " + p.getName() + " erhalten");
-					}
-				}
+//				for (Player p2 : Bukkit.getOnlinePlayers()) {
+//					if (!tpa.contains(p2.getUniqueId().toString() + "," + p.getUniqueId().toString())) {
+//						tpa.add(p2.getUniqueId().toString() + "," + p.getUniqueId().toString());
+//						sender.sendMessage("Sie haben eine Teleportsanfrage an " + p2.getName() + " gesendent");
+//						p2.sendMessage("Sie haben eine Teleportsanfrage von " + p.getName() + " erhalten");
+//					}
+//				}
 
 				break;
 

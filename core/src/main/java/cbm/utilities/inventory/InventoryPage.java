@@ -5,10 +5,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class InventoryPage {
 
-	protected Map<Integer, ItemStack> inv = Collections.synchronizedMap(new HashMap<>());
+	protected Map<Integer, ItemStack> inv = new ConcurrentHashMap<>();
 
 	public InventoryPage() {}
 

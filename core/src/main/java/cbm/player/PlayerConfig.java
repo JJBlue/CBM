@@ -35,6 +35,14 @@ public class PlayerConfig extends DatabaseConfig {
 	public void set(PlayerConfigKey key, Object value) {
 		set(key.toString(), value, false, false);
 	}
+	
+	public void setTmp(PlayerConfigKey key, Object value) {
+		setTmp(key.toString(), value);
+	}
+	
+	public void delTmp(PlayerConfigKey key) {
+		removeBuffer(key.toString());
+	}
 
 	public Object get(PlayerConfigKey key) {
 		return get(key.toString());

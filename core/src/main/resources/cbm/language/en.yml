@@ -101,8 +101,19 @@ nbt:
   add: '§eAdd NBT-Value Type: §6$1§e Key: §6$2§e, Value: §6$3§e'
   remove: '§eRemove NBT-Value with key: §6$1'
 seen:
-  loginSince: §ePlayer $1 is online since $2
-  logoutSince: §ePlayer $1 is offline since $2
+  player: '§ePlayer $1:'
+  nickname: 'nickname: $1'
+  location: 'location: $1'
+  loginSince: '  is online since $1'
+  logoutSince: '  is offline since $1'
+  joinSilent: 'join silent: $1'
+  deathLocation: 'death location: $1'
+  commandSpy: 'command spy: $1'
+  commandSpyOperator: 'command spy operator: $1'
+  playTime: 'play time: $1'
+  mute: 'mute: $1'
+  god: 'god: $1'
+  fly: 'fly: $1'
 skin:
   error-load: §eSkin could not be loaded
   change: §eSkin changed to §6$1

@@ -103,13 +103,10 @@ public class InventoryListener implements Listener {
 		if (factory == null) return;
 
 		InventoryItem item = InventoryManager.getInventoryItem(clickedInventory, event.getSlot());
-		if (item == null) {
-			factory.callOnClick(event, null);
-			return;
-		}
-
-		item.callOnClick(event);
 		factory.callOnClick(event, item);
+		
+		if (item == null) return;
+		item.callOnClick(event);
 
 		if (!item.equals(event.getCurrentItem()))
 			event.setCurrentItem(item);
@@ -132,11 +129,25 @@ public class InventoryListener implements Listener {
 		Inventory source = event.getSource();
 		Inventory destination = event.getDestination();
 		if (source == null || destination == null) return;
-		if (!InventoryManager.hasInventory(source) && !InventoryManager.hasInventory(destination)) return;
-
+		
+		boolean is_source = InventoryManager.hasInventory(source);
+		boolean is_destination = InventoryManager.hasInventory(source);
+		
+		if (!is_source && !is_destination) return;
+		
 		InventoryItem item = InventoryManager.getInventoryItem(source, event.getItem());
+		
+		if(is_source) {
+			InventoryFactory factory = InventoryManager.getInventoryFactory(source);
+			factory.callOnMove(event, item);
+		}
+		
+		if(is_destination) {
+			InventoryFactory factory = InventoryManager.getInventoryFactory(destination);
+			factory.callOnMove(event, item);
+		}
+		
 		if (item == null) return;
-
 		item.callOnMove(event);
 	}
 }

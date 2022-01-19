@@ -1,16 +1,15 @@
 package cbm.utilities.inventory;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class InventoryManager {
 	private InventoryManager() {}
 
-	static Map<Inventory, InventoryFactory> factories = Collections.synchronizedMap(new HashMap<>());
+	static Map<Inventory, InventoryFactory> factories = new ConcurrentHashMap<>();
 
 	public static void add(InventoryFactory factory) {
 		if (factory == null) return;

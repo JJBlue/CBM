@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import cbm.modules.tablist.Tablist;
 import cbm.player.PlayerConfig;
+import cbm.player.PlayerConfigKey;
 import cbm.player.PlayerManager;
 
 public class NameManager {
@@ -13,10 +14,10 @@ public class NameManager {
 		String playerListName = null;
 		
 		PlayerConfig config = PlayerManager.getConfig(player);
-		if(name != null)
-			config.setTmp("nick", name);
-		else {
-			config.removeBuffer("nick");
+		if(name != null) {
+			config.setTmp(PlayerConfigKey.nickname, name);
+		} else {
+			config.delTmp(PlayerConfigKey.nickname);
 			name = player.getName();
 		}
 		

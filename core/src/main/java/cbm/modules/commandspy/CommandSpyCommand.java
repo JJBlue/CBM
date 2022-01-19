@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import cbm.language.LanguageConfig;
 import cbm.player.PlayerConfig;
+import cbm.player.PlayerConfigKey;
 import cbm.player.PlayerManager;
 
 public class CommandSpyCommand implements TabExecutor {
@@ -27,11 +28,11 @@ public class CommandSpyCommand implements TabExecutor {
 				if (args.length < 2) break;
 
 				if (args[1].toLowerCase().equals("false")) {
-					config.set("commandSpy", -1);
+					config.set(PlayerConfigKey.commandSpy, -1);
 					LanguageConfig.sendMessage(sender, "command-spy.toggled", LanguageConfig.getString("value.false"));
 				} else {
 					try {
-						config.set("commandSpy", Integer.valueOf(args[1]));
+						config.set(PlayerConfigKey.commandSpy, Integer.valueOf(args[1]));
 						LanguageConfig.sendMessage(sender, "command-spy.toggled", Integer.valueOf(args[1]).toString());
 					} catch (NumberFormatException e) {
 						LanguageConfig.sendMessage(sender, "error.NumberFormatException");
@@ -43,7 +44,7 @@ public class CommandSpyCommand implements TabExecutor {
 			case "operator":
 
 				boolean value = !config.getBoolean("commandSpyOperator");
-				config.set("commandSpyOperator", value);
+				config.set(PlayerConfigKey.tCommandSpyOperator, value);
 				LanguageConfig.sendMessage(sender, "command-spy.toggled", value + "");
 
 				break;

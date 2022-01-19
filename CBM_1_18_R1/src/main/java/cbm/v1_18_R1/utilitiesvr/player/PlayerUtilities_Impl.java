@@ -115,20 +115,6 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 		PacketPlayOutPlayerInfo packetRemovePlayer = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.e, entityPlayer);
 		PacketPlayOutPlayerInfo packetAddPlayer = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.a, entityPlayer);
 		
-		PacketPlayOutEntityDestroy packetPlayOutEntityDestroy = new PacketPlayOutEntityDestroy(entityID);
-		PacketPlayOutNamedEntitySpawn packetPlayOutNamedEntitySpawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
-
-		final PacketPlayOutEntityEquipment itemPacket = new PacketPlayOutEntityEquipment(entityID,
-			Stream.of(
-				Pair.of(EnumItemSlot.a, CraftItemStack.asNMSCopy(player.getInventory().getItemInMainHand())),
-				Pair.of(EnumItemSlot.b, CraftItemStack.asNMSCopy(player.getInventory().getItemInOffHand())),
-				Pair.of(EnumItemSlot.c, CraftItemStack.asNMSCopy(player.getInventory().getBoots())),
-				Pair.of(EnumItemSlot.d, CraftItemStack.asNMSCopy(player.getInventory().getLeggings())),
-				Pair.of(EnumItemSlot.e, CraftItemStack.asNMSCopy(player.getInventory().getChestplate())),
-				Pair.of(EnumItemSlot.f, CraftItemStack.asNMSCopy(player.getInventory().getHelmet()))
-			).collect(Collectors.toList())
-		);
-		
 		for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 			final PlayerConnection playerConnection = PlayerUtilities_Impl.getPlayerConnection(player);
 			
@@ -136,8 +122,6 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 				playerConnection.a(packetRemovePlayer);
 				playerConnection.a(packetAddPlayer);
 				Location location = player.getLocation();
-
-				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0, false); // 0 = TeleportConfirm, false = Do not leave vehicle
 				
 				World world = entityPlayer.cA();
 				
@@ -153,6 +137,8 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 				);
 				
 				playerConnection.a(packetPlayOutRespawn);
+				
+				PacketPlayOutPosition packetPlayOutPosition = new PacketPlayOutPosition(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), new HashSet<>(), 0, false); // 0 = TeleportConfirm, false = Do not leave vehicle
 				playerConnection.a(packetPlayOutPosition);
 
 				for (MobEffect mobEffect : entityPlayer.dW())
@@ -174,6 +160,20 @@ public class PlayerUtilities_Impl implements PlayerUtilities_Interface {
 			
 			if (!onlinePlayer.canSee(player))
 				continue;
+			
+			PacketPlayOutEntityDestroy packetPlayOutEntityDestroy = new PacketPlayOutEntityDestroy(entityID);
+			PacketPlayOutNamedEntitySpawn packetPlayOutNamedEntitySpawn = new PacketPlayOutNamedEntitySpawn(entityPlayer);
+
+			final PacketPlayOutEntityEquipment itemPacket = new PacketPlayOutEntityEquipment(entityID,
+				Stream.of(
+					Pair.of(EnumItemSlot.a, CraftItemStack.asNMSCopy(player.getInventory().getItemInMainHand())),
+					Pair.of(EnumItemSlot.b, CraftItemStack.asNMSCopy(player.getInventory().getItemInOffHand())),
+					Pair.of(EnumItemSlot.c, CraftItemStack.asNMSCopy(player.getInventory().getBoots())),
+					Pair.of(EnumItemSlot.d, CraftItemStack.asNMSCopy(player.getInventory().getLeggings())),
+					Pair.of(EnumItemSlot.e, CraftItemStack.asNMSCopy(player.getInventory().getChestplate())),
+					Pair.of(EnumItemSlot.f, CraftItemStack.asNMSCopy(player.getInventory().getHelmet()))
+				).collect(Collectors.toList())
+			);
 			
 			playerConnection.a(packetRemovePlayer);
 			playerConnection.a(packetAddPlayer);

@@ -1,14 +1,15 @@
 package cbm.player;
 
 public enum PlayerConfigKey {
-	nickname,
+	nickname("nick"),
 	tFly,
 	tGod,
 	tMute,
 	loginTime,
 	logoutTime,
 	playTime,
-	tCommandSpy,
+	commandSpy("commandSpy"),
+	tCommandSpyOperator("commandSpyOperator"),
 	deathLocation,
 	homeLocation,
 	logoutLocation,

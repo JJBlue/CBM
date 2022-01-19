@@ -1,8 +1,7 @@
 package cbm.modules.visible;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,7 +14,7 @@ import cbm.main.Main;
 import cbm.utilities.permissions.PermissionHelper;
 
 public class VisibleManager implements Listener {
-	public final static Map<Player, HideState> hide = Collections.synchronizedMap(new HashMap<>());
+	public final static Map<Player, HideState> hide = new ConcurrentHashMap<>();
 	
 	public static void changeVisible(Player player) {
 		if (player == null) return;

@@ -53,7 +53,20 @@ public class SystemStatus {
 	public static String getOnlineSince() {
 		LocalDateTime started = Main.getOnline();
 		LocalDateTime now = LocalDateTime.now();
-		return started.until(now, ChronoUnit.DAYS) + " d " + started.until(now, ChronoUnit.MINUTES) + " m " + started.until(now, ChronoUnit.SECONDS) + " s";
+		
+		long days = started.until(now, ChronoUnit.DAYS);
+		started = started.minusDays(days);
+		
+		long hours = started.until(now, ChronoUnit.HOURS);
+		started = started.minusMinutes(hours);
+		
+		long minutes = started.until(now, ChronoUnit.MINUTES);
+		started = started.minusMinutes(minutes);
+		
+		long seconds = started.until(now, ChronoUnit.SECONDS);
+		started = started.minusSeconds(seconds);
+		
+		return days + " d " + hours + " h " + minutes + " m " + seconds + " s";
 
 	}
 

@@ -61,6 +61,7 @@ import cbm.modules.teleport.teleportCommand;
 import cbm.modules.updater.SpigotPluginUpdater;
 import cbm.modules.visible.HideState;
 import cbm.modules.visible.VisibleManager;
+import cbm.player.CountTime;
 import cbm.player.PlayerConfig;
 import cbm.player.PlayerConfigKey;
 import cbm.player.PlayerManager;
@@ -809,17 +810,32 @@ public class MainCommand implements TabExecutor {
 					PlayerConfig config = PlayerManager.getConfig(offlinePlayer.getUniqueId(), false);
 					if (config == null) break;
 
+					LanguageConfig.sendMessage(sender, "seen.player", offlinePlayer.getName());
+					LanguageConfig.sendMessage(sender, "seen.nickname", config.getString(PlayerConfigKey.nickname) + "");
+					CountTime countTime = new CountTime(config.getString(PlayerConfigKey.playTime));
+					
 					if (offlinePlayer.isOnline()) {
 						LocalDateTime loginTime = config.getLocalDateTime(PlayerConfigKey.loginTime);
-						if (loginTime == null) break;
-
+						countTime.add(config.getLocalDateTime(PlayerConfigKey.loginTime), LocalDateTime.now());
+						
 						LanguageConfig.sendMessage(sender, "seen.loginSince", offlinePlayer.getName(), TimeUtilities.timeToString(loginTime, LocalDateTime.now()));
+						LanguageConfig.sendMessage(sender, "seen.location", offlinePlayer.getPlayer().getLocation().toString());
+						
 					} else {
 						LocalDateTime logoutTime = config.getLocalDateTime(PlayerConfigKey.logoutTime);
-						if (logoutTime == null) break;
-
-						LanguageConfig.sendMessage(sender, "seen.logoutSince", offlinePlayer.getName(), TimeUtilities.timeToString(logoutTime, LocalDateTime.now()));
+						
+						LanguageConfig.sendMessage(sender, "seen.logoutSince", TimeUtilities.timeToString(logoutTime, LocalDateTime.now()));
+						LanguageConfig.sendMessage(sender, "seen.location", config.getLocation(PlayerConfigKey.logoutLocation).toString());
 					}
+					
+					LanguageConfig.sendMessage(sender, "seen.playTime", countTime.toString());
+					LanguageConfig.sendMessage(sender, "seen.joinSilent", config.getBoolean(PlayerConfigKey.joinSilent) + "");
+					LanguageConfig.sendMessage(sender, "seen.deathLocation", config.getLocation(PlayerConfigKey.deathLocation) + "");
+					LanguageConfig.sendMessage(sender, "seen.commandSpy", config.getInt(PlayerConfigKey.commandSpy) + "");
+					LanguageConfig.sendMessage(sender, "seen.commandSpyOperator", config.getInt(PlayerConfigKey.tCommandSpyOperator) + "");
+					LanguageConfig.sendMessage(sender, "seen.mute", config.getBoolean(PlayerConfigKey.tMute) + "");
+					LanguageConfig.sendMessage(sender, "seen.god", config.getBoolean(PlayerConfigKey.tGod) + "");
+					LanguageConfig.sendMessage(sender, "seen.fly", config.getBoolean(PlayerConfigKey.tFly) + "");
 
 				} catch (IllegalArgumentException e) {
 					LanguageConfig.sendMessage(sender, "error.IllegalArgumentException");
@@ -998,7 +1014,6 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("restart");
 			returnArguments.add("tablist");
 			returnArguments.add("timer");
-			returnArguments.add("troll");
 			returnArguments.add("unban");
 			returnArguments.add("undisguise");
 			returnArguments.add("unnick");

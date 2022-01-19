@@ -25,6 +25,7 @@ public class PlayerListener implements Listener {
 	public void death(PlayerDeathEvent event) {
 		PlayerConfig playerConfig = PlayerManager.getConfig(event.getEntity());
 		playerConfig.set("deathTime", LocalDateTime.now());
+		playerConfig.set(PlayerConfigKey.deathLocation, event.getEntity().getLocation());
 	}
 	
 	public static void join(Player player) {
@@ -39,14 +40,16 @@ public class PlayerListener implements Listener {
 		playerConfig.set(PlayerConfigKey.logoutTime, logoutTime);
 
 		LocalDateTime loginTime = playerConfig.getLocalDateTime(PlayerConfigKey.loginTime);
-
+		
 		if (loginTime != null) {
 			CountTime countTime = new CountTime(playerConfig.getString(PlayerConfigKey.playTime));
 			countTime.add(loginTime, logoutTime);
 
 			playerConfig.set(PlayerConfigKey.playTime, countTime.toString());
 		}
-
+		
+		playerConfig.set(PlayerConfigKey.logoutLocation, player.getLocation());
+		
 		PlayerManager.unload(player.getUniqueId());
 	}
 }
