@@ -17,8 +17,15 @@ public class CoIListener implements Listener {
 	@EventHandler
 	public void interact(PlayerInteractEvent event) {
 		ItemStack itemStack = event.getItem();
+		if(itemStack == null) return;
 		
-		if(itemStack == null || itemStack.getType().name().toLowerCase().contains("air")) return;
+		switch (itemStack.getType()) {
+			case AIR:
+			case CAVE_AIR:
+			case VOID_AIR:
+				return;
+			default: break;
+		}
 		
 		CoIManager.execute(event.getPlayer(), itemStack, CoIAction.DEFAULT);
 		
@@ -65,7 +72,15 @@ public class CoIListener implements Listener {
 	@EventHandler
 	public void place(BlockPlaceEvent event) {
 		ItemStack itemStack = event.getItemInHand();
-		if(itemStack == null || itemStack.getType().name().toLowerCase().contains("air")) return;
+		if(itemStack == null) return;
+		
+		switch (itemStack.getType()) {
+			case AIR:
+			case CAVE_AIR:
+			case VOID_AIR:
+				return;
+			default: break;
+		}
 		
 		CoIManager.execute(event.getPlayer(), itemStack, CoIAction.BLOCK_PLACE);
 	}
@@ -73,7 +88,15 @@ public class CoIListener implements Listener {
 	@EventHandler
 	public void breakBlock(BlockBreakEvent event) {
 		ItemStack itemStack = event.getPlayer().getInventory().getItemInMainHand();
-		if(itemStack == null || itemStack.getType().name().toLowerCase().contains("air")) return;
+		if(itemStack == null) return;
+		
+		switch (itemStack.getType()) {
+			case AIR:
+			case CAVE_AIR:
+			case VOID_AIR:
+				return;
+			default: break;
+		}
 		
 		CoIManager.execute(event.getPlayer(), itemStack, CoIAction.BLOCK_BREAK);
 	}

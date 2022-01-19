@@ -50,7 +50,7 @@ public class ClaimBorder {
 			if(type.contains("glass")) continue;
 			if(type.contains("leave")) continue;
 			if(type.contains("log")) continue;
-			if(type.contains("air")) {
+			if(type.contains("_air") || nextBlock.getType().equals(Material.AIR)) {
 				location = new Location(world, x, y + 1, z);
 				continue;
 			}

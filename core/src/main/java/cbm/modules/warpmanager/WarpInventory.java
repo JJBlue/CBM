@@ -71,8 +71,16 @@ public class WarpInventory extends InventoryFactory {
 
 	private static InventoryItem getWarpItem(final Warp warp) {
 		ItemStack warpItemStack = warp.getResultItemStack();
-		if (warpItemStack != null && warpItemStack.getType().name().toLowerCase().contains("air"))
-			warpItemStack = new ItemStack(Material.WHITE_WOOL);
+		if (warpItemStack != null) {
+			switch (warpItemStack.getType()) {
+				case AIR:
+				case CAVE_AIR:
+				case VOID_AIR:
+					warpItemStack = null;
+					break;
+				default: break;
+			}
+		}
 		InventoryItem inventoryItem = new InventoryItem(warpItemStack != null ? warpItemStack : new ItemStack(Material.WHITE_WOOL));
 
 		inventoryItem.setDisplayName(warp.getName());

@@ -88,11 +88,11 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		//Used Runnable, because when one crashed the other could work
+		unloadHelper(ModuleManager::unload);
 		unloadHelper(PlayerManager::unload);
 		unloadHelper(WorldConfig::unload);
 		unloadHelper(PlayersYMLConfig::unload);
 		unloadHelper(Databases::unload);
-		unloadHelper(ModuleManager::unload);
 		super.onDisable();
 	}
 

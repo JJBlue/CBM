@@ -1,5 +1,10 @@
 package cbm.modules.MapPaint;
 
+import java.awt.Image;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,10 +22,6 @@ import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
 import cbm.config.MainConfig;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.File;
 
 public class MPRenderer {
 	public static void paint(CommandSender commandSender, String filename, Block block, BlockFace blockFace) {
@@ -170,7 +171,14 @@ public class MPRenderer {
 		if (block.isLiquid()) return true;
 
 		Material material = block.getType();
-		return material.name().toLowerCase().contains("air");
+		
+		switch (material) {
+			case AIR:
+			case CAVE_AIR:
+			case VOID_AIR:
+				return true;
+			default: return false;
+		}
 	}
 
 	public static void setRenderer(MapView map) {
