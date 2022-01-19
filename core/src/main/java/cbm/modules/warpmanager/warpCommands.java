@@ -76,6 +76,7 @@ public class warpCommands implements TabExecutor {
 
 			case "savewarp":
 				WarpManager.save();
+				LanguageConfig.sendMessage(sender, "warp.saved");
 				break;
 		}
 

@@ -47,6 +47,7 @@ public class Condition {
 	}
 	
 	public String getConditionToString() {
+		if(condition == null) return "";
 		return condition.toJSONString();
 	}
 	
@@ -55,6 +56,7 @@ public class Condition {
 	}
 	
 	public String getExecuteToString() {
+		if(condition == null) return "";
 		return execute.toJSONString();
 	}
 	

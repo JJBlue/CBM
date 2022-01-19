@@ -1,14 +1,17 @@
 package cbm.modules.warpmanager;
 
+import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +26,8 @@ import components.sql.SQLParser;
 
 public class WarpManager {
 
-	private static Map<String, Warp> warps = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String, Warp> warps = new ConcurrentHashMap<>();
+	private static Random random = new SecureRandom();
 
 	public static void load() {
 		Database database = Databases.getWorldDatabase();
@@ -49,10 +53,7 @@ public class WarpManager {
 	}
 
 	public static void save() {
-		synchronized (warps) {
-			for (Warp warp : warps.values())
-				warp.save();
-		}
+		warps.values().forEach(Warp::save);
 	}
 
 	public synchronized static void addWarp(Warp warp) {
@@ -114,7 +115,7 @@ public class WarpManager {
 		}
 	}
 
-	public static List<Warp> getWarps(int start, int length) {
+	public static Collection<Warp> getWarps(int start, int length) {
 		List<Warp> list = new LinkedList<>();
 
 		Database database = Databases.getWorldDatabase();
@@ -149,7 +150,20 @@ public class WarpManager {
 		if (entity == null || warp == null) return;
 		if (warp.hasPermission && !entity.hasPermission(PermissionHelper.getPermission("warp." + warp.name))) return;
 		if(entity instanceof Player && !warp.checkAndExecute((Player) entity)) return;
-		entity.teleport(warp.location);
+		
+		Location location = warp.location;
+		if(warp.pos > 0) {
+			location = location.clone();
+			location.add(random.nextInt(warp.pos + 1), 0, random.nextInt(warp.pos + 1));
+			
+			Location upper = location.clone().add(0, 1, 0);
+			
+			while(!location.getBlock().isPassable() || !upper.getBlock().isPassable()) {
+				location.add(0, !upper.getBlock().isPassable() ? 2 : 1, 0);
+			}
+		}
+		
+		entity.teleport(location);
 	}
 
 	public static void openInventory(Player player) {

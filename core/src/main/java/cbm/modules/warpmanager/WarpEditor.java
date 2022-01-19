@@ -59,7 +59,7 @@ public class WarpEditor {
 		setLoc.setLore(lore);
 		page.addItem(21, setLoc);
 
-		InventoryObjectField<Integer> pos = InventoryItemTypes.createIntField("§aSet Position Chance: ", Integer.MIN_VALUE, Integer.MAX_VALUE, warp.pos);
+		InventoryObjectField<Integer> pos = InventoryItemTypes.createIntField("§aSet Position Chance: ", 0, Integer.MAX_VALUE, warp.pos);
 		pos.setOnChangeValue((old, neu, item) -> {
 			warp.pos = neu;
 			warp.saved = false;

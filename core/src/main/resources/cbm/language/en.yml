@@ -155,3 +155,4 @@ warp:
   setWarp: '§eAdd Warp §6$1'
   setWarp2: '§eAdd Warp §6$1§e (autLore: $2, hasPermission: $2, showWithoutPermission: $3, pos: $4)'
   delWarp: '§eDeleted Warp §6$1'
+  saved: '§eAll Warps are saved'

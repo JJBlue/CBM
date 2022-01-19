@@ -2,10 +2,10 @@ package cbm.modulemanager;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -44,8 +44,8 @@ public class ModuleManager {
 		
 		ModuleConfig.load();
 		
-		modules = Collections.synchronizedMap(new HashMap<>());
-		listeners = Collections.synchronizedMap(new HashMap<>());
+		modules = new ConcurrentHashMap<>();
+		listeners = new ConcurrentHashMap<>();
 		
 		addDefaultModules();
 		
@@ -90,13 +90,9 @@ public class ModuleManager {
 	public static void unload() {
 		if(modules == null) return;
 		
-		synchronized (modules) {
-			for(Module module : modules.values()) {
-				if(module.isLoaded()) {
-					Main.unloadHelper(() -> disable(module));
-				}
-			}
-		}
+		modules.values().stream()
+			.filter(module -> module.isLoaded())
+			.forEach(module -> Main.unloadHelper(() -> disable(module)));
 		
 		modules = null;
 		listeners = null;
@@ -116,10 +112,8 @@ public class ModuleManager {
 	public static void addModule(Module module) {
 		if(module == null) return;
 		
-		synchronized (module) {
-			if(!modules.containsKey(module.getID()))
-				modules.put(module.getID(), module);
-		}
+		if(!modules.containsKey(module.getID()))
+			modules.put(module.getID(), module);
 	}
 	
 	public static void removeModule(Module module) {

@@ -42,7 +42,7 @@ public class Warp {
 		saved = true;
 
 		Database database = Databases.getWorldDatabase();
-		//TODO create database
+		
 		try {
 			PreparedStatement preparedStatement = database.prepareStatement("UPDATE warps SET location = ?, itemStack = ?, tPermission = ?, showWithoutPermission = ?, autoLore = ?, pos = ?, condition = ?, executes = ? WHERE name = ?");
 		
@@ -51,14 +51,15 @@ public class Warp {
 				preparedStatement.setString(2, ItemStackJSONUtilities.toString(itemStack));
 			else
 				preparedStatement.setString(2, null);
+			
 			preparedStatement.setBoolean(3, hasPermission);
 			preparedStatement.setBoolean(4, showWithoutPermission);
 			preparedStatement.setBoolean(5, autoLore);
 			preparedStatement.setInt(6, pos);
-			preparedStatement.setString(7, name);
-			preparedStatement.setString(8, condition != null ? condition.getConditionToString() : null);
-			preparedStatement.setString(9, condition != null ? condition.getExecuteToString() : null);
-			preparedStatement.execute();
+			preparedStatement.setString(7, condition != null ? condition.getConditionToString() : null);
+			preparedStatement.setString(8, condition != null ? condition.getExecuteToString() : null);
+			preparedStatement.setString(9, name);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

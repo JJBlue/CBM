@@ -1,5 +1,6 @@
 package cbm.modules.warpmanager;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class WarpInventory extends InventoryFactory {
 		List<Warp> warps = new LinkedList<>();
 
 		while (warps.size() < 45) {
-			List<Warp> tmp = WarpManager.getWarps(curWarpsLoaded, 45);
+			Collection<Warp> tmp = WarpManager.getWarps(curWarpsLoaded, 45);
 
 			for (Warp warp : tmp) {
 				curWarpsLoaded++;

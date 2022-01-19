@@ -41,13 +41,19 @@ public class InventoryItemTypes {
 		item.setOnClick((event, i) -> {
 			switch (event.getClick()) {
 				case LEFT:
-				case SHIFT_LEFT:
-					item.setValue(item.getValue() + 1);
+				case SHIFT_LEFT: {
+					var nv = item.getValue() + 1;
+					if(nv > max || nv < min) nv = min;
+					item.setValue(nv);
 					break;
+				}
 				case RIGHT:
-				case SHIFT_RIGHT:
-					item.setValue(item.getValue() - 1);
+				case SHIFT_RIGHT: {
+					var nv = item.getValue() - 1;
+					if(nv < min || nv > max) nv = max;
+					item.setValue(nv);
 					break;
+				}
 				default:
 					break;
 			}

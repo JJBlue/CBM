@@ -7,6 +7,7 @@ import java.util.concurrent.DelayQueue;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,32 @@ import cbm.player.PlayerManager;
 
 public class teleportCommand implements TabExecutor {
 	// <To, From>
-	public DelayQueue<TeleportRequest> tpa = new DelayQueue<>(); // Better DelayQueue with set
+	public static DelayQueue<TeleportRequest> tpa;
+	
+	static {
+		tpa = new DelayQueue<>(); // Better DelayQueue with set
+		
+		new Thread(() -> {
+			while(tpa != null) {
+				try {
+					var tr = tpa.take();
+					
+					OfflinePlayer p1 = Bukkit.getOfflinePlayer(tr.getObject1());
+					OfflinePlayer p2 = Bukkit.getOfflinePlayer(tr.getObject2());
+					
+					if(p1.isOnline()) {
+						p1.getPlayer().sendMessage("Teleportanfrage von " + p2.getName() + " ist abgelaufen");
+					}
+					
+					if(p2.isOnline()) {
+						p2.getPlayer().sendMessage("Teleportanfrage zu " + p1.getName() + " ist abgelaufen");
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
