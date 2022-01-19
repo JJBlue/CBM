@@ -831,14 +831,16 @@ public class MainCommand implements TabExecutor {
 						LanguageConfig.sendMessage(sender, "seen.logoutSince", TimeUtilities.timeToString(logoutTime, LocalDateTime.now()));
 						location = config.getLocation(PlayerConfigKey.logoutLocation);
 					}
-
-					ChatUtilities.sendMessage((Player) sender, ChatUtilities.createMessage(
-							LanguageConfig.getString("seen.location", LocationUtilities.toString(location)),
-							ChatUtilities.createExtra(
-								ChatUtilities.createClickHoverMessage(" [" + LanguageConfig.getString("text.teleport") + "]", null, null, ClickAction.RUN_COMMAND,
-								"/tp " + offlinePlayer.getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ() + " " + location.getYaw() + " " + location.getPitch())
-							)
-						), ChatMessageType.CHAT);
+					
+					if(location != null && sender instanceof Player player) {
+						ChatUtilities.sendMessage(player, ChatUtilities.createMessage(
+								LanguageConfig.getString("seen.location", LocationUtilities.toString(location)),
+								ChatUtilities.createExtra(
+									ChatUtilities.createClickHoverMessage(" [" + LanguageConfig.getString("text.teleport") + "]", null, null, ClickAction.RUN_COMMAND,
+									"/tp " + player.getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ() + " " + location.getYaw() + " " + location.getPitch())
+								)
+							), ChatMessageType.CHAT);
+					}
 					
 					LanguageConfig.sendMessage(sender, "seen.playTime", countTime.format("d") + " d " + countTime.format("h") + " h " +countTime.format("m") + " m " +countTime.format("s") + " s");
 					LanguageConfig.sendMessage(sender, "seen.joinSilent", config.getBoolean(PlayerConfigKey.joinSilent) + "");

@@ -35,7 +35,7 @@ public class InventoryPage {
 			if(old != null)
 				inv.put(pos, old);
 			
-			pos = inv.keySet().parallelStream().mapToInt(i -> i).max().orElse(0);
+			pos = inv.keySet().parallelStream().mapToInt(i -> i + 1).max().orElse(0);
 			old = inv.put(pos, item);
 		} while(old != null);
 	}
