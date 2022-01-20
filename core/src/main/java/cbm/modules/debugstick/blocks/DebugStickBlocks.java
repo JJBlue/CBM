@@ -1,10 +1,10 @@
 package cbm.modules.debugstick.blocks;
 
+import java.util.List;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
-
-import java.util.List;
 
 public class DebugStickBlocks {
 	public static void setNextBlockState(Block block, DebugStickBlockChanges debugStickBlockChanges, boolean next /* or bevor*/) {

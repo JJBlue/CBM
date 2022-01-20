@@ -1,9 +1,9 @@
 package cbm.modules.debugstick.entity;
 
+import java.util.List;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
-import java.util.List;
 
 public class DebugStickEntities {
 	public static void setNextEntityState(Entity entity, DebugStickEntityChanges type, boolean next /* or bevor*/) {

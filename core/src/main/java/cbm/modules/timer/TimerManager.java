@@ -1,10 +1,10 @@
 package cbm.modules.timer;
 
-import org.bukkit.entity.Player;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bukkit.entity.Player;
 
 public class TimerManager {
 	public final static Map<Integer, BukkitTimer> timers = Collections.synchronizedMap(new HashMap<>());

@@ -1,5 +1,8 @@
 package cbm.modules.world;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,9 +10,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import cbm.config.ConfigHelper;
 import cbm.config.MainConfig;
 import cbm.modules.world.time.TimeWorldConfig;
-
-import java.io.File;
-import java.io.IOException;
 
 public class WorldConfig {
 

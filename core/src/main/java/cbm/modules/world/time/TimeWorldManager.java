@@ -1,5 +1,10 @@
 package cbm.modules.world.time;
 
+import java.time.LocalTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.boss.BarColor;
@@ -10,11 +15,6 @@ import org.bukkit.entity.Player;
 
 import cbm.main.Main;
 import cbm.modules.move.AFK;
-
-import java.time.LocalTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TimeWorldManager {
 	private static int taskID = -1;

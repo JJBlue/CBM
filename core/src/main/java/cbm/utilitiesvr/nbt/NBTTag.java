@@ -1,9 +1,9 @@
 package cbm.utilitiesvr.nbt;
 
-import org.bukkit.inventory.ItemStack;
-
 import java.util.List;
 import java.util.Set;
+
+import org.bukkit.inventory.ItemStack;
 
 public interface NBTTag {
 	boolean hasNBT();

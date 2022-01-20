@@ -1,5 +1,7 @@
 package cbm.utilities.inventory;
 
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -10,8 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import cbm.utilities.inventory.runnables.RunnableInventoryClick;
 import cbm.utilities.inventory.runnables.RunnableInventoryDrag;
 import cbm.utilities.inventory.runnables.RunnableInventoryMove;
-
-import java.util.List;
 
 /**
  * Adding a InventoryItem to a normal Inventory, it will be converted from Bukkit to a normal ItemStack.

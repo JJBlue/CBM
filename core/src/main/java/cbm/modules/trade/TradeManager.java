@@ -1,5 +1,10 @@
 package cbm.modules.trade;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -9,9 +14,6 @@ import cbm.utilities.permissions.PermissionHelper;
 import cbm.utilitiesvr.chat.ChatMessageType;
 import cbm.utilitiesvr.chat.ChatUtilities;
 import cbm.utilitiesvr.chat.ClickAction;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TradeManager {
 
@@ -70,7 +72,7 @@ public class TradeManager {
 			);
 			
 			ChatUtilities.sendMessage(to, json, ChatMessageType.CHAT);
-			LanguageConfig.sendMessage(to, "trade.gotTrade", from.getName());
+			LanguageConfig.sendMessage(from, "trade.gotTrade", from.getName());
 		}
 	}
 

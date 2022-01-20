@@ -1,5 +1,19 @@
 package cbm.modules.claim;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldguard.WorldGuard;
@@ -9,11 +23,6 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 
 import cbm.main.Main;
 import cbm.modules.particles.ParticleEffectsManager;
-
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-
-import java.util.*;
 
 public class ClaimShowTimer {
 	private static final Set<Player> players = Collections.synchronizedSet(new HashSet<>());

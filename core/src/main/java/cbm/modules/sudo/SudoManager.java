@@ -1,5 +1,9 @@
 package cbm.modules.sudo;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -7,10 +11,6 @@ import org.bukkit.entity.Player;
 
 import cbm.modules.sudo.sudoplayer.SudoPlayerInterface;
 import cbm.modules.sudo.sudoplayer.SudoPlayerManager;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 public class SudoManager {
 	

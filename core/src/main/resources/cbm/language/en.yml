@@ -128,8 +128,8 @@ timer:
   startTimer: §eTimer with ID §6$1§e was started
 trade:
   accept: §3[Accept]
-  sendTrade: $1 send you a Trade Request
-  gotTrade: You got a Trade Request from $1
+  sendTrade: You send a Trade Request to $1
+  gotTrade: $1 send you a Trade Request
   expired: Trade Request from $1 is expired
 updater:
   no-new-versions: §eNo Updates available

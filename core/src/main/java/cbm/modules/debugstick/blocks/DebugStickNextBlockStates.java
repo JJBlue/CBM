@@ -1,13 +1,62 @@
 package cbm.modules.debugstick.blocks;
 
+import java.util.Set;
+
 import org.bukkit.Instrument;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.*;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.AnaloguePowerable;
+import org.bukkit.block.data.Attachable;
+import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.FaceAttachable.AttachedFace;
-import org.bukkit.block.data.type.*;
-
-import java.util.Set;
+import org.bukkit.block.data.Levelled;
+import org.bukkit.block.data.Lightable;
+import org.bukkit.block.data.MultipleFacing;
+import org.bukkit.block.data.Openable;
+import org.bukkit.block.data.Orientable;
+import org.bukkit.block.data.Powerable;
+import org.bukkit.block.data.Rail;
+import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.data.Snowable;
+import org.bukkit.block.data.Waterlogged;
+import org.bukkit.block.data.type.Bamboo;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Bell;
+import org.bukkit.block.data.type.BrewingStand;
+import org.bukkit.block.data.type.BubbleColumn;
+import org.bukkit.block.data.type.Cake;
+import org.bukkit.block.data.type.Campfire;
+import org.bukkit.block.data.type.Chest;
+import org.bukkit.block.data.type.CommandBlock;
+import org.bukkit.block.data.type.Comparator;
+import org.bukkit.block.data.type.DaylightDetector;
+import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Farmland;
+import org.bukkit.block.data.type.Gate;
+import org.bukkit.block.data.type.Hopper;
+import org.bukkit.block.data.type.Lantern;
+import org.bukkit.block.data.type.Leaves;
+import org.bukkit.block.data.type.NoteBlock;
+import org.bukkit.block.data.type.Piston;
+import org.bukkit.block.data.type.PistonHead;
+import org.bukkit.block.data.type.RedstoneWire;
+import org.bukkit.block.data.type.Repeater;
+import org.bukkit.block.data.type.Sapling;
+import org.bukkit.block.data.type.Scaffolding;
+import org.bukkit.block.data.type.SeaPickle;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Snow;
+import org.bukkit.block.data.type.Stairs;
+import org.bukkit.block.data.type.StructureBlock;
+import org.bukkit.block.data.type.Switch;
+import org.bukkit.block.data.type.TNT;
+import org.bukkit.block.data.type.TechnicalPiston;
+import org.bukkit.block.data.type.Tripwire;
+import org.bukkit.block.data.type.TurtleEgg;
 
 public class DebugStickNextBlockStates {
 	/*	Extra BlockData set able Methods:

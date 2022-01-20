@@ -1,5 +1,10 @@
 package cbm.utilities.inventory;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -8,12 +13,11 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.Inventory;
 
-import cbm.utilities.inventory.runnables.*;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import cbm.utilities.inventory.runnables.RunnableInventoryClick;
+import cbm.utilities.inventory.runnables.RunnableInventoryClose;
+import cbm.utilities.inventory.runnables.RunnableInventoryDrag;
+import cbm.utilities.inventory.runnables.RunnableInventoryMove;
+import cbm.utilities.inventory.runnables.RunnableInventoryOpen;
 
 public class InventoryFactory {
 	protected Inventory inventory;

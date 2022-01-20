@@ -1,5 +1,9 @@
 package cbm.modules.display;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
@@ -22,10 +26,6 @@ import cbm.language.LanguageConfig;
 import cbm.utilities.MathUtilities;
 import cbm.utilitiesvr.chat.ChatMessageType;
 import cbm.utilitiesvr.chat.ChatUtilities;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DisplayListener implements Listener {
 	private Map<Player, BossBar> damgeBossbar = Collections.synchronizedMap(new HashMap<>());

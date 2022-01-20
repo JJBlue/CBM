@@ -1,5 +1,10 @@
 package cbm.modules.ChatVerbesserung;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,11 +17,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import cbm.config.MainConfig;
 import cbm.main.Main;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Not used yet

@@ -1,5 +1,7 @@
 package cbm.modules.trade;
 
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,8 +11,6 @@ import cbm.main.Main;
 import cbm.utilities.inventory.InventoryFactory;
 import cbm.utilities.inventory.InventoryItem;
 import cbm.utilities.inventory.InventoryPage;
-
-import java.util.Map;
 
 public class TradeSystem {
 	private TradeSystem() {}
@@ -86,6 +86,9 @@ public class TradeSystem {
 				event.setCancelled(true);
 				return;
 			}
+			
+			if(item == check1 || item == check2)
+				return;
 
 			if (!event.isCancelled()) {
 				check1.setDisplayName(statusRed);

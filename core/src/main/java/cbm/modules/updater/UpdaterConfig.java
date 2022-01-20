@@ -1,17 +1,17 @@
 package cbm.modules.updater;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import cbm.config.ConfigHelper;
-import cbm.config.MainConfig;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import cbm.config.ConfigHelper;
+import cbm.config.MainConfig;
 
 public class UpdaterConfig {
 	static File configFile;

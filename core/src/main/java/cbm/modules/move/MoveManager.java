@@ -1,5 +1,11 @@
 package cbm.modules.move;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -11,12 +17,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import cbm.main.Main;
 import cbm.player.PlayersYMLConfig;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MoveManager implements Listener {
 	

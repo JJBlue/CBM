@@ -1,5 +1,8 @@
 package cbm.modules.warpmanager;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,9 +12,6 @@ import cbm.utilities.inventory.InventoryItem;
 import cbm.utilities.inventory.InventoryPage;
 import cbm.utilities.inventory.itemtypes.InventoryItemTypes;
 import cbm.utilities.inventory.itemtypes.InventoryObjectField;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class WarpEditor {
 	private WarpEditor() {}

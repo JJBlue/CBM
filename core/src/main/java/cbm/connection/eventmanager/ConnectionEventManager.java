@@ -1,12 +1,12 @@
 package cbm.connection.eventmanager;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class ConnectionEventManager {
 	private ConnectionEventManager() {}
