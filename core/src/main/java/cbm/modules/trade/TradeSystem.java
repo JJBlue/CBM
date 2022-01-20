@@ -87,6 +87,17 @@ public class TradeSystem {
 				return;
 			}
 			
+			switch (event.getClick()) {
+				case DOUBLE_CLICK:
+				case NUMBER_KEY:
+				case SHIFT_LEFT:
+				case SHIFT_RIGHT:
+					event.setCancelled(true);
+					return;
+				default:
+					break;
+			}
+			
 			if(item == check1 || item == check2)
 				return;
 
@@ -95,16 +106,7 @@ public class TradeSystem {
 				check2.setDisplayName(statusRed);
 				stopTimer();
 			}
-
-			switch (event.getClick()) {
-				case DOUBLE_CLICK:
-				case NUMBER_KEY:
-					event.setCancelled(true);
-					return;
-				default:
-					break;
-			}
-
+			
 			if (event.getWhoClicked() != p1) {
 				if (event.getSlot() % 9 <= 4)
 					event.setCancelled(true);
