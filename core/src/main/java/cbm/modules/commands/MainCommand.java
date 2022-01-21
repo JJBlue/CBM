@@ -89,7 +89,7 @@ public class MainCommand implements TabExecutor {
 		CommandManager.register("economy", new RedirectTabExecutor(new EconomyCommands()));
 		CommandManager.register("hologram", new RedirectTabExecutor(new HologramCommand()));
 		CommandManager.register("inventory", new RedirectTabExecutor(new InventorySee()));
-		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0));
+		CommandManager.register("join", new RedirectTabExecutor(new JoinListener(), 0, true));
 		CommandManager.register("nbt", new RedirectTabExecutor(new NBTCommands()));
 		CommandManager.register("pluginmanager", new RedirectTabExecutor(new DisableEnable()));
 		CommandManager.register("sign", new RedirectTabExecutor(new SignCommands()));
@@ -140,12 +140,13 @@ public class MainCommand implements TabExecutor {
 
 		if (sender instanceof Player)
 			p = (Player) sender;
-
+		
 		args[0] = args[0].toLowerCase();
-		if(!CommandManager.checkPermissions(sender, args))
-			return true;
 		if(CommandManager.execute(sender, cmd, cmdLabel, args))
 			return true;
+		
+		if(!PermissionHelper.hasCommandPermission(sender, args[0]))
+			return false;
 		
 		switch (args[0]) {
 //			case "test": {
@@ -1039,13 +1040,16 @@ public class MainCommand implements TabExecutor {
 			returnArguments.add("uuid");
 			returnArguments.add("version");
 
-			returnArguments.removeIf(s -> !sender.hasPermission(PermissionHelper.getPermissionCommand(s)));
+			returnArguments.removeIf(s -> !PermissionHelper.hasCommandPermission(sender, s));
 
-		} else { // I know that I tested here the permission never -> But then he know the first arguement, I think he knows the rest...
+		} else {
 			
 			List<String> ra = CommandManager.tabcomplete(sender, cmd, cmdLabel, args);
 			if(ra != null)
 				return ra;
+			
+			if(!PermissionHelper.hasCommandPermission(sender, args[0]))
+				return null;
 			
 			switch (args[0]) {
 				case "burn":

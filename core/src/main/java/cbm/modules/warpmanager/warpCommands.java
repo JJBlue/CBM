@@ -55,6 +55,7 @@ public class warpCommands implements TabExecutor {
 						warp.hasPermission = Boolean.parseBoolean(args[3]);
 						warp.showWithoutPermission = Boolean.parseBoolean(args[4]);
 						warp.pos = Integer.parseInt(args[5]);
+						WarpManager.addWarp(warp);
 						LanguageConfig.sendMessage(sender, "warp.setWarp2", args[1], args[2], args[3], args[4], args[5]);
 					} catch (NumberFormatException e) {
 						LanguageConfig.sendMessage(sender, "error.NumberFormatException");
@@ -129,7 +130,6 @@ public class warpCommands implements TabExecutor {
 		}
 
 		returnArguments.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
-		
 		returnArguments.sort(Comparator.naturalOrder());
 
 		return returnArguments;

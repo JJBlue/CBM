@@ -1,13 +1,11 @@
 package cbm.modules.commands.tabcompleter;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 
 import cbm.utilitiesvr.bukkit.BukkitUtilities;
 
@@ -19,19 +17,13 @@ public class STabCompleter {
 	}
 	
 	public static TabCompleter getPlayers() {
-		return (sender, cmd, alias, args) -> {
-			return sortAndRemove(getPlayersList(), args[args.length - 1]);
-		};
+		return (sender, cmd, alias, args) -> sortAndRemove(getPlayersList(), args[args.length - 1]);
 	}
 	
 	public static List<String> getPlayersList() {
-		List<String> ra = new LinkedList<>();
-		
-		for(Player player : Bukkit.getOnlinePlayers()) {
-			ra.add(player.getName());
-		}
-		
-		return ra;
+		return Bukkit.getOnlinePlayers().stream()
+			.map(player -> player.getName())
+			.collect(Collectors.toList());
 	}
 	
 	public static TabCompleter getAvailableCommands() {
@@ -42,12 +34,8 @@ public class STabCompleter {
 	}
 
 	public static List<String> getWorlds() {
-		List<String> ra = new LinkedList<>();
-		
-		for(World world : Bukkit.getWorlds()) {
-			ra.add(world.getName());
-		}
-		
-		return ra;
+		return Bukkit.getWorlds().stream()
+			.map(world -> world.getName())
+			.collect(Collectors.toList());
 	}
 }

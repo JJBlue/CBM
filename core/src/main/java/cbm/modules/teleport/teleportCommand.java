@@ -110,7 +110,6 @@ public class teleportCommand implements TabExecutor {
 				if(p == null) break;
 				
 				Player p1 = Bukkit.getPlayer(args[1]);
-				Bukkit.broadcastMessage(args[0]);
 				var tuple = new TeleportRequest(p1.getUniqueId(), p.getUniqueId());
 				
 				if (tpa.contains(tuple)) {

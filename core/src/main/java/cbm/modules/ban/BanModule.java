@@ -8,7 +8,7 @@ public class BanModule extends EModule {
 
 	@Override
 	public boolean load() {
-		CommandManager.register("ban", new RedirectTabExecutor(new BanCommand(), 0));
+		CommandManager.register("ban", new RedirectTabExecutor(new BanCommand(), 0, true));
 		CommandManager.setAlias("unban", "ban");
 		CommandManager.setAlias("tempban", "ban");
 		CommandManager.setAlias("checkban", "ban");

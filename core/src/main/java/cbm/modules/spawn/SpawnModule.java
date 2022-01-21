@@ -9,7 +9,7 @@ public class SpawnModule extends EModule {
 
 	@Override
 	public boolean load() {
-		CommandManager.register("spawn", new RedirectTabExecutor(new SpawnCommands(), 0));
+		CommandManager.register("spawn", new RedirectTabExecutor(new SpawnCommands(), 0, true));
 		CommandManager.setAlias("setspawn", "spawn");
 		CommandManager.setAlias("delspawn", "spawn");
 		ModuleManager.addListener(new SpawnListener(), this);

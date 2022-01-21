@@ -1,9 +1,8 @@
 package cbm.modules.commands;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,15 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabExecutor;
 
-import cbm.utilities.permissions.PermissionHelper;
-
 public class CommandManager {
 	static Map<String, TabExecutor> commands;
 	static Map<String, String> alias;
 	
 	public static void load() {
-		commands = Collections.synchronizedMap(new HashMap<>());
-		alias = Collections.synchronizedMap(new HashMap<>());
+		commands = new ConcurrentHashMap<>();
+		alias = new ConcurrentHashMap<>();
 	}
 	
 	public static boolean register(String command, TabExecutor executor) {
@@ -30,15 +27,11 @@ public class CommandManager {
 	}
 	
 	public static TabExecutor unregister(String command) {
-		if(command.contains(command)) {
+		if(commands.containsKey(command)) {
 			alias.values().removeIf(s -> s.equalsIgnoreCase(command));
 			return commands.remove(command);
 		}
 		return null;
-	}
-	
-	public static boolean checkPermissions(CommandSender sender, String[] args) {
-		return sender.hasPermission(PermissionHelper.getPermissionCommand(args[0].toLowerCase()));
 	}
 	
 	public static boolean setAlias(String command, String alia) {
