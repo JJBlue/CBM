@@ -3,10 +3,9 @@ package cbm.modules.commandonobject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -20,7 +19,7 @@ import components.sql.SQLParser;
 public class CommandOnBlock {
 	private CommandOnBlock() {}
 
-	private static final Map<Chunk, Map<Location, CoBBlock>> chunkBuffer = Collections.synchronizedMap(new HashMap<>());
+	private static final Map<Chunk, Map<Location, CoBBlock>> chunkBuffer = new ConcurrentHashMap<>();
 
 	public static void load() {
 		Database database = Databases.getWorldDatabase();
@@ -40,12 +39,9 @@ public class CommandOnBlock {
 	}
 
 	public static void save() {
-		synchronized (chunkBuffer) {
-			for (Map<Location, CoBBlock> buffer : chunkBuffer.values()) {
-				for (CoBBlock commandOnBlockInformation : buffer.values())
-					commandOnBlockInformation.save();
-			}
-		}
+		chunkBuffer.values().parallelStream().forEach(buffer -> {
+			buffer.values().parallelStream().forEach(commandOnBlockInformation -> commandOnBlockInformation.save());
+		});
 	}
 
 	public static boolean executeBlock(Player p, CoBAction action, Location location) {
@@ -82,7 +78,7 @@ public class CommandOnBlock {
 	public synchronized static void loadChunk(Chunk chunk) {
 		if (chunkBuffer.containsKey(chunk)) return;
 
-		Map<Location, CoBBlock> blocks = Collections.synchronizedMap(new HashMap<>());
+		Map<Location, CoBBlock> blocks = new ConcurrentHashMap<>();
 		chunkBuffer.put(chunk, blocks);
 		
 		AsyncDatabase.add(() -> {
@@ -133,12 +129,8 @@ public class CommandOnBlock {
 		if (!chunkBuffer.containsKey(chunk)) return;
 
 		Map<Location, CoBBlock> map = chunkBuffer.get(chunk);
-		if (map != null) {
-			synchronized (map) {
-				for (CoBBlock commandOnBlockInformation : map.values())
-					commandOnBlockInformation.saveAsync();
-			}
-		}
+		if (map != null)
+			map.values().forEach(commandOnBlockInformation -> commandOnBlockInformation.saveAsync());
 
 		chunkBuffer.remove(chunk);
 	}
