@@ -32,10 +32,7 @@ public class CoIManager {
 	
 	public static void execute(Entity entity, ItemStack itemStack, CoIAction action) {
 		List<String> commands = getCommands(itemStack, action);
-		if(commands.isEmpty()) return;
-		
-		for(String command : commands)
-			CommandAusfuehren.Command(entity, command);
+		commands.forEach(command -> CommandAusfuehren.Command(entity, command));
 	}
 	
 	public static List<String> getCommands(ItemStack itemStack, CoIAction action) {

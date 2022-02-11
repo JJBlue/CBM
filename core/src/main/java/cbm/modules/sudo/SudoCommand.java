@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,6 +14,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
+import cbm.modules.sudo.sudoplayer.SudoPlayerInterface;
+import cbm.modules.sudo.sudoplayer.SudoPlayerManager;
 import cbm.utilities.StringUtilities;
 import cbm.utilitiesvr.bukkit.BukkitUtilities;
 
@@ -21,14 +24,17 @@ public class SudoCommand implements TabExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length < 1) return true;
 		
+		if (args.length < 3 && args[1].equalsIgnoreCase("@c")) {
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
+			return true;
+		}
+		
 		switch (args[0].toLowerCase()) {
-			case "sudo-": { //Only execute command over player/console
+			case "sudo-": { // Only execute command over player/console
 				
 				if (args.length < 3) break;
 				
-				if (args[1].equalsIgnoreCase("@c"))
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
-				else if(args[1].equalsIgnoreCase("@a")) {
+				if(args[1].equalsIgnoreCase("@a")) {
 					for(Player player : Bukkit.getOnlinePlayers())
 						Bukkit.dispatchCommand(player, StringUtilities.arrayToStringRange(args, 2, args.length));
 				} else {
@@ -39,30 +45,65 @@ public class SudoCommand implements TabExecutor {
 				
 				break;
 			}	
-			case "sudo": { //Execute command with your permissions
+			case "sudo": { // Execute command with your permissions
 				
 				if (args.length < 3) return true;
 				
-				if (args[1].equalsIgnoreCase("@c"))
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
-				else if(args[1].equalsIgnoreCase("@a")) {
-					for(Player sudoPlayer : Bukkit.getOnlinePlayers())
-						SudoManager.execute(sender, sudoPlayer, StringUtilities.arrayToStringRange(args, 2, args.length));
+				Stream<? extends Player> players;
+				
+				if(args[1].equalsIgnoreCase("@a")) {
+					players = Bukkit.getOnlinePlayers().stream();
 				} else {
-					Player sudoPlayer = Bukkit.getPlayer(args[1]);
-					if (sudoPlayer == null) return true;
-					SudoManager.execute(sender, sudoPlayer, StringUtilities.arrayToStringRange(args, 2, args.length));
+					players = Stream.of(Bukkit.getPlayer(args[1]));
 				}
+				
+				players
+				.filter(player -> player != null)
+				.forEach(player -> {
+					Player sp = SudoPlayerManager.getSudoPlayer(sender, player);
+					if(sp == null) return;
+					
+					if(sp instanceof SudoPlayerInterface spi) {
+						spi.setAllPermissions(false);
+						spi.setEditablePermissions(false);
+					}
+					
+					Bukkit.dispatchCommand(sp, StringUtilities.arrayToStringRange(args, 2, args.length));
+				});
 				
 				break;
 			}
-			case "sudo+": { //Set all players temporaly to operator, WARNING! BUGS & CRITICAL SITUATION
+			case "sudo+": { // Execute command with all permissions
+				
+				Stream<? extends Player> players;
+				
+				if(args[1].equalsIgnoreCase("@a")) {
+					players = Bukkit.getOnlinePlayers().stream();
+				} else {
+					players = Stream.of(Bukkit.getPlayer(args[1]));
+				}
+				
+				players
+					.filter(player -> player != null)
+					.forEach(player -> {
+						Player sp = SudoPlayerManager.getSudoPlayer(player, player);
+						if(sp == null) return;
+						
+						if(sp instanceof SudoPlayerInterface spi) {
+							spi.setAllPermissions(true);
+							spi.setEditablePermissions(false);
+						}
+						
+						Bukkit.dispatchCommand(sp, StringUtilities.arrayToStringRange(args, 2, args.length));
+					});
+				
+				break;
+			}
+			case "sudoOp": { // Set all players temporaly to operator, WARNING! BUGS & CRITICAL SITUATION
 				
 				SudoManager.setTmpOperators();
 				
-				if (args[1].equalsIgnoreCase("@c"))
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtilities.arrayToString(Arrays.copyOfRange(args, 2, args.length)));
-				else if(args[1].equalsIgnoreCase("@a")) {
+				if(args[1].equalsIgnoreCase("@a")) {
 					for(Player player : Bukkit.getOnlinePlayers())
 						Bukkit.dispatchCommand(player, StringUtilities.arrayToStringRange(args, 2, args.length));
 				} else {
@@ -76,7 +117,7 @@ public class SudoCommand implements TabExecutor {
 				break;
 			}
 			case "silent": {
-				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
+				SudoManager.executeSilent((Player) sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
 				break;
 			}
 		}
@@ -93,6 +134,7 @@ public class SudoCommand implements TabExecutor {
 			returnArguments.add("sudo");
 			returnArguments.add("sudo+");
 			returnArguments.add("sudo-");
+			returnArguments.add("sudoOp");
 			returnArguments.add("silent");
 
 		} else {
@@ -100,6 +142,7 @@ public class SudoCommand implements TabExecutor {
 				case "sudo":
 				case "sudo-":
 				case "sudo+":
+				case "sudoOp":
 					
 					if(args.length == 2) {
 						for (Player player : Bukkit.getOnlinePlayers())

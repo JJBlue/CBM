@@ -17,25 +17,20 @@ public class SudoManager {
 	protected static final List<Player> tmpOperators = Collections.synchronizedList(new LinkedList<>());
 	
 	public static void setTmpOperators() {
-		synchronized (tmpOperators) {
-			for(Player player : Bukkit.getOnlinePlayers()) {
-				if(!player.isOp()) {
-					tmpOperators.add(player);
-					player.setOp(true);
-				}
-			}
-		}
+		Bukkit.getOnlinePlayers().stream()
+			.filter(player -> !player.isOp())
+			.forEach(player -> {
+				tmpOperators.add(player);
+				player.setOp(true);
+			});
 	}
 	
 	public static void removeTmpOperators() {
-		synchronized (tmpOperators) {
-			for(Player player : tmpOperators) {
-				if(player.isOp())
-					player.setOp(false);
-			}
-			
-			tmpOperators.clear();
-		}
+		tmpOperators.removeIf(player -> {
+			if(player.isOp())
+				player.setOp(false);
+			return true;
+		});
 	}
 	
 	public static void removePlayer(Player player) {
@@ -47,21 +42,23 @@ public class SudoManager {
 	
 	public static void executeInPlugin(CommandSender permissionsSender, Player executer, String plugin, String[] args) {
 		PluginCommand pluginCommand = Bukkit.getServer().getPluginCommand(plugin);
-		if (pluginCommand != null) {
-			Player player = SudoPlayerManager.getSudoPlayer(permissionsSender, executer);
-			if (player != null)
-				pluginCommand.execute(player, plugin, args);
-		}
+		if (pluginCommand == null) return;
+		
+		Player player = SudoPlayerManager.getSudoPlayer(permissionsSender, executer);
+		if (player == null) return;
+		
+		pluginCommand.execute(player, plugin, args);
 	}
 	
 	public static void execute(CommandSender permissionsSender, Player executer, String command) {
 		Player player = SudoPlayerManager.getSudoPlayer(permissionsSender, executer);
-		if (player != null)
-			Bukkit.dispatchCommand(player, command);
+		if (player == null) return;
+		
+		Bukkit.dispatchCommand(player, command);
 	}
 	
-	public static void executeSilent(CommandSender sender, String command) {
-		CommandSender commandSender = SudoPlayerManager.getSudoPlayer(sender);
+	public static void executeSilent(Player player, String command) {
+		CommandSender commandSender = SudoPlayerManager.getSudoPlayer(player);
 		((SudoPlayerInterface) commandSender).setSilentOutputMessage(true);
 		Bukkit.dispatchCommand(commandSender, command);
 	}
