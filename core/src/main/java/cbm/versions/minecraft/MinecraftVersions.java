@@ -28,6 +28,7 @@ public class MinecraftVersions {
 			case v1_16_R3:
 				return MinecraftVersion.v1_16;
 			case v1_18_R1:
+			case v1_18_R2:
 				return MinecraftVersion.v1_18;
 		}
 		
