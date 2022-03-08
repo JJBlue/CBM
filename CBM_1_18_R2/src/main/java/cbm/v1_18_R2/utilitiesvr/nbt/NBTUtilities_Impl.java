@@ -31,8 +31,8 @@ public class NBTUtilities_Impl implements NBTUtilities_Interface {
 	 * @return NBTTagCompound
 	 */	
 	@Override
-	public Object getNBTTagCompound(ItemStack itemstack) {
-		return CraftItemStack.asNMSCopy(itemstack).s();
+	public NBTTagCompound getNBTTagCompound(ItemStack itemstack) {
+		return CraftItemStack.asNMSCopy(itemstack).t();
 	}
 	
 	public NBTTagCompound getNbtTagCompound(Entity entity) {
