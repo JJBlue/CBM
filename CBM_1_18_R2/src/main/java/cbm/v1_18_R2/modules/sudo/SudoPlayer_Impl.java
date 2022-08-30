@@ -1,4 +1,4 @@
-package cbm.v1_16_R1.modules.sudo;
+package cbm.v1_18_R2.modules.sudo;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
