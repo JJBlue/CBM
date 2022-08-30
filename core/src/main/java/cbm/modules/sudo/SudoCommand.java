@@ -76,7 +76,7 @@ public class SudoCommand implements TabExecutor {
 				break;
 			}
 			case "silent": {
-				SudoManager.executeSilent(sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
+				SudoManager.executeSilent((Player) sender, StringUtilities.arrayToString(Arrays.copyOfRange(args, 1, args.length)));
 				break;
 			}
 		}

@@ -7,8 +7,8 @@ import cbm.modules.sudo.sudoplayer.SudoPlayer_IInterface;
 
 public class SudoPlayer_Impl implements SudoPlayer_IInterface {
 	@Override
-	public CommandSender getSudoPlayer(CommandSender commandSender) {
-		return new SudoPlayer_v(commandSender);
+	public CommandSender getSudoPlayer(Player player) {
+		return new SudoPlayer_v(player);
 	}
 
 	@Override

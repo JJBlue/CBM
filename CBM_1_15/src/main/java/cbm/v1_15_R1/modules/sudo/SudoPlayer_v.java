@@ -20,7 +20,7 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 		return new SudoPlayer_v(usedSudo, player);
 	}
 	
-	public static Player createSudoPlayer(CommandSender usedSudo) {
+	public static Player createSudoPlayer(Player usedSudo) {
 		return new SudoPlayer_v(usedSudo);
 	}
 	

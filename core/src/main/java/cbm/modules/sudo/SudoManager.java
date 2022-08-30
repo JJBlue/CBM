@@ -57,8 +57,8 @@ public class SudoManager {
 		Bukkit.dispatchCommand(player, command);
 	}
 	
-	public static void executeSilent(CommandSender sender, String command) {
-		CommandSender commandSender = SudoPlayerManager.getSudoPlayer(sender);
+	public static void executeSilent(Player player, String command) {
+		CommandSender commandSender = SudoPlayerManager.getSudoPlayer(player);
 		((SudoPlayerInterface) commandSender).setSilentOutputMessage(true);
 		Bukkit.dispatchCommand(commandSender, command);
 	}

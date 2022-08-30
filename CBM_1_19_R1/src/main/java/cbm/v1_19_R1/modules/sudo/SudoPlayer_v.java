@@ -15,12 +15,11 @@ import org.bukkit.plugin.Plugin;
 import cbm.modules.sudo.sudoplayer.SudoPlayerInterface;
 
 public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
-
 	public static Player createSudoPlayer(CommandSender usedSudo, Player player) {
 		return new SudoPlayer_v(usedSudo, player);
 	}
 	
-	public static Player createSudoPlayer(CommandSender usedSudo) {
+	public static Player createSudoPlayer(Player usedSudo) {
 		return new SudoPlayer_v(usedSudo);
 	}
 	
@@ -28,6 +27,9 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 	public final Player player;
 	public boolean silentOutputMessage;
 	public GameMode gameMode;
+	
+	public boolean editablePermissions = true;
+	public boolean allPermissions = false;
 
 	public SudoPlayer_v(CommandSender usedSudo, Player player) {
 		super(
@@ -38,17 +40,19 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 		this.player = player;
 	}
 
-	public SudoPlayer_v(CommandSender usedSudo) {
+	public SudoPlayer_v(Player usedSudo) {
 		super(
 				(CraftServer) usedSudo.getServer(),
 				((CraftPlayer) usedSudo).getHandle()
 		);
 		this.usedSudo = usedSudo;
-		this.player = (Player) usedSudo;
+		this.player = usedSudo;
 	}
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin arg0) {
+		if(!editablePermissions) return null;
+		
 		if (usedSudo == null)
 			return super.addAttachment(arg0);
 		return usedSudo.addAttachment(arg0);
@@ -56,6 +60,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin arg0, int arg1) {
+		if(!editablePermissions) return null;
+		
 		if (usedSudo == null)
 			return super.addAttachment(arg0, arg1);
 		return usedSudo.addAttachment(arg0, arg1);
@@ -63,6 +69,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin arg0, String arg1, boolean arg2) {
+		if(!editablePermissions) return null;
+		
 		if (usedSudo == null)
 			return super.addAttachment(arg0, arg1, arg2);
 		return usedSudo.addAttachment(arg0, arg1, arg2);
@@ -70,6 +78,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public PermissionAttachment addAttachment(Plugin arg0, String arg1, boolean arg2, int arg3) {
+		if(!editablePermissions) return null;
+		
 		if (usedSudo == null)
 			return super.addAttachment(arg0, arg1, arg2, arg3);
 		return usedSudo.addAttachment(arg0, arg1, arg2, arg3);
@@ -84,6 +94,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public boolean hasPermission(String arg0) {
+		if(allPermissions) return true;
+		
 		if (usedSudo == null)
 			return super.hasPermission(arg0);
 		return usedSudo.hasPermission(arg0);
@@ -91,6 +103,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public boolean hasPermission(Permission arg0) {
+		if(allPermissions) return true;
+		
 		if (usedSudo == null)
 			return super.hasPermission(arg0);
 		return usedSudo.hasPermission(arg0);
@@ -98,6 +112,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public boolean isPermissionSet(String arg0) {
+		if(allPermissions) return true;
+		
 		if (usedSudo == null)
 			return super.isPermissionSet(arg0);
 		return usedSudo.isPermissionSet(arg0);
@@ -105,6 +121,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public boolean isPermissionSet(Permission arg0) {
+		if(allPermissions) return true;
+		
 		if (usedSudo == null)
 			return super.isPermissionSet(arg0);
 		return usedSudo.isPermissionSet(arg0);
@@ -118,12 +136,16 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public void removeAttachment(PermissionAttachment arg0) {
+		if(!editablePermissions) return;
+		
 		if (player != null)
 			player.removeAttachment(arg0);
 	}
 
 	@Override
 	public boolean isOp() {
+		if(allPermissions) return true;
+		
 		if (usedSudo == null)
 			return super.isOp();
 		return usedSudo.isOp();
@@ -131,6 +153,8 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 
 	@Override
 	public void setOp(boolean arg0) {
+		if(!editablePermissions) return;
+		
 		if (usedSudo == null) return;
 		usedSudo.setOp(arg0);
 	}
@@ -153,6 +177,33 @@ public class SudoPlayer_v extends CraftPlayer implements SudoPlayerInterface {
 	public GameMode getGameMode() {
 		if (gameMode != null) return gameMode;
 		return super.getGameMode();
+	}
+	
+	@Override
+	public boolean isEditablePermissions(boolean permissions) {
+		return editablePermissions;
+	}
+	
+	@Override
+	public SudoPlayerInterface setEditablePermissions(boolean permissions) {
+		editablePermissions = permissions;
+		return this;
+	}
+	
+	@Override
+	public boolean hasAllPermissions() {
+		return allPermissions;
+	}
+	
+	@Override
+	public SudoPlayerInterface setAllPermissions(boolean permissions) {
+		allPermissions = permissions;
+		return this;
+	}
+	
+	@Override
+	public boolean isSilentOutputMessage() {
+		return silentOutputMessage;
 	}
 
 	@Override
